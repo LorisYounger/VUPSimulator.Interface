@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VUPSimulator.Interface.Handle
+namespace VUPSimulator.Interface
 {
     /// <summary>
     /// 这是插件的主体内容 请继承这个类
@@ -20,14 +20,19 @@ namespace VUPSimulator.Interface.Handle
         /// </summary>
         /// <param name="mainwin">主窗体</param>
         /// 请不要加载游戏和玩家数据,仅用作初始化
-        /// 加载游戏,请使用 Start
+        /// 加载数据(CORE),请使用 Load
+        /// 加载游戏(SAVE),请使用 Start
         public MainPlugin(IMainWindow mainwin)
         {
-            //此处主窗体玩家等信息为空,请不要加载游戏和玩家数据
+            //此处主窗体玩家,Core等信息均为空,请不要加载游戏和玩家数据
             MW = mainwin;
-            //例如, 添加窗体至主程序
-            //MW.Core.SoftWares.Add(ISoftWare);
         }
+        /// <summary>
+        /// 初始化程序
+        /// </summary>
+        /// 例如, 添加窗体至主程序
+        /// MW.Core.SoftWares.Add(ISoftWare);
+        public abstract Task Load();
         /// <summary>
         /// 游戏开始 (可以读取Save存档)
         /// </summary>

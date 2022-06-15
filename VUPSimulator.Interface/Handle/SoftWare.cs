@@ -14,16 +14,16 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 软件名
         /// </summary>
-        string SoftwareName { get; set; }
+        string SoftwareName { get; }
         /// <summary>
         /// 软件介绍
         /// </summary>
-        string SoftwareInfo { get; set; }
+        string SoftwareInfo { get; }
 
         /// <summary>
         /// 窗体内控件, 由开发者设计和提供
         /// </summary>
-        WindowsPageHandle NewSoftWare();
+        WindowsPageHandle NewSoftWare(IMainWindow mw);
     
     }
 }

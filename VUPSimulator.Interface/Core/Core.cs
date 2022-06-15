@@ -91,6 +91,10 @@ namespace VUPSimulator.Interface
         /// 所有三方软件
         /// </summary>
         public List<ISoftWare> SoftWares = new List<ISoftWare>();
+        /// <summary>
+        /// 所有三方插件
+        /// </summary>
+        public List<MainPlugin> Plugins = new List<MainPlugin>();
     }
 
 

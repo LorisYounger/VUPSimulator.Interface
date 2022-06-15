@@ -62,9 +62,8 @@ Install-Package VUPSimulator.Interface
 ### 发布
 
 参考虚拟主播模拟器游戏MOD,编写相应 `info.lps` 和 将生成的dll置入 `plugin`目录下
-不需要放系统自带的dll. 例如 `LinePutScript.dll`,`TextToDocument.dll`和`VUPSimulator.Interface.dll`.
 
-如下方例子所示:
+如下方例子所示: [文件夹链接](https://github.com/LorisYounger/VUPSimulator.OpenResources/tree/main/VUPSimulator.Interface.Demo/1100_CheatEngine)
 
 ```
 游戏目录\mod
@@ -73,11 +72,16 @@ Install-Package VUPSimulator.Interface
 		   ....
 		- \plugin
 			- CheatEngine.dll
+			- LinePutScript.dll
+			- ...
 ```
 
 接着前往游戏上传至SteamWorkshop即可
+
 ***发布至Steam创意工坊需遵循[创意工坊协议]()及[虚拟主播模拟器创意工坊协议]()**
 
 ### 案例
 
-参见 [CheatEngine]() 游戏内数据修改作弊器
+参见 [CheatEngine](https://github.com/LorisYounger/VUPSimulator.OpenResources/tree/main/VUPSimulator.Interface.Demo) 游戏内数据修改作弊器
+
+![image-20220616003426150](README.assets/image-20220616003426150.png)

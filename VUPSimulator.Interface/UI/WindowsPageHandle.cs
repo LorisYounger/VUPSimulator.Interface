@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace VUPSimulator.Interface
@@ -68,9 +69,9 @@ namespace VUPSimulator.Interface
         /// </summary>
         IWindows Host { get; }
         /// <summary>
-        /// 这个Gird窗口
+        /// 这个Gird/MW窗口
         /// </summary>
-        Grid This { get; }
+        FrameworkElement This { get; }
 
         /// <summary>
         /// 电脑使用性能与配置

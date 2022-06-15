@@ -68,11 +68,11 @@ Install-Package VUPSimulator.Interface
 
 ```
 游戏目录\mod
-	-	\1100_CheatEngine
-		-	\image
-			....
-		-	\plugin
-			-	CheatEngine.dll
+	- \1100_CheatEngine
+		- \image
+		   ....
+		- \plugin
+			- CheatEngine.dll
 ```
 
 接着前往游戏上传至SteamWorkshop即可

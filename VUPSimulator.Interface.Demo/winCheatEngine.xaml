@@ -2,20 +2,27 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:CheatEngine"
-        mc:Ignorable="d" Width="400" Height="125">
+        xmlns:pu="clr-namespace:Panuon.UI.Silver;assembly=Panuon.UI.Silver" mc:Ignorable="d" Width="400" Height="125">
+    <UserControl.Resources>
+        <ResourceDictionary Source="Theme.xaml" />
+    </UserControl.Resources>
     <Grid x:Name="MainGrid">
-        <Label Content="Cheat Engine 修改器" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top" FontWeight="Bold" FontSize="16" Background="{x:Null}" />
+        <Label Content="Cheat Engine 修改器" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top"
+                FontWeight="Bold" FontSize="16" Background="{x:Null}" />
         <GroupBox Header="数据修改" Margin="0,45,0,0" Background="{x:Null}" Padding="5,2,2,2" BorderBrush="{x:Null}">
             <WrapPanel>
                 <Button Content="添加 1w 金钱" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top"
-                        Click="C_ADD_MONEY_1" />
+                        Click="C_ADD_MONEY_1" Background="{DynamicResource Primary}" />
                 <Button Content="添加 10w 金钱" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top"
-                        Click="C_ADD_MONEY_10" />
-                <Button Content="全属性+1" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top" Click="C_ADD1" />
-                <Button Content="全属性+5" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top" Click="C_ADD_5" />
+                        Click="C_ADD_MONEY_10" Background="{DynamicResource Primary}" />
+                <Button Content="全属性+1" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top" Click="C_ADD1"
+                        Background="{DynamicResource Primary}" />
+                <Button Content="全属性+5" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top" Click="C_ADD_5"
+                        Background="{DynamicResource Primary}" />
                 <Button Content="健康全满" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top"
-                        Click="C_HealthFull" />
-                <Button Content="体力全满" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top" Click="C_ST_FULL" />
+                        Click="C_HealthFull" Background="{DynamicResource Primary}" />
+                <Button Content="体力全满" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top" Click="C_ST_FULL"
+                        Background="{DynamicResource Primary}" />
             </WrapPanel>
         </GroupBox>
 

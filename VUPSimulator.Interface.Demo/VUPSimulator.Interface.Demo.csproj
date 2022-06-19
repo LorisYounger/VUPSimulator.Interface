@@ -35,6 +35,12 @@
     <Reference Include="LinePutScript, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\LinePutScript.1.3.5\lib\net462\LinePutScript.dll</HintPath>
     </Reference>
+    <Reference Include="Panuon.UI.Core, Version=2.2.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Panuon.UI.Core.2.2.5\lib\net45\Panuon.UI.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Panuon.UI.Silver, Version=2.2.19.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Panuon.UI.Silver.2.2.19\lib\net45\Panuon.UI.Silver.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -51,6 +57,10 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Theme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="winCheatEngine.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

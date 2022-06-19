@@ -1,0 +1,2213 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>VUPSimulator.Interface</name>
+    </assembly>
+    <members>
+        <member name="T:VUPSimulator.Interface.ICore">
+            <summary>
+            游戏核心数据
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ICore.HashCode">
+            <summary>
+            游戏校验码
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ICore.IMW">
+            <summary>
+            游戏窗口
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ICore.L2DBase">
+            <summary>
+            所有L2D立绘
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ICore.ImageSources">
+            <summary>
+            所有图片链接,从图片库获取l2d图片
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ICore.Resources">
+            <summary>
+            所有其他文件/文件夹的链接
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ICore.Music">
+            <summary>
+            音乐列表
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ICore.EventBases">
+            <summary>
+            所有事件库
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ICore.Accessory">
+            <summary>
+            所有电脑配件
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ICore.Game">
+            <summary>
+            所有Steam游戏
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ICore.Users">
+            <summary>
+            所有用户
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ICore.Comments">
+            <summary>
+            所有评论 TODO:根据评论区分
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ICore.Comments_Game">
+            <summary>
+            所有评论 TODO:根据评论区分
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ICore.VideoEditorsLong">
+            <summary>
+            所有长视频剪辑类型
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ICore.VideoEditorsShort">
+            <summary>
+            所有短视频剪辑类型
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ICore.VideoEditorsEffects">
+            <summary>
+            所有特效视频剪辑类型
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ICore.VideoEditorsOther">
+            <summary>
+            所有其他视频剪辑类型
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ICore.Theme">
+            <summary>
+            所有主题
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ICore.SoftWares">
+            <summary>
+            所有三方软件
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ICore.Plugins">
+            <summary>
+            所有三方插件
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.ISave">
+            <summary>
+            玩家存档数据 若未开始游戏则为空
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.ISave.FileName">
+            <summary>
+            游戏存档名字 (一般是人名+日期组合)
+            </summary>//干脆直接就存用户名, 这样方便登陆,就不保存了
+        </member>
+        <member name="F:VUPSimulator.Interface.ISave.Now">
+            <summary>
+            当前日期,游戏开始默认为2200年1月1日上午8点
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ISave.DayTimePass">
+            <summary>
+            游戏经过的天数
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ISave.StartTime">
+            <summary>
+            开始玩游戏的时间
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ISave.Working">
+            <summary>
+            当前正在处理的事件
+            请注意,虽然说部分软件可以挂后台,但是处理事件只能处理一件
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ISave.WorkingOBJ">
+            <summary>
+            当前正在处理的物品,主要用于核对
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ISave.ALLEvent">
+            <summary>
+            全部事件
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ISave.EventData">
+            <summary>
+            全部数据
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ISave.Items">
+            <summary>
+            全部物品
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ISave.Video">
+            <summary>
+            全部游戏视频
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ISave.Computer">
+            <summary>
+            用户电脑
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.ISave.Money">
+            <summary>
+            资金
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.ISave.Health">
+            <summary>
+            健康
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.ISave.Strength">
+            <summary>
+            精力
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ISave.Pidear">
+            <summary>
+            属性: 思维
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ISave.Pspeak">
+            <summary>
+            属性: 口才
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ISave.Poperate">
+            <summary>
+            属性: 运营
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ISave.Pimage">
+            <summary>
+            属性: 修图
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ISave.Pclip">
+            <summary>
+            属性: 剪辑
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ISave.Pdraw">
+            <summary>
+            属性: 绘画
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ISave.Pprogram">
+            <summary>
+            属性: 程序
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ISave.Pgame">
+            <summary>
+            属性: 游戏
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ISave.Psong">
+            <summary>
+            属性: 声乐
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ISave.UIData">
+            <summary>
+            简单UI数据储存位置,包括 收藏夹 等
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ISave.Games">
+            <summary>
+            所有'游戏'数据
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ISave.Other">
+            <summary>
+            其他数据 多用于代码插件
+            Name均为'other' 请使用 FindInfo 查找相关数据
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.Resources">
+            <summary>
+            资源集
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Resources.AddSource(LinePutScript.Line,System.String)">
+            <summary>
+            添加资源,后来覆盖之前
+            </summary>
+            <param name="line">资源行</param>
+            <param name="modpath">功能位置</param>
+        </member>
+        <member name="M:VUPSimulator.Interface.Resources.AddSource(LinePutScript.Line)">
+            <summary>
+            添加资源,后来覆盖之前
+            </summary>
+            <param name="line">资源行</param>
+        </member>
+        <member name="M:VUPSimulator.Interface.Resources.AddSources(LinePutScript.LpsDocument)">
+            <summary>
+            添加多个资源,后来覆盖之前
+            </summary>
+            <param name="lps">资源表</param>
+        </member>
+        <member name="M:VUPSimulator.Interface.Resources.AddSources(LinePutScript.LpsDocument,System.String)">
+            <summary>
+            添加多个资源,后来覆盖之前
+            </summary>
+            <param name="lps">资源表</param>
+            <param name="modpath">功能位置</param>
+        </member>
+        <member name="M:VUPSimulator.Interface.Resources.AddSource(System.String,System.String)">
+            <summary>
+            添加资源,后来覆盖之前的
+            </summary>
+            <param name="name">资源名字</param>
+            <param name="path">资源位置</param>
+        </member>
+        <member name="M:VUPSimulator.Interface.Resources.FindSource(System.String,System.String)">
+            <summary>
+            查找资源
+            </summary>
+            <param name="name">资源名称</param>
+            <param name="nofind">如果未找到,退回这个值</param>
+            <returns>返回资源位置,如果未找到,则退回nofind</returns>
+        </member>
+        <member name="M:VUPSimulator.Interface.Resources.FindSourceUri(System.String,System.String)">
+            <summary>
+            查找资源
+            </summary>
+            <param name="name">资源名称</param>
+            <param name="nofind">如果未找到,退回这个值</param>
+            <returns>返回资源位置,如果未找到,则退回nofind</returns>
+        </member>
+        <member name="T:VUPSimulator.Interface.ImageResources">
+            <summary>
+            图片资源集合
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.ImageResources.AddImages(LinePutScript.LpsDocument,System.String)">
+            <summary>
+            添加图片集,后来覆盖之前
+            </summary>
+            <param name="lps">图片集</param>
+        </member>
+        <member name="M:VUPSimulator.Interface.ImageResources.AddImage(LinePutScript.Line,System.String)">
+            <summary>
+            添加单个图片,后来覆盖之前
+            </summary>
+            <param name="line">图片行</param>
+        </member>
+        <member name="M:VUPSimulator.Interface.ImageResources.FindImage(System.String)">
+            <summary>
+            查找图片资源
+            </summary>
+            <param name="imagename">图片名称</param>
+            <returns>图片资源,如果未找到则退回错误提示图片</returns>
+        </member>
+        <member name="M:VUPSimulator.Interface.ImageResources.FindImage(System.String,System.String)">
+            <summary>
+            查找图片资源 如果找不到则使用上级
+            </summary>
+            <param name="imagename">图片名称</param>
+            <returns>图片资源,如果未找到则退回错误提示图片</returns>
+            <param name="superior">上级图片 如果没有专属的图片,则提供上级的图片</param>
+        </member>
+        <member name="T:VUPSimulator.Interface.MainPlugin">
+            <summary>
+            这是插件的主体内容 请继承这个类
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.MainPlugin.MW">
+            <summary>
+            主窗体, 主程序提供的各种功能和设置等 大部分参数和调用均在这里
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.MainPlugin.#ctor(VUPSimulator.Interface.IMainWindow)">
+            <summary>
+            MOD插件初始化
+            </summary>
+            <param name="mainwin">主窗体</param>
+            请不要加载游戏和玩家数据,仅用作初始化
+            加载数据(CORE),请使用 Load
+            加载游戏(SAVE),请使用 Start
+        </member>
+        <member name="M:VUPSimulator.Interface.MainPlugin.LoadTheme(VUPSimulator.Interface.Theme)">
+            <summary>
+            加载游戏主题
+            </summary>
+            <param name="theme">主题</param>
+        </member>
+        <member name="M:VUPSimulator.Interface.MainPlugin.Load">
+            <summary>
+            初始化程序
+            </summary>
+            例如, 添加窗体至主程序
+            MW.Core.SoftWares.Add(ISoftWare);
+        </member>
+        <member name="M:VUPSimulator.Interface.MainPlugin.StartGame">
+            <summary>
+            游戏开始 (可以读取Save存档)
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.MainPlugin.EndGame">
+            <summary>
+            游戏结束 (可以保存或清空等,不过保存有专门的Save())
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.MainPlugin.Save">
+            <summary>
+            储存游戏 (可以写Save.other储存设置和数据等)
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.ISoftWare">
+            <summary>
+            软件类, 添加至软件列表 以在软件中心显示
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.ISoftWare.SoftwareName">
+            <summary>
+            软件名
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.ISoftWare.SoftwareInfo">
+            <summary>
+            软件介绍
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.ISoftWare.NewSoftWare(VUPSimulator.Interface.IMainWindow)">
+            <summary>
+            窗体内控件, 由开发者设计和提供
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.Computer">
+            <summary>
+            电脑的数据非常多,单独拿出来用
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Computer.CPU_Usage">
+            <summary>
+            用于显示的CPU使用率 (100%)
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Computer.CPU_Show_Usage">
+            <summary>
+            用于显示的CPU使用率 (GHZ)
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Computer.CPU_Real_Usage">
+            <summary>
+            CPU实际使用的值(基于TOTAL)
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Computer.GPU_Real_Usage">
+            <summary>
+            GPU实际使用的值(基于TOTAL)
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Computer.GPU_Usage">
+            <summary>
+            用于显示的GPU使用率 (100%)
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Computer.Memory_Real_Usage">
+            <summary>
+            用于显示的内存使用率 (MB)
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Computer.Memory_Usage">
+            <summary>
+            用于显示的内存使用率 (100%)
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Computer.CamerasTotalQuality">
+            <summary>
+            总摄像头质量
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Computer.MicrophonesTotalQuality">
+            <summary>
+            总麦克风质量
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Computer.MemorysTotal">
+            <summary>
+            总可用内存
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Computer.CPUTotal">
+            <summary>
+            总可用CPU 单位0.1Ghz
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Computer.GPUTotal">
+            <summary>
+            总可用GPU 单位Ghz
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Computer.SystemCU">
+            <summary>
+            系统使用
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Computer.CalculatUsage(System.TimeSpan,VUPSimulator.Interface.IMainWindow)">
+            <summary>
+            计算程序分配的资源
+            </summary>
+            <param name="span">时间间隔</param>
+            <param name="mw">主窗口</param>
+        </member>
+        <member name="M:VUPSimulator.Interface.Computer.ToLine">
+            <summary>
+            导出可保存的计算机
+            </summary>
+            <returns>计算机和相关物品</returns>
+        </member>
+        <member name="T:VUPSimulator.Interface.ComputerUsage">
+            <summary>
+            所有应用程序的系统占用
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ComputerUsage.SoftWareName">
+            <summary>
+            电脑名称,用于显示在任务管理器
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ComputerUsage.CPUUsage">
+            <summary>
+            这个程序申请CPU使用的值 单位0.1GHZ 其中默认程序cpu占用为0.1GHZ,系统1ghz
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ComputerUsage.GPUUsage">
+            <summary>
+            这个程序申请GPU使用的值 单位GHZ 其中默认程序Gpu占用为0.1GHZ,系统2GHZ
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ComputerUsage.MemoryUsage">
+            <summary>
+            这个程序申请内存使用值 单位MB 其中默认程序内存占用为20mb,系统400mb
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ComputerUsage.CPUWork">
+            <summary>
+            这个程序实际被分配了多少CPU 单位0.1GHZ 其中默认程序cpu占用为0.1GHZ,系统0.4ghz
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ComputerUsage.GPUWork">
+            <summary>
+            这个程序实际被分配了多少GPU 单位GHZ 单位GHZ 其中默认程序Gpu占用为1GHZ,系统2GHZ
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ComputerUsage.MemoryWork">
+            <summary>
+            这个程序被分配了多少内存 单位MB 其中默认程序内存占用为20mb,系统400mb
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ComputerUsage.CPUUsageReal">
+            <summary>
+            这个程序实际申请CPU使用的值 是CPUUSG的80-120%
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ComputerUsage.GPUUsageReal">
+            <summary>
+            这个程序申请GPU使用的值 单位GHZ 其中默认程序Gpu占用为0.1GHZ,系统2GHZ
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ComputerUsage.MemoryUsageReal">
+            <summary>
+            这个程序申请内存使用值 单位MB 其中默认程序内存占用为20mb,系统400mb
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.ComputerUsage.TotalWork">
+            <summary>
+            这个程序实际效率 0-100% 其中低于50%会卡顿 低于10%会强制关闭
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ComputerUsage.ImportCPU">
+            <summary>
+            指示CPU的重要性 1-100 和其他重要性加起来等于100
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ComputerUsage.ImportGPU">
+            <summary>
+            指示GPU的重要性 1-100 和其他重要性加起来等于100
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ComputerUsage.ImportMemory">
+            <summary>
+            指示内存的重要性 1-100 和其他重要性加起来等于100
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ComputerUsage.Import">
+            <summary>
+            程序优先级,越低越会优先分配内存
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.ComputerUsage.Clean">
+            <summary>
+            清理之前分配的资源 以及随机分配实际值
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.ComputerUsage.DistributionCPU(System.Double@,System.Double)">
+            <summary>
+            分配CPU资源给这个程序占用
+            </summary>
+            <param name="cpuf">剩余CPU资源</param>
+            <param name="prs">分配多少百分比</param>
+        </member>
+        <member name="M:VUPSimulator.Interface.ComputerUsage.DistributionGPU(System.Double@,System.Double)">
+            <summary>
+            分配GPU资源给这个程序占用
+            </summary>
+            <param name="gpuf">剩余GPU资源</param>
+            <param name="prs">分配多少百分比</param>
+        </member>
+        <member name="M:VUPSimulator.Interface.ComputerUsage.DistributionMemory(System.Int32@,System.Double)">
+            <summary>
+            分配内存资源给这个程序占用
+            </summary>     
+            <param name="memf">剩余内存资源</param>
+            <param name="prs">分配多少百分比</param>
+        </member>
+        <member name="T:VUPSimulator.Interface.Item_CPU">
+            <summary>
+            CPU物品
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_CPU.Speed">
+            <summary>
+            速度 单位GHZ 其中默认程序cpu占用为0.1GHZ,系统0.4ghz
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_CPU.CoreNumber">
+            <summary>
+            核心数
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_CPU.Durability">
+            <summary>
+            耐久度 电脑随着使用时间可能会有所损耗,默认10 (每年损耗/事件损耗)
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_CPU.TotalSpeed">
+            <summary>
+            总可用速度 单位0.1GHZ
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_CPU.Many">
+            <summary>
+            所有电子产品个数只能为1
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.Item_GPU">
+            <summary>
+            GPU物品
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_GPU.Speed">
+            <summary>
+            频率 单位MHZ 
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_GPU.CoreNumber">
+            <summary>
+            CUDA核心数
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_GPU.Durability">
+            <summary>
+            耐久度 电脑随着使用时间可能会有所损耗,默认10 (每年损耗/事件损耗)
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_GPU.TotalSpeed">
+            <summary>
+            总可用速度 单位GHZ 其中默认程序Gpu占用为0GHZ,系统2GHZ,占用仅显示百分比
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.Item_Memory">
+            <summary>
+            内存
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Memory.Speed">
+            <summary>
+            频率 单位MHZ 只是好看,没啥用
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Memory.Size">
+            <summary>
+            大小 决定可用内存可用数量,单位MB 其中默认程序内存占用为10mb,系统200mb
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Memory.Many">
+            <summary>
+            所有电子产品个数只能为1
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Item_Memory.SizeToString(System.Int32)">
+            <summary>
+            大小 单位MB
+            </summary>
+            <param name="speed">speed</param>
+            <returns></returns>
+        </member>
+        <member name="T:VUPSimulator.Interface.Item_MotherBoard">
+            <summary>
+            主板
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_MotherBoard.Network">
+            <summary>
+            网络速度支持 单位MB 默认程序占用为0,系统占用为0
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_MotherBoard.MemorySupport">
+            <summary>
+            支持多少张内存
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_MotherBoard.MicrophoneSupport">
+            <summary>
+            支持多少个外置麦克风 分为主,次,2次,3次等等 主麦克风100%,次麦克风sqrt(2)-1,次次麦克风sqrt(3)-sqrt(2)以此类推
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_MotherBoard.CameraSupport">
+            <summary>
+            支持多少个外置摄像头 分为主,次,2次,3次等等 主摄像头100%,次摄像头sqrt(2)-1,次次摄像头sqrt(3)-sqrt(2)以此类推
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_MotherBoard.Many">
+            <summary>
+            所有电子产品个数只能为1
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.Item_Camera">
+            <summary>
+            摄像头
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Camera.Resolution">
+            <summary>
+            分辨率 只是好看
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Camera.Quality">
+            <summary>
+            成像质量 范围 50-200 影响L2d捕获成功率
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Camera.Many">
+            <summary>
+            所有电子产品个数只能为1
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.Item_Microphone">
+            <summary>
+            麦克风
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Microphone.Resolution">
+            <summary>
+            分辨率 只是好看 (eg:16位 32000hz)
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Microphone.Quality">
+            <summary>
+            成像质量 范围 50-200 影响声音质量
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Microphone.Many">
+            <summary>
+            所有电子产品个数只能为1
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.Item_Game_base">
+            <summary>
+            游戏类,这些数据可能需要作为应用数据储存起来,应该整个专门的应用数据类
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Item_Game_base.Data">
+            <summary>
+            游戏数据
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Item_Game_base.#ctor(System.String,System.Collections.Generic.List{VUPSimulator.Interface.Comment_Game},LinePutScript.Line)">
+            <summary>
+            创建新游戏类
+            </summary>       
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Game_base.Game">
+            <summary>
+            游戏名称 不必是全英文
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Game_base.FullName">
+            <summary>
+            获得游戏全名
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Game_base.Name">
+            <summary>
+            游戏名称
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Game_base.Image_Blank">
+            <summary>
+            游戏内图片 无Logo
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Game_base.Image_Head">
+            <summary>
+            库标图
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Game_base.Image_Game">
+            <summary>
+            游戏图标 包含logo
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Game_base.Intor">
+            <summary>
+            游戏介绍 短
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Item_Game_base.Document(TextToDocument.TextFormat)">
+            <summary>
+            游戏介绍文档
+            </summary>
+            <param name="tf">格式</param>
+            <returns>文档</returns>
+        </member>
+        <member name="M:VUPSimulator.Interface.Item_Game_base.Document">
+            <summary>
+            游戏介绍文档
+            </summary>
+            <returns>文档</returns>
+        </member>
+        <member name="F:VUPSimulator.Interface.Item_Game_base.SteamTextFormat">
+            <summary>
+            针对Steam设计的游戏界面主题设计
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Game_base.PublishDate">
+            <summary>
+            发行日期 会根据值近似随机
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Game_base.Discount">
+            <summary>
+            平均折扣/初始折扣
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Game_base.DiscountMAX">
+            <summary>
+            最大折扣
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Game_base.DiscountMAXDate">
+            <summary>
+            到达最大折扣日期 (日)
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Game_base.DiscountMAXPeriod">
+            <summary>
+            折扣周期最长
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Game_base.DiscountMINPeriod">
+            <summary>
+            折扣周期最短
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Game_base.Rating">
+            <summary>
+            好评率 官方推荐好评率
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Item_Game_base.RatingRealTime(System.Int32)">
+            <summary>
+            实时好评率根据 评论表:游戏 计算
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Game_base.Popularity">
+            <summary>
+            平均人气 1-??% 加成视频观看数
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Game_base.PopularityMAX">
+            <summary>
+            最高可能人气
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Game_base.PopularityMAXDate">
+            <summary>
+            到达最大人气日期 (日)
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Game_base.Price">
+            <summary>
+            平均折扣
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Game_base.Developers">
+            <summary>
+            开发商
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Game_base.Tag">
+            <summary>
+            标签
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Game_base.Completion">
+            <summary>
+            完成度 这个游戏的可玩内容 一般单位为小时
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Item_Game_base.Comments">
+            <summary>
+            游戏评论表
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Item_Game_base.SkillLevel">
+            <summary>
+            游戏熟练度,对视频有加成 等于1时继续游玩不会累计经验值
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Item_Game_base.GetReviewString(System.Int32,System.Int32,System.Int32,System.Windows.Media.SolidColorBrush@,System.String@)">
+            <summary>
+            获得评价文字和颜色
+            </summary>
+            <param name="rate">游戏评价</param>
+            <param name="brush">评价颜色笔刷</param>
+            <param name="popularity">游戏人气</param>
+            <param name="commentscount">评论计数</param>
+            <param name="ratestr">tooltips文本</param>
+            <returns>评价文字</returns>
+        </member>
+        <member name="M:VUPSimulator.Interface.Item_Game_base.GetReviewString(System.Int32,System.Windows.Media.SolidColorBrush@,System.String@)">
+            <summary>
+            获得评价文字和颜色
+            </summary>
+            <param name="gamedate">游戏时间</param>
+            <param name="brush">评价颜色笔刷</param>
+            <param name="ratestr">tooltips文本</param>
+            <returns>评价文字</returns>
+        </member>
+        <member name="M:VUPSimulator.Interface.Item_Game_base.ShowComments(VUPSimulator.Interface.IMainWindow)">
+            <summary>
+            提供所有可显示评论
+            </summary>
+            <param name="mw">主窗体</param>
+            <returns>可显示的所有评论</returns>
+        </member>
+        <member name="F:VUPSimulator.Interface.Item_Game_base.Recommendation">
+            <summary>
+            推荐语/推荐类型 临时数据
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.Item_Game">
+            <summary>
+            游戏数据类,包括游戏信息和各种参数 标头:game
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Game.PublishDate">
+            <summary>
+            发行日期
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Game.Publish">
+            <summary>
+            是否发售
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Game.Have">
+            <summary>
+            是否拥有
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Game.BuyPrice">
+            <summary>
+            购买游戏花费的钱,用于退款
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Game.Discount">
+            <summary>
+            当前折扣
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Game.DiscountDate">
+            <summary>
+            折扣持续至/下次折扣日期
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Game.LastRun">
+            <summary>
+            最后运行日期
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Game.Popularity">
+            <summary>
+            当前人气
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Game.ReviewNum">
+            <summary>
+            评价人数
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Game.Rating">
+            <summary>
+            好评率
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Game.PlayTime">
+            <summary>
+            游戏时间 代表对游戏的理解
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Game.LiveCompletion">
+            <summary>
+            实况/直播 完成度 完成后会大幅度降低观众吸引力
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Game.Completion">
+            <summary>
+            普通 完成度 代表对游戏的理解
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Item_Game.SkillLevel">
+            <summary>
+            游戏熟练程度,请不要调用这个
+            </summary>
+            <returns></returns>
+            
+        </member>
+        <member name="T:VUPSimulator.Interface.Comment_base">
+            <summary>
+            评论表: 包含评论的基础信息 表头:comment
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Comment_base.Score">
+            <summary>
+            评分, 从0到100, 偏极端的偏极端
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Comment_base.Quality">
+            <summary>
+            评论质量 从0-100
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Comment_base.Comments">
+            <summary>
+            评论内容
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.Comment_base.CommentType">
+            <summary>
+            评论类型
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Comment_base.CommentType.Base">
+            <summary>
+            基本评论
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Comment_base.CommentType.Game">
+            <summary>
+            游戏评价
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Comment_base.CommentType.Video">
+            <summary>
+            视频评论 会有回复的各种选项
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Comment_base.CommentType.Stream">
+            <summary>
+            直播评论 将会额外制作,会有各种选项
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.Comment_base.CommentTag">
+            <summary>
+            评论标签,方便用于从评论表拉出来
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Comment_base.CommentTag.Nomal">
+            <summary>
+            无感情,中立,都可以用的评价 例如: 第一,我来啦
+            标准好评 例如: 支持支持, 催更
+            标准差评 例如:好无聊,没意思
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Comment_base.CommentTag.Fun">
+            <summary>
+            有趣的评价 一般点赞数会比较高
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Comment_base.CommentTag.Idear">
+            <summary>
+            主意
+            好评: 这点子真棒, 只有|author|才能想出来吧, 真有趣
+            差评: 真无聊,没意思
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Comment_base.CommentTag.Speak">
+            <summary>
+            口才
+            好评: 说话真好听,说话真有意思
+            差评: 声音好难听,听不清楚
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Comment_base.CommentTag.Operate">
+            <summary>
+            运营
+            好评: 走过路过不要错过,给|author|点波关注
+            差评: 大家千万要小心|author|,有黑历史
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Comment_base.CommentTag.HighQuality">
+            <summary>
+            高质量评论
+            会根据评论质量自动添加此tag,无需手动添加
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Comment_base.CommentTag.LowQuality">
+            <summary>
+            低质量评论
+            会根据评论质量自动添加此tag,无需手动添加
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Comment_base.CommentTag.Rnd">
+            <summary>
+            允许随机拉取
+            允许在条件不符合的情况下以一定概率被选中
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Comment_base.Type">
+            <summary>
+            评论类型
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Comment_base.Tags">
+            <summary>
+            评论标签
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Comment_base.Tags_str">
+            <summary>
+            评论标签
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Comment_base.User">
+            <summary>
+            评论用户 为null则为随便拉个人
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Comment_base.GetUser(VUPSimulator.Interface.ICore,VUPSimulator.Interface.Item_Game_base)">
+            <summary>
+            获取游戏评论用户 为null则为随便拉个人
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:VUPSimulator.Interface.Comment_base.Likes">
+            <summary>
+            点赞数量
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Comment_base.IsLike">
+            <summary>
+            玩家是否点过赞 0未 1=点赞 -1=点踩
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Comment_base.Publish">
+            <summary>
+            发布日期
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Comment_base.PublishDate">
+            <summary>
+            发布日期
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.Comment_Game">
+            <summary>
+            游戏评论表
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Comment_Game.Game">
+            <summary>
+            绑定的游戏名称
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.Video">
+            <summary>
+            玩家录制的视频文件
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Video.RecordDate">
+            <summary>
+            录制时间
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Video.TimeLength">
+            <summary>
+            录制时长
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Video.BitRate">
+            <summary>
+            录制码率 单位kbps
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.Video.VideoResolution">
+            <summary>
+            视频分辨率
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Video.Resolution">
+            <summary>
+            视频分辨率
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Video.Type.Base">
+            <summary>
+            杂谈视频 (一般为口才说话自我介绍等)
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Video.Type.Game">
+            <summary>
+            游戏视频 (录制游戏实况)
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Video.Type.Draw">
+            <summary>
+            绘画视频
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Video.Type.Program">
+            <summary>
+            编程视频
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Video.VideoType">
+            <summary>
+            视频类型
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Video.Size">
+            <summary>
+            视频大小,未来会做硬件硬盘功能
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Video.IsEdit">
+            <summary>
+            是否在剪辑状态
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Video.IsRender">
+            <summary>
+            是否在渲染状态
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Video.IsFinish">
+            <summary>
+            是否随时可以提交视频
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Video.IsPublish">
+            <summary>
+            是否随时可以提交视频
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Video.Quality">
+            <summary>
+            视频质量:其他
+            </summary>
+            如果是游戏,就是游戏的游玩评分
+            占比50%
+        </member>
+        <member name="P:VUPSimulator.Interface.Video.QualityVideo">
+            <summary>
+            视频质量:视频录制
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Video.QualityVoice">
+            <summary>
+            视频质量:声音
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Video.QualityFun">
+            <summary>
+            视频质量:有趣
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Video.TotalQuality">
+            <summary>
+            总质量
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Video.ETimeLength">
+            <summary>
+            预计时长
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Video.EQuality">
+            <summary>
+            预计视频质量:其他
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Video.EQualityVideo">
+            <summary>
+            预计视频质量:视频录制
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Video.EQualityVoice">
+            <summary>
+            预计视频质量:声音
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Video.EQualityFun">
+            <summary>
+            预计视频质量:有趣
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Video.ETotalQuality">
+            <summary>
+            预计总质量
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Video.ImageName">
+            <summary>
+            截图图片名字
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Video.SaveImage(VUPSimulator.Interface.IMainWindow,System.Windows.Media.Imaging.RenderTargetBitmap)">
+            <summary>
+            保存图像
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Video.VideoName">
+            <summary>
+            视频名称 (编辑后出现)
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Video.EditTotalHour">
+            <summary>
+            视频编辑总时长 小时数
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Video.EditProgress">
+            <summary>
+            视频编辑进度 小时数
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Video.RenderingProgress">
+            <summary>
+            视频渲染进度 单位GHZ
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Video.RenderingTask">
+            <summary>
+            视频渲染所需进度
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Video.RenderingProcessP">
+            <summary>
+            视频渲染进度百分比
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Video.RenderID">
+            <summary>
+            视频渲染顺序
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Video.RenderState">
+            <summary>
+            视频渲染状态
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Video.Content">
+            <summary>
+            视频内容
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.VideoEditorType">
+            <summary>
+            视频编辑选项类
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.VideoEditorType.Content">
+            <summary>
+            显示的文本
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.VideoEditorType.Tips">
+            <summary>
+            显示的注释
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.VideoEditorType.FullTips(VUPSimulator.Interface.IMainWindow)">
+            <summary>
+            全称注释
+            </summary>
+            <param name="mw">主窗口</param>
+        </member>
+        <member name="M:VUPSimulator.Interface.VideoEditorType.StartDecied(VUPSimulator.Interface.IMainWindow)">
+            <summary>
+            判断该Type前置条件是否满足,是Enabled的一部分
+            </summary>
+            <param name="mw">主窗口</param>
+            <returns>True:可以运行该事件</returns>
+        </member>
+        <member name="M:VUPSimulator.Interface.VideoEditorType.WhyPass(VUPSimulator.Interface.IMainWindow)">
+            <summary>
+            判断该Type前置条件是否满足,是Enabled的一部分
+            </summary>
+            <param name="mw">主窗口</param>
+        </member>
+        <member name="P:VUPSimulator.Interface.VideoEditorType.TimeUseBefore">
+            <summary>
+            所需要的时间 (剪辑前x(倍率))
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.VideoEditorType.TimeUseAfter">
+            <summary>
+            所需要的时间 (剪辑后x(倍率)) 
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.VideoEditorType.TimeUse">
+            <summary>
+            所需要的时间 (固定值,单位:分钟) 
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.VideoEditorType.Sort">
+            <summary>
+            排序顺序
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.VideoEditorType.Type">
+            <summary>
+            所属分类 long/short/effect/other
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.VideoEditorType.Quality">
+            <summary>
+            质量乘数:其他 0.01-0.99/1.00+
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.VideoEditorType.QualityVideo">
+            <summary>
+            质量乘数:视频录制 0.01-0.99/1.00+
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.VideoEditorType.QualityVoice">
+            <summary>
+            质量乘数:声音 0.01-0.99/1.00+
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.VideoEditorType.QualityFun">
+            <summary>
+            质量乘数:有趣 0.01-0.99/1.00+
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.VideoEditorType.Length">
+            <summary>
+            时长乘数:有趣 0.01-0.99/1.00+
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.VideoEditorType.RenderBuff">
+            <summary>
+            视频渲染时长Buff 用于计算所需渲染时间
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.Users">
+            <summary>
+            所有用户信息的表, 所有人用同一套用户信息系统
+            表头 user
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Users.#ctor(System.String)">
+            <summary>
+            新建标准随机普通用户
+            </summary>
+            <param name="userName">用户名</param>
+        </member>
+        <member name="P:VUPSimulator.Interface.Users.UserName">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Users.Photo">
+            <summary>
+            头像
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Users.GetFriendliness(LinePutScript.Line)">
+            <summary>
+            对主人公的好感度
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Users.VideoTag">
+            <summary>
+            人物视频标签,方便拉取
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Users.GameTag">
+            <summary>
+            人物游戏标签,方便拉取
+            </summary>
+            一些常用的标签:
+                
+        </member>
+        <member name="P:VUPSimulator.Interface.Users.UsersType">
+            <summary>
+            确认类型,用户可以为多个类型
+            常见类型: 画师,建模师,虚拟主播等, 确认类型后可以获取些特殊的数据
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.EventBase">
+            <summary>
+            所有事件的基本类 事件
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.EventBase.Create(VUPSimulator.Interface.IMainWindow,System.DateTime,LinePutScript.Sub[])">
+            <summary>
+            从该基本类创建新事件 并自动加进事件链条
+            </summary>
+            <param name="startdate">事件开始日期</param>
+            <param name="setting">事件相关设置</param>
+            <returns>新的事件 注意手动添加Handle</returns>
+        </member>
+        <member name="M:VUPSimulator.Interface.EventBase.Create(VUPSimulator.Interface.IMainWindow,LinePutScript.Line,VUPSimulator.Interface.EventBase.EventType)">
+            <summary>
+            从line中创建新事件
+            </summary>
+            <param name="line">数据</param>
+            <param name="type">事件类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:VUPSimulator.Interface.EventBase.Create(VUPSimulator.Interface.IMainWindow,LinePutScript.Line)">
+            <summary>
+            从line中创建新事件
+            </summary>
+            <param name="line">数据</param>
+        </member>
+        <member name="P:VUPSimulator.Interface.EventBase.EventName">
+            <summary>
+            Event的名字,方便从Event库呼出
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.EventBase.Visible">
+            <summary>
+            是否对玩家可见 (在侧边栏)
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.EventBase.VisibleType.None">
+            <summary>
+            不显示在侧边栏
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.EventBase.VisibleType.Calendar">
+            <summary>
+            显示为日历 - 包含下次和结束日期
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.EventBase.VisibleType.Message">
+            <summary>
+            显示为一次性消息 - 仅仅包含开始日期
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.EventBase.Associated">
+            <summary>
+            伴生对象,在事件发起后会召唤其他事件
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.EventBase.EndAssociated">
+            <summary>
+            伴生对象,在事件销毁后会召唤其他事件
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.EventBase.VisibleMessage">
+            <summary>
+            当事件发生时是否弹出消息给玩家
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.EventBase.VisibleMessageIsSingle">
+            <summary>
+            如果弹出消息,是否只弹出一次?
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.EventBase.EventInfo">
+            <summary>
+            事件信息(标题)
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.EventBase.Message">
+            <summary>
+            显示消息(当事件触发后弹窗消息)
+            注:如果为空则尝试引导标题
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.EventBase.Intor">
+            <summary>
+            事件注释(当事件前显示的消息)
+            注:如果为空则尝试引导标题
+            TODO: 将所有转义值转义为储存值
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.EventBase.PeriodRandom">
+            <summary>
+            是否随机触发 频率根据PeriodType决定
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.EventBase.Period">
+            <summary>
+            周期触发频率 单位小时(可以参考PeriodType)
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.EventBase.PeriodtoString">
+            <summary>
+            周期触发频率 PeriodType 版本
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.EventBase.EndTime">
+            <summary>
+            事件结束时间,单位小时 0为null,会在新建的时候自动添加
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.EventBase.EndTimetoType">
+            <summary>
+            事件结束时间 PeriodType 版本
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.EventBase.AutoTrigger">
+            <summary>
+            是否能够从事件库中触发该事件
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.EventBase.EventCalculat(VUPSimulator.Interface.IMainWindow)">
+            <summary>
+            执行该Event的计算
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.EventBase.StartTrigger(VUPSimulator.Interface.IMainWindow)">
+            <summary>
+            判断该Event能否自动激活从而触发事件链
+            </summary>
+            <param name="mw">主窗口</param>
+            <returns>True:立即激活立即执行,除非PeriodRandom为True,则设置为下次激活时间</returns>
+        </member>
+        <member name="M:VUPSimulator.Interface.EventBase.StartDecied(VUPSimulator.Interface.IMainWindow)">
+            <summary>
+            判断该Event前置条件是否满足,是Enabled的一部分
+            </summary>
+            <param name="mw">主窗口</param>
+            <returns>True:可以运行该事件</returns>
+        </member>
+        <member name="M:VUPSimulator.Interface.EventBase.WhyPass(VUPSimulator.Interface.IMainWindow)">
+            <summary>
+            告诉用户为啥可以通过这个Event/激活条件是什么
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Event.StartDate">
+            <summary>
+            开始日期
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Event.EndDate">
+            <summary>
+            结束日期
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Event.ToIntor">
+            <summary>
+            转换成介绍
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Event.Enabled">
+            <summary>
+            是否生效 失效则不会起用,尽管在时间范围内
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Event.IsEnable(System.DateTime)">
+            <summary>
+            判断这个事件是否生效
+            </summary>
+            <param name="time">时间</param>
+            <returns>是否生效</returns>
+        </member>
+        <member name="M:VUPSimulator.Interface.Event.Disposed(VUPSimulator.Interface.IMainWindow)">
+            <summary>
+            销毁这个Event 消息在消息查看后销毁, 事件在最后一次激发销毁
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Event.NextDate">
+            <summary>
+            下次激活事件的日期
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Event.TimeHandle(System.TimeSpan,VUPSimulator.Interface.IMainWindow)">
+            <summary>
+            判断是否能够执行 如果能则运行Handle
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Event.HandleClick(VUPSimulator.Interface.IMainWindow)">
+            <summary>
+            当该事件被点击时显示的 返回为true关闭点击部件
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Event.HandleAction(System.TimeSpan,VUPSimulator.Interface.IMainWindow)">
+            <summary>
+            当事件被激活后的处理
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.EventDoubleValue">
+            <summary>
+            事件操作浮点值寄存类
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.EventDoubleValue.Value">
+            <summary>
+            值
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.EventIntValue">
+            <summary>
+            事件操作int值寄存类
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.EventIntValue.Value">
+            <summary>
+            值
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.EventMoney">
+            <summary>
+            添加或者减少钱 事件
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.EventHealth">
+            <summary>
+            操作健康 事件
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.EventXName.XName">
+            <summary>
+            事件操作名称, 指定要操作的事件
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.EventCG">
+            <summary>
+            显示CG的event
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.EventCG.CG">
+            <summary>
+            CG 名称 (通过imgres获取)
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.EventCG.Width">
+            <summary>
+            CG 显示大小 如果为0 则为AUTO (尽量最大化)
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.EventCG.Height">
+            <summary>
+            CG 显示大小 如果为0 则为AUTO (尽量最大化)
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.Theme">
+            <summary>
+            游戏主题
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.Function">
+            <summary>
+            游戏通用方法
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Function.HEXToColor(System.String)">
+            <summary>
+            HEX值转颜色
+            </summary>
+            <param name="HEX">HEX值</param>
+            <returns></returns>
+        </member>
+        <member name="F:VUPSimulator.Interface.Function.Rnd">
+            <summary>
+            随机数生成中心
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Function.ScoretoString(System.Int32,System.Windows.Media.Color@)">
+            <summary>
+            退回评分标准
+            </summary>
+            <param name="score">分数</param>
+            <param name="color">对应分数颜色</param>
+            <returns>
+            评分标准:
+            A+ >=100%
+            A  >=95
+            A- >=90
+            B+ >=85
+            B  >=80
+            B- >=75
+            C+ >=70
+            C  >=65
+            C- >=60
+            D  >=40
+            E  >=20
+            </returns>
+        </member>
+        <member name="M:VUPSimulator.Interface.Function.DataEnable(VUPSimulator.Interface.IMainWindow,LinePutScript.Line)">
+            <summary>
+            前置条件是否满足 虽然说使用了EventData版,但是数据其实是通用的
+            </summary>
+            <param name="mw">主窗口</param>
+            <param name="data">相关数据/运算符</param>
+            <returns>True:可以运行</returns>
+        </member>
+        <member name="M:VUPSimulator.Interface.Function.DataEnableString(VUPSimulator.Interface.IMainWindow,LinePutScript.Line)">
+            <summary>
+            提供前置条件的判断文本,告诉玩家为啥可以或不可以使用
+            </summary>
+            <param name="mw">主窗口</param>
+            <param name="data">相关数据/运算符</param>
+            <returns>提供前置条件的判断文本</returns>
+        </member>
+        <member name="M:VUPSimulator.Interface.Function.DataConvert(VUPSimulator.Interface.IMainWindow,System.String,LinePutScript.Line)">
+            <summary>
+            字符串数据转换 虽然说使用了EventData版,但是数据其实是通用的
+            </summary>
+            <param name="mw">主窗口</param>
+            <param name="name">相关字符串</param>
+            <param name="data">相关本地数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:VUPSimulator.Interface.Function.DataConvertString(VUPSimulator.Interface.IMainWindow,System.String,LinePutScript.Line)">
+            <summary>
+            字符串数据转换 虽然说使用了EventData版,但是数据其实是通用的
+            </summary>
+            <param name="mw">主窗口</param>
+            <param name="name">相关字符串</param>
+            <param name="data">相关本地数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:VUPSimulator.Interface.Function.DataCalculat(VUPSimulator.Interface.IMainWindow,LinePutScript.Line)">
+            <summary>
+            执行数据计算
+            </summary>
+            <param name="mw">主窗口</param>
+            <param name="data">相关数据/运算符</param>
+        </member>
+        <member name="M:VUPSimulator.Interface.Function.DataSet(VUPSimulator.Interface.IMainWindow,System.String,System.Object,LinePutScript.Line)">
+            <summary>
+            设置相关数据
+            </summary>
+            <param name="mw">主窗体</param>
+            <param name="name">设置名称</param>
+            <param name="value">设置值</param>
+            <param name="data">若未找到则修改的源行</param>
+        </member>
+        <member name="T:VUPSimulator.Interface.Function.TimeRels">
+            <summary>
+            刷新时间使用的方法,方便所有窗口使用
+            </summary>
+            <param name="span">时间经过</param>
+            <param name="mw">主窗口</param>
+        </member>
+        <member name="T:VUPSimulator.Interface.IMainWindow">
+            <summary>
+            主窗体接口 开发者可通过此接口获取游戏信息和进行高级代码MOD开发
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.IMainWindow.Dispatcher">
+            <summary>
+            调用UI界面时,必须使用 Dispatcher 进行调度
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.IMainWindow.Save">
+            <summary>
+            游戏存档
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.IMainWindow.Core">
+            <summary>
+            游戏数据
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.IMainWindow.IsSteamUser">
+            <summary>
+            是否为steam用户
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.IMainWindow.verison">
+            <summary>
+            版本号
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.IMainWindow.Verison">
+            <summary>
+            版本号
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.IMainWindow.AllWindows">
+            <summary>
+            所有使用中的Windows
+            </summary>
+        </member>
+        <member name="E:VUPSimulator.Interface.IMainWindow.TimeHandle">
+            <summary>
+            刷新时间时会调用该方法
+            </summary>
+        </member>
+        <member name="E:VUPSimulator.Interface.IMainWindow.TimeUIHandle">
+            <summary>
+            刷新时间时会调用该方法,在所有任务处理完之后
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.IMainWindow.TimeStop">
+            <summary>
+            游戏暂停
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.IMainWindow.TimeStart">
+            <summary>
+            游戏继续1倍数
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.IMainWindow.TimeSpeed">
+            <summary>
+            游戏继续5倍数
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.IMainWindow.Toppext(VUPSimulator.Interface.IWindows)">
+            <summary>
+            设置置顶窗口
+            </summary>
+            <param name="win">窗口</param>
+        </member>
+        <member name="M:VUPSimulator.Interface.IMainWindow.RemoveIMCTag(VUPSimulator.Interface.IMCTag)">
+            <summary>
+            移除侧边标签
+            </summary>
+            <param name="tag">标签</param>
+        </member>
+        <member name="M:VUPSimulator.Interface.IMainWindow.winMessageBoxShow(System.String,System.String,VUPSimulator.Interface.Function.MSGType,System.Boolean,System.Action{System.Nullable{System.Boolean}},System.Boolean,System.Boolean)">
+            <summary>
+            弹出消息窗口 请注意该窗口不会阻塞任何线程, 如需结束后调用,请使用ENDAction
+            </summary>
+            <param name="title">消息标题</param>
+            <param name="text">消息文本</param>
+            <param name="type">消息类型: 显示的图标和声音提示将会不同</param>
+            <param name="YesNo">是否使用 YesNo窗体</param>
+            <param name="ENDAction">结束事件</param>
+            <param name="TextCenter">是否字体居中显示</param>
+            <param name="CanHide">是否允许隐藏消息弹窗</param>
+        </member>
+        <member name="M:VUPSimulator.Interface.IMainWindow.CreateCALTag(VUPSimulator.Interface.Event)">
+            <summary>
+            创建一个侧边日历栏组件
+            </summary>
+            <param name="ev">事件</param>
+            <returns>侧边栏组件</returns>
+        </member>
+        <member name="M:VUPSimulator.Interface.IMainWindow.CreateMSGTag(VUPSimulator.Interface.Event)">
+            <summary>
+            创建一个侧边消息栏组件
+            </summary>
+            <param name="ev">事件</param>
+            <returns>侧边栏组件</returns>
+        </member>
+        <member name="M:VUPSimulator.Interface.IMainWindow.ShowWindows(VUPSimulator.Interface.WindowsPageHandle,System.String,System.Uri)">
+            <summary>
+            显示窗体
+            </summary>
+            <param name="Handle">窗体内控件</param>
+            <param name="title">窗口标题</param>
+            <param name="icon">窗口图标</param>
+            <returns>窗体信息</returns>
+        </member>
+        <member name="T:VUPSimulator.Interface.Item">
+            <summary>
+            物品类
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.Item.ItemType">
+            <summary>
+            物品类型列表,如果需要自己DIY物品可以直接使用int 之后会添加相关接口TODO
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item.ItemName">
+            <summary>
+            物品名称
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item.Many">
+            <summary>
+            物品数量
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item.Price">
+            <summary>
+            物品单价 为-1则是禁止出售
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Item.New(LinePutScript.Line)">
+            <summary>
+            根据物品类型自动生成相应Item
+            </summary>
+            <param name="line">物品</param>
+            <returns></returns>
+        </member>
+        <member name="T:VUPSimulator.Interface.Item_L2D_base">
+            <summary>
+            L2D基础类
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_L2D_base.Expression">
+            <summary>
+            表情
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_L2D_base.Painter">
+            <summary>
+            画师
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_L2D_base.Max">
+            <summary>
+            最大星级
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_L2D_base.Min">
+            <summary>
+            最小星级
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_L2D_base.RNDRANK">
+            <summary>
+            随机获得10%星级
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.Item_L2D">
+            <summary>
+            L2D完整
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_L2D.ImageRank">
+            <summary>
+            立绘等级
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_L2D.ModelRank">
+            <summary>
+            建模等级
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_L2D.TotalRank">
+            <summary>
+            实际综合等级
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_L2D.Process">
+            <summary>
+            立绘生产进度 (100%)
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_L2D.Freshness">
+            <summary>
+            新鲜度
+            新鲜度越低实际等级越低(根据时间恢复)
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Item_L2D.#ctor(VUPSimulator.Interface.Item_L2D_base)">
+            <summary>
+            从零开始新建一个L2d
+            </summary>
+            <param name="l2dbase">L2d的模型</param>
+        </member>
+        <member name="M:VUPSimulator.Interface.Item_L2D.#ctor(VUPSimulator.Interface.Item_L2D_base,System.Int32,System.Double,System.Double)">
+            <summary>
+            从已有进度开始新建一个L2d
+            </summary>
+            <param name="l2dbase">L2d的模型</param>
+            <param name="process">生产进度,只有100才可以使用</param>
+            <param name="imagerank">立绘分数</param>
+            <param name="modlerank">建模分数</param>
+        </member>
+        <member name="M:VUPSimulator.Interface.Item_L2D.#ctor(LinePutScript.Line)">
+            <summary>
+            从已有进度开始新建一个L2d
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_L2D.ExpressionList">
+            <summary>
+            表情列表 这是实际获得的表情
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Item_L2D.ExpressionADD(System.String)">
+            <summary>
+            添加表情到表情列表
+            </summary>
+            <param name="newexp"></param>
+        </member>
+        <member name="M:VUPSimulator.Interface.Item_L2D.ExpressionDel(System.String)">
+            <summary>
+            删除表情从表情列表
+            </summary>
+            <param name="rmexp"></param>
+        </member>
+        <member name="M:VUPSimulator.Interface.Item_L2D.ToRankStar(System.Double)">
+            <summary>
+            转换成等级为星星
+            </summary>
+            <param name="rank">等级</param>
+            <returns></returns>
+        </member>
+        <member name="T:VUPSimulator.Interface.IMCTag">
+            <summary>
+            消息窗口
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.IMCTag.Type">
+            <summary>
+            类型
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.IMCTag.MW">
+            <summary>
+            主窗口
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.IMCTag.MW_TimeUIHandle(System.TimeSpan,VUPSimulator.Interface.IMainWindow)">
+            <summary>
+            当被事件激活时事件
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.IWindows">
+            <summary>
+            UI显示窗体 会自动生成外边框和底部栏
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.IWindows.Close">
+            <summary>
+            关闭窗口 无确认
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.IWindows.CenterScreen">
+            <summary>
+            居中窗口
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.IWindows.Title">
+            <summary>
+            软件标题
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.IWindows.Icon">
+            <summary>
+            设置图标
+            </summary>
+            new Uri($"pack://application:,,,/images/my.jpg")
+            application->应用内
+            siteoforigin->应用外
+        </member>
+        <member name="E:VUPSimulator.Interface.IWindows.DeActive">
+            <summary>
+            当关闭文件后进行操作
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.IWindows.ChangeMax">
+            <summary>
+            修改窗口大小状态
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.WindowsPageHandle">
+            <summary>
+            窗体内控件 请同时继承与Grid/UC以便进行窗体设计
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.WindowsPageHandle.Width">
+            <summary>
+            宽度
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.WindowsPageHandle.Height">
+            <summary>
+            高度
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.WindowsPageHandle.ID">
+            <summary>
+            程序ID 用于重复性检查
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.WindowsPageHandle.Closeing">
+            <summary>
+            执行关闭程序
+            </summary>
+            <returns>反馈是否关闭</returns>
+        </member>
+        <member name="M:VUPSimulator.Interface.WindowsPageHandle.Max">
+            <summary>
+            最大化处理
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.WindowsPageHandle.Min">
+            <summary>
+            正常化处理
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.WindowsPageHandle.Hide">
+            <summary>
+            隐藏处理
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.WindowsPageHandle.Show">
+            <summary>
+            显示处理(一般为第二次显示)
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.WindowsPageHandle.AllowMax">
+            <summary>
+            允许最大化
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.WindowsPageHandle.AllowHide">
+            <summary>
+            允许隐藏
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.WindowsPageHandle.Host">
+            <summary>
+            该窗口的host
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.WindowsPageHandle.This">
+            <summary>
+            这个Gird/MW窗口
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.WindowsPageHandle.Usage">
+            <summary>
+            电脑使用性能与配置
+            </summary>
+        </member>
+    </members>
+</doc>

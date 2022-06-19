@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TextToDocument</name>
+    </assembly>
+    <members>
+        <member name="M:TextToDocument.TextFormat.ApplyFormats(TextToDocument.TextFormat.Format,TextToDocument.TextFormat.Format[])">
+            <summary>
+            为Base应用相应格式
+            </summary>
+            <param name="Base">格式</param>
+            <param name="Formats">要被应用的格式</param>
+        </member>
+        <member name="M:TextToDocument.TextFormat.StatesFormat(TextToDocument.TtD.TextState[])">
+            <summary>
+            从states中获取相应格式
+            </summary>
+            <param name="states">文本状态</param>
+            <returns>格式</returns>
+        </member>
+        <member name="T:TextToDocument.TextFormat.Format">
+            <summary>
+            文本格式
+            </summary>
+        </member>
+        <member name="M:TextToDocument.TextFormat.Format.ApplyFormat(TextToDocument.TextFormat.Format)">
+            <summary>
+            应用其他格式到该格式
+            </summary>
+            <param name="f">从其他格式应用到该格式</param>
+        </member>
+        <member name="P:TextToDocument.TextFormat.Format.ForegroundBrush">
+            <summary>
+            获得前景色 若已有前景色则应用前景色,否则应用Color
+            </summary>
+        </member>
+        <member name="M:TextToDocument.TextFormat.Format.Clone">
+            <summary>
+            克隆一个相同的格式
+            </summary>
+        </member>
+        <member name="M:TextToDocument.TextFormat.Format.ToInLine(System.Windows.Documents.Inline)">
+            <summary>
+            将颜色应用到inline组件
+            </summary>
+            <param name="inline">ToInline</param>
+        </member>
+        <member name="F:TextToDocument.TtD.DefaultFormart">
+            <summary>
+            默认的格式
+            </summary>
+        </member>
+        <member name="T:TextToDocument.TtD.TextState">
+            <summary>
+            文本样式
+            </summary>
+        </member>
+        <member name="M:TextToDocument.TtD.TextToRun(TextToDocument.TtD.TextState[],System.String,TextToDocument.TextFormat)">
+            <summary>
+            文本和状态转换为Run
+            </summary>
+            <param name="state">状态</param>
+            <param name="text">文本</param>
+            <param name="format">格式</param>
+            <returns>Run</returns>
+        </member>
+        <member name="M:TextToDocument.TtD.TextToDocument(System.String,TextToDocument.TextFormat)">
+            <summary>
+            将文本转换为富文本 Document
+            </summary>
+            <param name="text">文本</param>
+            <param name="format">样式</param>
+            <returns>Document</returns>
+        </member>
+        <member name="M:TextToDocument.TtD.TextToParagraph(System.String,TextToDocument.TextFormat)">
+            <summary>
+            将文本转换为富文本 Paragraph 显示效果并没有 Document 好
+            </summary>
+            <param name="text">文本</param>
+            <param name="format">样式</param>
+            <returns>Paragraph</returns>
+        </member>
+    </members>
+</doc>

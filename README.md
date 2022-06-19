@@ -59,9 +59,24 @@ Install-Package VUPSimulator.Interface
   * IWindows: 窗体, 会自动生成外边框和底部栏
   * WindowsPageHandle: 窗体内控件 请同时继承与Grid/UC以便进行窗体设计
 
+### 编写dll描述文件
+
+生成程序, 在生成位置找到你的dll 在本例中为`CheatEngine.dll`
+新建同名文件以lps为后缀 `CheatEngine.lps`
+编辑此LPS文件
+
+```lps
+plugin#CheatEngine:|
+github#https://github.com/LorisYounger/VUPSimulator.OpenResources:|
+```
+
+plugin为你的mod名称
+github为开源页面地址
+
 ### 发布
 
-参考虚拟主播模拟器游戏MOD,编写相应 `info.lps` 和 将生成的dll置入 `plugin`目录下
+参考虚拟主播模拟器游戏MOD,编写相应 `info.lps` 和 将生成的文件夹置入 `plugin`目录下
+记得把编写好的dll描述文件一起放入plugin文件夹
 
 如下方例子所示: [文件夹链接](https://github.com/LorisYounger/VUPSimulator.OpenResources/tree/main/VUPSimulator.Interface.Demo/1100_CheatEngine)
 
@@ -72,13 +87,17 @@ Install-Package VUPSimulator.Interface
 		   ....
 		- \plugin
 			- CheatEngine.dll
+			- CheatEngine.lps
 			- LinePutScript.dll
 			- ...
+		- info.lps
 ```
 
 接着前往游戏上传至SteamWorkshop即可
 
 ***发布至Steam创意工坊需遵循[创意工坊协议]()及[虚拟主播模拟器创意工坊协议]()**
+
+***发布DLL插件需要开源并遵循[虚拟主播模拟器创意工坊协议#代码插件协议]()**
 
 ### 案例
 

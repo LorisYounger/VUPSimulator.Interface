@@ -32,7 +32,6 @@ namespace VUPSimulator.Interface
         /// 添加资源,后来覆盖之前
         /// </summary>
         /// <param name="line">资源行</param>
-        /// <param name="modpath">功能位置</param>
         public void AddSource(Line line)
         {
             Sub source = line.Find("source");

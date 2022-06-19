@@ -28,6 +28,14 @@ namespace VUPSimulator.Interface
             MW = mainwin;
         }
         /// <summary>
+        /// 加载游戏主题
+        /// </summary>
+        /// <param name="theme">主题</param>
+        public void LoadTheme(Theme theme)
+        {
+
+        }
+        /// <summary>
         /// 初始化程序
         /// </summary>
         /// 例如, 添加窗体至主程序

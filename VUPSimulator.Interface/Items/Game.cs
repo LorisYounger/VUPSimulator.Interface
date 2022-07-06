@@ -11,7 +11,7 @@ using System.Windows.Documents;
 namespace VUPSimulator.Interface
 {
     /// <summary>
-    /// 游戏类,这些数据可能需要作为应用数据储存起来,应该整个专门的应用数据类
+    /// 游戏类
     /// </summary>
     public class Item_Game_base : LpsDocument
     {
@@ -450,7 +450,7 @@ namespace VUPSimulator.Interface
         }
     }
     /// <summary>
-    /// 游戏数据类,包括游戏信息和各种参数 标头:game
+    /// 游戏数据类,包括游戏信息和各种参数 标头:game 这些数据可能需要作为应用数据储存起来
     /// </summary>
     public class Item_Game : Line
     {

@@ -15,6 +15,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 从该基本类创建新事件 并自动加进事件链条
         /// </summary>
+        /// <param name="mw">主窗体</param>
         /// <param name="startdate">事件开始日期</param>
         /// <param name="setting">事件相关设置</param>
         /// <returns>新的事件 注意手动添加Handle</returns>
@@ -45,6 +46,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 从line中创建新事件
         /// </summary>
+        /// <param name="mw">主窗体</param>
         /// <param name="line">数据</param>
         /// <param name="type">事件类型</param>
         /// <returns></returns>
@@ -67,6 +69,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 从line中创建新事件
         /// </summary>
+        /// <param name="mw">主窗体</param>
         /// <param name="line">数据</param>
         public static Event Create(IMainWindow mw, Line line) => Create(mw, line, (EventType)Enum.Parse(typeof(EventType), line.info, true));
         public enum EventType

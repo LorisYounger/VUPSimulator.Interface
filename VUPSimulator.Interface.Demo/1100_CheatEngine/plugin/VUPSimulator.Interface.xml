@@ -305,12 +305,14 @@
             添加图片集,后来覆盖之前
             </summary>
             <param name="lps">图片集</param>
+            <param name="modpath">文件夹位置</param>
         </member>
         <member name="M:VUPSimulator.Interface.ImageResources.AddImage(LinePutScript.Line,System.String)">
             <summary>
             添加单个图片,后来覆盖之前
             </summary>
             <param name="line">图片行</param>
+            <param name="modpath">文件夹位置</param>
         </member>
         <member name="M:VUPSimulator.Interface.ImageResources.FindImage(System.String)">
             <summary>
@@ -389,10 +391,12 @@
             软件介绍
             </summary>
         </member>
-        <member name="M:VUPSimulator.Interface.ISoftWare.NewSoftWare(VUPSimulator.Interface.IMainWindow)">
+        <member name="M:VUPSimulator.Interface.ISoftWare.NewSoftWare(VUPSimulator.Interface.IMainWindow,System.String)">
             <summary>
             窗体内控件, 由开发者设计和提供
             </summary>
+            <param name="mw">主窗体</param>
+            <param name="args">软件启动参数</param>
         </member>
         <member name="T:VUPSimulator.Interface.Computer">
             <summary>
@@ -737,7 +741,7 @@
         </member>
         <member name="T:VUPSimulator.Interface.Item_Game_base">
             <summary>
-            游戏类,这些数据可能需要作为应用数据储存起来,应该整个专门的应用数据类
+            游戏类
             </summary>
         </member>
         <member name="F:VUPSimulator.Interface.Item_Game_base.Data">
@@ -922,7 +926,7 @@
         </member>
         <member name="T:VUPSimulator.Interface.Item_Game">
             <summary>
-            游戏数据类,包括游戏信息和各种参数 标头:game
+            游戏数据类,包括游戏信息和各种参数 标头:game 这些数据可能需要作为应用数据储存起来
             </summary>
         </member>
         <member name="P:VUPSimulator.Interface.Item_Game.PublishDate">
@@ -1489,6 +1493,7 @@
             <summary>
             从该基本类创建新事件 并自动加进事件链条
             </summary>
+            <param name="mw">主窗体</param>
             <param name="startdate">事件开始日期</param>
             <param name="setting">事件相关设置</param>
             <returns>新的事件 注意手动添加Handle</returns>
@@ -1497,6 +1502,7 @@
             <summary>
             从line中创建新事件
             </summary>
+            <param name="mw">主窗体</param>
             <param name="line">数据</param>
             <param name="type">事件类型</param>
             <returns></returns>
@@ -1505,6 +1511,7 @@
             <summary>
             从line中创建新事件
             </summary>
+            <param name="mw">主窗体</param>
             <param name="line">数据</param>
         </member>
         <member name="P:VUPSimulator.Interface.EventBase.EventName">
@@ -1831,6 +1838,16 @@
             <param name="span">时间经过</param>
             <param name="mw">主窗口</param>
         </member>
+        <member name="T:VUPSimulator.Interface.Function.MSGType">
+            <summary>
+            消息类型
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.Function.SoftWareType">
+            <summary>
+            程序类型
+            </summary>
+        </member>
         <member name="T:VUPSimulator.Interface.IMainWindow">
             <summary>
             主窗体接口 开发者可通过此接口获取游戏信息和进行高级代码MOD开发
@@ -1942,6 +1959,14 @@
             <param name="title">窗口标题</param>
             <param name="icon">窗口图标</param>
             <returns>窗体信息</returns>
+        </member>
+        <member name="M:VUPSimulator.Interface.IMainWindow.ShowSoftWare(System.String,System.String)">
+            <summary>
+            显示软件 (可用于游戏内置软件/MOD软件)
+            </summary>
+            <param name="SoftWare">软件名称</param>
+            <param name="args">参数</param>
+            <returns>该软件的窗体控件</returns>
         </member>
         <member name="T:VUPSimulator.Interface.Item">
             <summary>

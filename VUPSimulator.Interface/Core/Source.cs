@@ -109,11 +109,13 @@ namespace VUPSimulator.Interface
         /// 添加图片集,后来覆盖之前
         /// </summary>
         /// <param name="lps">图片集</param>
+        /// <param name="modpath">文件夹位置</param>
         public void AddImages(LpsDocument lps, string modpath = "") => AddSources(lps, modpath);
         /// <summary>
         /// 添加单个图片,后来覆盖之前
         /// </summary>
         /// <param name="line">图片行</param>
+        /// <param name="modpath">文件夹位置</param>
         public void AddImage(Line line, string modpath = "") => AddSource(line, modpath);
         /// <summary>
         /// 查找图片资源
@@ -122,7 +124,7 @@ namespace VUPSimulator.Interface
         /// <returns>图片资源,如果未找到则退回错误提示图片</returns>
         public BitmapImage FindImage(string imagename) => new BitmapImage(FindImageUri(imagename));
 
-        public Uri FindImageUri(string imagename) =>FindSourceUri(imagename, "pack://application:,,,/Res/Image/system/error.png");
+        public Uri FindImageUri(string imagename) => FindSourceUri(imagename, "pack://application:,,,/Res/Image/system/error.png");
         /// <summary>
         /// 查找图片资源 如果找不到则使用上级
         /// </summary>

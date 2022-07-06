@@ -23,7 +23,9 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 窗体内控件, 由开发者设计和提供
         /// </summary>
-        WindowsPageHandle NewSoftWare(IMainWindow mw);
-    
+        /// <param name="mw">主窗体</param>
+        /// <param name="args">软件启动参数</param>
+        WindowsPageHandle NewSoftWare(IMainWindow mw, string args = null);
+
     }
 }

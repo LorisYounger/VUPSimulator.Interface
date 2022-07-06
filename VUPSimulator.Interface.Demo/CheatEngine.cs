@@ -11,7 +11,7 @@ namespace CheatEngine
         public string SoftwareName => "CE修改器";
         public string SoftwareInfo => "可以修改绝大部分游戏数据,是通关利器";
 
-        public WindowsPageHandle NewSoftWare(IMainWindow mw)
+        public WindowsPageHandle NewSoftWare(IMainWindow mw, string args)
         {
             return new winCheatEngine(mw);
         }

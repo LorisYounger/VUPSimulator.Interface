@@ -550,11 +550,53 @@ namespace VUPSimulator.Interface
         /// <param name="span">时间经过</param>
         /// <param name="mw">主窗口</param>
         public delegate void TimeRels(TimeSpan span, IMainWindow mw);
+        /// <summary>
+        /// 消息类型
+        /// </summary>
         public enum MSGType
         {
             notify,
             warning,
             error
+        }
+
+        /// <summary>
+        /// 程序类型
+        /// </summary>
+        public enum SoftWareType : byte
+        {
+            //1-63 系统程序 无法自行打开 允许多开
+            None = 0,
+            MessageBox,
+            //65-127 系统程序 无法自行打开 不允许多开
+            HelloWorld = 65,
+            NewGame,
+            SoftwareCenter,//虽然说无法自行打开,但是其实可以打开 相当于隐藏起来
+            CommandLinePrompt,
+
+            //129-191 标准可执行程序 可以自行打开 允许多开
+            ItemList = 129,
+            Tutorial,
+            InternetExplorer,
+
+            //193-255 标准可执行程序 可以自行打开 不允许多开
+            GameSetting = 193,
+            MyComputer,
+            Sbeam,
+            PersonalInformation,
+            LikeStudy,
+            BetterBuy,
+            NiliVideo,
+            OldPainter,
+            PartTimeJob,
+            OBS,
+            TaskManager,
+            Mail,
+            MusicPlayer,
+            SleepHelper,
+            VUPMotionCapture,
+            VideoEdit,//支持不重复视频多开
+            VideoEncoder,//支持双击后添加内容至VE
         }
     }
 

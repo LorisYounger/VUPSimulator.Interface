@@ -115,5 +115,12 @@ namespace VUPSimulator.Interface
         /// <param name="icon">窗口图标</param>
         /// <returns>窗体信息</returns>
         IWindows ShowWindows(WindowsPageHandle Handle, string title, Uri icon);
+        /// <summary>
+        /// 显示软件 (可用于游戏内置软件/MOD软件)
+        /// </summary>
+        /// <param name="SoftWare">软件名称</param>
+        /// <param name="args">参数</param>
+        /// <returns>该软件的窗体控件</returns>
+        WindowsPageHandle ShowSoftWare(string SoftWare, string args);
     }
 }

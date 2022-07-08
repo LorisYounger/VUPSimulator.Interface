@@ -249,7 +249,7 @@ namespace VUPSimulator.Interface
             }
         }
         /// <summary>
-        /// 视频名称 (编辑后出现)
+        /// 视频名称 (默认为日期)
         /// </summary>
         public string VideoName
         {

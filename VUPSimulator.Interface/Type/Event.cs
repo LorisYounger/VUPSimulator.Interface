@@ -18,7 +18,7 @@ namespace VUPSimulator.Interface
         /// <param name="mw">主窗体</param>
         /// <param name="startdate">事件开始日期</param>
         /// <param name="setting">事件相关设置</param>
-        /// <returns>新的事件 注意手动添加Handle</returns>
+        /// <returns>新的事件</returns>
         public Event Create(IMainWindow mw, DateTime startdate, params Sub[] setting)
         {
             Line line = (Line)Clone();
@@ -39,9 +39,7 @@ namespace VUPSimulator.Interface
                 line.AddorReplaceSub(sub);
 
             //创建事件并添加进事件链
-            var ev = Create(mw, line, Type);
-            mw?.Save?.ALLEvent.Add(ev);
-            return ev;
+            return Create(mw, line, Type);
         }
         /// <summary>
         /// 从line中创建新事件
@@ -441,7 +439,8 @@ namespace VUPSimulator.Interface
                 else if (Visible == VisibleType.Message && Name == "gevent")//如果是游戏存档,也可以进侧边栏
                     VisibleMCTag = mw.CreateMSGTag(this);
             }));
-            mw.TimeHandle += TimeHandle;
+            //mw.TimeHandle += TimeHandle;
+            mw.Save?.ALLEvent.Add(this);
         }
         /// <summary>
         /// 开始日期
@@ -531,7 +530,7 @@ namespace VUPSimulator.Interface
 
         public IMCTag VisibleMCTag;
         /// <summary>
-        /// 判断是否能够执行 如果能则运行Handle
+        /// 判断是否能够执行 如果能则运行Handle 请不要添加改Handle到mw.TimeHandle中 mw.Save.ALLEvent 会自动运行
         /// </summary>
         public async void TimeHandle(TimeSpan ts, IMainWindow mw)
         {

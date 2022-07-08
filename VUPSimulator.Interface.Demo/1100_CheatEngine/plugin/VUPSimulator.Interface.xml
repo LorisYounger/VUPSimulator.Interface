@@ -1158,6 +1158,73 @@
             绑定的游戏名称
             </summary>
         </member>
+        <member name="T:VUPSimulator.Interface.NiliVideo">
+            <summary>
+            NiliNili视频
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.NiliVideo.VideoName">
+            <summary>
+            视频名称
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.NiliVideo.TimeLength">
+            <summary>
+            录制时长
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.NiliVideo.BitRate">
+            <summary>
+            录制码率 单位kbps
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.NiliVideo.Resolution">
+            <summary>
+            视频分辨率
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.NiliVideo.VideoType">
+            <summary>
+            视频类型
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.NiliVideo.Quality">
+            <summary>
+            视频质量:其他
+            </summary>
+            如果是游戏,就是游戏的游玩评分
+            占比50%
+        </member>
+        <member name="P:VUPSimulator.Interface.NiliVideo.QualityVideo">
+            <summary>
+            视频质量:视频录制
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.NiliVideo.QualityVoice">
+            <summary>
+            视频质量:声音
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.NiliVideo.QualityFun">
+            <summary>
+            视频质量:有趣
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.NiliVideo.TotalQuality">
+            <summary>
+            总质量
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.NiliVideo.ImageName">
+            <summary>
+            图片名
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.NiliVideo.Content">
+            <summary>
+            视频内容
+            </summary>
+        </member>
         <member name="T:VUPSimulator.Interface.Video">
             <summary>
             玩家录制的视频文件
@@ -1307,7 +1374,7 @@
         </member>
         <member name="P:VUPSimulator.Interface.Video.VideoName">
             <summary>
-            视频名称 (编辑后出现)
+            视频名称 (默认为日期)
             </summary>
         </member>
         <member name="P:VUPSimulator.Interface.Video.EditTotalHour">
@@ -1496,7 +1563,7 @@
             <param name="mw">主窗体</param>
             <param name="startdate">事件开始日期</param>
             <param name="setting">事件相关设置</param>
-            <returns>新的事件 注意手动添加Handle</returns>
+            <returns>新的事件</returns>
         </member>
         <member name="M:VUPSimulator.Interface.EventBase.Create(VUPSimulator.Interface.IMainWindow,LinePutScript.Line,VUPSimulator.Interface.EventBase.EventType)">
             <summary>
@@ -1670,7 +1737,7 @@
         </member>
         <member name="M:VUPSimulator.Interface.Event.TimeHandle(System.TimeSpan,VUPSimulator.Interface.IMainWindow)">
             <summary>
-            判断是否能够执行 如果能则运行Handle
+            判断是否能够执行 如果能则运行Handle 请不要添加改Handle到mw.TimeHandle中 mw.Save.ALLEvent 会自动运行
             </summary>
         </member>
         <member name="M:VUPSimulator.Interface.Event.HandleClick(VUPSimulator.Interface.IMainWindow)">

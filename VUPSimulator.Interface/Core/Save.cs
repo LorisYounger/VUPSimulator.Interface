@@ -86,12 +86,11 @@ namespace VUPSimulator.Interface
                 //TODO:健康=0 结束游戏
                 if (value <= 30)
                 {
-                    if (ALLEvent.Find(x => x.EventName == "ill") == null)
-                        imw.Core.EventBases.Find(x => x.EventName == "ill").Create(imw, Now).TimeHandle(TimeSpan.Zero, imw);
-                    health = 0;
+                    //if (ALLEvent.Find(x => x.EventName == "ill") == null) TODO
+                    //    imw.Core.EventBases.Find(x => x.EventName == "ill").Create(imw, Now).TimeHandle(TimeSpan.Zero, imw);
                 }
-                else
-                    health = (int)(value * 100);
+
+                health = (int)(value * 100);
 
             }
         }

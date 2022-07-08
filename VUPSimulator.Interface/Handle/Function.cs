@@ -485,7 +485,7 @@ namespace VUPSimulator.Interface
             switch (name.ToLower().Substring(0, 3))
             {
                 case "int":
-                    mw.Save.EventData.SetInt(name, (int)value);
+                    mw.Save.EventData.SetInt(name, Convert.ToInt32(value));
                     break;
                 case "flt":
                     mw.Save.EventData.GetDouble(name, (double)value); break;
@@ -568,6 +568,10 @@ namespace VUPSimulator.Interface
             //1-63 系统程序 无法自行打开 允许多开
             None = 0,
             MessageBox,
+            ImageBox,
+            //各种viewer
+            ViewerVideo,
+            
             //65-127 系统程序 无法自行打开 不允许多开
             HelloWorld = 65,
             NewGame,

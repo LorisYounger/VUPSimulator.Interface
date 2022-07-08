@@ -103,4 +103,4 @@ github为开源页面地址
 
 参见 [CheatEngine](https://github.com/LorisYounger/VUPSimulator.OpenResources/tree/main/VUPSimulator.Interface.Demo) 游戏内数据修改作弊器
 
-![image-20220616003426150](README.assets/image-20220616003426150.png)
+![image-20220708233151685](README.assets/image-20220708233151685.png)

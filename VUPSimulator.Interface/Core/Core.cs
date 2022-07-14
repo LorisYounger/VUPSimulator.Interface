@@ -88,6 +88,11 @@ namespace VUPSimulator.Interface
         public List<Theme> Theme = new List<Theme>();
 
         /// <summary>
+        /// ProfileImage位置
+        /// </summary>
+        public ProfileImage ProfileImage = new ProfileImage();
+
+        /// <summary>
         /// 所有三方软件
         /// </summary>
         public List<ISoftWare> SoftWares = new List<ISoftWare>();

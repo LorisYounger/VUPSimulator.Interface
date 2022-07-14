@@ -52,7 +52,12 @@ namespace VUPSimulator.Interface
             get => this[(gstr)"photo"];
             set => this[(gstr)"photo"] = value;
         }
-        public BitmapImage PhotoImage(IMainWindow mw) => mw.Core.ImageSources.FindImage("profile_" + Photo, "profile_nomal");
+        /// <summary>
+        /// 获得头像图片
+        /// </summary>
+        /// <param name="mw"></param>
+        /// <returns></returns>
+        public BitmapImage PhotoImage(IMainWindow mw) => string.IsNullOrEmpty(Photo) ? mw.Core.ProfileImage.GetRndImage(UserName) : mw.Core.ImageSources.FindImage("profile_" + Photo, "profile_nomal");
 
         /// <summary>
         /// 对主人公的好感度

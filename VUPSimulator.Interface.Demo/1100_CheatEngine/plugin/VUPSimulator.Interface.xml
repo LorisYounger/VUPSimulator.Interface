@@ -94,6 +94,11 @@
             所有主题
             </summary>
         </member>
+        <member name="F:VUPSimulator.Interface.ICore.ProfileImage">
+            <summary>
+            ProfileImage位置
+            </summary>
+        </member>
         <member name="F:VUPSimulator.Interface.ICore.SoftWares">
             <summary>
             所有三方软件
@@ -1001,6 +1006,11 @@
             <returns></returns>
             
         </member>
+        <member name="T:VUPSimulator.Interface.ProfileImage">
+            <summary>
+            随机生成profile图片
+            </summary>
+        </member>
         <member name="T:VUPSimulator.Interface.Comment_base">
             <summary>
             评论表: 包含评论的基础信息 表头:comment
@@ -1158,71 +1168,206 @@
             绑定的游戏名称
             </summary>
         </member>
-        <member name="T:VUPSimulator.Interface.NiliVideo">
+        <member name="T:VUPSimulator.Interface.VideoNili">
             <summary>
             NiliNili视频
             </summary>
         </member>
-        <member name="P:VUPSimulator.Interface.NiliVideo.VideoName">
+        <member name="P:VUPSimulator.Interface.VideoNili.VideoName">
             <summary>
             视频名称
             </summary>
         </member>
-        <member name="P:VUPSimulator.Interface.NiliVideo.TimeLength">
+        <member name="P:VUPSimulator.Interface.VideoNili.TimeLength">
             <summary>
             录制时长
             </summary>
         </member>
-        <member name="P:VUPSimulator.Interface.NiliVideo.BitRate">
+        <member name="P:VUPSimulator.Interface.VideoNili.BitRate">
             <summary>
             录制码率 单位kbps
             </summary>
         </member>
-        <member name="P:VUPSimulator.Interface.NiliVideo.Resolution">
+        <member name="P:VUPSimulator.Interface.VideoNili.Resolution">
             <summary>
             视频分辨率
             </summary>
         </member>
-        <member name="P:VUPSimulator.Interface.NiliVideo.VideoType">
+        <member name="P:VUPSimulator.Interface.VideoNili.VideoType">
             <summary>
             视频类型
             </summary>
         </member>
-        <member name="P:VUPSimulator.Interface.NiliVideo.Quality">
+        <member name="P:VUPSimulator.Interface.VideoNili.Quality">
             <summary>
             视频质量:其他
             </summary>
             如果是游戏,就是游戏的游玩评分
             占比50%
         </member>
-        <member name="P:VUPSimulator.Interface.NiliVideo.QualityVideo">
+        <member name="P:VUPSimulator.Interface.VideoNili.QualityVideo">
             <summary>
             视频质量:视频录制
             </summary>
         </member>
-        <member name="P:VUPSimulator.Interface.NiliVideo.QualityVoice">
+        <member name="P:VUPSimulator.Interface.VideoNili.QualityVoice">
             <summary>
             视频质量:声音
             </summary>
         </member>
-        <member name="P:VUPSimulator.Interface.NiliVideo.QualityFun">
+        <member name="P:VUPSimulator.Interface.VideoNili.QualityFun">
             <summary>
             视频质量:有趣
             </summary>
         </member>
-        <member name="P:VUPSimulator.Interface.NiliVideo.TotalQuality">
+        <member name="P:VUPSimulator.Interface.VideoNili.TotalQuality">
             <summary>
             总质量
             </summary>
         </member>
-        <member name="P:VUPSimulator.Interface.NiliVideo.ImageName">
+        <member name="P:VUPSimulator.Interface.VideoNili.ImageName">
             <summary>
             图片名
             </summary>
         </member>
-        <member name="P:VUPSimulator.Interface.NiliVideo.Content">
+        <member name="P:VUPSimulator.Interface.VideoNili.Content">
             <summary>
             视频内容
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.VideoNili.PlayCount">
+            <summary>
+            播放数量
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.VideoNili.PlayGraph">
+            <summary>
+            播放表 用于图标展示 1=1天
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.VideoNili.PlayCalDay">
+            <summary>
+            计算今天可能获得的播放数量
+            </summary>//TODO
+        </member>
+        <member name="P:VUPSimulator.Interface.VideoNili.LikeCount">
+            <summary>
+            点赞数量(基本) + likeuser.count
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.VideoNili.LikeUser">
+            <summary>
+            点赞人员 将来可以作为伪联机和好友互动?
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.VideoNili.LikeGraph">
+            <summary>
+            点赞表 用于图标展示 1=1天
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.VideoNili.LikeTotal">
+            <summary>
+            总点赞数量
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.VideoNili.LikeCalDay">
+            <summary>
+            计算今天可能获得的播放量
+            </summary>//TODO
+        </member>
+        <member name="P:VUPSimulator.Interface.VideoNili.StartCount">
+            <summary>
+            收藏数量(基本) + likeuser.count
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.VideoNili.StartUser">
+            <summary>
+            收藏人员 将来可以作为伪联机和好友互动?
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.VideoNili.StartTotal">
+            <summary>
+            收藏总数
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.VideoNili.StartGraph">
+            <summary>
+            收藏表 用于图标展示 1=1天
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.VideoNili.StartCalDay">
+            <summary>
+            计算今天可能获得的收藏
+            </summary>//TODO
+        </member>
+        <member name="M:VUPSimulator.Interface.VideoNili.FansCalDay">
+            <summary>
+            计算今天可能获得的粉丝数量
+            </summary>//TODO
+        </member>
+        <member name="P:VUPSimulator.Interface.VideoNili.IncomeGraph">
+            <summary>
+            收入表 用于图标展示 1=1天
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.VideoNili.IncomeCalDay">
+            <summary>
+            计算今天可能获得的收入
+            </summary>//TODO
+        </member>
+        <member name="T:VUPSimulator.Interface.UserNili">
+            <summary>
+            NiliNili 用户, 支持粉丝数等参数
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.UserNili.Fans">
+            <summary>
+            粉丝数量
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.UserNili.FansUser">
+            <summary>
+            具体粉丝 将来可以作为伪联机和好友互动?
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.UserNili.TotalFans">
+            <summary>
+            总共粉丝数量
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.UserNili.Bio">
+            <summary>
+            签名
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.UserNiliSuper">
+            <summary>
+            NiliNili视频发布者会使用的类 目前只有玩家会使用该类 主要用于显示玩家每月盈利等
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.UserNiliSuper.FansGraph">
+            <summary>
+            总粉丝表 用于图标展示 1=1天
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.UserNiliSuper.IncomeGraph">
+            <summary>
+            总收入表 用于图标展示 1=1天
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.UserNiliSuper.StartGraph">
+            <summary>
+            总收藏表 用于图标展示 1=1天
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.UserNiliSuper.LikeGraph">
+            <summary>
+            总点赞表 用于图标展示 1=1天
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.UserNiliSuper.PlayGraph">
+            <summary>
+            总播放表 用于图标展示 1=1天
             </summary>
         </member>
         <member name="T:VUPSimulator.Interface.Video">
@@ -1527,6 +1672,13 @@
             <summary>
             头像
             </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Users.PhotoImage(VUPSimulator.Interface.IMainWindow)">
+            <summary>
+            获得头像图片
+            </summary>
+            <param name="mw"></param>
+            <returns></returns>
         </member>
         <member name="M:VUPSimulator.Interface.Users.GetFriendliness(LinePutScript.Line)">
             <summary>

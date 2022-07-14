@@ -39,12 +39,13 @@
       <HintPath>..\..\VUPSimulator\packages\Panuon.WPF.1.0.0\lib\net462\Panuon.WPF.dll</HintPath>
     </Reference>
     <Reference Include="Panuon.WPF.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\VUPSimulator\packages\Panuon.WPF.UI.1.0.0\lib\net462\Panuon.WPF.UI.dll</HintPath>
+      <HintPath>..\..\VUPSimulator\packages\Panuon.WPF.UI.1.0.1\lib\net462\Panuon.WPF.UI.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -64,8 +65,10 @@
     <Compile Include="Handle\SoftWare.cs" />
     <Compile Include="Items\Computer.cs" />
     <Compile Include="Items\Game.cs" />
+    <Compile Include="Other\ProfileImage.cs" />
     <Compile Include="Type\Comment.cs" />
-    <Compile Include="Type\NiliVideo.cs" />
+    <Compile Include="Type\VideoNili.cs" />
+    <Compile Include="Type\UserNili.cs" />
     <Compile Include="Type\Video.cs" />
     <Compile Include="Type\VideoEditorType.cs" />
     <Compile Include="Type\Users.cs" />

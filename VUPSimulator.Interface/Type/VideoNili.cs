@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using LinePutScript;
+using static VUPSimulator.Interface.Comment_base;
 using static VUPSimulator.Interface.Video;
 
 namespace VUPSimulator.Interface
@@ -14,6 +15,39 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class VideoNili : Line
     {
+        public static VideoNili Create(Line line, IMainWindow mw)
+        {
+            var video = new VideoNili(line);
+            if (!video.Have("author"))
+            {
+                var tag = video.Tags_str();
+                //给tag添加类型元素
+                tag.Add(video.VideoType.ToString());
+                int chs = mw.Core.Users.Count / 10;
+                var v = mw.Core.Users.FindAll(x =>
+                {
+                    string[] xt = x.GameTag;
+                    if (xt != null)
+                    {
+                        if (xt.Contains("rnd") && Function.Rnd.Next(chs) == 0)
+                            return true;
+                        foreach (var t in tag)
+                        {
+                            if (xt.Contains(t))//包含选定条件,通过
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                });
+                if (v.Count == 0)
+                    video.Author = mw.Core.Users[mw.Core.Users.Count / 10].UserName;
+                else
+                    video.Author = v[Function.Rnd.Next(v.Count)].UserName;
+            }
+            return video;
+        }
         public VideoNili(Line line) : base(line) { Name = "nilivideo"; }
         public VideoNili(Video video)
         {
@@ -29,7 +63,6 @@ namespace VUPSimulator.Interface
             QualityFun = video.QualityFun;
             ImageName = video.ImageName;
             Content = video.Content;
-            
         }
         /// <summary>
         /// 视频名称
@@ -149,8 +182,51 @@ namespace VUPSimulator.Interface
             }
             set => this[(gstr)"content"] = value;
         }
-
-        // 视频评论相关
+        /// <summary>
+        /// 视频作者
+        /// </summary>
+        public string Author
+        {
+            get
+            {
+                string v = this[(gstr)"author"];
+                if (v != null)
+                    return v;
+                return "匿名";
+            }
+            set => this[(gstr)"author"] = value;
+        }
+        /// <summary>
+        /// 视频标签
+        /// </summary>
+        public List<string> Tags_str()
+        {
+            var ls = new List<string>();
+            foreach (CommentTag tag in Tags)
+                ls.Add(tag.ToString().ToLower());
+            return ls;
+        }
+        /// <summary>
+        /// 评论标签
+        /// </summary>
+        public List<CommentTag> Tags
+        {
+            get
+            {
+                Sub subtag = Find("tag");
+                if (subtag == null)
+                    return new List<CommentTag>();
+                List<CommentTag> tags = new List<CommentTag>();
+                foreach (string tag in subtag.GetInfos())
+                    tags.Add((CommentTag)Enum.Parse(typeof(CommentTag), tag, true));
+                if (Quality < 30)
+                    tags.Add(CommentTag.LowQuality);
+                else if (Quality > 70)
+                    tags.Add(CommentTag.HighQuality);
+                return tags;
+            }
+        }
+        // TODO:视频评论相关
 
 
 
@@ -262,7 +338,7 @@ namespace VUPSimulator.Interface
         /// 计算今天可能获得的收藏
         /// </summary>//TODO
         public int StartCalDay() => 0;
-        
+
         /// <summary>
         /// 计算今天可能获得的粉丝数量
         /// </summary>//TODO

@@ -22,7 +22,7 @@ namespace VUPSimulator.Interface
 
         public string UserName;
         /// <summary>
-        /// 当前日期,游戏开始默认为2200年1月1日上午8点
+        /// 当前日期,游戏开始默认为2200年1月1日上午8点(实际为以开局日期为准)
         /// </summary>
         public DateTime Now;
         /// <summary>
@@ -30,9 +30,13 @@ namespace VUPSimulator.Interface
         /// </summary>
         public int DayTimePass = 0;
         /// <summary>
-        /// 开始玩游戏的时间
+        /// 该存档开始游戏的日期
         /// </summary>
         public DateTime StartTime;
+        /// <summary>
+        /// 游戏开局开始日期(日期,不包括时间)
+        /// </summary>
+        public DateTime StartGameTime;
         /// <summary>
         /// 当前正在处理的事件
         /// 请注意,虽然说部分软件可以挂后台,但是处理事件只能处理一件
@@ -42,6 +46,10 @@ namespace VUPSimulator.Interface
         /// 当前正在处理的物品,主要用于核对
         /// </summary>
         public object WorkingOBJ = null;
+        /// <summary>
+        /// 玩家的Nili账户
+        /// </summary>
+        public UserNiliSuper UserNili = null;
 
         #region 游戏性数据
 
@@ -199,5 +207,6 @@ namespace VUPSimulator.Interface
         /// Name均为'statis' 请使用 FindInfo 查找相关数据
         /// </summary>
         public LpsDocument Statistics = new LpsDocument();
+
     }
 }

@@ -15,10 +15,11 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class VideoNili : Line
     {
-        public static VideoNili Create(Line line, IMainWindow mw)
+        public static VideoNili Create(Line line, IMainWindow mw, int nowtime)
         {
             var video = new VideoNili(line);
-            if (!video.Have("author"))
+
+            if (!video.Have("author")) //如果没有作者则随机拉一个
             {
                 var tag = video.Tags_str();
                 //给tag添加类型元素
@@ -46,10 +47,18 @@ namespace VUPSimulator.Interface
                 else
                     video.Author = v[Function.Rnd.Next(v.Count)].UserName;
             }
+            video.PublishDate = nowtime;// Function.Rnd.Next(-365, mw.Save.DayTimePass);
+                                        //TODO如果没有封面就自动生成一个
+
             return video;
         }
         public VideoNili(Line line) : base(line) { Name = "nilivideo"; }
-        public VideoNili(Video video)
+        /// <summary>
+        /// 发布视频到nilinili
+        /// </summary>
+        /// <param name="video">视频</param>
+        /// <param name="nowtime">发布时间</param>
+        public VideoNili(Video video, int nowtime)
         {
             Name = "nilivideo";
             VideoName = video.VideoName;
@@ -63,6 +72,8 @@ namespace VUPSimulator.Interface
             QualityFun = video.QualityFun;
             ImageName = video.ImageName;
             Content = video.Content;
+            PublishDate = nowtime;
+            Author = "_";
         }
         /// <summary>
         /// 视频名称
@@ -72,6 +83,15 @@ namespace VUPSimulator.Interface
             get => GetString("name", "");
             set => this[(gstr)"name"] = value;
         }
+        /// <summary>
+        /// 视频发布时间: 相对于游玩时间
+        /// </summary>
+        public int PublishDate
+        {
+            get => GetInt("publishdate", 0);
+            set => this[(gint)"publishdate"] = value;
+        }
+        public DateTime PublishDateTime(IMainWindow mw) => mw.Save.StartGameTime.AddDays(PublishDate);
         /// <summary>
         /// 录制时长
         /// </summary>
@@ -144,8 +164,16 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 总质量
         /// </summary>
-        public double TotalQuality => (Quality * .5 + QualityVideo * .3 + QualityVoice * .2 + QualityFun * .3) / TimeLength.TotalHours;
-
+        public double TotalQuality
+        {
+            get
+            {
+                if (totalquality == null)
+                    totalquality = (Quality * .5 + QualityVideo * .3 + QualityVoice * .2 + QualityFun * .3) / TimeLength.TotalHours;
+                return totalquality.Value;
+            }
+        }
+        private double? totalquality;
         /// <summary>
         /// 图片名
         /// </summary>
@@ -195,6 +223,16 @@ namespace VUPSimulator.Interface
                 return "匿名";
             }
             set => this[(gstr)"author"] = value;
+        }
+        public UserNili AuthorNili(IMainWindow mw)
+        {
+            if (Author == "_")
+                return mw.Save.UserNili;
+            else
+            {
+                var auth = Author;
+                return new UserNili(mw.Core.Users.Find(x => x.UserName == auth));
+            }
         }
         /// <summary>
         /// 视频标签
@@ -258,9 +296,16 @@ namespace VUPSimulator.Interface
             set => FindorAdd("playgraph").info = string.Join(",", value);
         }
         /// <summary>
-        /// 计算今天可能获得的播放数量
-        /// </summary>//TODO
-        public int PlayCalDay() => 0;
+        /// 计算今天可能获得的播放数量(固定,需要自己手动加个随机)
+        /// =INT(($B$3+$B$11)*(POWER(E3,0.8)/10+100)*((10+$B$11*10)/(A3+10))*(2/SQRT($B$13+1)))
+        /// </summary>
+        public double PlayCalDay(IMainWindow mw)
+        {            
+            //开始计算
+            double qf = QualityFun / TimeLength.TotalHours;
+            return (TotalQuality + qf) * (Math.Pow(AuthorNili(mw).TotalFans, 0.8) / 10 + 100) * ((10 + qf * 10) / (mw.Save.DayTimePass - PublishDate + 10)) * (2 / Math.Sqrt(TimeLength.TotalHours + 1));
+        }
+
         /// <summary>
         /// 点赞数量(基本) + likeuser.count
         /// </summary>
@@ -296,9 +341,15 @@ namespace VUPSimulator.Interface
         /// </summary>
         public int LikeTotal => LikeUser.Count + LikeCount;
         /// <summary>
-        /// 计算今天可能获得的播放量
-        /// </summary>//TODO
-        public int LikeCalDay() => 0;
+        /// 计算今天可能获得的点赞
+        /// =INT(($B$3+$B$5+$B$7)*(POWER(E3,0.8)/100+10)*((5+($B$5+$B$7)*5)/(A3+10)))
+        /// </summary>
+        public double LikeCalDay(IMainWindow mw)
+        {
+            //开始计算
+            double qf = (Quality + QualityVideo) / TimeLength.TotalHours;
+            return (TotalQuality + qf) * (Math.Pow(AuthorNili(mw).TotalFans, 0.8) / 100 + 10) * ((5 + qf * 5) / (mw.Save.DayTimePass - PublishDate + 10));
+        }
         /// <summary>
         /// 收藏数量(基本) + likeuser.count
         /// </summary>
@@ -336,13 +387,25 @@ namespace VUPSimulator.Interface
         }
         /// <summary>
         /// 计算今天可能获得的收藏
-        /// </summary>//TODO
-        public int StartCalDay() => 0;
+        /// =IF(INT(($B$3+$B$9+$B$11)*(POWER(E3,0.8)/100+10)*((5+($B$9+$B$11)*5)/(A3+20))*(SQRT($B$13+0.5)))>C3,C3,INT(($B$3+$B$9+$B$11)*(POWER(E3,0.8)/100+10)*((5+($B$9+$B$11)*5)/(A3+20))*(SQRT($B$13+0.5))))
+        /// </summary>
+        public double StartCalDay(IMainWindow mw, double playcalday)
+        {            
+            //开始计算
+            double qf = (QualityVoice + QualityFun) / TimeLength.TotalHours;
+            double ans = (TotalQuality + qf) * (Math.Pow(AuthorNili(mw).TotalFans, 0.8) / 100 + 10) * ((5 + qf * 5) / (mw.Save.DayTimePass - PublishDate + 20)) * (Math.Sqrt(TimeLength.TotalHours + 0.5));
+            return Math.Min(ans, playcalday);
+        }
 
         /// <summary>
         /// 计算今天可能获得的粉丝数量
-        /// </summary>//TODO
-        public int FansCalDay() => 0;
+        /// =INT(($B$3)*(10+SQRT(E3)/10)*((5+$B$3*5)/(A3+10)))
+        /// </summary>
+        public double FansCalDay(IMainWindow mw)
+        {            
+            //开始计算
+            return TotalQuality * (10 + Math.Sqrt(AuthorNili(mw).TotalFans) / 10) * ((5 + TotalQuality * 5) / (mw.Save.DayTimePass - PublishDate + 10));
+        }
 
         /// <summary>
         /// 收入表 用于图标展示 1=1天
@@ -360,7 +423,8 @@ namespace VUPSimulator.Interface
         }
         /// <summary>
         /// 计算今天可能获得的收入
-        /// </summary>//TODO
-        public int IncomeCalDay() => 0;
+        /// =C3*0.01+G3*0.1+I3*0.1
+        /// </summary>
+        public double IncomeCalDay(int playcal, int likecal, int starcal) => playcal * 0.01 + likecal * 0.1 + starcal * 0.1;
     }
 }

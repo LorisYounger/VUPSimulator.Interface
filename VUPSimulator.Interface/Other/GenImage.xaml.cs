@@ -16,10 +16,27 @@ using LinePutScript;
 namespace VUPSimulator.Interface
 {
     /// <summary>
-    /// Nili 视频自动生成的封面
+    /// 自动生成图片基本类, 可以生成图片控件,方便多次调用
+    /// </summary>
+    public class GenBase : Line
+    {
+        public GenBase(Line line) : base(line) { }
+        public GenImage Create(IMainWindow mw)
+        {
+            return new GenImage(mw, this);
+        }
+    }
+
+
+    /// <summary>
+    /// 自动生成的图片,可用于Nili等各种场合
     /// </summary>
     public partial class GenImage : UserControl
     {
+        /// <summary>
+        /// 图片名字,方便调用
+        /// </summary>
+        public new string Name;
         IMainWindow mw;
         List<GIBase> GIBases = new List<GIBase>();
         /// <summary>
@@ -29,6 +46,7 @@ namespace VUPSimulator.Interface
         public GenImage(IMainWindow mw, Line data)
         {
             InitializeComponent();
+            Name = data.Info;
             this.mw = mw;
             foreach (Sub sub in data)
                 GIBases.Add(GIBase.Create(sub));
@@ -40,10 +58,11 @@ namespace VUPSimulator.Interface
         /// </summary>
         /// <param name="mw">主窗体</param>
         /// <param name="giBases">所有控件</param>
-        public GenImage(IMainWindow mw, params GIBase[] giBases)
+        public GenImage(IMainWindow mw, string name, params GIBase[] giBases)
         {
             InitializeComponent();
             this.mw = mw;
+            Name = name;
             GIBases.AddRange(giBases);
             Rels();
         }
@@ -53,12 +72,12 @@ namespace VUPSimulator.Interface
             foreach (var gi in GIBases)
                 InGrid.Children.Add(gi.GenUI(mw));
         }
-        public override string ToString()
+        public Line ToLine()
         {
-            Line Data = new Line("nimg", "");
+            Line Data = new Line("gimg", Name);
             foreach (var gi in GIBases)
                 Data.Add(gi.ToSub());
-            return Data.ToString();
+            return Data;
         }
         /// <summary>
         /// 图层基本类
@@ -76,7 +95,7 @@ namespace VUPSimulator.Interface
             {
                 Opacity = sub.Infos.GetDouble("o", 1);
             }
-            public abstract FrameworkElement GenUI(IMainWindow mw);
+            public abstract UIElement GenUI(IMainWindow mw);
             public virtual Sub ToSub() => new Sub(Type, "o=" + Opacity);
 
             protected private static ImageSource getImage(IMainWindow mw, string image)
@@ -170,9 +189,9 @@ namespace VUPSimulator.Interface
             {
                 BackGround = sub.Infos.GetString("bg", "");
             }
-            public override FrameworkElement GenUI(IMainWindow mw)
+            public override UIElement GenUI(IMainWindow mw)
             {
-                return new Image() { Source = getImage(mw, BackGround), Opacity = Opacity };
+                return new Image() { Source = getImage(mw, BackGround), Opacity = Opacity, Stretch = Stretch.UniformToFill };
             }
             public override Sub ToSub()
             {
@@ -201,7 +220,7 @@ namespace VUPSimulator.Interface
                 TextColor = Function.HEXToColor(sub.Infos.GetString("tcolor", "#000000"));
                 Text = sub.Infos.GetString("text", "");
             }
-            public override FrameworkElement GenUI(IMainWindow mw)
+            public override UIElement GenUI(IMainWindow mw)
             {
                 return new Label()
                 {
@@ -239,7 +258,7 @@ namespace VUPSimulator.Interface
             {
                 ImagePath = sub.Infos.GetString("ipath", "");
             }
-            public override FrameworkElement GenUI(IMainWindow mw)
+            public override UIElement GenUI(IMainWindow mw)
             {
                 return new Image()
                 {

@@ -44,7 +44,14 @@ namespace VUPSimulator.Interface
             get => this[(gstr)"bio"];
             set => this[(gstr)"bio"] = value;
         }
-
+        /// <summary>
+        /// 用户立绘, 用于随机生成时使用
+        /// </summary>
+        public string UsrImage
+        {
+            get => this[(gstr)"usrimage"];
+            set => this[(gstr)"usrimage"] = value;
+        }
     }
     /// <summary>
     /// NiliNili视频发布者会使用的类 目前只有玩家会使用该类 主要用于显示玩家每月盈利等

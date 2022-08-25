@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using LinePutScript;
 using static VUPSimulator.Interface.Comment_base;
@@ -50,7 +53,10 @@ namespace VUPSimulator.Interface
                     video.Author = v[Function.Rnd.Next(v.Count)].UserName;
             }
             video.PublishDate = nowtime;// Function.Rnd.Next(-365, mw.Save.DayTimePass);
-                                        //TODO如果没有封面就自动生成一个
+
+
+            //如果没有封面就自动生成一个
+
 
             return video;
         }
@@ -187,16 +193,45 @@ namespace VUPSimulator.Interface
             }
             set => this[(gstr)"image"] = value;
         }
-        public string ImagePATH(IMainWindow mw)
+        public UIElement ToViewUI(IMainWindow mw)
         {
             string img = ImageName;
             if (img == null)
-                return mw.Core.ImageSources.FindSource("software_NiliVideo", "pack://application:,,,/Res/Image/system/error.png");
-            if (img.StartsWith("nilivideo_"))
-                return mw.Core.ImageSources.FindSource(img, "pack://application:,,,/Res/Image/system/error.png");
-            return mw.GameSavePath + '\\' + mw.Save.UserName + "\\video_" + ImageName + ".png";
+            {
+                //根据自动配置开始自动生成一个
+
+                
+            }
+            if (img.StartsWith("gui_"))
+            {
+                var b = mw.Save.GenBases.Find(x => x.Name == img);
+                if (b == null)
+                    return new Image()
+                    {
+                        Source = new BitmapImage(new Uri("pack://application:,,,/Res/Image/system/error.png")),
+                        Stretch = Stretch.UniformToFill,
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Center
+                    };
+                else
+                    return b.Create(mw);
+            }
+            else
+            {
+                string path;
+                if (img.StartsWith("nilivideo_"))
+                    path = mw.Core.ImageSources.FindSource(img, "pack://application:,,,/Res/Image/system/error.png");
+                else
+                    path = mw.GameSavePath + '\\' + mw.Save.UserName + "\\video_" + ImageName + ".png";
+                return new Image()
+                {
+                    Source = new BitmapImage(new Uri(path)),
+                    Stretch = Stretch.UniformToFill,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center
+                };
+            }
         }
-        public BitmapImage Image(IMainWindow mw) => new BitmapImage(new Uri(ImagePATH(mw)));
 
         /// <summary>
         /// 视频内容
@@ -302,7 +337,7 @@ namespace VUPSimulator.Interface
         /// =INT(($B$3+$B$11)*(POWER(E3,0.8)/10+100)*((10+$B$11*10)/(A3+10))*(2/SQRT($B$13+1)))
         /// </summary>
         public double PlayCalDay(IMainWindow mw)
-        {            
+        {
             //开始计算
             double qf = QualityFun / TimeLength.TotalHours;
             return (TotalQuality + qf) * (Math.Pow(AuthorNili(mw).TotalFans, 0.8) / 10 + 100) * ((10 + qf * 10) / (mw.Save.DayTimePass - PublishDate + 10)) * (2 / Math.Sqrt(TimeLength.TotalHours + 1));
@@ -392,7 +427,7 @@ namespace VUPSimulator.Interface
         /// =IF(INT(($B$3+$B$9+$B$11)*(POWER(E3,0.8)/100+10)*((5+($B$9+$B$11)*5)/(A3+20))*(SQRT($B$13+0.5)))>C3,C3,INT(($B$3+$B$9+$B$11)*(POWER(E3,0.8)/100+10)*((5+($B$9+$B$11)*5)/(A3+20))*(SQRT($B$13+0.5))))
         /// </summary>
         public double StartCalDay(IMainWindow mw, double playcalday)
-        {            
+        {
             //开始计算
             double qf = (QualityVoice + QualityFun) / TimeLength.TotalHours;
             double ans = (TotalQuality + qf) * (Math.Pow(AuthorNili(mw).TotalFans, 0.8) / 100 + 10) * ((5 + qf * 5) / (mw.Save.DayTimePass - PublishDate + 20)) * (Math.Sqrt(TimeLength.TotalHours + 0.5));
@@ -404,7 +439,7 @@ namespace VUPSimulator.Interface
         /// =INT(($B$3)*(10+SQRT(E3)/10)*((5+$B$3*5)/(A3+10)))
         /// </summary>
         public double FansCalDay(IMainWindow mw)
-        {            
+        {
             //开始计算
             return TotalQuality * (10 + Math.Sqrt(AuthorNili(mw).TotalFans) / 10) * ((5 + TotalQuality * 5) / (mw.Save.DayTimePass - PublishDate + 10));
         }

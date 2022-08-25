@@ -20,17 +20,18 @@ namespace VUPSimulator.Interface
     /// </summary>
     public partial class GenImage : UserControl
     {
-        public Line Data;
         IMainWindow mw;
+        List<GIBase> GIBases = new List<GIBase>();
         /// <summary>
         /// 生成封面
         /// </summary>
         /// <param name="data">数据</param>        
-        public GenImage(IMainWindow mw, string data)
+        public GenImage(IMainWindow mw, Line data)
         {
             InitializeComponent();
             this.mw = mw;
-            Data = new Line(Data);
+            foreach (Sub sub in data)
+                GIBases.Add(GIBase.Create(sub));
             Rels();
         }
         /// <summary>
@@ -38,57 +39,45 @@ namespace VUPSimulator.Interface
         /// 生成顺序 -背景-用户图像-文本
         /// </summary>
         /// <param name="mw">主窗体</param>
-        /// <param name="usrX">用户图像摆放位置x</param>
-        /// <param name="usrY">用户图像摆放位置y</param>
-        /// <param name="usrZ">用户图像摆放角度0-360</param>
-        /// <param name="usrSize">用完图像大小(X长度,宽度自动缩放)</param>
-        /// <param name="usrpath">用户图像位置(带:为系统位置,否则为游戏资源)</param>
-        /// <param name="textX">文本摆放位置X</param>
-        /// <param name="textY">文本摆放位置Y</param>
-        /// <param name="textZ">文本摆放角度</param>
-        /// <param name="textSize">文字大小</param>
-        /// <param name="textfont">文字字体</param>
-        /// <param name="text">文字</param>
-        /// <param name="backgroundpath">背景图位置(带:为系统位置,否则为游戏资源)</param>
-        public GenImage(IMainWindow mw, int usrX, int usrY, int usrZ, int usrSize, string usrpath, int textX, int textY, int textZ, int textSize, string textcolor, string text, string backgroundpath)
+        /// <param name="giBases">所有控件</param>
+        public GenImage(IMainWindow mw, params GIBase[] giBases)
         {
             InitializeComponent();
             this.mw = mw;
-            Data = new Line("nimg", "");
-            Data[(gint)"ux"] = usrX;
-            Data[(gint)"uy"] = usrY;
-            Data[(gint)"uz"] = usrZ;
-            Data[(gint)"usize"] = usrSize;
-            Data[(gstr)"upath"] = usrpath;
-            Data[(gint)"tx"] = textX;
-            Data[(gint)"ty"] = textY;
-            Data[(gint)"tz"] = textZ;
-            Data[(gint)"tsize"] = textSize;
-            Data[(gstr)"tcolor"] = textcolor;
-            Data[(gstr)"text"] = text;
-            Data[(gstr)"bg"] = backgroundpath;
+            GIBases.AddRange(giBases);
             Rels();
         }
         public void Rels()
         {
-
+            InGrid.Children.Clear();
+            foreach (var gi in GIBases)
+                InGrid.Children.Add(gi.GenUI(mw));
         }
         public override string ToString()
         {
+            Line Data = new Line("nimg", "");
+            foreach (var gi in GIBases)
+                Data.Add(gi.ToSub());
             return Data.ToString();
         }
+        /// <summary>
+        /// 图层基本类
+        /// </summary>
         public abstract class GIBase
         {
             public double Opacity = 1;
-            public GIBase(double opacity)
+            public readonly string Type;
+            public GIBase(string type, double opacity)
             {
                 Opacity = opacity;
+                Type = type;
             }
-            public GIBase()
+            public GIBase(Sub sub)
             {
+                Opacity = sub.Infos.GetDouble("o", 1);
             }
             public abstract FrameworkElement GenUI(IMainWindow mw);
-            public abstract Sub ToSub();
+            public virtual Sub ToSub() => new Sub(Type, "o=" + Opacity);
 
             protected private static ImageSource getImage(IMainWindow mw, string image)
             {
@@ -109,28 +98,77 @@ namespace VUPSimulator.Interface
                 }
             }
 
+            /// <summary>
+            /// 创建控件
+            /// </summary>
+            /// <param name="sub">数据</param>
+            /// <returns></returns>
+            public static GIBase Create(Sub sub)
+            {
+                switch (sub.Name)
+                {
+                    case "GIBackGround":
+                        return new GIBackGround(sub);
+                    case "GIText":
+                        return new GIText(sub);
+                    case "GIImage":
+                        return new GIImage(sub);
+                    default:
+                        return null;
+                }
+            }
+
         }
+        /// <summary>
+        /// 带位置的控件基本类
+        /// </summary>
         public abstract class GIPlaceBase : GIBase
         {
-            public GIPlaceBase(double x, double y, double opacity = 1) : base(opacity)
+            public GIPlaceBase(string type, double x, double y, double rotate = 0, double opacity = 1) : base(type, opacity)
             {
                 PointX = x;
                 PointY = y;
+                Rotate = rotate;
             }
+            public GIPlaceBase(Sub sub) : base(sub)
+            {
+                PointX = sub.Infos.GetDouble("x", 0);
+                PointY = sub.Infos.GetDouble("y", 0);
+            }
+            /// <summary>
+            /// 位置X
+            /// </summary>
             public double PointX;
+            /// <summary>
+            /// 位置Y
+            /// </summary>
             public double PointY;
+            /// <summary>
+            /// 旋转角度
+            /// </summary>
+            public double Rotate;
+
+            public override Sub ToSub()
+            {
+                var sub = base.ToSub();
+                sub.Infos[(gdbe)"x"] = PointX;
+                sub.Infos[(gdbe)"x"] = PointY;
+                return sub;
+            }
         }
+        /// <summary>
+        /// 生成背景,全覆盖
+        /// </summary>
         public class GIBackGround : GIBase
         {
-
             public string BackGround;
-            public GIBackGround(string backgroundpath, double opacity = 1) : base(opacity)
+            public GIBackGround(string backgroundpath, double opacity = 1) : base("GIBackGround", opacity)
             {
                 BackGround = backgroundpath;
             }
-            public GIBackGround(Sub sub)
+            public GIBackGround(Sub sub) : base(sub)
             {
-                BackGround = sub.Infos[(gstr)"bg"];
+                BackGround = sub.Infos.GetString("bg", "");
             }
             public override FrameworkElement GenUI(IMainWindow mw)
             {
@@ -138,7 +176,85 @@ namespace VUPSimulator.Interface
             }
             public override Sub ToSub()
             {
-                return new Sub("GIBackGround", $"{Opacity},{BackGround}");
+                var sub = base.ToSub();
+                sub.Infos[(gstr)"bg"] = BackGround;
+                return sub;
+            }
+        }
+        /// <summary>
+        /// 生成文本
+        /// </summary>
+        public class GIText : GIPlaceBase
+        {
+            public int TextSize;
+            public Color TextColor;
+            public string Text;
+            public GIText(double x, double y, int textSize, string textcolor, string text, double rotate = 0, double opacity = 1) : base("GIText", x, y, rotate, opacity)
+            {
+                TextColor = Function.HEXToColor(textcolor);
+                TextSize = textSize;
+                Text = text;
+            }
+            public GIText(Sub sub) : base(sub)
+            {
+                TextSize = sub.Infos.GetInt("tsize", 12);
+                TextColor = Function.HEXToColor(sub.Infos.GetString("tcolor", "#000000"));
+                Text = sub.Infos.GetString("text", "");
+            }
+            public override FrameworkElement GenUI(IMainWindow mw)
+            {
+                return new Label()
+                {
+                    Margin = new Thickness(PointX, PointY, 0, 0),
+                    FontSize = TextSize,
+                    Foreground = new SolidColorBrush(TextColor),
+                    Content = Text,
+                    Opacity = Opacity,
+                    LayoutTransform = new RotateTransform(Rotate)
+                };
+            }
+
+            public override Sub ToSub()
+            {
+                var sub = base.ToSub();
+                sub.Infos[(gint)"tsize"] = TextSize;
+                sub.Infos[(gstr)"tcolor"] = Function.ColorToHEX(TextColor);
+                sub.Infos[(gstr)"text"] = Text;
+                return sub;
+            }
+        }
+        /// <summary>
+        /// 生成图片
+        /// </summary>
+        public class GIImage : GIPlaceBase
+        {
+            public string ImagePath;
+            public double Size;
+            public GIImage(double x, double y, string imagepath, double size, double rotate = 0, double opacity = 1) : base("GIImage", x, y, rotate, opacity)
+            {
+                ImagePath = imagepath;
+                Size = size;
+            }
+            public GIImage(Sub sub) : base(sub)
+            {
+                ImagePath = sub.Infos.GetString("ipath", "");
+            }
+            public override FrameworkElement GenUI(IMainWindow mw)
+            {
+                return new Image()
+                {
+                    Source = getImage(mw, ImagePath),
+                    Margin = new Thickness(PointX, PointY, 0, 0),
+                    Opacity = Opacity,
+                    Width = Size,
+                    LayoutTransform = new RotateTransform(Rotate)
+                };
+            }
+            public override Sub ToSub()
+            {
+                var sub = base.ToSub();
+                sub.Infos[(gstr)"ipath"] = ImagePath;
+                return sub;
             }
         }
     }

@@ -4,15 +4,30 @@
         <name>LinePutScript</name>
     </assembly>
     <members>
+        <member name="T:LinePutScript.gobj">
+            <summary>
+            Get Object 可以通过强制转换进行更轻松的getset操作
+            </summary>
+        </member>
+        <member name="F:LinePutScript.gobj.VALUE">
+            <summary>
+            储存在gobject中的值
+            </summary>
+        </member>
+        <member name="M:LinePutScript.gobj.#ctor(System.String)">
+            <summary>
+            生成 Gobj
+            </summary>
+        </member>
         <member name="T:LinePutScript.gstr">
             <summary>
             string 可以通过强制转换进行更轻松的getset操作
             例: line[(gstr)"subname"]
             </summary>
         </member>
-        <member name="F:LinePutScript.gstr.VALUE">
+        <member name="M:LinePutScript.gstr.#ctor(System.String)">
             <summary>
-            储存在gobject中的值
+            生成 Gobj
             </summary>
         </member>
         <member name="M:LinePutScript.gstr.op_Explicit(LinePutScript.gstr)~System.String">
@@ -33,9 +48,9 @@
             例: line[(gbol)"subname"]
             </summary>
         </member>
-        <member name="F:LinePutScript.gbol.VALUE">
+        <member name="M:LinePutScript.gbol.#ctor(System.String)">
             <summary>
-            储存在gobject中的值
+            生成 Gobj
             </summary>
         </member>
         <member name="M:LinePutScript.gbol.op_Explicit(LinePutScript.gbol)~System.String">
@@ -56,9 +71,9 @@
             例: line[(gint)"subname"]
             </summary>
         </member>
-        <member name="F:LinePutScript.gint.VALUE">
+        <member name="M:LinePutScript.gint.#ctor(System.String)">
             <summary>
-            储存在gobject中的值
+            生成 Gobj
             </summary>
         </member>
         <member name="M:LinePutScript.gint.op_Explicit(LinePutScript.gint)~System.String">
@@ -79,9 +94,9 @@
             例: line[(gi64)"subname"]
             </summary>
         </member>
-        <member name="F:LinePutScript.gi64.VALUE">
+        <member name="M:LinePutScript.gi64.#ctor(System.String)">
             <summary>
-            储存在gobject中的值
+            生成 Gobj
             </summary>
         </member>
         <member name="M:LinePutScript.gi64.op_Explicit(LinePutScript.gi64)~System.String">
@@ -102,9 +117,9 @@
             例: line[(gdbe)"subname"]
             </summary>
         </member>
-        <member name="F:LinePutScript.gdbe.VALUE">
+        <member name="M:LinePutScript.gdbe.#ctor(System.String)">
             <summary>
-            储存在gobject中的值
+            生成 Gobj
             </summary>
         </member>
         <member name="M:LinePutScript.gdbe.op_Explicit(LinePutScript.gdbe)~System.String">
@@ -125,9 +140,9 @@
             例: line[(gdat)"subname"]
             </summary>
         </member>
-        <member name="F:LinePutScript.gdat.VALUE">
+        <member name="M:LinePutScript.gdat.#ctor(System.String)">
             <summary>
-            储存在gobject中的值
+            生成 Gobj
             </summary>
         </member>
         <member name="M:LinePutScript.gdat.op_Explicit(LinePutScript.gdat)~System.String">
@@ -149,9 +164,9 @@
             例: line[(gflt)"subname"]
             </summary>
         </member>
-        <member name="F:LinePutScript.gflt.VALUE">
+        <member name="M:LinePutScript.gflt.#ctor(System.String)">
             <summary>
-            储存在gobject中的值
+            生成 Gobj
             </summary>
         </member>
         <member name="M:LinePutScript.gflt.op_Explicit(LinePutScript.gflt)~System.String">
@@ -165,6 +180,322 @@
             强制转换string成gobjcet
             </summary>
             <param name="str">string</param>
+        </member>
+        <member name="T:LinePutScript.StringStructure">
+            <summary>
+            String 结构 通过String实时修改具体参数,为LineputScript提供第四层结构
+            </summary>
+        </member>
+        <member name="F:LinePutScript.StringStructure.Single">
+            <summary>
+            是否为单线程
+            </summary>
+        </member>
+        <member name="M:LinePutScript.StringStructure.#ctor(System.Action{System.String},System.Func{System.String},System.Boolean)">
+            <summary>
+            生成可以修改的String结构
+            </summary>
+            <param name="setstr">设置String方法 (非转义)</param>
+            <param name="getstr">获取String方法 (非转义)</param>
+            <param name="single">是否为单线程,如果为单线程,将会缓存数据列表,设置为true将会提高读取效率</param>
+        </member>
+        <member name="M:LinePutScript.StringStructure.GetString(System.String,System.String)">
+            <summary>
+            获取相关项目String
+            </summary>
+            <param name="key">项目名称</param>
+            <param name="defaultvalue">默认值</param>
+            <returns>如果找到项目则返回值;否则为返回默认值</returns>
+        </member>
+        <member name="M:LinePutScript.StringStructure.SetString(System.String,System.String)">
+            <summary>
+            设置相关项目String
+            </summary>
+            <param name="key">项目名称</param>
+            <param name="value">设置项目的String值</param>
+        </member>
+        <member name="P:LinePutScript.StringStructure.Item(System.String)">
+            <summary>
+            获取相关项目String 如果为空则退回""
+            </summary>
+        </member>
+        <member name="M:LinePutScript.StringStructure.GetBool(System.String,System.Boolean)">
+            <summary>
+            获得bool属性的项目
+            </summary>
+            <param name="key">项目名称</param>
+            <param name="defaultvalue">如果没找到返回的默认值</param>
+            <returns>如果找到项目则返回项目中的值,若未找到则返回默认值</returns>
+        </member>
+        <member name="M:LinePutScript.StringStructure.SetBool(System.String,System.Boolean)">
+            <summary>
+            设置bool属性的项目
+            </summary>
+            <param name="key">项目名称</param>
+            <param name="value">
+            如果为ture,则在没有相同name为key的sub时候添加新的sub
+            如果为false,则删除所有name为key的sub
+            </param>
+        </member>
+        <member name="M:LinePutScript.StringStructure.GetInt(System.String,System.Int32)">
+            <summary>
+            获得int属性的项目
+            </summary>
+            <param name="key">项目名称</param>
+            <param name="defaultvalue">如果没找到返回的默认值</param>
+            <returns>
+            如果找到项目则返回项目中储存的int值
+            如果没找到,则返回默认值
+            </returns>
+        </member>
+        <member name="M:LinePutScript.StringStructure.SetInt(System.String,System.Int32)">
+            <summary>
+            设置int属性的项目
+            </summary>
+            <param name="key">项目名称</param>
+            <param name="value">设置项目的int值</param>
+        </member>
+        <member name="M:LinePutScript.StringStructure.GetInt64(System.String,System.Int64)">
+            <summary>
+            获得long属性的项目
+            </summary>
+            <param name="key">项目名称</param>
+            <param name="defaultvalue">如果没找到返回的默认值</param>
+            <returns>
+            如果找到项目则返回项目中储存的long值
+            如果没找到,则返回默认值
+            </returns>
+        </member>
+        <member name="M:LinePutScript.StringStructure.SetInt64(System.String,System.Int64)">
+            <summary>
+            设置long属性的项目
+            </summary>
+            <param name="key">项目名称</param>
+            <param name="value">设置项目的long值</param>
+        </member>
+        <member name="M:LinePutScript.StringStructure.GetFloat(System.String,System.Double)">
+            <summary>
+            获得double(long)属性的项目 通过转换long获得更精确的小数,小数位最大保留9位
+            </summary>
+            <param name="key">项目名称</param>
+            <param name="defaultvalue">如果没找到返回的默认值</param>
+            <returns>
+            如果找到项目则返回项目中储存的double(long)值
+            如果没找到,则返回默认值
+            </returns>
+        </member>
+        <member name="M:LinePutScript.StringStructure.SetFloat(System.String,System.Double)">
+            <summary>
+            设置double(long)属性的项目 通过转换long获得更精确的小数,小数位最大保留9位
+            </summary>
+            <param name="key">项目名称</param>
+            <param name="value">设置项目的double(long)值</param>
+        </member>
+        <member name="M:LinePutScript.StringStructure.GetDateTime(System.String,System.DateTime)">
+            <summary>
+            获得DateTime属性的项目
+            </summary>
+            <param name="key">项目名称</param>
+            <param name="defaultvalue">如果没找到返回的默认值</param>
+            <returns>
+            如果找到项目则返回项目中储存的DateTime值
+            如果没找到,则返回默认值
+            </returns>
+        </member>
+        <member name="M:LinePutScript.StringStructure.SetDateTime(System.String,System.DateTime)">
+            <summary>
+            设置DateTime属性的项目
+            </summary>
+            <param name="key">项目名称</param>
+            <param name="value">设置项目的DateTime值</param>
+        </member>
+        <member name="M:LinePutScript.StringStructure.GetDouble(System.String,System.Double)">
+            <summary>
+            获得double属性的项目
+            </summary>
+            <param name="key">项目名称</param>
+            <param name="defaultvalue">如果没找到返回的默认值</param>
+            <returns>
+            如果找到项目则返回项目中储存的double值
+            如果没找到,则返回默认值
+            </returns>
+        </member>
+        <member name="M:LinePutScript.StringStructure.SetDouble(System.String,System.Double)">
+            <summary>
+            设置double属性的项目
+            </summary>
+            <param name="key">项目名称</param>
+            <param name="value">设置项目的double值</param>
+        </member>
+        <member name="P:LinePutScript.StringStructure.Item(LinePutScript.gstr)">
+            <summary>
+            获取或设置 String 属性的项目
+            </summary>
+            <param name="key">(gstr)项目名称</param>
+            <returns>获取或设置对 String 属性的项目</returns>
+        </member>
+        <member name="P:LinePutScript.StringStructure.Item(LinePutScript.gbol)">
+            <summary>
+            获取或设置 Bool 属性的项目
+            </summary>
+            <param name="key">(gbol)项目名称</param>
+            <returns>获取或设置对 bool 属性的项目</returns>
+        </member>
+        <member name="P:LinePutScript.StringStructure.Item(LinePutScript.gint)">
+            <summary>
+            获取或设置 Int 属性的项目
+            </summary>
+            <param name="key">(gint)项目名称</param>
+            <returns>获取或设置对 int 属性的项目</returns>
+        </member>
+        <member name="P:LinePutScript.StringStructure.Item(LinePutScript.gi64)">
+            <summary>
+            获取或设置 Long 属性的项目
+            </summary>
+            <param name="key">(gi64)项目名称</param>
+            <returns>获取或设置对 long 属性的项目</returns>
+        </member>
+        <member name="P:LinePutScript.StringStructure.Item(LinePutScript.gdbe)">
+            <summary>
+            获取或设置 Double 属性的项目
+            </summary>
+            <param name="key">(gdbe)项目名称</param>
+            <returns>获取或设置对 double 属性的项目</returns>
+        </member>
+        <member name="P:LinePutScript.StringStructure.Item(LinePutScript.gflt)">
+            <summary>
+            获取或设置 Double(long) 属性的项目  通过转换long获得更精确的小数,小数位最大保留9位
+            </summary>
+            <param name="key">(gflt)项目名称</param>
+            <returns>获取或设置对 double 属性的项目</returns>
+        </member>
+        <member name="P:LinePutScript.StringStructure.Item(LinePutScript.gdat)">
+            <summary>
+            获取或设置 DateTime 属性的项目
+            </summary>
+            <param name="key">(gdbe)项目名称</param>
+            <returns>获取或设置对 double 属性的项目</returns>
+        </member>
+        <member name="P:LinePutScript.StringStructure.Keys">
+            <summary>
+            获取Key集合
+            </summary>
+        </member>
+        <member name="P:LinePutScript.StringStructure.Values">
+            <summary>
+            获取Values集合(原始值)
+            </summary>
+        </member>
+        <member name="P:LinePutScript.StringStructure.Count">
+            <summary>
+            获取集合大小
+            </summary>
+        </member>
+        <member name="P:LinePutScript.StringStructure.IsReadOnly">
+            <summary>
+            IDictionary
+            </summary>
+        </member>
+        <member name="P:LinePutScript.StringStructure.IsFixedSize">
+            <summary>
+            IDictionary
+            </summary>
+        </member>
+        <member name="P:LinePutScript.StringStructure.SyncRoot">
+            <summary>
+            IDictionary
+            </summary>
+        </member>
+        <member name="P:LinePutScript.StringStructure.IsSynchronized">
+            <summary>
+            IDictionary
+            </summary>
+        </member>
+        <member name="M:LinePutScript.StringStructure.ContainsKey(System.String)">
+            <summary>
+            是否包含指定的键
+            </summary>
+            <param name="key">键</param>
+            <returns>true为包含,false为不包含</returns>
+        </member>
+        <member name="M:LinePutScript.StringStructure.Add(System.String,System.String)">
+            <summary>
+            设置相关项目String
+            </summary>
+            <param name="key">项目名称</param>
+            <param name="value">设置项目的String值</param>
+        </member>
+        <member name="M:LinePutScript.StringStructure.Remove(System.String)">
+            <summary>
+            从项目列表中删除指定的键
+            </summary>
+            <param name="key">项目名称</param>
+            <returns>是否删除成功</returns>
+        </member>
+        <member name="M:LinePutScript.StringStructure.Add(System.Collections.Generic.KeyValuePair{System.String,System.String})">
+            <summary>
+            设置相关项目String
+            </summary>
+            <param name="item">配对(原始值)</param>
+        </member>
+        <member name="M:LinePutScript.StringStructure.Clear">
+            <summary>
+            移除所有项目
+            </summary>
+        </member>
+        <member name="M:LinePutScript.StringStructure.Contains(System.Collections.Generic.KeyValuePair{System.String,System.String})">
+            <summary>
+            查看是否包含特定的配对
+            </summary>
+            <param name="item">配对(原始值)</param>
+            <returns></returns>
+        </member>
+        <member name="M:LinePutScript.StringStructure.CopyTo(System.Collections.Generic.KeyValuePair{System.String,System.String}[],System.Int32)">
+            <summary>
+            从引索开始复制匹配
+            </summary>
+            <param name="array">配对列表(原始值)</param>
+            <param name="arrayIndex">引索</param>
+        </member>
+        <member name="M:LinePutScript.StringStructure.Remove(System.Collections.Generic.KeyValuePair{System.String,System.String})">
+            <summary>
+            移除第一个匹配的配对
+            </summary>
+            <param name="item">配对</param>
+            <returns>是否删除成功</returns>
+        </member>
+        <member name="M:LinePutScript.StringStructure.System#Collections#Generic#IEnumerable{System#Collections#Generic#KeyValuePair{System#String,System#String}}#GetEnumerator">
+            <summary>
+            获取迭代(原始值)
+            </summary>
+            <returns>迭代器</returns>
+        </member>
+        <member name="M:LinePutScript.StringStructure.CompareTo(System.String)">
+            <summary>
+            判断是否相等
+            </summary>
+            <param name="other">其他String</param>
+            <returns>如果相等则为0</returns>
+        </member>
+        <member name="M:LinePutScript.StringStructure.GetEnumerator">
+            <summary>
+            获取迭代(原始值)
+            </summary>
+            <returns>迭代器</returns>
+        </member>
+        <member name="M:LinePutScript.StringStructure.CompareTo(LinePutScript.StringStructure)">
+            <summary>
+            判断是否相等
+            </summary>
+            <param name="other">其他StringStructure</param>
+            <returns>如果相等则为0</returns>
+        </member>
+        <member name="M:LinePutScript.StringStructure.TryGetValue(System.String,System.String@)">
+            <summary>
+            获取相关项目String
+            </summary>
+            <param name="key">项目名称</param>
+            <param name="value">如果找到项目则返回值(原始值)</param>
         </member>
         <member name="T:LinePutScript.Sub">
             <summary>
@@ -228,6 +559,11 @@
             信息 (正常)
             </summary>
         </member>
+        <member name="P:LinePutScript.Sub.Infos">
+            <summary>
+            获得Info的String结构
+            </summary>
+        </member>
         <member name="P:LinePutScript.Sub.InfoToInt">
             <summary>
             信息 (int)
@@ -273,20 +609,6 @@
             </summary>
             <returns>info的转义文本集合 (正常显示)</returns>
         </member>
-        <member name="M:LinePutScript.Sub.TextDeReplace(System.String)">
-            <summary>
-            将文本进行反转义处理(成为正常显示的文本)
-            </summary>
-            <param name="Reptex">要反转义的文本</param>
-            <returns>反转义后的文本 正常显示的文本</returns>
-        </member>
-        <member name="M:LinePutScript.Sub.TextReplace(System.String)">
-            <summary>
-            将文本进行转义处理(成为去除关键字的文本)
-            </summary>
-            <param name="Reptex">要转义的文本</param>
-            <returns>转义后的文本 (去除关键字的文本)</returns>
-        </member>
         <member name="M:LinePutScript.Sub.ToString">
             <summary>
             将当前Sub转换成文本格式 (info已经被转义/去除关键字)
@@ -324,6 +646,29 @@
             克隆一个Sub
             </summary>
             <returns>相同的sub</returns>
+        </member>
+        <member name="M:LinePutScript.Sub.Split(System.String,System.String,System.Int32)">
+            <summary>
+            分割字符串
+            </summary>
+            <param name="text">需要分割的文本</param>
+            <param name="separator">分割符号</param>
+            <param name="count">分割次数 -1 为无限次数</param>
+            <returns></returns>
+        </member>
+        <member name="M:LinePutScript.Sub.TextDeReplace(System.String)">
+            <summary>
+            将文本进行反转义处理(成为正常显示的文本)
+            </summary>
+            <param name="Reptex">要反转义的文本</param>
+            <returns>反转义后的文本 正常显示的文本</returns>
+        </member>
+        <member name="M:LinePutScript.Sub.TextReplace(System.String)">
+            <summary>
+            将文本进行转义处理(成为去除关键字的文本)
+            </summary>
+            <param name="Reptex">要转义的文本</param>
+            <returns>转义后的文本 (去除关键字的文本)</returns>
         </member>
         <member name="T:LinePutScript.Line">
             <summary>
@@ -370,6 +715,11 @@
         <member name="P:LinePutScript.Line.Text">
             <summary>
             文本 在末尾没有结束行号的文本 (正常)
+            </summary>
+        </member>
+        <member name="P:LinePutScript.Line.Texts">
+            <summary>
+            获得Text的String结构
             </summary>
         </member>
         <member name="F:LinePutScript.Line.Comments">

@@ -27,7 +27,9 @@ namespace VUPSimulator.Interface
                 int chs = mw.Core.Users.Count / 10;
                 var v = mw.Core.Users.FindAll(x =>
                 {
-                    string[] xt = x.GameTag;
+                    if (!x.UsersType.Contains("up"))
+                        return false;
+                    string[] xt = x.VideoTag;
                     if (xt != null)
                     {
                         if (xt.Contains("rnd") && Function.Rnd.Next(chs) == 0)

@@ -121,7 +121,7 @@
         </member>
         <member name="F:VUPSimulator.Interface.ISave.Now">
             <summary>
-            当前日期,游戏开始默认为2200年1月1日上午8点
+            当前日期,游戏开始默认为2200年1月1日上午8点(实际为以开局日期为准)
             </summary>
         </member>
         <member name="F:VUPSimulator.Interface.ISave.DayTimePass">
@@ -131,7 +131,12 @@
         </member>
         <member name="F:VUPSimulator.Interface.ISave.StartTime">
             <summary>
-            开始玩游戏的时间
+            该存档开始游戏的日期
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ISave.StartGameTime">
+            <summary>
+            游戏开局开始日期(日期,不包括时间)
             </summary>
         </member>
         <member name="F:VUPSimulator.Interface.ISave.Working">
@@ -143,6 +148,11 @@
         <member name="F:VUPSimulator.Interface.ISave.WorkingOBJ">
             <summary>
             当前正在处理的物品,主要用于核对
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ISave.UserNili">
+            <summary>
+            玩家的Nili账户
             </summary>
         </member>
         <member name="F:VUPSimulator.Interface.ISave.ALLEvent">
@@ -244,6 +254,12 @@
             <summary>
             其他数据 多用于代码插件
             Name均为'other' 请使用 FindInfo 查找相关数据
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ISave.Statistics">
+            <summary>
+            游戏统计 用于任务/成就等
+            Name均为'statis' 请使用 FindInfo 查找相关数据
             </summary>
         </member>
         <member name="T:VUPSimulator.Interface.Resources">
@@ -1006,6 +1022,44 @@
             <returns></returns>
             
         </member>
+        <member name="T:VUPSimulator.Interface.GenImage">
+            <summary>
+            Nili 视频自动生成的封面
+            </summary>
+            <summary>
+            GenImage
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.GenImage.#ctor(VUPSimulator.Interface.IMainWindow,System.String)">
+            <summary>
+            生成封面
+            </summary>
+            <param name="data">数据</param>        
+        </member>
+        <member name="M:VUPSimulator.Interface.GenImage.#ctor(VUPSimulator.Interface.IMainWindow,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.String,System.String)">
+            <summary>
+            生成封面
+            生成顺序 -背景-用户图像-文本
+            </summary>
+            <param name="mw">主窗体</param>
+            <param name="usrX">用户图像摆放位置x</param>
+            <param name="usrY">用户图像摆放位置y</param>
+            <param name="usrZ">用户图像摆放角度0-360</param>
+            <param name="usrSize">用完图像大小(X长度,宽度自动缩放)</param>
+            <param name="usrpath">用户图像位置(带:为系统位置,否则为游戏资源)</param>
+            <param name="textX">文本摆放位置X</param>
+            <param name="textY">文本摆放位置Y</param>
+            <param name="textZ">文本摆放角度</param>
+            <param name="textSize">文字大小</param>
+            <param name="textfont">文字字体</param>
+            <param name="text">文字</param>
+            <param name="backgroundpath">背景图位置(带:为系统位置,否则为游戏资源)</param>
+        </member>
+        <member name="M:VUPSimulator.Interface.GenImage.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
         <member name="T:VUPSimulator.Interface.ProfileImage">
             <summary>
             随机生成profile图片
@@ -1173,9 +1227,21 @@
             NiliNili视频
             </summary>
         </member>
+        <member name="M:VUPSimulator.Interface.VideoNili.#ctor(VUPSimulator.Interface.Video,System.Int32)">
+            <summary>
+            发布视频到nilinili
+            </summary>
+            <param name="video">视频</param>
+            <param name="nowtime">发布时间</param>
+        </member>
         <member name="P:VUPSimulator.Interface.VideoNili.VideoName">
             <summary>
             视频名称
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.VideoNili.PublishDate">
+            <summary>
+            视频发布时间: 相对于游玩时间
             </summary>
         </member>
         <member name="P:VUPSimulator.Interface.VideoNili.TimeLength">
@@ -1235,6 +1301,21 @@
             视频内容
             </summary>
         </member>
+        <member name="P:VUPSimulator.Interface.VideoNili.Author">
+            <summary>
+            视频作者
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.VideoNili.Tags_str">
+            <summary>
+            视频标签
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.VideoNili.Tags">
+            <summary>
+            评论标签
+            </summary>
+        </member>
         <member name="P:VUPSimulator.Interface.VideoNili.PlayCount">
             <summary>
             播放数量
@@ -1245,10 +1326,11 @@
             播放表 用于图标展示 1=1天
             </summary>
         </member>
-        <member name="M:VUPSimulator.Interface.VideoNili.PlayCalDay">
+        <member name="M:VUPSimulator.Interface.VideoNili.PlayCalDay(VUPSimulator.Interface.IMainWindow)">
             <summary>
-            计算今天可能获得的播放数量
-            </summary>//TODO
+            计算今天可能获得的播放数量(固定,需要自己手动加个随机)
+            =INT(($B$3+$B$11)*(POWER(E3,0.8)/10+100)*((10+$B$11*10)/(A3+10))*(2/SQRT($B$13+1)))
+            </summary>
         </member>
         <member name="P:VUPSimulator.Interface.VideoNili.LikeCount">
             <summary>
@@ -1270,10 +1352,11 @@
             总点赞数量
             </summary>
         </member>
-        <member name="M:VUPSimulator.Interface.VideoNili.LikeCalDay">
+        <member name="M:VUPSimulator.Interface.VideoNili.LikeCalDay(VUPSimulator.Interface.IMainWindow)">
             <summary>
-            计算今天可能获得的播放量
-            </summary>//TODO
+            计算今天可能获得的点赞
+            =INT(($B$3+$B$5+$B$7)*(POWER(E3,0.8)/100+10)*((5+($B$5+$B$7)*5)/(A3+10)))
+            </summary>
         </member>
         <member name="P:VUPSimulator.Interface.VideoNili.StartCount">
             <summary>
@@ -1295,25 +1378,28 @@
             收藏表 用于图标展示 1=1天
             </summary>
         </member>
-        <member name="M:VUPSimulator.Interface.VideoNili.StartCalDay">
+        <member name="M:VUPSimulator.Interface.VideoNili.StartCalDay(VUPSimulator.Interface.IMainWindow,System.Double)">
             <summary>
             计算今天可能获得的收藏
-            </summary>//TODO
+            =IF(INT(($B$3+$B$9+$B$11)*(POWER(E3,0.8)/100+10)*((5+($B$9+$B$11)*5)/(A3+20))*(SQRT($B$13+0.5)))>C3,C3,INT(($B$3+$B$9+$B$11)*(POWER(E3,0.8)/100+10)*((5+($B$9+$B$11)*5)/(A3+20))*(SQRT($B$13+0.5))))
+            </summary>
         </member>
-        <member name="M:VUPSimulator.Interface.VideoNili.FansCalDay">
+        <member name="M:VUPSimulator.Interface.VideoNili.FansCalDay(VUPSimulator.Interface.IMainWindow)">
             <summary>
             计算今天可能获得的粉丝数量
-            </summary>//TODO
+            =INT(($B$3)*(10+SQRT(E3)/10)*((5+$B$3*5)/(A3+10)))
+            </summary>
         </member>
         <member name="P:VUPSimulator.Interface.VideoNili.IncomeGraph">
             <summary>
             收入表 用于图标展示 1=1天
             </summary>
         </member>
-        <member name="M:VUPSimulator.Interface.VideoNili.IncomeCalDay">
+        <member name="M:VUPSimulator.Interface.VideoNili.IncomeCalDay(System.Int32,System.Int32,System.Int32)">
             <summary>
             计算今天可能获得的收入
-            </summary>//TODO
+            =C3*0.01+G3*0.1+I3*0.1
+            </summary>
         </member>
         <member name="T:VUPSimulator.Interface.UserNili">
             <summary>

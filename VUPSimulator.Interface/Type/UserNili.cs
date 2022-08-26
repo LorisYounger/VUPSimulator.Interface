@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace VUPSimulator.Interface
 {
@@ -45,13 +46,20 @@ namespace VUPSimulator.Interface
             set => this[(gstr)"bio"] = value;
         }
         /// <summary>
-        /// 用户立绘, 用于随机生成时使用
+        /// 用户立绘, 用于随机生成时使用,默认开头 niliusr_
         /// </summary>
         public string UsrImage
         {
             get => this[(gstr)"usrimage"];
             set => this[(gstr)"usrimage"] = value;
         }
+        ///// <summary>
+        ///// 获取用户立绘图片
+        ///// </summary>
+        //public ImageSource UsrImageSource(IMainWindow mw)
+        //{
+        //    return mw.Core.ImageSources.FindImage("niliusr_" + UsrImage);
+        //}
     }
     /// <summary>
     /// NiliNili视频发布者会使用的类 目前只有玩家会使用该类 主要用于显示玩家每月盈利等

@@ -1022,43 +1022,103 @@
             <returns></returns>
             
         </member>
+        <member name="T:VUPSimulator.Interface.GenBase">
+            <summary>
+            自动生成图片基本类, 可以生成图片控件,方便多次调用
+            </summary>
+        </member>
         <member name="T:VUPSimulator.Interface.GenImage">
             <summary>
-            Nili 视频自动生成的封面
+            自动生成的图片,可用于Nili等各种场合
             </summary>
             <summary>
             GenImage
             </summary>
         </member>
-        <member name="M:VUPSimulator.Interface.GenImage.#ctor(VUPSimulator.Interface.IMainWindow,System.String)">
+        <member name="F:VUPSimulator.Interface.GenImage.Name">
+            <summary>
+            图片名字,方便调用
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.GenImage.#ctor(VUPSimulator.Interface.IMainWindow,LinePutScript.Line)">
             <summary>
             生成封面
             </summary>
             <param name="data">数据</param>        
         </member>
-        <member name="M:VUPSimulator.Interface.GenImage.#ctor(VUPSimulator.Interface.IMainWindow,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.String,System.String)">
+        <member name="M:VUPSimulator.Interface.GenImage.#ctor(VUPSimulator.Interface.IMainWindow,System.String,VUPSimulator.Interface.GenImage.GIBase[])">
             <summary>
             生成封面
             生成顺序 -背景-用户图像-文本
             </summary>
             <param name="mw">主窗体</param>
-            <param name="usrX">用户图像摆放位置x</param>
-            <param name="usrY">用户图像摆放位置y</param>
-            <param name="usrZ">用户图像摆放角度0-360</param>
-            <param name="usrSize">用完图像大小(X长度,宽度自动缩放)</param>
-            <param name="usrpath">用户图像位置(带:为系统位置,否则为游戏资源)</param>
-            <param name="textX">文本摆放位置X</param>
-            <param name="textY">文本摆放位置Y</param>
-            <param name="textZ">文本摆放角度</param>
-            <param name="textSize">文字大小</param>
-            <param name="textfont">文字字体</param>
-            <param name="text">文字</param>
-            <param name="backgroundpath">背景图位置(带:为系统位置,否则为游戏资源)</param>
+            <param name="giBases">所有控件</param>
+        </member>
+        <member name="T:VUPSimulator.Interface.GenImage.GIBase">
+            <summary>
+            图层基本类
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.GenImage.GIBase.Create(LinePutScript.Sub)">
+            <summary>
+            创建控件
+            </summary>
+            <param name="sub">数据</param>
+            <returns></returns>
+        </member>
+        <member name="T:VUPSimulator.Interface.GenImage.GIPlaceBase">
+            <summary>
+            带位置的控件基本类
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.GenImage.GIPlaceBase.PointX">
+            <summary>
+            位置X
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.GenImage.GIPlaceBase.PointY">
+            <summary>
+            位置Y
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.GenImage.GIPlaceBase.Rotate">
+            <summary>
+            旋转角度
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.GenImage.GIBackGround">
+            <summary>
+            生成背景,全覆盖
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.GenImage.GIText">
+            <summary>
+            生成文本
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.GenImage.GIImage">
+            <summary>
+            生成图片
+            </summary>
         </member>
         <member name="M:VUPSimulator.Interface.GenImage.InitializeComponent">
             <summary>
             InitializeComponent
             </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.Other.GenImageTemplate">
+            <summary>
+            生成图片用的模板
+            </summary>
+            可能的使用例子:
+            NiliNili视频封面
+            
+        </member>
+        <member name="M:VUPSimulator.Interface.Other.GenImageTemplate.genImageNili">
+            <summary>
+            生成Nili视频的封面
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:VUPSimulator.Interface.ProfileImage">
             <summary>
@@ -1424,6 +1484,11 @@
         <member name="P:VUPSimulator.Interface.UserNili.Bio">
             <summary>
             签名
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.UserNili.UsrImage">
+            <summary>
+            用户立绘, 用于随机生成时使用
             </summary>
         </member>
         <member name="T:VUPSimulator.Interface.UserNiliSuper">
@@ -2058,7 +2123,14 @@
             HEX值转颜色
             </summary>
             <param name="HEX">HEX值</param>
-            <returns></returns>
+            <returns>颜色</returns>
+        </member>
+        <member name="M:VUPSimulator.Interface.Function.ColorToHEX(System.Windows.Media.Color)">
+            <summary>
+            颜色转HEX值
+            </summary>
+            <param name="color">颜色</param>
+            <returns>HEX值</returns>
         </member>
         <member name="F:VUPSimulator.Interface.Function.Rnd">
             <summary>

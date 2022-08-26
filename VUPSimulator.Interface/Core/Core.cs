@@ -88,7 +88,7 @@ namespace VUPSimulator.Interface
         public List<Theme> Theme = new List<Theme>();
 
         /// <summary>
-        /// ProfileImage位置
+        /// 随机生成的头像工具
         /// </summary>
         public ProfileImage ProfileImage = new ProfileImage();
 

@@ -13,25 +13,63 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class UserNili : Users
     {
-        public UserNili(Line line) : base(line)
+        public readonly Sub Data;
+        public UserNili(Line line, Sub data = null) : base(line)
         {
-            
+            Data = data;
         }
         /// <summary>
         /// 粉丝数量
         /// </summary>
         public int Fans
         {
-            get => this[(gint)"fans"];
-            set => this[(gint)"fans"] = value;
+            get
+            {
+                if (Data == null)
+                {
+                    return this[(gint)"fans"];
+                }
+                else
+                {
+                    return Data.Infos.GetInt("fans", this[(gint)"fans"]);
+                }
+            }
+            set
+            {
+                if (Data == null)
+                    this[(gint)"fans"] = value;
+                else
+                    Data.Infos[(gint)"fans"] = value;
+            }
         }
         /// <summary>
         /// 具体粉丝 将来可以作为伪联机和好友互动?
         /// </summary>
         public List<string> FansUser
         {
-            get => FindorAdd("fansuser").GetInfos().ToList();
-            set => FindorAdd("fansuser").info = string.Join(",", value);
+            get
+            {
+                if (Data == null)
+                {
+                    return FindorAdd("fansuser").GetInfos().ToList();
+                }
+                else
+                {
+                    string[] array = Data.Infos.GetString("fansUser", FindorAdd("fansuser").Info).Split(',');
+                    for (int i = 0; i < array.Length; i++)
+                    {
+                        array[i] = TextDeReplace(array[i]);
+                    }
+                    return array.ToList();
+                }
+            }
+            set
+            {
+                if (Data == null)
+                    FindorAdd("fansuser").info = string.Join(",", value);
+                else
+                    Data.Infos["fansuser"] = string.Join(",", value);
+            }
         }
         /// <summary>
         /// 总共粉丝数量

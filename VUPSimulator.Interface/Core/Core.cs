@@ -91,6 +91,11 @@ namespace VUPSimulator.Interface
         /// 随机生成的头像工具
         /// </summary>
         public ProfileImage ProfileImage = new ProfileImage();
+        /// <summary>
+        /// 图片生成模板
+        /// </summary>
+        public List<GenImageTemplate> GenImageTemplates = new List<GenImageTemplate>();
+
 
         /// <summary>
         /// 所有三方软件

@@ -42,7 +42,7 @@ namespace VUPSimulator.Interface
         public string UserName
         {
             get => this[(gstr)"name"];
-            set => this[(gstr)"name"] = value;
+            // set => this[(gstr)"name"] = value;
         }
         /// <summary>
         /// 头像
@@ -50,7 +50,7 @@ namespace VUPSimulator.Interface
         public string Photo
         {
             get => this[(gstr)"photo"];
-            set => this[(gstr)"photo"] = value;
+            // set => this[(gstr)"photo"] = value;
         }
         /// <summary>
         /// 获得头像图片
@@ -62,14 +62,26 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 对主人公的好感度
         /// </summary>
-        public int GetFriendliness(Line globaluserset)
+        public double GetFriendliness(Line globaluserset)
         {
             Sub gs = globaluserset[UserName];
             if (gs == null)
             {
-                return this[(gint)"friendliness"];
+                return this[(gdbe)"friendliness"];
             }
-            return gs.InfoToInt;
+            return gs.Infos[(gflt)"friendliness"];
+        }
+        /// <summary>
+        /// 对主人公的好感度
+        /// </summary>
+        public void SetFriendliness(Line globaluserset, int value)
+        {
+            Sub gs = globaluserset[UserName];
+            if (gs == null)
+            {
+                gs = new Sub(UserName,"");
+            }
+            gs.Infos[(gflt)"friendliness"] = value;
         }
 
         /// <summary>

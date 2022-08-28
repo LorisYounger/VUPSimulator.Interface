@@ -15,19 +15,7 @@ using LinePutScript;
 
 namespace VUPSimulator.Interface
 {
-    /// <summary>
-    /// 自动生成图片基本类, 可以生成图片控件,方便多次调用
-    /// </summary>
-    public class GenBase : Line
-    {
-        public GenBase(Line line) : base(line) { }
-        public GenImage Create(IMainWindow mw)
-        {
-            return new GenImage(mw, this);
-        }
-    }
-
-
+   
     /// <summary>
     /// 自动生成的图片,可用于Nili等各种场合
     /// </summary>

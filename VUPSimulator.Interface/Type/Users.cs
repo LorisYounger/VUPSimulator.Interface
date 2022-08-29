@@ -42,7 +42,7 @@ namespace VUPSimulator.Interface
         public string UserName
         {
             get => this[(gstr)"name"];
-            // set => this[(gstr)"name"] = value;
+            set => this[(gstr)"name"] = value;
         }
         /// <summary>
         /// 头像

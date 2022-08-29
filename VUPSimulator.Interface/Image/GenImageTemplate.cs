@@ -17,7 +17,7 @@ namespace VUPSimulator.Interface
     {
         public enum GIType
         {
-            Nili
+            Nili,
         }
         public GIType Type;
         public GenImageTemplate(Line line) : base(line)
@@ -35,6 +35,19 @@ namespace VUPSimulator.Interface
             clom["GIText"].Infos["text"] = text;
             clom["GIImage"].Infos["text"] = usrimg;
             clom["GIBackGround"].Infos["bg"] = bgimg;
+            return new GenBase(clom);
+        }
+        /// <summary>
+        /// 生成Nili视频的封面
+        /// </summary>
+        /// <returns></returns>
+        public GenBase genImageNili(Sub gi)
+        {
+            //Nili图片模板可能用到的参数
+            Line clom = new Line(this);
+            clom["GIText"].Infos["text"] = gi.Infos["text"];
+            clom["GIImage"].Infos["text"] = gi.Infos["img"];
+            clom["GIBackGround"].Infos["bg"] = gi.Infos["bg"];
             return new GenBase(clom);
         }
     }

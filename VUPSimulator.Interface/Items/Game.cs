@@ -148,7 +148,7 @@ namespace VUPSimulator.Interface
         public ImageSource ImageSource_Head(ICore core) => core.ImageSources.FindImage("game_" + Image_Head);
         public ImageSource ImageSource_Name(ICore core) => core.ImageSources.FindImage("game_" + this["image"]["name"].info);
         public ImageSource ImageSource_Icon(ICore core) => core.ImageSources.FindImage("game_" + Image_Icon);
-      
+
 
         /// <summary>
         /// 游戏介绍 短
@@ -434,6 +434,15 @@ namespace VUPSimulator.Interface
         /// 推荐语/推荐类型 临时数据
         /// </summary>
         public string Recommendation;
+
+        /// <summary>
+        /// Nili视频自动生成
+        /// name:限制
+        /// infos:
+        /// info=视频介绍
+        /// text/img/bg=GI生成用品
+        /// </summary>
+        private List<Sub> Nili => FindorAddLine("nili").Subs;
 
         public ComputerUsage ToComputerUsage()
         {

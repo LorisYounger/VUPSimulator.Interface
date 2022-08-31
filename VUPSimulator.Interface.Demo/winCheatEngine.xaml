@@ -2,29 +2,54 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:CheatEngine"
-        xmlns:pu="clr-namespace:Panuon.WPF.UI;assembly=Panuon.WPF.UI" mc:Ignorable="d" Width="400" Height="125">
+        xmlns:pu="clr-namespace:Panuon.WPF.UI;assembly=Panuon.WPF.UI" mc:Ignorable="d" Width="400" Height="200">
     <UserControl.Resources>
         <ResourceDictionary Source="Theme.xaml" />
     </UserControl.Resources>
     <Grid x:Name="MainGrid">
         <Label Content="Cheat Engine 修改器" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top"
                 FontWeight="Bold" FontSize="16" Background="{x:Null}" />
-        <GroupBox Header="数据修改" Margin="0,45,0,0" Background="{x:Null}" Padding="5,2,2,2" BorderBrush="{x:Null}">
-            <WrapPanel>
-                <Button Content="添加 1w 金钱" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top"
-                        Click="C_ADD_MONEY_1" Background="{DynamicResource Primary}" />
-                <Button Content="添加 10w 金钱" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top"
-                        Click="C_ADD_MONEY_10" Background="{DynamicResource Primary}" />
-                <Button Content="全属性+1" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top" Click="C_ADD1"
-                        Background="{DynamicResource Primary}" />
-                <Button Content="全属性+5" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top" Click="C_ADD_5"
-                        Background="{DynamicResource Primary}" />
-                <Button Content="健康全满" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top"
-                        Click="C_HealthFull" Background="{DynamicResource Primary}" />
-                <Button Content="体力全满" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top" Click="C_ST_FULL"
-                        Background="{DynamicResource Primary}" />
-            </WrapPanel>
-        </GroupBox>
+        <TabControl Margin="0,45,0,0" Background="{DynamicResource SecondaryLighter}" Padding="5,2,2,2"
+                BorderBrush="{x:Null}" pu:TabControlHelper.ItemsBackground="{DynamicResource Secondary}"
+                pu:TabControlHelper.HeaderPanelBackground="{DynamicResource SecondaryLight}"
+                pu:TabControlHelper.ItemsSelectedBackground="{DynamicResource SecondaryDark}">
+            <TabItem Header="数据修改">
+                <WrapPanel>
+                    <Button Content="添加 1w 金钱" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top"
+                            Click="C_ADD_MONEY_1" Background="{DynamicResource Primary}" />
+                    <Button Content="添加 10w 金钱" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top"
+                            Click="C_ADD_MONEY_10" Background="{DynamicResource Primary}" />
+                    <Button Content="全属性+1" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top" Click="C_ADD1"
+                            Background="{DynamicResource Primary}" />
+                    <Button Content="全属性+5" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top"
+                            Click="C_ADD_5" Background="{DynamicResource Primary}" />
+                    <Button Content="健康全满" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top"
+                            Click="C_HealthFull" Background="{DynamicResource Primary}" />
+                    <Button Content="体力全满" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top"
+                            Click="C_ST_FULL" Background="{DynamicResource Primary}" />
+                </WrapPanel>
+            </TabItem>
+            <TabItem Header="封面设计">
+                <Grid>
+                    <Border x:Name="ImageDes" HorizontalAlignment="Left" Width="150" Height="100" Margin="10,10,10,10"
+                            Background="{DynamicResource PrimaryTrans}">
+
+                    </Border>
+                    <Label Content="设计id&#13;文本描述&#13;&#13;人物图片&#13;背景图片" HorizontalAlignment="Left" Margin="170,5,0,0"
+                            VerticalAlignment="Top" Background="{x:Null}" Padding="0" />
+                    <ComboBox x:Name="Did" HorizontalAlignment="Left" Margin="230,5,0,0" VerticalAlignment="Top" Width="155"
+                            FontSize="10" />
+                    <TextBox x:Name="Dtext" HorizontalAlignment="Left" Margin="230,20,0,0" VerticalAlignment="Top" Width="155"
+                            Height="30" FontSize="10" AcceptsReturn="True" />
+                    <TextBox x:Name="Dimage" HorizontalAlignment="Left" Margin="230,51,0,0" VerticalAlignment="Top" Width="155"
+                            FontSize="10" />
+                    <TextBox x:Name="Dbg" HorizontalAlignment="Left" Margin="230,67,0,0" VerticalAlignment="Top" Width="155"
+                            FontSize="10" />
+                    <Button Content="开始生成" HorizontalAlignment="Left" Margin="173,90,0,0" VerticalAlignment="Top"
+                            Width="210" Background="{DynamicResource DARKPrimaryTrans4}" Height="22" pu:ButtonHelper.CornerRadius="2" Click="btngi_Click" />
+                </Grid>
+            </TabItem>
+        </TabControl>
 
     </Grid>
 </UserControl>

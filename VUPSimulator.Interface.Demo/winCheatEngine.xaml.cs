@@ -27,6 +27,12 @@ namespace CheatEngine
             InitializeComponent();
             mw = mainwin;
             host = mw.ShowWindows(this, "Cheat Engine", mw.Core.ImageSources.FindImageUri("software_CheatEngine"));
+
+            //初始化
+            for (int i = 0; i < mw.Core.GenImageTemplates.Count; i++)
+            {
+                Did.Items.Add(i);
+            }
         }
 
         public string ID => "winCheatEngine";
@@ -98,7 +104,7 @@ namespace CheatEngine
 
         private void C_HealthFull(object sender, RoutedEventArgs e)
         {
-            mw.Save.Health = 100;            
+            mw.Save.Health = 100;
         }
 
         private void C_ADD_MONEY_10(object sender, RoutedEventArgs e)
@@ -114,6 +120,12 @@ namespace CheatEngine
         private void C_ST_FULL(object sender, RoutedEventArgs e)
         {
             mw.Save.Strength = mw.Save.Health;
+        }
+
+        private void btngi_Click(object sender, RoutedEventArgs e)
+        {
+            var tmp = mw.Core.GenImageTemplates[Did.SelectedIndex];
+            ImageDes.Child = tmp.genImageNili(Dtext.Text, Dimage.Text, Dbg.Text).Create(mw);
         }
     }
 }

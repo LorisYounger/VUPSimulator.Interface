@@ -96,7 +96,12 @@
         </member>
         <member name="F:VUPSimulator.Interface.ICore.ProfileImage">
             <summary>
-            ProfileImage位置
+            随机生成的头像工具
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ICore.GenImageTemplates">
+            <summary>
+            图片生成模板
             </summary>
         </member>
         <member name="F:VUPSimulator.Interface.ICore.SoftWares">
@@ -945,6 +950,15 @@
             推荐语/推荐类型 临时数据
             </summary>
         </member>
+        <member name="P:VUPSimulator.Interface.Item_Game_base.Nili">
+            <summary>
+            Nili视频自动生成
+            name:限制
+            infos:
+            info=视频介绍
+            text/img/bg=GI生成用品
+            </summary>
+        </member>
         <member name="T:VUPSimulator.Interface.Item_Game">
             <summary>
             游戏数据类,包括游戏信息和各种参数 标头:game 这些数据可能需要作为应用数据储存起来
@@ -1021,11 +1035,6 @@
             </summary>
             <returns></returns>
             
-        </member>
-        <member name="T:VUPSimulator.Interface.GenBase">
-            <summary>
-            自动生成图片基本类, 可以生成图片控件,方便多次调用
-            </summary>
         </member>
         <member name="T:VUPSimulator.Interface.GenImage">
             <summary>
@@ -1106,7 +1115,7 @@
             InitializeComponent
             </summary>
         </member>
-        <member name="T:VUPSimulator.Interface.Other.GenImageTemplate">
+        <member name="T:VUPSimulator.Interface.GenImageTemplate">
             <summary>
             生成图片用的模板
             </summary>
@@ -1114,11 +1123,22 @@
             NiliNili视频封面
             
         </member>
-        <member name="M:VUPSimulator.Interface.Other.GenImageTemplate.genImageNili">
+        <member name="M:VUPSimulator.Interface.GenImageTemplate.genImageNili(System.String,System.String,System.String)">
             <summary>
             生成Nili视频的封面
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:VUPSimulator.Interface.GenImageTemplate.genImageNili(LinePutScript.Sub)">
+            <summary>
+            生成Nili视频的封面
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:VUPSimulator.Interface.GenBase">
+            <summary>
+            自动生成图片基本类, 可以生成图片控件,方便多次调用
+            </summary>
         </member>
         <member name="T:VUPSimulator.Interface.ProfileImage">
             <summary>
@@ -1488,7 +1508,7 @@
         </member>
         <member name="P:VUPSimulator.Interface.UserNili.UsrImage">
             <summary>
-            用户立绘, 用于随机生成时使用
+            用户立绘, 用于随机生成时使用,默认开头 niliusr_
             </summary>
         </member>
         <member name="T:VUPSimulator.Interface.UserNiliSuper">
@@ -1832,6 +1852,11 @@
             <returns></returns>
         </member>
         <member name="M:VUPSimulator.Interface.Users.GetFriendliness(LinePutScript.Line)">
+            <summary>
+            对主人公的好感度
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Users.SetFriendliness(LinePutScript.Line,System.Int32)">
             <summary>
             对主人公的好感度
             </summary>

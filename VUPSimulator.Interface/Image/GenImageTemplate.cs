@@ -32,8 +32,8 @@ namespace VUPSimulator.Interface
         {
             //Nili图片模板可能用到的参数
             Line clom = new Line(this);
-            clom["GIText"].Infos["text"] = text;
-            clom["GIImage"].Infos["text"] = usrimg;
+            clom["GIText"].Infos["t"] = text;
+            clom["GIImage"].Infos["p"] = usrimg;
             clom["GIBackGround"].Infos["bg"] = bgimg;
             return new GenBase(clom);
         }
@@ -45,9 +45,9 @@ namespace VUPSimulator.Interface
         {
             //Nili图片模板可能用到的参数
             Line clom = new Line(this);
-            clom["GIText"].Infos["text"] = gi.Infos["text"];
-            clom["GIImage"].Infos["text"] = gi.Infos["img"];
-            clom["GIBackGround"].Infos["bg"] = gi.Infos["bg"];
+            clom["GIText"].Infos["t"] = gi.Infos["git"];
+            clom["GIImage"].Infos["p"] = gi.Infos["gii"];
+            clom["GIBackGround"].Infos["bg"] = gi.Infos["gibg"];
             return new GenBase(clom);
         }
     }

@@ -15,7 +15,7 @@ using LinePutScript;
 
 namespace VUPSimulator.Interface
 {
-   
+
     /// <summary>
     /// 自动生成的图片,可用于Nili等各种场合
     /// </summary>
@@ -141,6 +141,7 @@ namespace VUPSimulator.Interface
             {
                 PointX = sub.Infos.GetDouble("x", 0);
                 PointY = sub.Infos.GetDouble("y", 0);
+                Rotate = sub.Infos.GetDouble("r", 0);
             }
             /// <summary>
             /// 位置X
@@ -204,9 +205,9 @@ namespace VUPSimulator.Interface
             }
             public GIText(Sub sub) : base(sub)
             {
-                TextSize = sub.Infos.GetInt("tsize", 12);
-                TextColor = Function.HEXToColor(sub.Infos.GetString("tcolor", "#000000"));
-                Text = sub.Infos.GetString("text", "");
+                TextSize = sub.Infos.GetInt("s", 12);
+                TextColor = Function.HEXToColor(sub.Infos.GetString("c", "#000000"));
+                Text = sub.Infos.GetString("t", "");
             }
             public override UIElement GenUI(IMainWindow mw)
             {
@@ -215,18 +216,22 @@ namespace VUPSimulator.Interface
                     Margin = new Thickness(PointX, PointY, 0, 0),
                     FontSize = TextSize,
                     Foreground = new SolidColorBrush(TextColor),
+                    Background = null,
+                    Padding = new Thickness(0),
                     Content = Text,
+                    FontWeight = FontWeights.Bold,
                     Opacity = Opacity,
-                    LayoutTransform = new RotateTransform(Rotate)
+                    LayoutTransform = new RotateTransform(Rotate),
+                    RenderTransformOrigin = new Point(0.5, 0.5),
                 };
             }
 
             public override Sub ToSub()
             {
                 var sub = base.ToSub();
-                sub.Infos[(gint)"tsize"] = TextSize;
-                sub.Infos[(gstr)"tcolor"] = Function.ColorToHEX(TextColor);
-                sub.Infos[(gstr)"text"] = Text;
+                sub.Infos[(gint)"s"] = TextSize;
+                sub.Infos[(gstr)"c"] = Function.ColorToHEX(TextColor);
+                sub.Infos[(gstr)"t"] = Text;
                 return sub;
             }
         }
@@ -244,23 +249,28 @@ namespace VUPSimulator.Interface
             }
             public GIImage(Sub sub) : base(sub)
             {
-                ImagePath = sub.Infos.GetString("ipath", "");
+                ImagePath = sub.Infos.GetString("p", "");
+                Size = sub.Infos.GetDouble("s", 50);
             }
             public override UIElement GenUI(IMainWindow mw)
             {
                 return new Image()
                 {
                     Source = getImage(mw, ImagePath),
+                    VerticalAlignment = VerticalAlignment.Top,
+                    HorizontalAlignment = HorizontalAlignment.Left,
                     Margin = new Thickness(PointX, PointY, 0, 0),
                     Opacity = Opacity,
                     Width = Size,
-                    LayoutTransform = new RotateTransform(Rotate)
+                    RenderTransformOrigin = new Point(0.5, 0.5),
+                    LayoutTransform = new RotateTransform(Rotate),
                 };
             }
             public override Sub ToSub()
             {
                 var sub = base.ToSub();
-                sub.Infos[(gstr)"ipath"] = ImagePath;
+                sub.Infos[(gstr)"p"] = ImagePath;
+                sub.Infos[(gdbe)"s"] = Size;
                 return sub;
             }
         }

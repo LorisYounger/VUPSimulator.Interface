@@ -1,20 +1,21 @@
-﻿<UserControl x:Class="VUPSimulator.Interface.GenImage"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<UserControl x:Class="VUPSimulator.Interface.GenImage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        mc:Ignorable="d" Height="200" Width="300">
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" Height="200" Width="300">
     <Viewbox x:Name="OutView">
         <Grid x:Name="InGrid" Width="300" Height="200">
-            <Label x:Name="Text" Content="震惊!&#13;玩家居然干出这种事情!" HorizontalAlignment="Left" Margin="10,30,0,0" Opacity="0.5"
-                    VerticalAlignment="Top" Background="{x:Null}" Padding="0" FontSize="26">
+            <!--<Label x:Name="Text" Content="震惊!&#13;玩家居然干出这种事情!" HorizontalAlignment="Left" Margin="10,10,0,0"
+                    Opacity="0.9" VerticalAlignment="Top" Background="{x:Null}" Padding="0" FontSize="26"
+                    RenderTransformOrigin="0.5,0.5">
                 <Label.RenderTransform>
-                    <TransformGroup> 
-                        <RotateTransform Angle="-10" />
+                    <TransformGroup>
+                        <ScaleTransform />
+                        <SkewTransform />
+                        <RotateTransform Angle="2" />
+                        <TranslateTransform />
                     </TransformGroup>
                 </Label.RenderTransform>
-            </Label>
-            <Image x:Name="UserImage" />
+            </Label>-->
         </Grid>
     </Viewbox>
 </UserControl>

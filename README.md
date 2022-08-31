@@ -26,7 +26,7 @@ Install-Package VUPSimulator.Interface
 ### 编写
 
 新建类库^(仅后端)^或WPF类库^(包括软件等前端)^项目
-游戏与接口均使用 .net framework 4.62
+游戏与接口均使用 .net framework 4.8
 
 新建类并继承 `VUPSimulator.Interface.MainPlugin`, 这将是游戏调用主要端口
 
@@ -39,11 +39,17 @@ Install-Package VUPSimulator.Interface
   * Save: 玩家存档数据 若未开始游戏则为空. 可以通过 `MW.save`调用
   * Source: 资源集格式
   * Theme: 游戏主题
+* Data - 游戏数据
 * Handle - 接口
   * Function: 游戏通用方法, 常用的有 `Rnd`随机数生成 等
   * IMainWindow: 主窗体接口 开发者可通过此接口获取游戏信息和进行高级代码MOD开发
   * MainPlugin: 这是插件的主体内容 请继承这个类
   * SoftWare: 软件类, 添加至软件列表 以在软件中心显示
+* Image
+  * GenImage: 图片生成器
+  * GenImageTemplate: 图片生成器模板
+  * ProfileImage: 随机头像生成器
+
 * Items - 物品类
   * Base: 物品基础类
   * Computer: 计算机相关物品类
@@ -51,9 +57,11 @@ Install-Package VUPSimulator.Interface
 * Type - 其他类型
   * Comment: 评论类 包括视频,直播,游戏评价等
   * Event: 事件 从小的扣体力到大的故事链均使用这个类
+  * UsersNili: Nili用户类
   * Users: 用户信息
   * Video: 视频类 一般由玩家录制的视频(也有网站视频变种等)
   * VideoEditorType: 视频编辑选项类 编辑视频的选项
+  * VideoNili: Nili视频类
 * UI - 用于显示的相关类型
   * IMCTag: 弹窗消息窗口,显示消息/日历
   * IWindows: 窗体, 会自动生成外边框和底部栏
@@ -93,7 +101,7 @@ github为开源页面地址
 		- info.lps
 ```
 
-接着前往游戏上传至SteamWorkshop即可
+接着前往游戏上传至[SteamWorkshop](https://steamcommunity.com/app/1352140/workshop/)或[pull到Github](https://github.com/LorisYounger/VUPSimulator.WorkShop)即可
 
 ***发布至Steam创意工坊需遵循[创意工坊协议]()及[虚拟主播模拟器创意工坊协议]()**
 

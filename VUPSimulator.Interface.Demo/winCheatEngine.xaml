@@ -32,19 +32,19 @@
             <TabItem Header="封面设计">
                 <Grid>
                     <Border x:Name="ImageDes" HorizontalAlignment="Left" Width="150" Height="100" Margin="10,10,10,10"
-                            Background="{DynamicResource PrimaryTrans}">
+                            Background="{DynamicResource PrimaryTrans}" MouseDown="GIIMGDown">
 
                     </Border>
                     <Label Content="设计id&#13;文本描述&#13;&#13;人物图片&#13;背景图片" HorizontalAlignment="Left" Margin="170,5,0,0"
                             VerticalAlignment="Top" Background="{x:Null}" Padding="0" />
                     <ComboBox x:Name="Did" HorizontalAlignment="Left" Margin="230,5,0,0" VerticalAlignment="Top" Width="155"
-                            FontSize="10" />
+                            FontSize="10"/>
                     <TextBox x:Name="Dtext" HorizontalAlignment="Left" Margin="230,20,0,0" VerticalAlignment="Top" Width="155"
-                            Height="30" FontSize="10" AcceptsReturn="True" />
+                            Height="30" FontSize="10" AcceptsReturn="True" Text="农业大亨从这里开始!" />
                     <TextBox x:Name="Dimage" HorizontalAlignment="Left" Margin="230,51,0,0" VerticalAlignment="Top" Width="155"
-                            FontSize="10" />
+                            FontSize="10" Text="Younger2_A00" />
                     <TextBox x:Name="Dbg" HorizontalAlignment="Left" Margin="230,67,0,0" VerticalAlignment="Top" Width="155"
-                            FontSize="10" />
+                            FontSize="10" Text="game_Agricultural Tycoon_3" />
                     <Button Content="开始生成" HorizontalAlignment="Left" Margin="173,90,0,0" VerticalAlignment="Top"
                             Width="210" Background="{DynamicResource DARKPrimaryTrans4}" Height="22" pu:ButtonHelper.CornerRadius="2" Click="btngi_Click" />
                 </Grid>

@@ -2339,6 +2339,28 @@
             <param name="TextCenter">是否字体居中显示</param>
             <param name="CanHide">是否允许隐藏消息弹窗</param>
         </member>
+        <member name="M:VUPSimulator.Interface.IMainWindow.winImageBoxShow(System.String,System.Windows.Media.ImageSource,VUPSimulator.Interface.Function.MSGType,System.Action,System.Boolean,System.Boolean)">
+            <summary>
+            弹出图片显示窗口 请注意该窗口不会阻塞任何线程, 如需结束后调用,请使用ENDAction
+            </summary>
+            <param name="title">消息标题</param>
+            <param name="image">消息图片</param>
+            <param name="type">消息类型: 显示的图标和声音提示将会不同</param>
+            <param name="ENDAction">结束事件</param>
+            <param name="AllowMax">是否允许最大化</param>
+            <param name="CanHide">是否允许隐藏消息弹窗</param>
+        </member>
+        <member name="M:VUPSimulator.Interface.IMainWindow.winImageBoxShow(System.String,System.Windows.UIElement,VUPSimulator.Interface.Function.MSGType,System.Action,System.Boolean,System.Boolean)">
+            <summary>
+            弹出图片显示窗口 请注意该窗口不会阻塞任何线程, 如需结束后调用,请使用ENDAction
+            </summary>
+            <param name="title">消息标题</param>
+            <param name="image">消息图片</param>
+            <param name="type">消息类型: 显示的图标和声音提示将会不同</param>
+            <param name="ENDAction">结束事件</param>
+            <param name="AllowMax">是否允许最大化</param>
+            <param name="CanHide">是否允许隐藏消息弹窗</param>
+        </member>
         <member name="M:VUPSimulator.Interface.IMainWindow.CreateCALTag(VUPSimulator.Interface.Event)">
             <summary>
             创建一个侧边日历栏组件

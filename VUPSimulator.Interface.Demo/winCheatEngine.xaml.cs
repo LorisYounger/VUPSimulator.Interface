@@ -33,6 +33,7 @@ namespace CheatEngine
             {
                 Did.Items.Add(i);
             }
+            Did.SelectedIndex = 0;
         }
 
         public string ID => "winCheatEngine";
@@ -126,6 +127,12 @@ namespace CheatEngine
         {
             var tmp = mw.Core.GenImageTemplates[Did.SelectedIndex];
             ImageDes.Child = tmp.genImageNili(Dtext.Text, Dimage.Text, Dbg.Text).Create(mw);
+        }
+
+        private void GIIMGDown(object sender, MouseButtonEventArgs e)
+        {
+            var tmp = mw.Core.GenImageTemplates[Did.SelectedIndex];
+            mw.winImageBoxShow("生成的图片", tmp.genImageNili(Dtext.Text, Dimage.Text, Dbg.Text).Create(mw));
         }
     }
 }

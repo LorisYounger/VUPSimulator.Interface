@@ -437,13 +437,14 @@ namespace VUPSimulator.Interface
 
         /// <summary>
         /// Nili视频自动生成
-        /// name:限制
+        /// name:视频名称
         /// infos:
         /// info=视频介绍
-        /// text/img/bg=GI生成用品
+        /// tag=视频tag
+        /// git/gii/gibg=GI生成用品
         /// </summary>
         private List<Sub> Nili => FindorAddLine("nili").Subs;
-
+        
         public ComputerUsage ToComputerUsage()
         {
             Line cu = this["computerusage"];

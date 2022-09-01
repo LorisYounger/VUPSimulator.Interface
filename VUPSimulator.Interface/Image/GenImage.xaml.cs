@@ -197,6 +197,7 @@ namespace VUPSimulator.Interface
             public int TextSize;
             public Color TextColor;
             public string Text;
+            public double Width;
             public GIText(double x, double y, int textSize, string textcolor, string text, double rotate = 0, double opacity = 1) : base("GIText", x, y, rotate, opacity)
             {
                 TextColor = Function.HEXToColor(textcolor);
@@ -208,19 +209,22 @@ namespace VUPSimulator.Interface
                 TextSize = sub.Infos.GetInt("s", 12);
                 TextColor = Function.HEXToColor(sub.Infos.GetString("c", "#000000"));
                 Text = sub.Infos.GetString("t", "");
+                Width = sub.Infos.GetDouble("w", double.NaN);
             }
             public override UIElement GenUI(IMainWindow mw)
             {
-                return new Label()
+                return new TextBlock()
                 {
                     Margin = new Thickness(PointX, PointY, 0, 0),
                     FontSize = TextSize,
                     Foreground = new SolidColorBrush(TextColor),
-                    Background = null,
-                    Padding = new Thickness(0),
-                    Content = Text,
+                    Text = Text,
                     FontWeight = FontWeights.Bold,
+                    Width = Width,
+                    VerticalAlignment = VerticalAlignment.Top,
+                    HorizontalAlignment = HorizontalAlignment.Left,
                     Opacity = Opacity,
+                    TextWrapping = TextWrapping.Wrap,
                     LayoutTransform = new RotateTransform(Rotate),
                     RenderTransformOrigin = new Point(0.5, 0.5),
                 };
@@ -250,18 +254,20 @@ namespace VUPSimulator.Interface
             public GIImage(Sub sub) : base(sub)
             {
                 ImagePath = sub.Infos.GetString("p", "");
-                Size = sub.Infos.GetDouble("s", 50);
+                Size = sub.Infos.GetDouble("s", 100);
             }
             public override UIElement GenUI(IMainWindow mw)
             {
+                var img = getImage(mw, ImagePath);
                 return new Image()
                 {
-                    Source = getImage(mw, ImagePath),
+                    Source = img,
                     VerticalAlignment = VerticalAlignment.Top,
                     HorizontalAlignment = HorizontalAlignment.Left,
                     Margin = new Thickness(PointX, PointY, 0, 0),
                     Opacity = Opacity,
                     Width = Size,
+                    Height = Size / img.Width * img.Height,
                     RenderTransformOrigin = new Point(0.5, 0.5),
                     LayoutTransform = new RotateTransform(Rotate),
                 };

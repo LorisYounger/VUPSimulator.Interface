@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Media;
 using System.Windows.Threading;
 using static VUPSimulator.Interface.Function;
 namespace VUPSimulator.Interface
@@ -92,6 +94,26 @@ namespace VUPSimulator.Interface
         /// <param name="TextCenter">是否字体居中显示</param>
         /// <param name="CanHide">是否允许隐藏消息弹窗</param>
         void winMessageBoxShow(string title, string text, MSGType type = Function.MSGType.notify, bool YesNo = false, Action<bool?> ENDAction = null, bool TextCenter = true, bool CanHide = false);
+        /// <summary>
+        /// 弹出图片显示窗口 请注意该窗口不会阻塞任何线程, 如需结束后调用,请使用ENDAction
+        /// </summary>
+        /// <param name="title">消息标题</param>
+        /// <param name="image">消息图片</param>
+        /// <param name="type">消息类型: 显示的图标和声音提示将会不同</param>
+        /// <param name="ENDAction">结束事件</param>
+        /// <param name="AllowMax">是否允许最大化</param>
+        /// <param name="CanHide">是否允许隐藏消息弹窗</param>
+        void winImageBoxShow(string title, ImageSource image, Function.MSGType type = Function.MSGType.notify, Action ENDAction = null, bool CanHide = true, bool AllowMax = true);
+        /// <summary>
+        /// 弹出图片显示窗口 请注意该窗口不会阻塞任何线程, 如需结束后调用,请使用ENDAction
+        /// </summary>
+        /// <param name="title">消息标题</param>
+        /// <param name="image">消息图片</param>
+        /// <param name="type">消息类型: 显示的图标和声音提示将会不同</param>
+        /// <param name="ENDAction">结束事件</param>
+        /// <param name="AllowMax">是否允许最大化</param>
+        /// <param name="CanHide">是否允许隐藏消息弹窗</param>
+        void winImageBoxShow(string title, UIElement image, Function.MSGType type = Function.MSGType.notify, Action ENDAction = null, bool CanHide = true, bool AllowMax = true);
 
         /// <summary>
         /// 创建一个侧边日历栏组件

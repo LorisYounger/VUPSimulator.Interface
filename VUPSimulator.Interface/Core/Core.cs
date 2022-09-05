@@ -57,6 +57,11 @@ namespace VUPSimulator.Interface
         /// </summary>
         public List<Users> Users = new List<Users>();
         /// <summary>
+        /// 所有Nili用户(加速检索用)
+        /// </summary>
+        public List<Users> UsersNili;
+
+        /// <summary>
         /// 所有评论 TODO:根据评论区分
         /// </summary>
         [Obsolete("请不要使用该方法进行相关评论操作,请使用mw.Save")]

@@ -209,6 +209,10 @@ namespace VUPSimulator.Interface
         public LpsDocument Statistics = new LpsDocument();
 
         public List<GenBase> GenBases = new List<GenBase>();
+        /// <summary>
+        /// 用户数据
+        /// </summary>
+        public Line UsersData;
 
     }
 }

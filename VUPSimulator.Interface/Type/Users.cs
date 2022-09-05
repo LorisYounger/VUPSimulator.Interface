@@ -64,7 +64,7 @@ namespace VUPSimulator.Interface
         /// </summary>
         public double GetFriendliness(Line globaluserset)
         {
-            Sub gs = globaluserset[UserName];
+            Sub gs = globaluserset.Find(UserName);
             if (gs == null)
             {
                 return this[(gdbe)"friendliness"];
@@ -76,12 +76,7 @@ namespace VUPSimulator.Interface
         /// </summary>
         public void SetFriendliness(Line globaluserset, int value)
         {
-            Sub gs = globaluserset[UserName];
-            if (gs == null)
-            {
-                gs = new Sub(UserName,"");
-            }
-            gs.Infos[(gflt)"friendliness"] = value;
+            globaluserset[UserName].Infos[(gflt)"friendliness"] = value;
         }
 
         /// <summary>
@@ -117,7 +112,11 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 确认类型,用户可以为多个类型
         /// 常见类型: 画师,建模师,虚拟主播等, 确认类型后可以获取些特殊的数据
+        /// nomal 标准,空类型
+        /// nili nili视频发布者
+        /// 以下类型有专门的auth类用于老画师
+        /// painter 画师
         /// </summary>
-        public string UsersType => Info;
+        public string[] UsersType => Info.ToLower().Split(',');
     }
 }

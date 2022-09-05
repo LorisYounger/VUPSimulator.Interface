@@ -197,14 +197,17 @@ namespace VUPSimulator.Interface
         {
             string img = ImageName;
             if (img == null)
-            {
-                //根据自动配置开始自动生成一个
-
-                
+            {//根据自动配置开始自动生成一个
+                int gub = Function.Rnd.Next(mw.Core.GenImageTemplates.Count);
+                //储存gub
+                ImageName = "gub_" + gub;
+                var gi = mw.Core.GenImageTemplates[gub];
+                var gn = gi.genImageNili(VideoName, "niliusr_" + AuthorNili(mw).UsrImage, BackgroundImage);
+                return gn.Create(mw);
             }
             if (img.StartsWith("gui_"))
-            {
-                var b = mw.Save.GenBases.Find(x => x.Name == img);
+            {//根据存档的gi图片进行生成,一般用于玩家自定义封面
+                var b = mw.Save.GenBases.Find(x => x.info == img);
                 if (b == null)
                     return new Image()
                     {
@@ -215,6 +218,12 @@ namespace VUPSimulator.Interface
                     };
                 else
                     return b.Create(mw);
+            }
+            else if (img.StartsWith("gub_"))
+            {//根据核心模板顺序进行生成,一般用于随机生成                
+                var gi = mw.Core.GenImageTemplates[Convert.ToInt32(img.Substring(4))];
+                var gn = gi.genImageNili(VideoName, "niliusr_" + AuthorNili(mw).UsrImage, BackgroundImage);
+                return gn.Create(mw);
             }
             else
             {
@@ -248,6 +257,20 @@ namespace VUPSimulator.Interface
             set => this[(gstr)"content"] = value;
         }
         /// <summary>
+        /// 视频背景图片
+        /// </summary>
+        public string BackgroundImage
+        {
+            get
+            {
+                string v = this[(gstr)"bg"];
+                if (v != null)
+                    return v;
+                return "bg_base";
+            }
+            set => this[(gstr)"bg"] = value;
+        }
+        /// <summary>
         /// 视频作者
         /// </summary>
         public string Author
@@ -268,7 +291,7 @@ namespace VUPSimulator.Interface
             else
             {
                 var auth = Author;
-                return new UserNili(mw.Core.Users.Find(x => x.UserName == auth));
+                return new UserNili(mw.Core.Users.Find(x => x.UserName == auth), mw.Save.UsersData);
             }
         }
         /// <summary>

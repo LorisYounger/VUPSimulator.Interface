@@ -14,9 +14,9 @@ namespace VUPSimulator.Interface
     public class UserNili : Users
     {
         public readonly Sub Data;
-        public UserNili(Line line, Sub data = null) : base(line)
+        public UserNili(Line line, Line globaluserset = null) : base(line)
         {
-            Data = data;
+            Data = globaluserset?[UserName];
         }
         /// <summary>
         /// 粉丝数量

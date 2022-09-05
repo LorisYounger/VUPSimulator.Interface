@@ -82,10 +82,10 @@ namespace VUPSimulator.Interface
         {
             get
             {
-                var line = FindLine("image")["blank"];
+                var line = FindLine("image").Find("blank");
                 if (line == null)
                 {
-                    return Image_Game;
+                    return FindLine("image").info + "_blank";
                 }
                 return line.info;
             }
@@ -97,22 +97,25 @@ namespace VUPSimulator.Interface
         {
             get
             {
-                var line = FindLine("image")["head"];
+                var line = FindLine("image").Find("head");
                 if (line == null)
                 {
-                    return Image_Blank;
+                    return FindLine("image").info + "_head";
                 }
                 return line.info;
             }
         }
+        /// <summary>
+        /// 软件图标
+        /// </summary>
         public string Image_Icon
         {
             get
             {
-                var line = FindLine("image")["icon"];
+                var line = FindLine("image").Find("icon");
                 if (line == null)
                 {
-                    return Image_Blank;
+                    return FindLine("image").info + "_icon";
                 }
                 return line.info;
             }
@@ -147,8 +150,6 @@ namespace VUPSimulator.Interface
         public ImageSource ImageSource_Blank(ICore core) => core.ImageSources.FindImage("game_" + Image_Blank);
         public ImageSource ImageSource_Head(ICore core) => core.ImageSources.FindImage("game_" + Image_Head);
         public ImageSource ImageSource_Name(ICore core) => core.ImageSources.FindImage("game_" + this["image"]["name"].info);
-        public ImageSource ImageSource_Icon(ICore core) => core.ImageSources.FindImage("game_" + Image_Icon);
-
 
         /// <summary>
         /// 游戏介绍 短
@@ -438,13 +439,10 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// Nili视频自动生成
         /// name:视频名称
-        /// infos:
-        /// info=视频介绍
-        /// tag=视频tag
-        /// git/gii/gibg=GI生成用品
+        /// info:视频简介
         /// </summary>
         private List<Sub> Nili => FindorAddLine("nili").Subs;
-        
+
         public ComputerUsage ToComputerUsage()
         {
             Line cu = this["computerusage"];

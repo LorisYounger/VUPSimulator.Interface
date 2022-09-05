@@ -9,9 +9,11 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using LinePutScript;
+using Panuon.WPF.UI;
 
 namespace VUPSimulator.Interface
 {
@@ -19,7 +21,7 @@ namespace VUPSimulator.Interface
     /// <summary>
     /// 自动生成的图片,可用于Nili等各种场合
     /// </summary>
-    public partial class GenImage : UserControl
+    public partial class GenImage : ContentControlX
     {
         /// <summary>
         /// 图片名字,方便调用
@@ -213,10 +215,85 @@ namespace VUPSimulator.Interface
             }
             public override UIElement GenUI(IMainWindow mw)
             {
-                return new TextBlock()
+                if (Text == "")
+                    return null;
+                var tsize = TextSize - 2 * Math.Sqrt(Text.Length);
+                var len = Math.Sqrt(tsize) / 2;
+                Color tc;
+                //if (TextColor.R + TextColor.G + TextColor.B >= 384)
+                //    tc = Color.FromRgb((byte)(TextColor.R / 2), (byte)(TextColor.G / 2), (byte)(TextColor.B / 2));
+                //else
+                //    tc = Color.FromRgb((byte)((TextColor.R + 255) / 2), (byte)((TextColor.G + 255) / 2), (byte)((TextColor.B + 255) / 2));
+                tc = Color.FromRgb((byte)((TextColor.R + 510) / 2), (byte)((TextColor.G + 510) / 2), (byte)((TextColor.B + 510) / 2));
+                var gd = new Grid()
                 {
                     Margin = new Thickness(PointX, PointY, 0, 0),
-                    FontSize = TextSize,
+                };
+
+                gd.Children.Add(new TextBlock()
+                {
+                    Margin = new Thickness(-len, 0, 0, 0),
+                    FontSize = tsize,
+                    Foreground = new SolidColorBrush(tc),
+                    Text = Text,
+                    FontWeight = FontWeights.Bold,
+                    Width = Width,
+                    VerticalAlignment = VerticalAlignment.Top,
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    Opacity = Opacity,
+                    TextWrapping = TextWrapping.Wrap,
+                    LayoutTransform = new RotateTransform(Rotate),
+                    RenderTransformOrigin = new Point(0.5, 0.5),
+                });
+                gd.Children.Add(new TextBlock()
+                {
+                    Margin = new Thickness(len, 0, 0, 0),
+                    FontSize = tsize,
+                    Foreground = new SolidColorBrush(tc),
+                    Text = Text,
+                    FontWeight = FontWeights.Bold,
+                    Width = Width,
+                    VerticalAlignment = VerticalAlignment.Top,
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    Opacity = Opacity,
+                    TextWrapping = TextWrapping.Wrap,
+                    LayoutTransform = new RotateTransform(Rotate),
+                    RenderTransformOrigin = new Point(0.5, 0.5),
+                });
+                gd.Children.Add(new TextBlock()
+                {
+                    Margin = new Thickness(0, -len, 0, 0),
+                    FontSize = tsize,
+                    Foreground = new SolidColorBrush(tc),
+                    Text = Text,
+                    FontWeight = FontWeights.Bold,
+                    Width = Width,
+                    VerticalAlignment = VerticalAlignment.Top,
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    Opacity = Opacity,
+                    TextWrapping = TextWrapping.Wrap,
+                    LayoutTransform = new RotateTransform(Rotate),
+                    RenderTransformOrigin = new Point(0.5, 0.5),
+                });
+                gd.Children.Add(new TextBlock()
+                {
+                    Margin = new Thickness(0, len, 0, 0),
+                    FontSize = tsize,
+                    Foreground = new SolidColorBrush(tc),
+                    Text = Text,
+                    FontWeight = FontWeights.Bold,
+                    Width = Width,
+                    VerticalAlignment = VerticalAlignment.Top,
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    Opacity = Opacity,
+                    TextWrapping = TextWrapping.Wrap,
+                    LayoutTransform = new RotateTransform(Rotate),
+                    RenderTransformOrigin = new Point(0.5, 0.5),
+                });
+                gd.Children.Add(new TextBlock()
+                {
+                    Margin = new Thickness(0, 0, 0, 0),
+                    FontSize = tsize,
                     Foreground = new SolidColorBrush(TextColor),
                     Text = Text,
                     FontWeight = FontWeights.Bold,
@@ -227,7 +304,8 @@ namespace VUPSimulator.Interface
                     TextWrapping = TextWrapping.Wrap,
                     LayoutTransform = new RotateTransform(Rotate),
                     RenderTransformOrigin = new Point(0.5, 0.5),
-                };
+                });
+                return gd;
             }
 
             public override Sub ToSub()

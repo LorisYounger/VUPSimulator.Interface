@@ -21,16 +21,16 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 创建全新的随机NILI视频
         /// </summary>
-        public static VideoNili Create(IMainWindow mw, int nowtime, Video.Type type, double quality = -1, UserNili author = null)
+        public static VideoNili Create(IMainWindow mw, int nowtime, Video.Type type, string name, string content, string bg, string[] tags, double quality = -1, UserNili author = null)
         {
             var video = new VideoNili();
-
+            video.VideoName = name;
+            video.BackgroundImage = bg;
+            video.Content = content;
+            video.FindorAdd("tag").info = string.Join(",", tags);
             if (author == null) //如果没有作者则随机拉一个
             {
-                var tag = video.Tags_str();
-                //给tag添加类型元素
-                tag.Add(video.VideoType.ToString());
-                int chs = mw.Core.Users.Count / 10;
+                int chs = mw.Core.UsersNili.Count / 10;
                 var v = mw.Core.UsersNili.FindAll(x =>
                 {
                     string[] xt = x.VideoTag;
@@ -38,7 +38,7 @@ namespace VUPSimulator.Interface
                     {
                         if (xt.Contains("rnd") && Function.Rnd.Next(chs) == 0)
                             return true;
-                        foreach (var t in tag)
+                        foreach (var t in video.Tags)
                         {
                             if (xt.Contains(t))//包含选定条件,通过
                             {
@@ -49,21 +49,89 @@ namespace VUPSimulator.Interface
                     return false;
                 });
                 if (v.Count == 0)
-                    video.Author = mw.Core.Users[mw.Core.Users.Count / 10].UserName;
+                    video.Author = mw.Core.UsersNili[mw.Core.Users.Count / 10].UserName;
                 else
                     video.Author = v[Function.Rnd.Next(v.Count)].UserName;
             }
             else
             {
+                video.authnili = author;
                 video.Author = author.Name;
             }
             //根据作者生成质量 =POWER(P3+100,0.15)*0.4-0.2
             if (quality <= 0)
-                quality = Math.Pow(author.TotalFans + 100, 0.15) * 0.4 - 0.2;
-            //根据用户标签随机视频质量
+                quality = Math.Pow(video.AuthorNili(mw).TotalFans + 100, 0.15) * 0.4 - 0.2;
 
+            //根据用户标签随机视频质量
+            var tag = video.AuthorNili(mw).Tags;
+            if (tag.Contains(UserNili.NiliTag.QualityHigh))
+                quality *= 1.2;
+            else if (tag.Contains(UserNili.NiliTag.QualityLow))
+                quality *= 0.8;
+            else if (tag.Contains(UserNili.NiliTag.QualityFix))
+                quality = 1.2;
+            //录制质量
+            var vq = quality * Function.Rnd.NextDouble() * 0.2 + quality * 0.8;
+            if (tag.Contains(UserNili.NiliTag.ComputerGood))
+                vq *= 1.2;
+            else if (tag.Contains(UserNili.NiliTag.ComputerBad))
+                vq *= 0.8;
+            //声音质量
+            var vv = quality * Function.Rnd.NextDouble() * 0.2 + quality * 0.8;
+            if (tag.Contains(UserNili.NiliTag.VoiceHigh))
+                vv *= 1.2;
+            else if (tag.Contains(UserNili.NiliTag.VoiceLow))
+                vv *= 0.8;
+            //有趣
+            var vf = quality * Function.Rnd.NextDouble() * 0.2 + quality * 0.8;
+            if (tag.Contains(UserNili.NiliTag.FunHigh))
+                vf *= 1.2;
+            else if (tag.Contains(UserNili.NiliTag.FunLow))
+                vf *= 0.8;
+            //其他质量
+            double vt;
+            switch (type)
+            {
+                case Video.Type.Game:
+                    //游戏视频以有趣和录制为主
+                    vt = vf * .5 + vq * .5;
+                    break;
+                case Video.Type.Draw:
+                    //绘画视频以声音质量和有趣为主
+                    vt = vv * .5 + vf * .5;
+                    break;
+                case Video.Type.Program:
+                    //编程视频以录制质量和声音为主
+                    vt = vv * .5 + vq * .5;
+                    break;
+                case Video.Type.Song:
+                    //唱歌视频以声音质量和录制质量为主
+                    vt = vv * 0.8 + vq * .2;
+                    break;
+                default:
+                    vt = vq * .3 + vv * .3 + vf * .4;
+                    break;
+            }
+            //计算时长
+            double tl;
+            if (tag.Contains(UserNili.NiliTag.LengthLong))
+                tl = Function.Rnd.NextDouble() + 1;
+            else if (tag.Contains(UserNili.NiliTag.LengthShort))
+                tl = Function.Rnd.NextDouble() * .3 + 0.2;
+            else
+                tl = Function.Rnd.NextDouble() * .5 + .5;
+            video.TimeLength = TimeSpan.FromHours(tl);
+
+            //应用质量设置
+            video.Quality = vt * tl;
+            video.QualityFun = vf * tl;
+            video.QualityVideo = vq * tl;
+            video.QualityVoice = vv * tl;
 
             video.PublishDate = nowtime;// Function.Rnd.Next(-365, mw.Save.DayTimePass);
+
+            //刷新时间
+            video.RelsDate(mw);
 
             return video;
         }
@@ -317,36 +385,45 @@ namespace VUPSimulator.Interface
             return authnili;
         }
         private UserNili authnili = null;
-        /// <summary>
-        /// 视频标签
-        /// </summary>
-        public List<string> Tags_str()
-        {
-            var ls = new List<string>();
-            foreach (CommentTag tag in Tags)
-                ls.Add(tag.ToString().ToLower());
-            return ls;
-        }
+
         /// <summary>
         /// 评论标签
         /// </summary>
-        public List<CommentTag> Tags
+        public List<string> Tags
         {
             get
             {
-                Sub subtag = Find("tag");
-                if (subtag == null)
-                    return new List<CommentTag>();
-                List<CommentTag> tags = new List<CommentTag>();
-                foreach (string tag in subtag.GetInfos())
-                    tags.Add((CommentTag)Enum.Parse(typeof(CommentTag), tag, true));
-                if (Quality < 30)
-                    tags.Add(CommentTag.LowQuality);
-                else if (Quality > 70)
-                    tags.Add(CommentTag.HighQuality);
+                if (tags == null)
+                {
+                    Sub subtag = Find("tag");
+                    tags = new List<string>();
+
+                    if (Quality < 30)
+                        tags.Add("lowquality");
+                    else if (Quality > 70)
+                        tags.Add("highquality");
+
+                    //给tag添加类型元素
+                    tags.Add(VideoType.ToString());
+
+                    if (subtag == null)
+                        return tags;
+                    foreach (string tag in subtag.GetInfos())
+                        tags.Add(tag.ToLower());
+                }
                 return tags;
             }
+            set
+            {
+                tags = value;
+                var t = value.ToList();
+                t.Remove("lowquality");
+                t.Remove("highquality");
+                Sub subtag = FindorAdd("tag");
+                subtag.info = string.Join(",", t);
+            }
         }
+        private List<string> tags;
         // TODO:视频评论相关
 
 
@@ -356,7 +433,50 @@ namespace VUPSimulator.Interface
         /// <param name="mw"></param>
         public void RelsDate(IMainWindow mw)
         {
+            bool isplayer = Author.Equals("_");
+            var pt = mw.Save.DayTimePass - SettleDate;
+            for (int i = 1; i <= pt; i++)
+            {
+                //播放量
+                var pcd = PlayCalDay(mw, i);
+                //点赞
+                var lcd = LikeCalDay(mw, i);
+                //关注
+                var fcd = FansCalDay(mw, i);
+                //收藏
+                var scd = StartCalDay(mw, pcd, i);
+                PlayCount += pcd;
+                LikeCount += lcd;
+                AuthorNili(mw).Fans += fcd;
+                StartCount += scd;
+                if (isplayer)
+                {//如果是玩家,还需要统计图表和收益
+                    //收益
+                    var ind = IncomeCalDay(pcd, lcd, scd);
+                    //收益存在Nili里,需要手动提取
+                    var line = mw.Save.UIData.FindLineInfo("nili");
+                    if (line == null)
+                    {
+                        line = new Line("uidata", "nili");
+                        mw.Save.UIData.AddLine(line);
+                    }
+                    line[(gflt)"income"] += ind;
 
+                    //图标
+                    var pf = mw.Save.DayTimePass - pt;
+                    gint pg = (gint)(pf + i).ToString();
+                    PlayGraph[pg] = pcd;
+                    LikeGraph[pg] = lcd;
+                    StartGraph[pg] = scd;
+                    IncomeGraph[(gflt)(pf + i).ToString()] = ind;
+                    mw.Save.UserNili.LikeGraph[pg] += lcd;
+                    mw.Save.UserNili.PlayGraph[pg] += pcd;
+                    mw.Save.UserNili.FansGraph[pg] += fcd;
+                    mw.Save.UserNili.StartGraph[pg] += scd;
+                    mw.Save.UserNili.IncomeGraph[(gflt)(pf + i).ToString()] += ind;
+                }
+            }
+            SettleDate = mw.Save.DayTimePass + 1;
         }
 
 
@@ -372,28 +492,18 @@ namespace VUPSimulator.Interface
             set => this[(gint)"playcount"] = value;
         }
         /// <summary>
-        /// 播放表 用于图标展示 1=1天
+        /// 播放表 用于图标展示 int日期:int值
         /// </summary>
-        public List<int> PlayGraph
-        {
-            get
-            {
-                List<int> ints = new List<int>();
-                foreach (var str in FindorAdd("playgraph").GetInfos())
-                    ints.Add(Convert.ToInt32(str));
-                return ints;
-            }
-            set => FindorAdd("playgraph").info = string.Join(",", value);
-        }
+        public StringStructure PlayGraph => FindorAdd("playgraph").Infos;
         /// <summary>
         /// 计算今天可能获得的播放数量(固定,需要自己手动加个随机)
         /// =INT(($B$3+$B$11)*(POWER(E3,0.8)/10+100)*((10+$B$11*10)/(A3+10))*(2/SQRT($B$13+1)))
         /// </summary>
-        public double PlayCalDay(IMainWindow mw)
+        public int PlayCalDay(IMainWindow mw, int time)
         {
             //开始计算
             double qf = QualityFun / TimeLength.TotalHours;
-            return (TotalQuality + qf) * (Math.Pow(AuthorNili(mw).TotalFans, 0.8) / 10 + 100) * ((10 + qf * 10) / (mw.Save.DayTimePass - PublishDate + 10)) * (2 / Math.Sqrt(TimeLength.TotalHours + 1));
+            return (int)((TotalQuality + qf) * (Math.Pow(AuthorNili(mw).TotalFans, 0.8) / 10 + 100) * ((10 + qf * 10) / (time + 10)) * (2 / Math.Sqrt(TimeLength.TotalHours + 1)));
         }
 
         /// <summary>
@@ -413,19 +523,9 @@ namespace VUPSimulator.Interface
             set => FindorAdd("likeuser").info = string.Join(",", value);
         }
         /// <summary>
-        /// 点赞表 用于图标展示 1=1天
+        /// 点赞表 用于图标展示 int日期:int值
         /// </summary>
-        public List<int> LikeGraph
-        {
-            get
-            {
-                List<int> ints = new List<int>();
-                foreach (var str in FindorAdd("likegraph").GetInfos())
-                    ints.Add(Convert.ToInt32(str));
-                return ints;
-            }
-            set => FindorAdd("likegraph").info = string.Join(",", value);
-        }
+        public StringStructure LikeGraph => FindorAdd("likegraph").Infos;
         /// <summary>
         /// 总点赞数量
         /// </summary>
@@ -434,11 +534,11 @@ namespace VUPSimulator.Interface
         /// 计算今天可能获得的点赞
         /// =INT(($B$3+$B$5+$B$7)*(POWER(E3,0.8)/100+10)*((5+($B$5+$B$7)*5)/(A3+10)))
         /// </summary>
-        public double LikeCalDay(IMainWindow mw)
+        public int LikeCalDay(IMainWindow mw, int time)
         {
             //开始计算
             double qf = (Quality + QualityVideo) / TimeLength.TotalHours;
-            return (TotalQuality + qf) * (Math.Pow(AuthorNili(mw).TotalFans, 0.8) / 100 + 10) * ((5 + qf * 5) / (mw.Save.DayTimePass - PublishDate + 10));
+            return (int)((TotalQuality + qf) * (Math.Pow(AuthorNili(mw).TotalFans, 0.8) / 100 + 10) * ((5 + qf * 5) / (time + 10)));
         }
         /// <summary>
         /// 收藏数量(基本) + likeuser.count
@@ -462,55 +562,35 @@ namespace VUPSimulator.Interface
         public int StartTotal => StartTotal + StartUser.Count;
 
         /// <summary>
-        /// 收藏表 用于图标展示 1=1天
+        /// 收藏表 用于图标展示 int日期:int值
         /// </summary>
-        public List<int> StartGraph
-        {
-            get
-            {
-                List<int> ints = new List<int>();
-                foreach (var str in FindorAdd("startgraph").GetInfos())
-                    ints.Add(Convert.ToInt32(str));
-                return ints;
-            }
-            set => FindorAdd("startgraph").info = string.Join(",", value);
-        }
+        public StringStructure StartGraph => FindorAdd("startgraph").Infos;
         /// <summary>
         /// 计算今天可能获得的收藏
         /// =IF(INT(($B$3+$B$9+$B$11)*(POWER(E3,0.8)/100+10)*((5+($B$9+$B$11)*5)/(A3+20))*(SQRT($B$13+0.5)))>C3,C3,INT(($B$3+$B$9+$B$11)*(POWER(E3,0.8)/100+10)*((5+($B$9+$B$11)*5)/(A3+20))*(SQRT($B$13+0.5))))
         /// </summary>
-        public double StartCalDay(IMainWindow mw, double playcalday)
+        public int StartCalDay(IMainWindow mw, int playcalday, int time)
         {
             //开始计算
             double qf = (QualityVoice + QualityFun) / TimeLength.TotalHours;
-            double ans = (TotalQuality + qf) * (Math.Pow(AuthorNili(mw).TotalFans, 0.8) / 100 + 10) * ((5 + qf * 5) / (mw.Save.DayTimePass - PublishDate + 20)) * (Math.Sqrt(TimeLength.TotalHours + 0.5));
-            return Math.Min(ans, playcalday);
+            double ans = (TotalQuality + qf) * (Math.Pow(AuthorNili(mw).TotalFans, 0.8) / 100 + 10) * ((5 + qf * 5) / (time + 20)) * (Math.Sqrt(TimeLength.TotalHours + 0.5));
+            return Math.Min((int)ans, playcalday);
         }
 
         /// <summary>
         /// 计算今天可能获得的粉丝数量
         /// =INT(($B$3)*(10+SQRT(E3)/10)*((5+$B$3*5)/(A3+10)))
         /// </summary>
-        public double FansCalDay(IMainWindow mw)
+        public int FansCalDay(IMainWindow mw, int time)
         {
             //开始计算
-            return TotalQuality * (10 + Math.Sqrt(AuthorNili(mw).TotalFans) / 10) * ((5 + TotalQuality * 5) / (mw.Save.DayTimePass - PublishDate + 10));
+            return (int)(TotalQuality * (10 + Math.Sqrt(AuthorNili(mw).TotalFans) / 10) * ((5 + TotalQuality * 5) / (time + 10)));
         }
 
         /// <summary>
-        /// 收入表 用于图标展示 1=1天
+        /// 收入表 用于图标展示 int日期:int值
         /// </summary>
-        public List<int> IncomeGraph
-        {
-            get
-            {
-                List<int> ints = new List<int>();
-                foreach (var str in FindorAdd("incomegraph").GetInfos())
-                    ints.Add(Convert.ToInt32(str));
-                return ints;
-            }
-            set => FindorAdd("incomegraph").info = string.Join(",", value);
-        }
+        public StringStructure IncomeGraph => FindorAdd("incomegraph").Infos;
         /// <summary>
         /// 计算今天可能获得的收入
         /// =C3*0.01+G3*0.1+I3*0.1

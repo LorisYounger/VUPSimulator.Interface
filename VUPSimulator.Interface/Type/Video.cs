@@ -84,6 +84,10 @@ namespace VUPSimulator.Interface
             /// 编程视频
             /// </summary>
             Program,
+            /// <summary>
+            /// 唱歌视频
+            /// </summary>
+            Song,
         }
         /// <summary>
         /// 视频类型

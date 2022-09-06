@@ -441,7 +441,7 @@ namespace VUPSimulator.Interface
         /// name:视频名称
         /// info:视频简介
         /// </summary>
-        private List<Sub> Nili => FindorAddLine("nili").Subs;
+        public List<Sub> Nili => FindorAddLine("nili").Subs;
 
         public ComputerUsage ToComputerUsage()
         {

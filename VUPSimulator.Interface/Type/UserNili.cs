@@ -22,25 +22,25 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 粉丝数量
         /// </summary>
-        public int Fans
+        public long Fans
         {
             get
             {
                 if (Data == null)
                 {
-                    return this[(gint)"fans"];
+                    return this[(gi64)"fans"];
                 }
                 else
                 {
-                    return Data.Infos.GetInt("fans", this[(gint)"fans"]);
+                    return Data.Infos.GetInt64("fans", this[(gi64)"fans"]);
                 }
             }
             set
             {
                 if (Data == null)
-                    this[(gint)"fans"] = value;
+                    this[(gi64)"fans"] = value;
                 else
-                    Data.Infos[(gint)"fans"] = value;
+                    Data.Infos[(gi64)"fans"] = value;
             }
         }
         /// <summary>
@@ -75,7 +75,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 总共粉丝数量
         /// </summary>
-        public int TotalFans => Fans + FansUser.Count;
+        public long TotalFans => Fans + FansUser.Count;
         /// <summary>
         /// 签名
         /// </summary>
@@ -160,6 +160,10 @@ namespace VUPSimulator.Interface
             /// 倾向于制作 编程视频
             /// </summary>
             Program,
+            /// <summary>
+            /// 倾向于制作 唱歌视频
+            /// </summary>
+            Song,
         }
 
         /// <summary>
@@ -199,77 +203,24 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 总粉丝表 用于图标展示 1=1天
         /// </summary>
-        public List<int> FansGraph
-        {
-            get
-            {
-                List<int> ints = new List<int>();
-                foreach (var str in FindorAdd("fansgraph").GetInfos())
-                    ints.Add(Convert.ToInt32(str));
-                return ints;
-            }
-            set => FindorAdd("fansgraph").info = string.Join(",", value);
-        }
-
+        public StringStructure FansGraph => FindorAdd("fansgraph").Infos;
         /// <summary>
         /// 总收入表 用于图标展示 1=1天
         /// </summary>
-        public List<int> IncomeGraph
-        {
-            get
-            {
-                List<int> ints = new List<int>();
-                foreach (var str in FindorAdd("incomegraph").GetInfos())
-                    ints.Add(Convert.ToInt32(str));
-                return ints;
-            }
-            set => FindorAdd("incomegraph").info = string.Join(",", value);
-        }
-
+        public StringStructure IncomeGraph => FindorAdd("incomegraph").Infos;
         /// <summary>
         /// 总收藏表 用于图标展示 1=1天
         /// </summary>
-        public List<int> StartGraph
-        {
-            get
-            {
-                List<int> ints = new List<int>();
-                foreach (var str in FindorAdd("startgraph").GetInfos())
-                    ints.Add(Convert.ToInt32(str));
-                return ints;
-            }
-            set => FindorAdd("startgraph").info = string.Join(",", value);
-        }
+        public StringStructure StartGraph => FindorAdd("startgraph").Infos;
 
         /// <summary>
         /// 总点赞表 用于图标展示 1=1天
         /// </summary>
-        public List<int> LikeGraph
-        {
-            get
-            {
-                List<int> ints = new List<int>();
-                foreach (var str in FindorAdd("likegraph").GetInfos())
-                    ints.Add(Convert.ToInt32(str));
-                return ints;
-            }
-            set => FindorAdd("likegraph").info = string.Join(",", value);
-        }
+        public StringStructure LikeGraph => FindorAdd("likegraph").Infos;
 
         /// <summary>
         /// 总播放表 用于图标展示 1=1天
         /// </summary>
-        public List<int> PlayGraph
-        {
-            get
-            {
-                List<int> ints = new List<int>();
-                foreach (var str in FindorAdd("playgraph").GetInfos())
-                    ints.Add(Convert.ToInt32(str));
-                return ints;
-            }
-            set => FindorAdd("playgraph").info = string.Join(",", value);
-        }
+        public StringStructure PlayGraph => FindorAdd("playgraph").Infos;
     }
-
 }

@@ -18,20 +18,21 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class VideoNili : Line
     {
-        public static VideoNili Create(Line line, IMainWindow mw, int nowtime)
+        /// <summary>
+        /// 创建全新的随机NILI视频
+        /// </summary>
+        public static VideoNili Create(IMainWindow mw, int nowtime, Video.Type type, double quality = -1, UserNili author = null)
         {
-            var video = new VideoNili(line);
+            var video = new VideoNili();
 
-            if (!video.Have("author")) //如果没有作者则随机拉一个
+            if (author == null) //如果没有作者则随机拉一个
             {
                 var tag = video.Tags_str();
                 //给tag添加类型元素
                 tag.Add(video.VideoType.ToString());
                 int chs = mw.Core.Users.Count / 10;
-                var v = mw.Core.Users.FindAll(x =>
+                var v = mw.Core.UsersNili.FindAll(x =>
                 {
-                    if (!x.UsersType.Contains("up"))
-                        return false;
                     string[] xt = x.VideoTag;
                     if (xt != null)
                     {
@@ -52,13 +53,24 @@ namespace VUPSimulator.Interface
                 else
                     video.Author = v[Function.Rnd.Next(v.Count)].UserName;
             }
+            else
+            {
+                video.Author = author.Name;
+            }
+            //根据作者生成质量 =POWER(P3+100,0.15)*0.4-0.2
+            if (quality <= 0)
+                quality = Math.Pow(author.TotalFans + 100, 0.15) * 0.4 - 0.2;
+            //根据用户标签随机视频质量
+
+
             video.PublishDate = nowtime;// Function.Rnd.Next(-365, mw.Save.DayTimePass);
 
-
-            //如果没有封面就自动生成一个
-
-
             return video;
+        }
+
+        public VideoNili()
+        {
+            Name = "nilivideo";
         }
         public VideoNili(Line line) : base(line) { Name = "nilivideo"; }
         /// <summary>
@@ -98,6 +110,14 @@ namespace VUPSimulator.Interface
         {
             get => GetInt("publishdate", 0);
             set => this[(gint)"publishdate"] = value;
+        }
+        /// <summary>
+        /// 视频结算日期: 是否已结算播放数据
+        /// </summary>
+        public int SettleDate
+        {
+            get => GetInt("settledate", PublishDate);
+            set => this[(gint)"settledate"] = value;
         }
         public DateTime PublishDateTime(IMainWindow mw) => mw.Save.StartGameTime.AddDays(PublishDate);
         /// <summary>
@@ -280,20 +300,23 @@ namespace VUPSimulator.Interface
                 string v = this[(gstr)"author"];
                 if (v != null)
                     return v;
-                return "匿名";
+                return null;
             }
             set => this[(gstr)"author"] = value;
         }
         public UserNili AuthorNili(IMainWindow mw)
         {
-            if (Author == "_")
-                return mw.Save.UserNili;
-            else
-            {
-                var auth = Author;
-                return new UserNili(mw.Core.Users.Find(x => x.UserName == auth), mw.Save.UsersData);
-            }
+            if (authnili == null)
+                if (Author == "_")
+                    authnili = mw.Save.UserNili;
+                else
+                {
+                    var auth = Author;
+                    authnili = new UserNili(mw.Core.Users.Find(x => x.UserName == auth), mw.Save.UsersData);
+                }
+            return authnili;
         }
+        private UserNili authnili = null;
         /// <summary>
         /// 视频标签
         /// </summary>
@@ -327,7 +350,14 @@ namespace VUPSimulator.Interface
         // TODO:视频评论相关
 
 
+        /// <summary>
+        /// 刷新播放量和提供增益
+        /// </summary>
+        /// <param name="mw"></param>
+        public void RelsDate(IMainWindow mw)
+        {
 
+        }
 
 
 

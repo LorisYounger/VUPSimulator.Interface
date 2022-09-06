@@ -51,7 +51,7 @@ namespace VUPSimulator.Interface
         /// </summary>
         public UserNiliSuper UserNili = null;
 
-        #region 游戏性数据
+        #region 玩家数据
 
         /// <summary>
         /// 全部事件
@@ -179,7 +179,7 @@ namespace VUPSimulator.Interface
 
         #endregion
 
-        #region UI性数据
+        #region UI数据
         //例如桌面背景啥的
 
         /// <summary>
@@ -196,6 +196,7 @@ namespace VUPSimulator.Interface
         //public List<Comment_base> Comments = new List<Comment_base>();
         #endregion
 
+        #region 游戏数据
         /// <summary>
         /// 其他数据 多用于代码插件
         /// Name均为'other' 请使用 FindInfo 查找相关数据
@@ -207,12 +208,19 @@ namespace VUPSimulator.Interface
         /// Name均为'statis' 请使用 FindInfo 查找相关数据
         /// </summary>
         public LpsDocument Statistics = new LpsDocument();
-
+        /// <summary>
+        /// 图片数据
+        /// </summary>
         public List<GenBase> GenBases = new List<GenBase>();
         /// <summary>
         /// 用户数据
         /// </summary>
         public Line UsersData;
+        /// <summary>
+        /// Nili所有的视频(包括玩家发的视频)
+        /// </summary>
+        public List<VideoNili> VideoNilis = new List<VideoNili>();
+        #endregion
 
     }
 }

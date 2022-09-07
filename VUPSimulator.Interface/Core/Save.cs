@@ -220,6 +220,11 @@ namespace VUPSimulator.Interface
         /// Nili所有的视频(包括玩家发的视频)
         /// </summary>
         public List<VideoNili> VideoNilis = new List<VideoNili>();
+
+        /// <summary>
+        /// 所有Nili用户(加速检索用)
+        /// </summary>
+        public List<UserNili> UsersNili = new List<UserNili>();
         #endregion
 
     }

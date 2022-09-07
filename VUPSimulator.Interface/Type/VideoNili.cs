@@ -30,8 +30,8 @@ namespace VUPSimulator.Interface
             video.FindorAdd("tag").info = string.Join(",", tags);
             if (author == null) //如果没有作者则随机拉一个
             {
-                int chs = mw.Core.UsersNili.Count / 10;
-                var v = mw.Core.UsersNili.FindAll(x =>
+                int chs = mw.Save.UsersNili.Count / 10;
+                var v = mw.Save.UsersNili.FindAll(x =>
                 {
                     string[] xt = x.VideoTag;
                     if (xt != null)
@@ -49,15 +49,13 @@ namespace VUPSimulator.Interface
                     return false;
                 });
                 if (v.Count == 0)
-                    video.Author = mw.Core.UsersNili[mw.Core.Users.Count / 10].UserName;
+                    author = mw.Save.UsersNili[mw.Core.Users.Count / 10];
                 else
-                    video.Author = v[Function.Rnd.Next(v.Count)].UserName;
+                    author = v[Function.Rnd.Next(v.Count)];
             }
-            else
-            {
-                video.authnili = author;
-                video.Author = author.Name;
-            }
+            video.authnili = author;
+            video.Author = author.Name;
+
             //根据作者生成质量 =POWER(P3+100,0.15)*0.4-0.2
             if (quality <= 0)
                 quality = Math.Pow(video.AuthorNili(mw).TotalFans + 100, 0.15) * 0.4 - 0.2;
@@ -449,6 +447,12 @@ namespace VUPSimulator.Interface
                 LikeCount += lcd;
                 AuthorNili(mw).Fans += fcd;
                 StartCount += scd;
+
+                //部分统计
+                AuthorNili(mw).CountLike += lcd;
+                AuthorNili(mw).CountPlay += pcd;
+                AuthorNili(mw).CountStar += scd;
+
                 if (isplayer)
                 {//如果是玩家,还需要统计图表和收益
                     //收益

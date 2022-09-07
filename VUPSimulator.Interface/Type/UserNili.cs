@@ -182,6 +182,80 @@ namespace VUPSimulator.Interface
                 return tags;
             }
         }
+
+        /// <summary>
+        /// 总计播放次数
+        /// </summary>
+        public long CountPlay
+        {
+            get
+            {
+                if (Data == null)
+                {
+                    return this[(gi64)"pc"];
+                }
+                else
+                {
+                    return Data.Infos.GetInt64("pc", this[(gi64)"pc"]);
+                }
+            }
+            set
+            {
+                if (Data == null)
+                    this[(gi64)"pc"] = value;
+                else
+                    Data.Infos[(gi64)"pc"] = value;
+            }
+        }
+        /// <summary>
+        /// 总计喜欢次数
+        /// </summary>
+        public long CountLike
+        {
+            get
+            {
+                if (Data == null)
+                {
+                    return this[(gi64)"lc"];
+                }
+                else
+                {
+                    return Data.Infos.GetInt64("lc", this[(gi64)"lc"]);
+                }
+            }
+            set
+            {
+                if (Data == null)
+                    this[(gi64)"lc"] = value;
+                else
+                    Data.Infos[(gi64)"lc"] = value;
+            }
+        }
+        /// <summary>
+        /// 总计收藏次数
+        /// </summary>
+        public long CountStar
+        {
+            get
+            {
+                if (Data == null)
+                {
+                    return this[(gi64)"sc"];
+                }
+                else
+                {
+                    return Data.Infos.GetInt64("sc", this[(gi64)"sc"]);
+                }
+            }
+            set
+            {
+                if (Data == null)
+                    this[(gi64)"sc"] = value;
+                else
+                    Data.Infos[(gi64)"sc"] = value;
+            }
+        }
+
         ///// <summary>
         ///// 获取用户立绘图片
         ///// </summary>

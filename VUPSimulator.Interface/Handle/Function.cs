@@ -230,7 +230,7 @@ namespace VUPSimulator.Interface
             //return per / 2 + per * Function.Rnd.NextDouble());
             return trigger;
         }
-        
+
         /// <summary>
         /// 提供前置条件的判断文本,告诉玩家为啥可以或不可以使用
         /// </summary>
@@ -548,6 +548,26 @@ namespace VUPSimulator.Interface
                     break;
             }
         }
+        /// <summary>
+        /// 单位换算缩写
+        /// </summary>
+        /// <param name="value">转换值</param>
+        /// <returns>缩写结果</returns>
+        public static string UnitConvert(long value, string tostr = "f1")
+        {
+            string neg = value < 0 ? "-" : "";
+            value = Math.Abs(value);
+            if (value < 1000)
+                return neg + value.ToString();
+            else if (value < 1000000)
+                return neg + (value / 1000.0).ToString(tostr) + 'k';
+            else if (value < 1000000000)
+                return neg + (value / 1000000.0).ToString(tostr) + 'm';
+            else if (value < 1000000000000)
+                return neg + (value / 1000000000.0).ToString(tostr) + 'b';
+            else
+                return neg + (value / 1000000000000.0).ToString(tostr) + 't';
+        }
 
 
         /// <summary>
@@ -556,6 +576,7 @@ namespace VUPSimulator.Interface
         /// <param name="span">时间经过</param>
         /// <param name="mw">主窗口</param>
         public delegate void TimeRels(TimeSpan span, IMainWindow mw);
+
         /// <summary>
         /// 消息类型
         /// </summary>
@@ -577,7 +598,7 @@ namespace VUPSimulator.Interface
             ImageBox,
             //各种viewer
             ViewerVideo,
-            
+
             //65-127 系统程序 无法自行打开 不允许多开
             HelloWorld = 65,
             NewGame,
@@ -608,6 +629,8 @@ namespace VUPSimulator.Interface
             VideoEdit,//支持不重复视频多开
             VideoEncoder,//支持双击后添加内容至VE
         }
+
+
     }
 
 }

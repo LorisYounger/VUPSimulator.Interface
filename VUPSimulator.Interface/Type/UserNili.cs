@@ -178,7 +178,7 @@ namespace VUPSimulator.Interface
                     return new List<NiliTag>();
                 List<NiliTag> tags = new List<NiliTag>();
                 foreach (string tag in subtag.GetInfos())
-                    tags.Add((NiliTag)Enum.Parse(typeof(NiliTag), tag, true));             
+                    tags.Add((NiliTag)Enum.Parse(typeof(NiliTag), tag, true));
                 return tags;
             }
         }
@@ -296,5 +296,13 @@ namespace VUPSimulator.Interface
         /// 总播放表 用于图标展示 1=1天
         /// </summary>
         public StringStructure PlayGraph => FindorAdd("playgraph").Infos;
+        /// <summary>
+        /// 所有关注的用户
+        /// </summary>
+        public List<string> Follow
+        {
+            get => FindorAdd("follow").GetInfos().ToList();
+            set => FindorAdd("follow").info = string.Join(",", value);
+        }
     }
 }

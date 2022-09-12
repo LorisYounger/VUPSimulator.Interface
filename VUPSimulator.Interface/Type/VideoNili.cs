@@ -21,12 +21,13 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 创建全新的随机NILI视频
         /// </summary>
-        public static VideoNili Create(IMainWindow mw, int nowtime, Video.Type type, string name, string content, string bg, string[] tags, double quality = -1, UserNili author = null)
+        public static VideoNili Create(IMainWindow mw, int nowtime, Video.Type type, string name, string content, string bg, string[] tags, double buff = 1, double quality = -1, UserNili author = null)
         {
             var video = new VideoNili();
             video.VideoName = name;
             video.BackgroundImage = bg;
             video.Content = content;
+            video.Buff = buff;
             video.FindorAdd("tag").info = string.Join(",", tags);
             if (author == null) //如果没有作者则随机拉一个
             {
@@ -54,7 +55,7 @@ namespace VUPSimulator.Interface
                     author = v[Function.Rnd.Next(v.Count)];
             }
             video.authnili = author;
-            video.Author = author.Name;
+            video.Author = author.UserName;
 
             //根据作者生成质量 =POWER(P3+100,0.15)*0.4-0.2
             if (quality <= 0)
@@ -110,6 +111,7 @@ namespace VUPSimulator.Interface
                     vt = vq * .3 + vv * .3 + vf * .4;
                     break;
             }
+            //vt *= qualitybuff;
             //计算时长
             double tl;
             if (tag.Contains(UserNili.NiliTag.LengthLong))
@@ -378,12 +380,19 @@ namespace VUPSimulator.Interface
                 else
                 {
                     var auth = Author;
-                    authnili = new UserNili(mw.Core.Users.Find(x => x.UserName == auth), mw.Save.UsersData);
+                    authnili = mw.Save.UsersNili.Find(x => x.UserName == auth);
                 }
             return authnili;
         }
         private UserNili authnili = null;
-
+        /// <summary>
+        /// 视频增益
+        /// </summary>
+        public double Buff
+        {
+            get => GetFloat("buff", 1);
+            set => this[(gflt)"buff"] = value;
+        }
         /// <summary>
         /// 评论标签
         /// </summary>
@@ -507,7 +516,7 @@ namespace VUPSimulator.Interface
         {
             //开始计算
             double qf = QualityFun / TimeLength.TotalHours;
-            return (int)((TotalQuality + qf) * (Math.Pow(AuthorNili(mw).TotalFans, 0.8) / 10 + 100) * ((10 + qf * 10) / (time + 10)) * (2 / Math.Sqrt(TimeLength.TotalHours + 1)));
+            return (int)(((TotalQuality + qf) * (Math.Pow(AuthorNili(mw).TotalFans, 0.8) / 10 + 100) * ((10 + qf * 10) / (time + 10)) * (2 / Math.Sqrt(TimeLength.TotalHours + 1))) * Buff);
         }
 
         /// <summary>
@@ -542,7 +551,7 @@ namespace VUPSimulator.Interface
         {
             //开始计算
             double qf = (Quality + QualityVideo) / TimeLength.TotalHours;
-            return (int)((TotalQuality + qf) * (Math.Pow(AuthorNili(mw).TotalFans, 0.8) / 100 + 10) * ((5 + qf * 5) / (time + 10)));
+            return (int)(((TotalQuality + qf) * (Math.Pow(AuthorNili(mw).TotalFans, 0.8) / 100 + 10) * ((5 + qf * 5) / (time + 10))) * Buff);
         }
         /// <summary>
         /// 收藏数量(基本) + likeuser.count
@@ -577,7 +586,7 @@ namespace VUPSimulator.Interface
         {
             //开始计算
             double qf = (QualityVoice + QualityFun) / TimeLength.TotalHours;
-            double ans = (TotalQuality + qf) * (Math.Pow(AuthorNili(mw).TotalFans, 0.8) / 100 + 10) * ((5 + qf * 5) / (time + 20)) * (Math.Sqrt(TimeLength.TotalHours + 0.5));
+            double ans = (TotalQuality + qf) * (Math.Pow(AuthorNili(mw).TotalFans, 0.8) / 100 + 10) * ((5 + qf * 5) / (time + 20)) * (Math.Sqrt(TimeLength.TotalHours + 0.5)) * Buff;
             return Math.Min((int)ans, playcalday);
         }
 
@@ -588,7 +597,7 @@ namespace VUPSimulator.Interface
         public int FansCalDay(IMainWindow mw, int time)
         {
             //开始计算
-            return (int)(TotalQuality * (10 + Math.Sqrt(AuthorNili(mw).TotalFans) / 10) * ((5 + TotalQuality * 5) / (time + 10)));
+            return (int)(TotalQuality * (10 + Math.Sqrt(AuthorNili(mw).TotalFans) / 10) * ((5 + TotalQuality * 5) / (time + 10)) * Buff);
         }
 
         /// <summary>

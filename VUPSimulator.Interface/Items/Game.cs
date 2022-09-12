@@ -310,7 +310,7 @@ namespace VUPSimulator.Interface
         }
 
         /// <summary>
-        /// 平均折扣
+        /// 价格
         /// </summary>
         public double Price
         {
@@ -456,6 +456,23 @@ namespace VUPSimulator.Interface
                 ImportMemory = cu[(gint)"importmemory"],
             };
         }
+        /// <summary>
+        /// 获得该游戏的热门程度,将会增益播放量等所有数据 0.4-1.36
+        /// </summary>
+        public double ToNiliBuff(int daytimepass)
+        {
+            double buff = 0.4;
+            //评价,好评和差评均会提供buff,中庸不会 预计提供0-0.3
+            buff += Math.Abs(0.2 - RatingRealTime(daytimepass) / 200.0);
+            //热门度 预计提供0-0.5-1
+            buff += Data.Popularity / 200.0;
+            //价格 预计提供0-0.3
+            if (Price > 1000)
+                buff += 0.3;
+            else
+                buff += Price / 1000.0;
+            return buff;
+        }
     }
     /// <summary>
     /// 游戏数据类,包括游戏信息和各种参数 标头:game 这些数据可能需要作为应用数据储存起来
@@ -580,6 +597,9 @@ namespace VUPSimulator.Interface
             get => this[(gflt)"completion"];
             set => this[(gflt)"completion"] = value;
         }
+
+
+
 
         /// <summary>
         /// 游戏熟练程度,请不要调用这个

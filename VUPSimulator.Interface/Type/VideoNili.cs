@@ -455,6 +455,7 @@ namespace VUPSimulator.Interface
                 PlayCount += pcd;
                 LikeCount += lcd;
                 AuthorNili(mw).Fans += fcd;
+                FansCount += fcd;
                 StartCount += scd;
 
                 //部分统计
@@ -572,7 +573,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 收藏总数
         /// </summary>
-        public int StartTotal => StartTotal + StartUser.Count;
+        public int StartTotal => StartCount + StartUser.Count;
 
         /// <summary>
         /// 收藏表 用于图标展示 int日期:int值
@@ -599,7 +600,14 @@ namespace VUPSimulator.Interface
             //开始计算
             return (int)(TotalQuality * (10 + Math.Sqrt(AuthorNili(mw).TotalFans) / 10) * ((5 + TotalQuality * 5) / (time + 10)) * Buff);
         }
-
+        /// <summary>
+        /// 涨粉粉丝数量
+        /// </summary>
+        public int FansCount
+        {
+            get => this[(gint)"fancount"];
+            set => this[(gint)"fancount"] = value;
+        }
         /// <summary>
         /// 收入表 用于图标展示 int日期:int值
         /// </summary>

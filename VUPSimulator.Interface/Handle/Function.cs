@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Media;
@@ -557,18 +558,73 @@ namespace VUPSimulator.Interface
         {
             string neg = value < 0 ? "-" : "";
             value = Math.Abs(value);
+            ////if (value < 1000)//因为旧版本转换不直观,更换新版
+            ////    return neg + value.ToString();
+            ////else if (value < 1000000)
+            ////    return neg + (value / 1000.0).ToString(tostr) + 'k';
+            ////else if (value < 1000000000)
+            ////    return neg + (value / 1000000.0).ToString(tostr) + 'm';
+            ////else if (value < 1000000000000)
+            ////    return neg + (value / 1000000000.0).ToString(tostr) + 'b';
+            ////else
+            ////    return neg + (value / 1000000000000.0).ToString(tostr) + 't';
             if (value < 1000)
                 return neg + value.ToString();
-            else if (value < 1000000)
+            else if (value < 10000)
                 return neg + (value / 1000.0).ToString(tostr) + 'k';
-            else if (value < 1000000000)
-                return neg + (value / 1000000.0).ToString(tostr) + 'm';
-            else if (value < 1000000000000)
-                return neg + (value / 1000000000.0).ToString(tostr) + 'b';
+            else if (value < 1000000)
+                return neg + (value / 10000.0).ToString(tostr) + 'w';
+            else if (value < 100000000)
+                return neg + (value / 1000000.0).ToString(tostr) + "bw";
             else
-                return neg + (value / 1000000000000.0).ToString(tostr) + 't';
+                return neg + (value / 100000000.0).ToString(tostr) + 'y';
+        }
+        /// <summary>
+        /// Compares the two strings based on letter pair matches
+        /// </summary>
+        /// <returns>The percentage match from 0.0 to 1.0 where 1.0 is 100%</returns>
+        public static double CompareStrings(string[] str1, string[] str2)
+        {
+            List<string> pairs1 = str1.ToList();
+            List<string> pairs2 = str2.ToList();
+
+            int intersection = 0;
+            int union = pairs1.Count + pairs2.Count;
+
+            for (int i = 0; i < pairs1.Count; i++)
+            {
+                for (int j = 0; j < pairs2.Count; j++)
+                {
+                    if (pairs1[i] == pairs2[j])
+                    {
+                        intersection++;
+                        pairs2.RemoveAt(j);//Must remove the match to prevent "GGGG" from appearing to match "GG" with 100% success
+
+                        break;
+                    }
+                }
+            }
+            return (2.0 * intersection) / union;
         }
 
+        /// <summary>
+        /// Generates an array containing every
+        /// two consecutive letters in the input string
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        private static string[] LetterPairs(string str)
+        {
+            int numPairs = str.Length - 1;
+
+            string[] pairs = new string[numPairs];
+
+            for (int i = 0; i < numPairs; i++)
+            {
+                pairs[i] = str.Substring(i, 2);
+            }
+            return pairs;
+        }
 
         /// <summary>
         /// 刷新时间使用的方法,方便所有窗口使用

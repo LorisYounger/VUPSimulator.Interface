@@ -304,5 +304,29 @@ namespace VUPSimulator.Interface
             get => FindorAdd("follow").GetInfos().ToList();
             set => FindorAdd("follow").info = string.Join(",", value);
         }
+        /// <summary>
+        /// 总收入
+        /// </summary>
+        public double IncomeTotal
+        {
+            get => FindorAdd("incometotal").info.GetFloat();
+            set => FindorAdd("incometotal").info.SetFloat(value);
+        }
+        /// <summary>
+        /// 月度收入
+        /// </summary>
+        public double IncomeMonth
+        {
+            get => FindorAdd("incomemonth").info.GetFloat();
+            set => FindorAdd("incomemonth").info.SetFloat(value);
+        }
+        /// <summary>
+        /// 未提取收入
+        /// </summary>
+        public double IncomeNoOut
+        {
+            get => FindorAdd("incomenoout").info.GetFloat();
+            set => FindorAdd("incomenoout").info.SetFloat(value);
+        }
     }
 }

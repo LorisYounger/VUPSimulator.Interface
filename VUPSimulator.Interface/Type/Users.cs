@@ -89,7 +89,7 @@ namespace VUPSimulator.Interface
                 Sub s = Find("vtag");
                 if (s == null)
                     return null;
-                s.info = s.info.ToLower();
+                s.info = s.info.GetString().ToLower();
                 return s.GetInfos();
             }
         }
@@ -105,7 +105,7 @@ namespace VUPSimulator.Interface
                 Sub s = Find("gtag");
                 if (s == null)
                     return null;
-                s.info = s.info.ToLower();
+                s.info = s.info.GetString().ToLower();
                 return s.GetInfos();
             }
         }

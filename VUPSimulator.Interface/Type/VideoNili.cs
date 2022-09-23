@@ -57,9 +57,9 @@ namespace VUPSimulator.Interface
             video.authnili = author;
             video.Author = author.UserName;
 
-            //根据作者生成质量 =POWER(P3+100,0.15)*0.4-0.2
+            //根据作者生成质量 =POWER(P3+100,0.15)*0.3-0.2
             if (quality <= 0)
-                quality = Math.Pow(video.AuthorNili(mw).TotalFans + 100, 0.15) * 0.4 - 0.2;
+                quality = Math.Pow(video.AuthorNili(mw).TotalFans + 100, 0.15) * 0.3 - 0.2;
 
             //根据用户标签随机视频质量
             var tag = video.AuthorNili(mw).Tags;
@@ -129,6 +129,9 @@ namespace VUPSimulator.Interface
             video.QualityVoice = vv * tl;
 
             video.PublishDate = nowtime;// Function.Rnd.Next(-365, mw.Save.DayTimePass);
+
+            //默认视频参加创作收益
+            video.JoinProfit = true;
 
             //刷新时间
             video.RelsDate(mw);
@@ -390,8 +393,16 @@ namespace VUPSimulator.Interface
         /// </summary>
         public double Buff
         {
-            get => GetFloat("buff", 1);
+            get => GetFloat("buff", 1) * (JoinProfit ? 0.5 : 1);
             set => this[(gflt)"buff"] = value;
+        }
+        /// <summary>
+        /// 是否参与了创作收入计划
+        /// </summary>
+        public bool JoinProfit
+        {
+            get => GetBool("joinprofit");
+            set => SetBool("joinprofit", value);
         }
         /// <summary>
         /// 评论标签
@@ -405,9 +416,9 @@ namespace VUPSimulator.Interface
                     Sub subtag = Find("tag");
                     tags = new List<string>();
 
-                    if (Quality < 30)
+                    if (TotalQuality < 1)
                         tags.Add("lowquality");
-                    else if (Quality > 70)
+                    else if (TotalQuality > 3)
                         tags.Add("highquality");
 
                     //给tag添加类型元素
@@ -465,16 +476,22 @@ namespace VUPSimulator.Interface
 
                 if (isplayer)
                 {//如果是玩家,还需要统计图表和收益
-                    //收益
-                    var ind = IncomeCalDay(pcd, lcd, scd);
-                    //收益存在Nili里,需要手动提取
-                    var line = mw.Save.UIData.FindLineInfo("nili");
-                    if (line == null)
-                    {
-                        line = new Line("uidata", "nili");
-                        mw.Save.UIData.AddLine(line);
-                    }
-                    line[(gflt)"income"] += ind;
+
+                    //收益: 未参加创作收益计划则为0收益
+                    var ind = JoinProfit ? IncomeCalDay(pcd, lcd, scd) : 0;
+
+                    ////收益存在Nili里,需要手动提取//修改:放到总收入里
+                    //var line = mw.Save.UIData.FindLineInfo("nili");
+                    //if (line == null)
+                    //{
+                    //    line = new Line("uidata", "nili");
+                    //    mw.Save.UIData.AddLine(line);
+                    //}
+                    //line[(gflt)"income"] += ind;
+                    mw.Save.UserNili.IncomeNoOut += ind;
+                    mw.Save.UserNili.IncomeMonth += ind;
+                    mw.Save.UserNili.IncomeTotal += ind;
+
 
                     //图标
                     var pf = mw.Save.DayTimePass - pt;
@@ -593,12 +610,14 @@ namespace VUPSimulator.Interface
 
         /// <summary>
         /// 计算今天可能获得的粉丝数量
-        /// =INT(($B$3)*(10+SQRT(E3)/10)*((5+$B$3*5)/(A3+10)))
+        /// =INT(($B$3)*((20+$B$3*20)/(A3+10))*$B$15)
         /// </summary>
         public int FansCalDay(IMainWindow mw, int time)
         {
             //开始计算
-            return (int)(TotalQuality * (10 + Math.Sqrt(AuthorNili(mw).TotalFans) / 10) * ((5 + TotalQuality * 5) / (time + 10)) * Buff);
+            //=INT(($B$3)*(10+SQRT(E3)/10)*((5+$B$3*5)/(A3+10))) 旧版本 涨粉太快了
+            //return (int)(TotalQuality * (10 + Math.Sqrt(AuthorNili(mw).TotalFans) / 10) * ((5 + TotalQuality * 5) / (time + 10)) * Buff);
+            return (int)(TotalQuality * ((20 + TotalQuality * 20) / (time + 10)) * Buff);
         }
         /// <summary>
         /// 涨粉粉丝数量
@@ -612,6 +631,14 @@ namespace VUPSimulator.Interface
         /// 收入表 用于图标展示 int日期:int值
         /// </summary>
         public StringStructure IncomeGraph => FindorAdd("incomegraph").Infos;
+        /// <summary>
+        /// 总收入
+        /// </summary>
+        public int IncomeCount
+        {
+            get => this[(gint)"incomecount"];
+            set => this[(gint)"incomecount"] = value;
+        }
         /// <summary>
         /// 计算今天可能获得的收入
         /// =C3*0.01+G3*0.1+I3*0.1

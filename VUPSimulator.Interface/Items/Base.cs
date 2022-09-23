@@ -98,7 +98,7 @@ namespace VUPSimulator.Interface
         public static Item New(Line line)
         {
             Item item;
-            switch (line.info.ToLower())
+            switch (line.info.GetString().ToLower())
             {
                 case "l2d_base":
                     item = new Item_L2D_base(line);
@@ -309,7 +309,7 @@ namespace VUPSimulator.Interface
             if (sb.info == rmexp)
                 sb.info = "";
             else
-                sb.info = sb.info.Replace(rmexp + ',', "");
+                sb.info = sb.info.GetString().Replace(rmexp + ',', "");
         }
         /// <summary>
         /// 转换成等级为星星

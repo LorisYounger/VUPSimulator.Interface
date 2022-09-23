@@ -181,6 +181,284 @@
             </summary>
             <param name="str">string</param>
         </member>
+        <member name="T:LinePutScript.SetObject">
+            <summary>
+            Set Object 可以储存任何类型的值 对性能进行优化
+            </summary>
+        </member>
+        <member name="T:LinePutScript.SetObject.ObjectType">
+            <summary>
+            储存Object的类型
+            </summary>
+        </member>
+        <member name="F:LinePutScript.SetObject.ObjectType.String">
+            <summary>
+            字符串
+            </summary>
+        </member>
+        <member name="F:LinePutScript.SetObject.ObjectType.Boolean">
+            <summary>
+            布尔值
+            </summary>
+        </member>
+        <member name="F:LinePutScript.SetObject.ObjectType.Integer">
+            <summary>
+            整数
+            </summary>
+        </member>
+        <member name="F:LinePutScript.SetObject.ObjectType.Integer64">
+            <summary>
+            整数64位
+            </summary>
+        </member>
+        <member name="F:LinePutScript.SetObject.ObjectType.Double">
+            <summary>
+            浮点数
+            </summary>
+        </member>
+        <member name="F:LinePutScript.SetObject.ObjectType.Float">
+            <summary>
+            浮点数(long)
+            </summary>
+        </member>
+        <member name="F:LinePutScript.SetObject.ObjectType.DateTime">
+            <summary>
+            时间
+            </summary>
+        </member>
+        <member name="F:LinePutScript.SetObject.Type">
+            <summary>
+            类型
+            </summary>
+        </member>
+        <member name="P:LinePutScript.SetObject.Value">
+            <summary>
+            储存的数据
+            </summary>
+        </member>
+        <member name="M:LinePutScript.SetObject.#ctor(System.String)">
+            <summary>
+            新建 SetObject: string
+            </summary>
+            <param name="value">值</param>
+        </member>
+        <member name="M:LinePutScript.SetObject.#ctor(System.Int64)">
+            <summary>
+            新建 SetObject: long
+            </summary>
+            <param name="value">值</param>
+        </member>
+        <member name="M:LinePutScript.SetObject.#ctor(System.Int32)">
+            <summary>
+            新建 SetObject: int
+            </summary>
+            <param name="value">值</param>
+        </member>
+        <member name="M:LinePutScript.SetObject.#ctor(System.Double)">
+            <summary>
+            新建 SetObject: double
+            </summary>
+            <param name="value">值</param>
+        </member>
+        <member name="M:LinePutScript.SetObject.#ctor(System.Single)">
+            <summary>
+            新建 SetObject: String
+            </summary>
+            <param name="value">值</param>
+        </member>
+        <member name="M:LinePutScript.SetObject.#ctor(System.DateTime)">
+            <summary>
+            新建 SetObject: DateTime
+            </summary>
+            <param name="value">值</param>
+        </member>
+        <member name="M:LinePutScript.SetObject.#ctor(System.Boolean)">
+            <summary>
+            新建 SetObject: bool
+            </summary>
+            <param name="value">值</param>
+        </member>
+        <member name="M:LinePutScript.SetObject.GetStoreString">
+            <summary>
+            转换成为储存String类型
+            </summary>
+        </member>
+        <member name="M:LinePutScript.SetObject.GetString">
+            <summary>
+            转换成 String 类型
+            </summary>
+        </member>
+        <member name="M:LinePutScript.SetObject.GetInteger64">
+            <summary>
+            转换成 long 类型
+            </summary>
+        </member>
+        <member name="M:LinePutScript.SetObject.GetInteger">
+            <summary>
+            转换成 int 类型
+            </summary>
+        </member>
+        <member name="M:LinePutScript.SetObject.GetDouble">
+            <summary>
+            转换成 double 类型
+            </summary>
+        </member>
+        <member name="M:LinePutScript.SetObject.GetDateTime">
+            <summary>
+            转换成 DateTime 类型
+            </summary>
+        </member>
+        <member name="M:LinePutScript.SetObject.GetBoolean">
+            <summary>
+            转换成 bool 类型
+            </summary>
+        </member>
+        <member name="M:LinePutScript.SetObject.SetString(System.String)">
+            <summary>
+            设置 string 值
+            </summary>
+        </member>
+        <member name="M:LinePutScript.SetObject.SetInteger(System.Int32)">
+            <summary>
+            设置 int 值
+            </summary>
+        </member>
+        <member name="M:LinePutScript.SetObject.SetInteger64(System.Int64)">
+            <summary>
+            设置 long 值
+            </summary>
+        </member>
+        <member name="M:LinePutScript.SetObject.SetDouble(System.Double)">
+            <summary>
+            设置 double 值
+            </summary>
+        </member>
+        <member name="M:LinePutScript.SetObject.SetFloat(System.Double)">
+            <summary>
+            设置 float 值
+            </summary>
+        </member>
+        <member name="M:LinePutScript.SetObject.SetDateTime(System.DateTime)">
+            <summary>
+            设置 DateTime 值
+            </summary>
+        </member>
+        <member name="M:LinePutScript.SetObject.SetBoolean(System.Boolean)">
+            <summary>
+            设置 bool 值
+            </summary>
+        </member>
+        <member name="M:LinePutScript.SetObject.op_Implicit(System.String)~LinePutScript.SetObject">
+            <summary>
+            转换 String 为 SetObject
+            </summary>
+        </member>
+        <member name="M:LinePutScript.SetObject.op_Implicit(LinePutScript.SetObject)~System.String">
+            <summary>
+            转换 SetObject 为 String
+            </summary>
+        </member>
+        <member name="M:LinePutScript.SetObject.op_Implicit(System.Int32)~LinePutScript.SetObject">
+            <summary>
+            转换 int 为 SetObject
+            </summary>
+        </member>
+        <member name="M:LinePutScript.SetObject.op_Explicit(LinePutScript.SetObject)~System.Int32">
+            <summary>
+            转换 SetObject 为 int
+            </summary>
+        </member>
+        <member name="M:LinePutScript.SetObject.op_Implicit(System.Int64)~LinePutScript.SetObject">
+            <summary>
+            转换 long 为 SetObject
+            </summary>
+        </member>
+        <member name="M:LinePutScript.SetObject.op_Explicit(LinePutScript.SetObject)~System.Int64">
+            <summary>
+            转换 SetObject 为 long
+            </summary>
+        </member>
+        <member name="M:LinePutScript.SetObject.op_Implicit(System.Double)~LinePutScript.SetObject">
+            <summary>
+            转换 double 为 SetObject
+            </summary>
+        </member>
+        <member name="M:LinePutScript.SetObject.op_Explicit(LinePutScript.SetObject)~System.Double">
+            <summary>
+            转换 SetObject 为 double
+            </summary>
+        </member>
+        <member name="M:LinePutScript.SetObject.op_Implicit(System.Boolean)~LinePutScript.SetObject">
+            <summary>
+            转换 bool 为 SetObject
+            </summary>
+        </member>
+        <member name="M:LinePutScript.SetObject.op_Explicit(LinePutScript.SetObject)~System.Boolean">
+            <summary>
+            转换 SetObject 为 bool
+            </summary>
+        </member>
+        <member name="M:LinePutScript.SetObject.op_Implicit(System.DateTime)~LinePutScript.SetObject">
+            <summary>
+            转换 DateTime 为 SetObject
+            </summary>
+        </member>
+        <member name="M:LinePutScript.SetObject.op_Explicit(LinePutScript.SetObject)~System.DateTime">
+            <summary>
+            转换 SetObject 为 DateTime
+            </summary>
+        </member>
+        <member name="M:LinePutScript.SetObject.CompareTo(LinePutScript.SetObject)">
+            <summary>
+            比较两个 SetObject 对象差距
+            </summary>
+        </member>
+        <member name="M:LinePutScript.SetObject.CompareTo(System.Object)">
+            <summary>
+            比较两个 SetObject 对象差距
+            </summary>
+        </member>
+        <member name="M:LinePutScript.SetObject.Equals(LinePutScript.SetObject)">
+            <summary>
+            比较两个 SetObject 对象是否相等
+            </summary>
+        </member>
+        <member name="M:LinePutScript.SetObject.Clone">
+            <summary>
+            克隆新的 SetObject
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LinePutScript.SetObject.Equals(System.String)">
+            <summary>
+            比较 SetObject 和 string 是否相等
+            </summary>
+        </member>
+        <member name="M:LinePutScript.SetObject.Equals(System.Int64)">
+            <summary>
+            比较 SetObject 和 long 是否相等
+            </summary>
+        </member>
+        <member name="M:LinePutScript.SetObject.Equals(System.Int32)">
+            <summary>
+            比较 SetObject 和 int 是否相等
+            </summary>
+        </member>
+        <member name="M:LinePutScript.SetObject.Equals(System.Double)">
+            <summary>
+            比较 SetObject 和 double 是否相等
+            </summary>
+        </member>
+        <member name="M:LinePutScript.SetObject.Equals(System.DateTime)">
+            <summary>
+            比较 SetObject 和 DateTime 是否相等
+            </summary>
+        </member>
+        <member name="M:LinePutScript.SetObject.Equals(System.Boolean)">
+            <summary>
+            比较 SetObject 和 bool 是否相等
+            </summary>
+        </member>
         <member name="T:LinePutScript.StringStructure">
             <summary>
             String 结构 通过String实时修改具体参数,为LineputScript提供第四层结构
@@ -882,14 +1160,14 @@
             <summary>
             搜索全部相似名称的Sub的所有元素
             </summary>
-            <param name="value">字段</param>
+            <param name="value">%字段%</param>
             <returns>如果找到相似名称的Sub,则为数组; 否则为一个空的Array</returns>
         </member>
         <member name="M:LinePutScript.Line.Seach(System.String)">
             <summary>
             搜索字段是否出现在Line名称,并返回整个Subs中的第一个匹配元素
             </summary>
-            <param name="value">字段</param>
+            <param name="value">%字段%</param>
             <returns>如果找到相似名称的第一个Sub,则为该Sub; 否则为null</returns>
         </member>
         <member name="M:LinePutScript.Line.IndexOf(System.String)">
@@ -910,6 +1188,13 @@
             <summary>
             将当前Line转换成文本格式 (info已经被转义/去除关键字)
             </summary>
+            <returns>Line的文本格式 (info已经被转义/去除关键字)</returns>
+        </member>
+        <member name="M:LinePutScript.Line.ToString(System.Text.StringBuilder)">
+            <summary>
+            将当前Line转换成文本格式 (info已经被转义/去除关键字) 将输出储存到StringBuilder
+            </summary>
+            <param name="str">储存到的 StringBuilder</param>
             <returns>Line的文本格式 (info已经被转义/去除关键字)</returns>
         </member>
         <member name="M:LinePutScript.Line.GetLongHashCode">
@@ -969,8 +1254,7 @@
             </summary>
             <param name="subName">用于定义匹配的名称</param>
             <param name="value">
-            如果为ture,则在没有相同name为subName的sub时候添加新的sub
-            如果为false,则删除所有name为subName的sub
+            值
             </param>
         </member>
         <member name="M:LinePutScript.Line.GetInt(System.String,System.Int32)">
@@ -1438,28 +1722,28 @@
             <summary>
             搜索全部相似名称的Line的所有元素
             </summary>
-            <param name="value">字段</param>
+            <param name="value">%字段%</param>
             <returns>如果找到相似名称的Line,则为数组; 否则为一个空的Array</returns>
         </member>
         <member name="M:LinePutScript.LpsDocument.SearchLine(System.String)">
             <summary>
             搜索字段是否出现在Line名称,并返回整个Assemblage中的第一个匹配元素
             </summary>
-            <param name="value">字段</param>
+            <param name="value">%字段%</param>
             <returns>如果找到相似名称的第一个Line,则为该Line; 否则为null</returns>
         </member>
         <member name="M:LinePutScript.LpsDocument.SearchAllSub(System.String)">
             <summary>
             搜索全部相似名称的Sub的所有元素
             </summary>
-            <param name="value">字段</param>
+            <param name="value">%字段%</param>
             <returns>如果找到相似名称的Line,则为该数组; 否则为一个空的Array</returns>
         </member>
         <member name="M:LinePutScript.LpsDocument.SearchSub(System.String)">
             <summary>
             搜索字段是否出现在Sub名称,并返回整个Assemblage中的第一个匹配元素
             </summary>
-            <param name="value">字段</param>
+            <param name="value">%字段%</param>
             <returns>如果找到相同名称的第一个Sub,则为该Sub; 否则为null</returns>
         </member>
         <member name="M:LinePutScript.LpsDocument.IndexOf(System.String)">

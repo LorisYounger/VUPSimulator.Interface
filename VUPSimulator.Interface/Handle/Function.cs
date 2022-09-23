@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 using LinePutScript;
@@ -570,7 +571,7 @@ namespace VUPSimulator.Interface
             ////    return neg + (value / 1000000000000.0).ToString(tostr) + 't';
             if (value < 1000)
                 return neg + value.ToString();
-            else if (value < 10000)
+            else if (value < 100000)
                 return neg + (value / 1000.0).ToString(tostr) + 'k';
             else if (value < 1000000)
                 return neg + (value / 10000.0).ToString(tostr) + 'w';
@@ -633,6 +634,50 @@ namespace VUPSimulator.Interface
         /// <param name="mw">主窗口</param>
         public delegate void TimeRels(TimeSpan span, IMainWindow mw);
 
+        /// <summary>
+        /// 获取资源笔刷
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static Brush ResourcesBrush(BrushType name)
+        {
+            return (Brush)Application.Current.Resources.MergedDictionaries.Last()[name.ToString()];
+        }
+        public enum BrushType
+        {
+            Primary,
+            PrimaryTrans,
+            PrimaryTrans4,
+            PrimaryTransA,
+            PrimaryTransE,
+            PrimaryLight,
+            PrimaryLighter,
+            PrimaryDark,
+            PrimaryDarker,
+            PrimaryText,
+
+            Secondary,
+            SecondaryTrans,
+            SecondaryTrans4,
+            SecondaryTransA,
+            SecondaryTransE,
+            SecondaryLight,
+            SecondaryLighter,
+            SecondaryDark,
+            SecondaryDarker,
+            SecondaryText,
+
+            DARKPrimary,
+            DARKPrimaryTrans,
+            DARKPrimaryTrans4,
+            DARKPrimaryTransA,
+            DARKPrimaryTransE,
+            DARKPrimaryLight,
+            DARKPrimaryLighter,
+            DARKPrimaryDark,
+            DARKPrimaryDarker,
+            DARKPrimaryText,
+        }
         /// <summary>
         /// 消息类型
         /// </summary>

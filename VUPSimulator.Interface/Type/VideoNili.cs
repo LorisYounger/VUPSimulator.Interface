@@ -645,7 +645,7 @@ namespace VUPSimulator.Interface
             set => this[(gi64)"incomecount"] = value;
         }
         /// <summary>
-        /// 总收入
+        /// 昨日收入
         /// </summary>
         public int IncomeYesterday
         {

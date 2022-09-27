@@ -729,6 +729,7 @@ namespace VUPSimulator.Interface
             VUPMotionCapture,
             VideoEdit,//支持不重复视频多开
             VideoEncoder,//支持双击后添加内容至VE
+            PicTool,
         }
 
 

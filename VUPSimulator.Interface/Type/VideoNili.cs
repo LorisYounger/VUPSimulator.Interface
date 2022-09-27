@@ -133,8 +133,8 @@ namespace VUPSimulator.Interface
             //默认视频参加创作收益
             video.JoinProfit = true;
 
-            //刷新时间
-            video.RelsDate(mw);
+            ////刷新时间
+            //video.RelsDate(mw);
 
             return video;
         }
@@ -149,22 +149,26 @@ namespace VUPSimulator.Interface
         /// </summary>
         /// <param name="video">视频</param>
         /// <param name="nowtime">发布时间</param>
-        public VideoNili(Video video, int nowtime)
+        public VideoNili(Video video, string name, string content, int nowtime, string imgname, string[] tags, bool joinprofit)
         {
             Name = "nilivideo";
-            VideoName = video.VideoName;
+            VideoName = name;
             TimeLength = video.TimeLength;
             BitRate = video.BitRate;
             Resolution = video.Resolution;
+            Buff = video.Buff;
             VideoType = video.VideoType;
             Quality = video.Quality;
             QualityVideo = video.QualityVideo;
             QualityVoice = video.QualityVoice;
             QualityFun = video.QualityFun;
-            ImageName = video.ImageName;
-            Content = video.Content;
+            ImageName = imgname;
+            Content = content;
             PublishDate = nowtime;
             Author = "_";
+            JoinProfit = joinprofit;
+            FindorAdd("tag").info = string.Join(",", tags);
+
         }
         /// <summary>
         /// 视频名称
@@ -491,7 +495,8 @@ namespace VUPSimulator.Interface
                     mw.Save.UserNili.IncomeNoOut += ind;
                     mw.Save.UserNili.IncomeMonth += ind;
                     mw.Save.UserNili.IncomeTotal += ind;
-
+                    IncomeCount += (long)ind;
+                    IncomeYesterday = (int)ind;
 
                     //图标
                     var pf = mw.Save.DayTimePass - pt;
@@ -507,7 +512,7 @@ namespace VUPSimulator.Interface
                     mw.Save.UserNili.IncomeGraph[(gflt)(pf + i).ToString()] += ind;
                 }
             }
-            SettleDate = mw.Save.DayTimePass + 1;
+            SettleDate = mw.Save.DayTimePass;
         }
 
 
@@ -634,10 +639,18 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 总收入
         /// </summary>
-        public int IncomeCount
+        public long IncomeCount
         {
-            get => this[(gint)"incomecount"];
-            set => this[(gint)"incomecount"] = value;
+            get => this[(gi64)"incomecount"];
+            set => this[(gi64)"incomecount"] = value;
+        }
+        /// <summary>
+        /// 总收入
+        /// </summary>
+        public int IncomeYesterday
+        {
+            get => this[(gint)"incomeyesterday"];
+            set => this[(gint)"incomeyesterday"] = value;
         }
         /// <summary>
         /// 计算今天可能获得的收入

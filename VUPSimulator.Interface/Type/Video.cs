@@ -101,7 +101,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 视频大小,未来会做硬件硬盘功能
         /// </summary>
-        public int Size => (int)(BitRate * TimeLength.TotalSeconds / 1000);
+        public int Size => (int)(BitRate * TimeLength.TotalSeconds / 10000);
         /// <summary>
         /// 是否在剪辑状态
         /// </summary>
@@ -126,14 +126,14 @@ namespace VUPSimulator.Interface
             get => this[(gbol)"isfinish"];
             set => this[(gbol)"isfinish"] = value;
         }
-        /// <summary>
-        /// 是否随时可以提交视频
-        /// </summary>
-        public bool IsPublish
-        {
-            get => this[(gbol)"ispublish"];
-            set => this[(gbol)"ispublish"] = value;
-        }
+        ///// <summary>
+        ///// 是否随时可以提交视频//上传视频完成后会自动删除旧视频,无需使用此属性
+        ///// </summary>
+        //public bool IsPublish
+        //{
+        //    get => this[(gbol)"ispublish"];
+        //    set => this[(gbol)"ispublish"] = value;
+        //}
 
         //总质量计算: 质量/时长
         //误区:视频质量是可以大于1
@@ -338,6 +338,22 @@ namespace VUPSimulator.Interface
                         return "未知";
                 }
             }
+        }
+        /// <summary>
+        /// 视频标签,一般是OBS自动生成
+        /// </summary>
+        public string[] Tag
+        {
+            get => this["tag"].GetInfos();
+            set => this["tag"].info = string.Join(",", value);
+        }
+        /// <summary>
+        /// 视频增益,由OBS自动生成
+        /// </summary>
+        public double Buff
+        {
+            get => GetFloat("buff", 1);
+            set => this[(gflt)"buff"] = value;
         }
     }
 }

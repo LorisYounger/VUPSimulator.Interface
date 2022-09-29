@@ -246,7 +246,7 @@ namespace VUPSimulator.Interface
         {
             using (MemoryStream ms = new MemoryStream())
             {
-                BitmapEncoder encoder = new BmpBitmapEncoder();
+                BitmapEncoder encoder = new PngBitmapEncoder();
                 encoder.Frames.Add(BitmapFrame.Create(image));
                 encoder.Save(ms);
                 File.WriteAllBytes(ImagePATH(mw), ms.ToArray());

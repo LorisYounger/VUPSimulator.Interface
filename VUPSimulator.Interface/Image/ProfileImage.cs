@@ -11,12 +11,14 @@ namespace VUPSimulator.Interface
     /// <summary>
     /// 随机生成profile图片
     /// 顶层->底层
-    /// 0装饰: 头发脸部装饰等
-    /// 1表情: 表情,不包括脸
-    /// 2前头发: 覆盖在前面的头发,和后头发绑定
-    /// 3脸部: 脸部/面部 不同形状等
+    /// 0装饰: 头发脸部装饰等 为可选(20%莫得)
+    /// 1前头发: 覆盖在前面的头发,和后头发绑定
+    /// 2脸装饰: 覆盖在脸上的装饰 为可选(20%莫得)
+    /// 3嘴巴: 覆盖在脸上的嘴巴 为可选
     /// 4衣服: 因为是头像,衣服部分不多,大约到袖口位置
-    /// 5后头发: 在脸部后面的头发,和前头发绑定
+    /// 5眼睛: 眼睛&表情,不包括脸
+    /// 6脸&身体: 脸部+身体
+    /// 7后头发: 在脸部后面的头发,和前头发绑定
     /// ---
     /// 如果rgb值如果是相等的，就会自动生成相应灰度随机的颜色，0和255除外
     /// </summary>
@@ -25,7 +27,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 图层层数
         /// </summary>
-        public const int len = 6;
+        public const int len = 8;
         /// <summary>
         /// 文件列表
         /// </summary>
@@ -41,38 +43,45 @@ namespace VUPSimulator.Interface
         }
         public BitmapImage GetRndImage(int hash)
         {
+            hash = Math.Abs(hash);
             if (cache.ContainsKey(hash))
                 return cache[hash];
 
             string[] imgs = new string[len];
             for (int i = 0; i < len - 1; i++)
-                imgs[i] = Files[i][Math.Abs(hash / (i + 1)) % Files.Length];
-            imgs[5] = imgs[2];
+                imgs[i] = Files[i][(hash / (i + 1)) % Files.Length];
+            imgs[7] = Files[7][(hash / 2) % Files.Length];
+
+            foreach (int i in new int[] { 0, 2 })
+                if ((hash / (100 + i)) % 5 == 0)
+                    imgs[i] = null;
+            
 
             //计算人物色系
-            float H = hash % 360;
+            float H = (hash) % 360;
             float[] S = new float[len];
             for (int i = 0; i < len - 1; i++)
-                S[i] = Math.Abs(hash / (i + 10) + 100) % 100 / 100f;
-            S[5] = S[2];
+                S[i] = (hash / (i + 10)) % 100 / 100f;
+            S[7] = S[1];
 
             BitmapImage bitmapImage = new BitmapImage();
-            using (Bitmap bitMap = new Bitmap(512, 512))
+            using (Bitmap bitMap = new Bitmap(64, 64))
             {
                 using (Graphics g1 = Graphics.FromImage(bitMap))
                 {
                     for (int i = len - 1; i >= 0; i--)
-                        using (Bitmap img = new Bitmap(imgs[i]))
-                        {
-                            for (int x = 0; x < img.Width; x++)
-                                for (int y = 0; y < img.Width; y++)
-                                {
-                                    var pix = img.GetPixel(x, y);
-                                    if (pix.R == pix.G && pix.G == pix.B && pix.R != 0 && pix.R != 255)
-                                        img.SetPixel(x, y, HSBtoRGB(H, S[i], pix.R, pix.A));
-                                }
-                            g1.DrawImage(img, 0, 0, 512, 512);
-                        }
+                        if (imgs[i] != null)
+                            using (Bitmap img = new Bitmap(imgs[i]))
+                            {
+                                for (int x = 0; x < img.Width; x++)
+                                    for (int y = 0; y < img.Width; y++)
+                                    {
+                                        var pix = img.GetPixel(x, y);
+                                        if (pix.R == pix.G && pix.G == pix.B && pix.R != 0 && pix.R != 255)
+                                            img.SetPixel(x, y, HSBtoRGB(H, S[i], pix.R, pix.A));
+                                    }
+                                g1.DrawImage(img, 0, 0, 64, 64);
+                            }
                 }
                 using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
                 {

@@ -49,6 +49,24 @@
                             Width="210" Background="{DynamicResource DARKPrimaryTrans4}" Height="22" pu:ButtonHelper.CornerRadius="2" Click="btngi_Click" />
                 </Grid>
             </TabItem>
+            <TabItem Header="随机头像生成">
+                <Grid>
+                    <Image x:Name="Rimage" Height="111" Width="111" HorizontalAlignment="Left" Margin="4,0,0,0" />
+                    <Label Content="名字&#13;Hash" HorizontalAlignment="Left" Margin="120,5,0,0"
+                            VerticalAlignment="Top" Background="{x:Null}" Padding="0" />
+                    <TextBox x:Name="RName" Margin="160,5,10,0" VerticalAlignment="Top"
+                            FontSize="10" Text="" ToolTip="在这里填写名字"
+                            TextChanged="RName_TextChanged" />
+                    <Label x:Name="RID" Margin="160,22,10,0" VerticalAlignment="Top"
+                            FontSize="10" Content="123"
+                            Background="{DynamicResource DARKPrimary}" Foreground="{DynamicResource DARKPrimaryText}" Padding="6,0,0,0"
+                            BorderBrush="{DynamicResource DARKPrimaryDarker}" BorderThickness="1"/>
+                    <Button x:Name="RGen" Margin="160,41,10,0" VerticalAlignment="Top" FontSize="10" Content="生成头像"
+                            Background="{DynamicResource Primary}" Foreground="{DynamicResource DARKPrimaryText}" Padding="6,0,0,0"
+                            BorderBrush="{DynamicResource DARKPrimaryDarker}" BorderThickness="1"
+                            Click="RGen_Click" />
+                </Grid>
+            </TabItem>
         </TabControl>
 
     </Grid>

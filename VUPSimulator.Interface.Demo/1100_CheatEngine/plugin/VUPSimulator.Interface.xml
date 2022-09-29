@@ -1168,10 +1168,41 @@
             自动生成图片基本类, 可以生成图片控件,方便多次调用
             </summary>
         </member>
-        <member name="T:VUPSimulator.Interface.ProfileImage">
+        <!-- Badly formed XML comment ignored for member "T:VUPSimulator.Interface.ProfileImage" -->
+        <member name="F:VUPSimulator.Interface.ProfileImage.len">
             <summary>
-            随机生成profile图片
+            图层层数
             </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ProfileImage.Files">
+            <summary>
+            文件列表
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ProfileImage.cache">
+            <summary>
+            图片缓存
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.ProfileImage.HSBtoRGB(System.Single,System.Single,System.Single,System.Byte)">
+            <summary>
+            HSB颜色值转颜色
+            </summary>
+            <param name="H">色相 0-359</param>
+            <param name="S">饱和度 0-100%</param>
+            <param name="B">亮度 0-100%</param>
+            <param name="alpha">透明度 0-255 可选</param>
+            <returns>颜色</returns>
+        </member>
+        <member name="M:VUPSimulator.Interface.ProfileImage.HSBtoRGB(System.Single,System.Single,System.Byte,System.Byte)">
+            <summary>
+            HSB颜色值转颜色
+            </summary>
+            <param name="H">色相 0-359</param>
+            <param name="S">饱和度 0-100%</param>
+            <param name="B">亮度 0-255</param>
+            <param name="alpha">透明度 0-255 可选</param>
+            <returns>颜色</returns>
         </member>
         <member name="T:VUPSimulator.Interface.Comment_base">
             <summary>
@@ -1340,7 +1371,7 @@
             创建全新的随机NILI视频
             </summary>
         </member>
-        <member name="M:VUPSimulator.Interface.VideoNili.#ctor(VUPSimulator.Interface.Video,System.Int32)">
+        <member name="M:VUPSimulator.Interface.VideoNili.#ctor(VUPSimulator.Interface.Video,System.String,System.String,System.Int32,System.String,System.String[],System.Boolean)">
             <summary>
             发布视频到nilinili
             </summary>
@@ -1539,6 +1570,11 @@
             总收入
             </summary>
         </member>
+        <member name="P:VUPSimulator.Interface.VideoNili.IncomeYesterday">
+            <summary>
+            昨日收入
+            </summary>
+        </member>
         <member name="M:VUPSimulator.Interface.VideoNili.IncomeCalDay(System.Int32,System.Int32,System.Int32)">
             <summary>
             计算今天可能获得的收入
@@ -1715,6 +1751,21 @@
             所有关注的用户
             </summary>
         </member>
+        <member name="P:VUPSimulator.Interface.UserNiliSuper.IncomeTotal">
+            <summary>
+            总收入
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.UserNiliSuper.IncomeMonth">
+            <summary>
+            月度收入
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.UserNiliSuper.IncomeNoOut">
+            <summary>
+            未提取收入
+            </summary>
+        </member>
         <member name="T:VUPSimulator.Interface.Video">
             <summary>
             玩家录制的视频文件
@@ -1791,11 +1842,6 @@
             </summary>
         </member>
         <member name="P:VUPSimulator.Interface.Video.IsFinish">
-            <summary>
-            是否随时可以提交视频
-            </summary>
-        </member>
-        <member name="P:VUPSimulator.Interface.Video.IsPublish">
             <summary>
             是否随时可以提交视频
             </summary>
@@ -1910,6 +1956,16 @@
         <member name="P:VUPSimulator.Interface.Video.Content">
             <summary>
             视频内容
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Video.Tag">
+            <summary>
+            视频标签,一般是OBS自动生成
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Video.Buff">
+            <summary>
+            视频增益,由OBS自动生成
             </summary>
         </member>
         <member name="T:VUPSimulator.Interface.VideoEditorType">

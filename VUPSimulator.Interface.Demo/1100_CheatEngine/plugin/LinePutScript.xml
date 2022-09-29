@@ -303,6 +303,11 @@
             转换成 double 类型
             </summary>
         </member>
+        <member name="M:LinePutScript.SetObject.GetFloat">
+            <summary>
+            转换成 double(int64) 类型
+            </summary>
+        </member>
         <member name="M:LinePutScript.SetObject.GetDateTime">
             <summary>
             转换成 DateTime 类型

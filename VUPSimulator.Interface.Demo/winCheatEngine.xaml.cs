@@ -134,5 +134,17 @@ namespace CheatEngine
             var tmp = mw.Core.GenImageTemplates[Did.SelectedIndex];
             mw.winImageBoxShow("生成的图片", tmp.genImageNili(Dtext.Text, Dimage.Text, Dbg.Text).Create(mw));
         }
+
+        private void RName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(RName.Text))
+                return;
+            RID.Content = RName.Text.GetHashCode();
+        }
+
+        private void RGen_Click(object sender, RoutedEventArgs e)
+        {
+            Rimage.Source = mw.Core.ProfileImage.GetRndImage(RName.Text);
+        }
     }
 }

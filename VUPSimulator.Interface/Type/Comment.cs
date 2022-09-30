@@ -29,7 +29,7 @@ namespace VUPSimulator.Interface
                     int i = Function.Rnd.Next(q / 2, q);
                     this[(gint)"likes"] = i;
                 }
-                int tq = (q * 3 + Likes * 2) / 4 + IsLike;
+                int tq = (q * 3 + this[(gint)"likes"] * 2) / 4 + IsLike;
                 if (tq <= 0)
                     return 0;
                 return tq;

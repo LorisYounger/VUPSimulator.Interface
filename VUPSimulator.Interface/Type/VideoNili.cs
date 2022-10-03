@@ -130,8 +130,8 @@ namespace VUPSimulator.Interface
 
             video.PublishDate = nowtime;// Function.Rnd.Next(-365, mw.Save.DayTimePass);
 
-            //默认视频参加创作收益
-            video.JoinProfit = true;
+            //高质量视频再添加创作收益
+            video.JoinProfit = false;
 
             ////刷新时间
             //video.RelsDate(mw);
@@ -615,14 +615,14 @@ namespace VUPSimulator.Interface
 
         /// <summary>
         /// 计算今天可能获得的粉丝数量
-        /// =INT(($B$3)*((20+$B$3*20)/(A3+10))*$B$15)
+        /// =INT(($B$3+1)*((20+$B$3*20)/(A3+3))*$B$15)
         /// </summary>
         public int FansCalDay(IMainWindow mw, int time)
         {
             //开始计算
             //=INT(($B$3)*(10+SQRT(E3)/10)*((5+$B$3*5)/(A3+10))) 旧版本 涨粉太快了
             //return (int)(TotalQuality * (10 + Math.Sqrt(AuthorNili(mw).TotalFans) / 10) * ((5 + TotalQuality * 5) / (time + 10)) * Buff);
-            return (int)(TotalQuality * ((20 + TotalQuality * 20) / (time + 10)) * Buff);
+            return (int)((TotalQuality + 1) * ((20 + TotalQuality * 20) / (time + 3)) * Buff);
         }
         /// <summary>
         /// 涨粉粉丝数量

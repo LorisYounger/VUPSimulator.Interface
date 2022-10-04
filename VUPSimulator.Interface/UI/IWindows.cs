@@ -18,7 +18,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 关闭窗口 无确认
         /// </summary>
-        Task Close();
+        void Close();
 
         /// <summary>
         /// 居中窗口

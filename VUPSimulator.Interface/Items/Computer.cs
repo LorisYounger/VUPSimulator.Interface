@@ -231,6 +231,27 @@ namespace VUPSimulator.Interface
 
             List<ComputerUsage> list = new List<ComputerUsage>();
             SystemCU.Clean();
+
+            //为系统添加额外的占用
+            if (SystemCU.CPUUsage < CPUTotal * .2)
+            {
+                SystemCU.CPUUsage += span.TotalDays * CPUTotal / 10;
+                if (SystemCU.CPUUsage > CPUTotal * .2)
+                    SystemCU.CPUUsage = CPUTotal * .2 + 0.1;
+            }
+            if (SystemCU.GPUUsage < GPUTotal * .2)
+            {
+                SystemCU.GPUUsage += span.TotalDays * GPUTotal / 10;
+                if (SystemCU.GPUUsage > GPUTotal * .2)
+                    SystemCU.GPUUsage = GPUTotal * .2 + 0.1;
+            }
+            if (SystemCU.MemoryUsage < MemorysTotal / 4)
+            {
+                SystemCU.MemoryUsage += (int)(span.TotalDays * MemorysTotal / 8);
+                if (SystemCU.MemoryUsage > MemorysTotal / 4)
+                    SystemCU.MemoryUsage = MemorysTotal / 4 + 1;
+            }
+
             list.Add(SystemCU);
             foreach (WindowsPageHandle mp in mw.AllWindows)
             {

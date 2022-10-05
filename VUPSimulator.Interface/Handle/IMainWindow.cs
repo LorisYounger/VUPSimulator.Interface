@@ -143,6 +143,6 @@ namespace VUPSimulator.Interface
         /// <param name="SoftWare">软件名称</param>
         /// <param name="args">参数</param>
         /// <returns>该软件的窗体控件</returns>
-        Task<WindowsPageHandle> ShowSoftWare(string SoftWare, string args);
+        WindowsPageHandle ShowSoftWare(string SoftWare, string args);
     }
 }

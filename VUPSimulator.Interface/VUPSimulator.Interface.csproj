@@ -54,12 +54,14 @@
     <Compile Include="Handle\MainPlugin.cs" />
     <Compile Include="Handle\SoftWare.cs" />
     <Compile Include="Items\Computer.cs" />
+    <Compile Include="Items\Food.cs" />
     <Compile Include="Items\Game.cs" />
     <Compile Include="Image\GenImage.xaml.cs">
       <DependentUpon>GenImage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Image\GenImageTemplate.cs" />
     <Compile Include="Image\ProfileImage.cs" />
+    <Compile Include="Items\L2D.cs" />
     <Compile Include="Type\Comment.cs" />
     <Compile Include="Type\VideoNili.cs" />
     <Compile Include="Type\UserNili.cs" />
@@ -70,7 +72,7 @@
     <Compile Include="Core\Theme.cs" />
     <Compile Include="Handle\Function.cs" />
     <Compile Include="Handle\IMainWindow.cs" />
-    <Compile Include="Items\Base.cs" />
+    <Compile Include="Items\Item.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\IMCTag.cs" />
     <Compile Include="UI\IWindows.cs" />

@@ -512,8 +512,11 @@ namespace VUPSimulator.Interface
                         case "health":
                             mw.Save.Health = (double)value;
                             break;
-                        case "strength":
-                            mw.Save.Strength = (double)value;
+                        case "strengthfood":
+                            mw.Save.StrengthFood = (double)value;
+                            break;
+                        case "strengthsleep":
+                            mw.Save.StrengthSleep = (double)value;
                             break;
                         case "pclip":
                             mw.Save.Pclip = (double)value;

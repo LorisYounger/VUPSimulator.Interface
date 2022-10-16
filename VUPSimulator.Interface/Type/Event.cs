@@ -681,7 +681,7 @@ namespace VUPSimulator.Interface
 
         public override void HandleAction(TimeSpan ts, IMainWindow mw)
         {
-            mw.Save.Strength += Value;
+            mw.Save.StrengthRemove(-Value);
         }
     }
 

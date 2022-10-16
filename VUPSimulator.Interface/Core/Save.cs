@@ -75,19 +75,19 @@ namespace VUPSimulator.Interface
         /// </summary>
         public Computer Computer;
 
-        protected int money;
-        protected int health;
-        protected int strength;
+        protected double health;
+        private double strengthsleep;
+        private double strengthfood;
         /// <summary>
         /// 资金
         /// </summary>
-        public double Money { get => money / 1000.0; set => money = (int)(value * 1000); }
+        public double Money;
         /// <summary>
         /// 健康
         /// </summary>
         public double Health
         {
-            get => health / 100.0;
+            get => health;
             set
             {
                 //TODO:低健康 触发住院事件
@@ -97,8 +97,11 @@ namespace VUPSimulator.Interface
                     //if (ALLEvent.Find(x => x.EventName == "ill") == null) TODO
                     //    imw.Core.EventBases.Find(x => x.EventName == "ill").Create(imw, Now).TimeHandle(TimeSpan.Zero, imw);
                 }
-
-                health = (int)(value * 100);
+                else if (value <=0)
+                {
+                    return;
+                }
+                health = value;
 
             }
         }
@@ -107,39 +110,40 @@ namespace VUPSimulator.Interface
         /// </summary>
         public double Strength
         {
-            get => strength / 100.0; set
-            {
-                if (value <= 0)
-                {
-                    //TODO如果精力为0,
-                    //strength = 0; 昏过去事件一般都会呼出strength事件, 无需重新呼出
-                    if (ALLEvent.Find(x => x.EventName == "faint") == null)
-                        imw.Core.EventBases.Find(x => x.EventName == "faint").Create(imw, Now).TimeHandle(TimeSpan.Zero, imw);
-                }
-                else if (value <= Health / 3)
-                {
-                    //呼出疲惫的DEBUFF
-                    strength = (int)(value * 100);
-                    if (ALLEvent.Find(x => x.EventName == "tired") == null)
-                        imw.Core.EventBases.Find(x => x.EventName == "tired").Create(imw, Now).TimeHandle(TimeSpan.Zero, imw);
-                }
-                else
-                {
-                    //清除负面buff 以tired开头的负面buff都可以清
-                    ALLEvent.Find(x => x.EventName.StartsWith("tired"))?.Disposed(imw);
+            get => Math.Min(strengthsleep, strengthfood);
+        }
+        /// <summary>
+        /// 精力:睡眠程度
+        /// </summary>
+        public double StrengthSleep { get => strengthsleep; set => strengthsleep = Math.Min(Health, value); }
+        /// <summary>
+        /// 精力:食物
+        /// </summary>
+        public double StrengthFood { get => strengthfood; set => strengthfood = Math.Min(Health, value); }
 
-                    if (value > Health)
-                    {//精力上限为健康
-                        strength = (int)(Health * 100);
-                    }
-                    else
-                    {
-                        strength = (int)(value * 100);
-                    }
-                }
+        /// <summary>
+        /// 扣除精力
+        /// </summary>
+        /// <param name="value">精力:0-100</param>
+        public void StrengthRemove(double value)
+        {
+            strengthsleep -= value;
+            strengthfood -= value;
+            var s = Strength;
+            //事件判断和拉起
+            if (s <= 0)
+            {
+                //TODO如果精力为0,昏倒 //TODO:修改成手动弹窗,不使用事件系统
+                if (ALLEvent.Find(x => x.EventName == "faint") == null)
+                    imw.Core.EventBases.Find(x => x.EventName == "faint").Create(imw, Now).TimeHandle(TimeSpan.Zero, imw);
+            }
+            else if (s <= Health / 3)
+            {
+                //呼出疲惫的DEBUFF
+                if (ALLEvent.Find(x => x.EventName == "tired") == null)
+                    imw.Core.EventBases.Find(x => x.EventName == "tired").Create(imw, Now).TimeHandle(TimeSpan.Zero, imw);
             }
         }
-
         /// <summary>
         /// 属性: 思维
         /// </summary>

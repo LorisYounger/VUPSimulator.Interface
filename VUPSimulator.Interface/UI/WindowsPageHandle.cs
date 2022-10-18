@@ -65,6 +65,10 @@ namespace VUPSimulator.Interface
         /// </summary>
         bool AllowHide { get; }
         /// <summary>
+        /// 允许修改大小
+        /// </summary>
+        bool AllowChangeSize { get; }
+        /// <summary>
         /// 该窗口的host
         /// </summary>
         IWindows Host { get; }

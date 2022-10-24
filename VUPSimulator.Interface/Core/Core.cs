@@ -88,6 +88,10 @@ namespace VUPSimulator.Interface
         /// 所有主题
         /// </summary>
         public List<Theme> Theme = new List<Theme>();
+        /// <summary>
+        /// 所有字体(位置)
+        /// </summary>
+        public List<IFont> Fonts = new List<IFont>();
 
         /// <summary>
         /// 随机生成的头像工具
@@ -107,6 +111,7 @@ namespace VUPSimulator.Interface
         /// 所有三方插件
         /// </summary>
         public List<MainPlugin> Plugins = new List<MainPlugin>();
+
     }
 
 

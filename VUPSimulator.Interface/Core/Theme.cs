@@ -29,4 +29,17 @@ namespace VUPSimulator.Interface
             Images = new ImageResources();
         }
     }
+    public class IFont
+    {
+        public string Name;
+        public string Path;
+        public IFont(string path)
+        {
+            var p = path.Split('\\').ToList();
+            Name = p[p.Count - 1].Split('.').First();
+            p.RemoveAt(p.Count - 1);
+            Path = string.Join("\\", p) + @"\#" + Name;
+        }
+    
+    }
 }

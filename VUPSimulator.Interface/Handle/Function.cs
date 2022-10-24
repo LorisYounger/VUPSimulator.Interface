@@ -735,7 +735,34 @@ namespace VUPSimulator.Interface
             PicTool,
         }
 
+       
 
+        /// <summary>
+        /// 窗体大小支持
+        /// </summary>
+        public enum WindowsSizeChange
+        {
+            /// <summary>
+            /// 固定大小,不可修改
+            /// </summary>
+            Fixed,
+            /// <summary>
+            /// 支持全屏
+            /// </summary>
+            AllowMax,
+            /// <summary>
+            /// 支持垂直大小修改
+            /// </summary>
+            AllowVertical,
+            /// <summary>
+            /// 支持水平大小修改
+            /// </summary>
+            AllowHorizontal,
+            /// <summary>
+            /// 支持任意大小修改
+            /// </summary>
+            AllowBoth
+        }
     }
 
 }

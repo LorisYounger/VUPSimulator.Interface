@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using static VUPSimulator.Interface.Function;
 
 namespace VUPSimulator.Interface
 {
@@ -57,17 +58,13 @@ namespace VUPSimulator.Interface
         /// </summary>
         void Show();
         /// <summary>
-        /// 允许最大化
+        /// 允许修改大小
         /// </summary>
-        bool AllowMax { get; }
+        WindowsSizeChange AllowSizeChange { get; }
         /// <summary>
         /// 允许隐藏
         /// </summary>
         bool AllowHide { get; }
-        /// <summary>
-        /// 允许修改大小
-        /// </summary>
-        bool AllowChangeSize { get; }
         /// <summary>
         /// 该窗口的host
         /// </summary>

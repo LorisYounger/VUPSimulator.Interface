@@ -63,6 +63,7 @@
     <Compile Include="Image\ProfileImage.cs" />
     <Compile Include="Items\L2D.cs" />
     <Compile Include="Type\Comment.cs" />
+    <Compile Include="Type\PlayerState.cs" />
     <Compile Include="Type\VideoNili.cs" />
     <Compile Include="Type\UserNili.cs" />
     <Compile Include="Type\Video.cs" />

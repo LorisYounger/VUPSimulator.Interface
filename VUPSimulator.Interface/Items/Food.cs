@@ -10,7 +10,7 @@ namespace VUPSimulator.Interface
     /// <summary>
     /// 食品基本类
     /// </summary>
-    public class Food : Item
+    public abstract class Food : Item_Salability
     {
         public Food(Line line) : base(line)
         {

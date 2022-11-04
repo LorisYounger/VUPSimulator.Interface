@@ -563,7 +563,7 @@ namespace VUPSimulator.Interface
     /// <summary>
     /// CPU物品
     /// </summary>
-    public class Item_CPU : Item
+    public class Item_CPU : Item_Salability
     {
         public Item_CPU(Line line) : base(line)
         {
@@ -596,12 +596,23 @@ namespace VUPSimulator.Interface
         {
             get => 1;
         }
+        /// <summary>
+        /// 商品分类信息
+        /// </summary>
+        public override string[] Categories => new string[] { "配件", "CPU" };
+        /// <summary>
+        /// 物品描述
+        /// </summary>
+        public override string Description
+        {
+            get => GetString("desc", ItemDisplayName) + $"\n速度:{Speed}GHZ\n核心数:{CoreNumber}";
+        }
     }
 
     /// <summary>
     /// GPU物品
     /// </summary>
-    public class Item_GPU : Item
+    public class Item_GPU : Item_Salability
     {
         public Item_GPU(Line line) : base(line)
         {
@@ -633,12 +644,22 @@ namespace VUPSimulator.Interface
         /// 总可用速度 单位GHZ 其中默认程序Gpu占用为0GHZ,系统2GHZ,占用仅显示百分比
         /// </summary>
         public int TotalSpeed => (int)(Speed * Math.Sqrt(CoreNumber) * Durability / 10000);
-
+        /// <summary>
+        /// 商品分类信息
+        /// </summary>
+        public override string[] Categories => new string[] { "配件", "GPU" };
+        /// <summary>
+        /// 物品描述
+        /// </summary>
+        public override string Description
+        {
+            get => GetString("desc", ItemDisplayName) + $"\n速度:{Speed}MHZ\n核心数:{CoreNumber}";
+        }
     }
     /// <summary>
     /// 内存
     /// </summary>
-    public class Item_Memory : Item
+    public class Item_Memory : Item_Salability
     {
         public Item_Memory(Line line) : base(line)
         {
@@ -671,11 +692,22 @@ namespace VUPSimulator.Interface
                 return $"{speed} MB";
             return $"{speed / 1000} GB";
         }
+        /// <summary>
+        /// 商品分类信息
+        /// </summary>
+        public override string[] Categories => new string[] { "配件", "内存" };
+        /// <summary>
+        /// 物品描述
+        /// </summary>
+        public override string Description
+        {
+            get => GetString("desc", ItemDisplayName) + $"\n频率:{Speed}MHZ\n大小:{SizeToString(Size)}";
+        }
     }
     /// <summary>
     /// 主板
     /// </summary>
-    public class Item_MotherBoard : Item
+    public class Item_MotherBoard : Item_Salability
     {
         public Item_MotherBoard(Line line) : base(line)
         {
@@ -705,11 +737,22 @@ namespace VUPSimulator.Interface
         {
             get => 1;
         }
+        /// <summary>
+        /// 商品分类信息
+        /// </summary>
+        public override string[] Categories => new string[] { "配件", "主板" };
+        /// <summary>
+        /// 物品描述
+        /// </summary>
+        public override string Description
+        {
+            get => GetString("desc", ItemDisplayName) + $"\n网络速度:{Network}MB\n支持内存:{MemorySupport}个\n支持麦克风:{MicrophoneSupport}个\n支持摄像头:{CameraSupport}个";
+        }
     }
     /// <summary>
     /// 摄像头
     /// </summary>
-    public class Item_Camera : Item
+    public class Item_Camera : Item_Salability
     {
         public Item_Camera(Line line) : base(line)
         {
@@ -731,12 +774,23 @@ namespace VUPSimulator.Interface
         {
             get => 1;
         }
+        /// <summary>
+        /// 商品分类信息
+        /// </summary>
+        public override string[] Categories => new string[] { "配件", "摄像头" };
+        /// <summary>
+        /// 物品描述
+        /// </summary>
+        public override string Description
+        {
+            get => GetString("desc", ItemDisplayName) + $"\n分辨率:{Resolution}\n成像质量:{Quality}";
+        }
     }
 
     /// <summary>
     /// 麦克风
     /// </summary>
-    public class Item_Microphone : Item
+    public class Item_Microphone : Item_Salability
     {
         public Item_Microphone(Line line) : base(line)
         {
@@ -757,6 +811,17 @@ namespace VUPSimulator.Interface
         public new int Many
         {
             get => 1;
+        }
+        /// <summary>
+        /// 商品分类信息
+        /// </summary>
+        public override string[] Categories => new string[] { "配件", "麦克风" };
+        /// <summary>
+        /// 物品描述
+        /// </summary>
+        public override string Description
+        {
+            get => GetString("desc", ItemDisplayName) + $"\n分辨率:{Resolution}\n成像质量:{Quality}";
         }
     }
 }

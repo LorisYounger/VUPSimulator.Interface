@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using LinePutScript;
+using Panuon.WPF;
 
 namespace VUPSimulator.Interface
 {
@@ -31,6 +34,10 @@ namespace VUPSimulator.Interface
             videoraw,//未剪辑的视频,虽然说不是item类,但是反正都可以拿来用
             videoedit,//未剪辑的视频,虽然说不是item类,但是反正都可以拿来用
             videofin,//未剪辑的视频,虽然说不是item类,但是反正都可以拿来用
+            food_nohealth,//零食
+            food_health,//主食
+            food_drink,//饮料
+            food_drug,//药品
         }
         public ItemType Type
         {
@@ -49,6 +56,11 @@ namespace VUPSimulator.Interface
             get => Find("name").Info;
             set => FindorAdd("name").Info = value;
         }
+        public string ItemDisplayName
+        {
+            get => GetString("displayname", ItemName);
+            set => SetString("displayname", value);
+        }
         /// <summary>
         /// 物品数量
         /// </summary>
@@ -63,20 +75,7 @@ namespace VUPSimulator.Interface
             }
             set => FindorAdd("many").InfoToInt = value;
         }
-        /// <summary>
-        /// 物品单价 为-1则是禁止出售
-        /// </summary>
-        public int Price
-        {
-            get
-            {
-                Sub sub = Find("price");
-                if (sub == null)
-                    return -1;
-                return sub.InfoToInt;
-            }
-            set => FindorAdd("price").InfoToInt = value;
-        }
+
         /// <summary>
         /// 物品图片
         /// </summary>
@@ -92,6 +91,10 @@ namespace VUPSimulator.Interface
                 return line.Info;
             }
         }
+        /// <summary>
+        /// 物品图片
+        /// </summary>
+        public ImageSource ImageSourse(IMainWindow mw) => mw.Core.ImageSources.FindImage(Image);
         /// <summary>
         /// 根据物品类型自动生成相应Item
         /// </summary>
@@ -132,5 +135,162 @@ namespace VUPSimulator.Interface
             }
             return item;
         }
+        /// <summary>
+        /// 根据物品类型自动生成相应可出售Item
+        /// </summary>
+        /// <param name="line">可出售物品</param>
+        /// <returns></returns>
+        public static Item_Salability NewSalability(Line line)
+        {
+            Item_Salability item;
+            switch (line.info.GetString().ToLower())
+            {
+                case "cpu":
+                    item = new Item_CPU(line);
+                    break;
+                case "gpu":
+                    item = new Item_GPU(line);
+                    break;
+                case "memory":
+                    item = new Item_Memory(line);
+                    break;
+                case "motherboard":
+                    item = new Item_MotherBoard(line);
+                    break;
+                case "camera":
+                    item = new Item_Camera(line);
+                    break;
+                case "microphone":
+                    item = new Item_Microphone(line);
+                    break;
+                default:
+                    throw new Exception("MOD生成错误:不可出售的物品");
+            }
+            return item;
+        }
     }
+    /// <summary>
+    /// 可出售的物品
+    /// </summary>
+    public abstract class Item_Salability : Item
+    {
+        public Item_Salability(Line line) : base(line)
+        {
+
+        }
+
+        /// <summary>
+        /// 物品单价
+        /// </summary>
+        public double Price
+        {
+            get => GetDouble("price", 0);
+            set => SetDouble("price", value);
+        }
+        /// <summary>
+        /// 物品描述
+        /// </summary>
+        public virtual string Description
+        {
+            get => GetString("desc", ItemDisplayName);
+            set => SetString("desc", value);
+        }
+        /// <summary>
+        /// 物品分类
+        /// </summary>
+        public virtual string[] Categories => Find("categories").GetInfos();
+
+        /// <summary>
+        /// 更好卖物品
+        /// </summary>
+        public class BetterBuyItem : NotifyPropertyChangedBase
+        {
+            /// <summary>
+            /// 可出售的物品
+            /// </summary>
+            public Item_Salability SalaItem;
+            private Line data;
+
+            public BetterBuyItem(Item_Salability salaitem, Line data, IMainWindow mw)
+            {
+                SalaItem = salaitem;
+                this.data = data;
+                ImageShot = salaitem.ImageSourse(mw);
+                UpdateDiscount();
+            }
+            public BetterBuyItem(Item_Salability salaitem, Line data, ImageSource sourse, int quantity)
+            {
+                SalaItem = salaitem;
+                this.data = data;
+                ImageShot = sourse;
+                UpdateDiscount();
+            }
+            /// <summary>
+            /// 物品图像
+            /// </summary>
+            public ImageSource ImageShot;
+            /// <summary>
+            /// 名称
+            /// </summary>
+            public string Name => SalaItem.ItemName;
+            /// <summary>
+            /// 显示名称
+            /// </summary>
+            public string DisplayName => SalaItem.ItemDisplayName;
+            /// <summary>
+            /// 物品描述
+            /// </summary>
+            public string Description => SalaItem.Description;
+            /// <summary>
+            /// 物品分类
+            /// </summary>
+            public string[] Categories => SalaItem.Categories;
+            /// <summary>
+            /// 物品价格
+            /// </summary>
+            public double Price => SalaItem.Price;
+            /// <summary>
+            /// 选择的物品个数
+            /// </summary>
+            public int Quantity { get => _quantity; set => Set(ref _quantity, value); }
+            private int _quantity = 1;
+            /// <summary>
+            /// 商品折扣 (100%)
+            /// </summary>
+            public int Discount { get => _discount; set => Set(ref _quantity, value); }
+            private int _discount = 1;
+            /// <summary>
+            /// 更新商品折扣
+            /// </summary>
+            public void UpdateDiscount()
+            {
+                var dis = data.Find("discount_" + SalaItem.ItemName);
+                if (dis != null)
+                {
+                    Discount = dis.InfoToInt;
+                    return;
+                }
+                int mindis = 100;
+                foreach (var item in Categories)
+                {
+                    dis = data.Find("discount_" + item);
+                    if (dis != null)
+                    {
+                        mindis = Math.Min(dis.InfoToInt, mindis);
+                    }
+                }
+                Discount = mindis;
+            }
+
+            /// <summary>
+            /// 克隆自身
+            /// </summary>
+            public BetterBuyItem Clone()
+            {
+                return new BetterBuyItem(SalaItem, data, ImageShot, Quantity);
+            }
+        }
+    }
+
+
 }

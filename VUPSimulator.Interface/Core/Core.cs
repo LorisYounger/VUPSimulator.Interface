@@ -45,9 +45,9 @@ namespace VUPSimulator.Interface
         /// </summary>
         public List<EventBase> EventBases = new List<EventBase>();
         /// <summary>
-        /// 所有电脑配件
+        /// 所有可出售物品
         /// </summary>
-        public List<Item> Accessory = new List<Item>();
+        public List<Item_Salability> Items = new List<Item_Salability>();
         /// <summary>
         /// 所有Steam游戏
         /// </summary>

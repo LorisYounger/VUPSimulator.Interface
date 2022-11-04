@@ -199,6 +199,11 @@ namespace VUPSimulator.Interface
         /// 物品分类
         /// </summary>
         public virtual string[] Categories => Find("categories").GetInfos();
+        
+        /// <summary>
+        /// 物品排序值
+        /// </summary>
+        public abstract double SortValue { get; }
 
         /// <summary>
         /// 更好卖物品
@@ -281,7 +286,10 @@ namespace VUPSimulator.Interface
                 }
                 Discount = mindis;
             }
-
+            /// <summary>
+            /// 物品排序值
+            /// </summary>
+            public double SortValue => SalaItem.SortValue;
             /// <summary>
             /// 克隆自身
             /// </summary>

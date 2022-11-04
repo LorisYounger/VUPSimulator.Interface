@@ -17,6 +17,9 @@ namespace VUPSimulator.Interface
         public List<Item_Memory> Memorys = new List<Item_Memory>();
         public List<Item_Camera> Cameras = new List<Item_Camera>();
         public List<Item_Microphone> Microphones = new List<Item_Microphone>();
+        /// <summary>
+        /// 电脑名称
+        /// </summary>
         public string Name;
 
         public Computer(Line line, IMainWindow mw, List<Item> items)
@@ -607,6 +610,10 @@ namespace VUPSimulator.Interface
         {
             get => GetString("desc", ItemDisplayName) + $"\n速度:{Speed}GHZ\n核心数:{CoreNumber}";
         }
+        /// <summary>
+        /// 核心数量
+        /// </summary>
+        public override double SortValue => CoreNumber;
     }
 
     /// <summary>
@@ -655,6 +662,10 @@ namespace VUPSimulator.Interface
         {
             get => GetString("desc", ItemDisplayName) + $"\n速度:{Speed}MHZ\n核心数:{CoreNumber}";
         }
+        /// <summary>
+        /// 频率
+        /// </summary>
+        public override double SortValue => Speed;
     }
     /// <summary>
     /// 内存
@@ -703,6 +714,10 @@ namespace VUPSimulator.Interface
         {
             get => GetString("desc", ItemDisplayName) + $"\n频率:{Speed}MHZ\n大小:{SizeToString(Size)}";
         }
+        /// <summary>
+        /// 内存大小
+        /// </summary>
+        public override double SortValue => Size;
     }
     /// <summary>
     /// 主板
@@ -748,6 +763,10 @@ namespace VUPSimulator.Interface
         {
             get => GetString("desc", ItemDisplayName) + $"\n网络速度:{Network}MB\n支持内存:{MemorySupport}个\n支持麦克风:{MicrophoneSupport}个\n支持摄像头:{CameraSupport}个";
         }
+        /// <summary>
+        /// 支持的外设数量
+        /// </summary>
+        public override double SortValue => MemorySupport + MicrophoneSupport + CameraSupport;
     }
     /// <summary>
     /// 摄像头
@@ -785,6 +804,10 @@ namespace VUPSimulator.Interface
         {
             get => GetString("desc", ItemDisplayName) + $"\n分辨率:{Resolution}\n成像质量:{Quality}";
         }
+        /// <summary>
+        /// 成像质量
+        /// </summary>
+        public override double SortValue => Quality;
     }
 
     /// <summary>
@@ -823,5 +846,9 @@ namespace VUPSimulator.Interface
         {
             get => GetString("desc", ItemDisplayName) + $"\n分辨率:{Resolution}\n成像质量:{Quality}";
         }
+        /// <summary>
+        /// 成像质量
+        /// </summary>
+        public override double SortValue => Quality;
     }
 }

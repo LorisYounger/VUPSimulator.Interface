@@ -135,8 +135,9 @@ namespace VUPSimulator.Interface
         /// <param name="Handle">窗体内控件</param>
         /// <param name="title">窗口标题</param>
         /// <param name="icon">窗口图标</param>
+        /// <param name="StoreSize">在设置中储存用户修改界面的大小</param>
         /// <returns>窗体信息</returns>
-        IWindows ShowWindows(WindowsPageHandle Handle, string title, Uri icon);
+        IWindows ShowWindows(WindowsPageHandle Handle, string title, Uri icon,bool StoreSize);
         /// <summary>
         /// 显示软件 (可用于游戏内置软件/MOD软件)
         /// </summary>

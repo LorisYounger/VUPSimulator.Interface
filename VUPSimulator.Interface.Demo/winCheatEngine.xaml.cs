@@ -26,7 +26,7 @@ namespace CheatEngine
         {
             InitializeComponent();
             mw = mainwin;
-            host = mw.ShowWindows(this, "Cheat Engine", mw.Core.ImageSources.FindImageUri("software_CheatEngine"));
+            host = mw.ShowWindows(this, "Cheat Engine", mw.Core.ImageSources.FindImageUri("software_CheatEngine"),false);
 
             //初始化
             for (int i = 0; i < mw.Core.GenImageTemplates.Count; i++)
@@ -38,8 +38,6 @@ namespace CheatEngine
 
         public string ID => "winCheatEngine";
 
-        public bool AllowMax => false;
-
         public bool AllowHide => true;
 
         private IWindows host;
@@ -48,6 +46,8 @@ namespace CheatEngine
         public FrameworkElement This => this;
 
         public ComputerUsage Usage { get => usage; set => usage = value; }
+
+        public Function.WindowsSizeChange AllowSizeChange => Function.WindowsSizeChange.Fixed;
 
         private ComputerUsage usage = new ComputerUsage("CheatEngine")
         {
@@ -120,7 +120,8 @@ namespace CheatEngine
 
         private void C_ST_FULL(object sender, RoutedEventArgs e)
         {
-            mw.Save.Strength = mw.Save.Health;
+            mw.Save.StrengthFood = mw.Save.Health;
+            mw.Save.StrengthSleep = mw.Save.Health;
         }
 
         private void btngi_Click(object sender, RoutedEventArgs e)

@@ -44,9 +44,9 @@
             所有事件库
             </summary>
         </member>
-        <member name="F:VUPSimulator.Interface.ICore.Accessory">
+        <member name="F:VUPSimulator.Interface.ICore.Items">
             <summary>
-            所有电脑配件
+            所有可出售物品
             </summary>
         </member>
         <member name="F:VUPSimulator.Interface.ICore.Game">
@@ -92,6 +92,11 @@
         <member name="F:VUPSimulator.Interface.ICore.Theme">
             <summary>
             所有主题
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ICore.Fonts">
+            <summary>
+            所有字体(位置)
             </summary>
         </member>
         <member name="F:VUPSimulator.Interface.ICore.ProfileImage">
@@ -185,7 +190,7 @@
             用户电脑
             </summary>
         </member>
-        <member name="P:VUPSimulator.Interface.ISave.Money">
+        <member name="F:VUPSimulator.Interface.ISave.Money">
             <summary>
             资金
             </summary>
@@ -199,6 +204,22 @@
             <summary>
             精力
             </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.ISave.StrengthSleep">
+            <summary>
+            精力:睡眠程度
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.ISave.StrengthFood">
+            <summary>
+            精力:食物
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.ISave.StrengthRemove(System.Double)">
+            <summary>
+            扣除精力
+            </summary>
+            <param name="value">精力:0-100</param>
         </member>
         <member name="F:VUPSimulator.Interface.ISave.Pidear">
             <summary>
@@ -449,6 +470,11 @@
             电脑的数据非常多,单独拿出来用
             </summary>
         </member>
+        <member name="F:VUPSimulator.Interface.Computer.Name">
+            <summary>
+            电脑名称
+            </summary>
+        </member>
         <member name="P:VUPSimulator.Interface.Computer.CPU_Usage">
             <summary>
             用于显示的CPU使用率 (100%)
@@ -663,6 +689,21 @@
             所有电子产品个数只能为1
             </summary>
         </member>
+        <member name="P:VUPSimulator.Interface.Item_CPU.Categories">
+            <summary>
+            商品分类信息
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_CPU.Description">
+            <summary>
+            物品描述
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_CPU.SortValue">
+            <summary>
+            核心数量
+            </summary>
+        </member>
         <member name="T:VUPSimulator.Interface.Item_GPU">
             <summary>
             GPU物品
@@ -686,6 +727,21 @@
         <member name="P:VUPSimulator.Interface.Item_GPU.TotalSpeed">
             <summary>
             总可用速度 单位GHZ 其中默认程序Gpu占用为0GHZ,系统2GHZ,占用仅显示百分比
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_GPU.Categories">
+            <summary>
+            商品分类信息
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_GPU.Description">
+            <summary>
+            物品描述
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_GPU.SortValue">
+            <summary>
+            频率
             </summary>
         </member>
         <member name="T:VUPSimulator.Interface.Item_Memory">
@@ -714,6 +770,21 @@
             </summary>
             <param name="speed">speed</param>
             <returns></returns>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Memory.Categories">
+            <summary>
+            商品分类信息
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Memory.Description">
+            <summary>
+            物品描述
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Memory.SortValue">
+            <summary>
+            内存大小
+            </summary>
         </member>
         <member name="T:VUPSimulator.Interface.Item_MotherBoard">
             <summary>
@@ -745,6 +816,21 @@
             所有电子产品个数只能为1
             </summary>
         </member>
+        <member name="P:VUPSimulator.Interface.Item_MotherBoard.Categories">
+            <summary>
+            商品分类信息
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_MotherBoard.Description">
+            <summary>
+            物品描述
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_MotherBoard.SortValue">
+            <summary>
+            支持的外设数量
+            </summary>
+        </member>
         <member name="T:VUPSimulator.Interface.Item_Camera">
             <summary>
             摄像头
@@ -765,6 +851,21 @@
             所有电子产品个数只能为1
             </summary>
         </member>
+        <member name="P:VUPSimulator.Interface.Item_Camera.Categories">
+            <summary>
+            商品分类信息
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Camera.Description">
+            <summary>
+            物品描述
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Camera.SortValue">
+            <summary>
+            成像质量
+            </summary>
+        </member>
         <member name="T:VUPSimulator.Interface.Item_Microphone">
             <summary>
             麦克风
@@ -783,6 +884,56 @@
         <member name="P:VUPSimulator.Interface.Item_Microphone.Many">
             <summary>
             所有电子产品个数只能为1
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Microphone.Categories">
+            <summary>
+            商品分类信息
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Microphone.Description">
+            <summary>
+            物品描述
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Microphone.SortValue">
+            <summary>
+            成像质量
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.Food">
+            <summary>
+            食品基本类
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Food.StrengthFood">
+            <summary>
+            增加 精力:体力
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Food.StrengthSleep">
+            <summary>
+            增加 体力:睡眠
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Food.Health">
+            <summary>
+            健康影响
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Food.Use(VUPSimulator.Interface.IMainWindow)">
+            <summary>
+            使用该物品
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Food.Description">
+            <summary>
+            物品描述
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.Food_NoHealth">
+            <summary>
+            零食
             </summary>
         </member>
         <member name="T:VUPSimulator.Interface.Item_Game_base">
@@ -1204,6 +1355,111 @@
             <param name="alpha">透明度 0-255 可选</param>
             <returns>颜色</returns>
         </member>
+        <member name="T:VUPSimulator.Interface.Item_L2D_base">
+            <summary>
+            L2D基础类
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_L2D_base.Expression">
+            <summary>
+            表情
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_L2D_base.Painter">
+            <summary>
+            画师
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_L2D_base.Max">
+            <summary>
+            最大星级
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_L2D_base.Min">
+            <summary>
+            最小星级
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_L2D_base.RNDRANK">
+            <summary>
+            随机获得10%星级
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.Item_L2D">
+            <summary>
+            L2D完整
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_L2D.ImageRank">
+            <summary>
+            立绘等级
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_L2D.ModelRank">
+            <summary>
+            建模等级
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_L2D.TotalRank">
+            <summary>
+            实际综合等级
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_L2D.Process">
+            <summary>
+            立绘生产进度 (100%)
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_L2D.Freshness">
+            <summary>
+            新鲜度
+            新鲜度越低实际等级越低(根据时间恢复)
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Item_L2D.#ctor(VUPSimulator.Interface.Item_L2D_base)">
+            <summary>
+            从零开始新建一个L2d
+            </summary>
+            <param name="l2dbase">L2d的模型</param>
+        </member>
+        <member name="M:VUPSimulator.Interface.Item_L2D.#ctor(VUPSimulator.Interface.Item_L2D_base,System.Int32,System.Double,System.Double)">
+            <summary>
+            从已有进度开始新建一个L2d
+            </summary>
+            <param name="l2dbase">L2d的模型</param>
+            <param name="process">生产进度,只有100才可以使用</param>
+            <param name="imagerank">立绘分数</param>
+            <param name="modlerank">建模分数</param>
+        </member>
+        <member name="M:VUPSimulator.Interface.Item_L2D.#ctor(LinePutScript.Line)">
+            <summary>
+            从已有进度开始新建一个L2d
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_L2D.ExpressionList">
+            <summary>
+            表情列表 这是实际获得的表情
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Item_L2D.ExpressionADD(System.String)">
+            <summary>
+            添加表情到表情列表
+            </summary>
+            <param name="newexp"></param>
+        </member>
+        <member name="M:VUPSimulator.Interface.Item_L2D.ExpressionDel(System.String)">
+            <summary>
+            删除表情从表情列表
+            </summary>
+            <param name="rmexp"></param>
+        </member>
+        <member name="M:VUPSimulator.Interface.Item_L2D.ToRankStar(System.Double)">
+            <summary>
+            转换成等级为星星
+            </summary>
+            <param name="rank">等级</param>
+            <returns></returns>
+        </member>
         <member name="T:VUPSimulator.Interface.Comment_base">
             <summary>
             评论表: 包含评论的基础信息 表头:comment
@@ -1359,6 +1615,88 @@
         <member name="P:VUPSimulator.Interface.Comment_Game.Game">
             <summary>
             绑定的游戏名称
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.PlayerState">
+            <summary>
+            玩家状态类
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.PlayerState.#ctor(VUPSimulator.Interface.PlayerState.StateType,System.Int32)">
+            <summary>
+            玩家状态
+            </summary>
+            <param name="state">状态</param>
+            <param name="duration">持续时间</param>
+        </member>
+        <member name="T:VUPSimulator.Interface.PlayerState.StateType">
+            <summary>
+            玩家状态
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.PlayerState.StateType.VeryEnergetic">
+            <summary>
+            精力充沛 消耗1.25 消耗x0.6
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.PlayerState.StateType.Energetic">
+            <summary>
+            活力 消耗1.5 消耗x0.7
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.PlayerState.StateType.Excitement">
+            <summary>
+            兴奋 消耗1.75 消耗x0.8
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.PlayerState.StateType.FeelGood">
+            <summary>
+            感觉良好 消耗2 消耗x0.9
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.PlayerState.StateType.Nomal">
+            <summary>
+            普通: 体力消耗2 体力消耗x1.0
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.PlayerState.StateType.FeelBad">
+            <summary>
+            感觉不好 消耗2 消耗x1.1
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.PlayerState.StateType.PoorCondition">
+            <summary>
+            状态不佳 消耗2.5 消耗x1.1
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.PlayerState.StateType.Tired">
+            <summary>
+            疲惫 消耗2.5 消耗x1.2
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.PlayerState.StateType.Uncomfortable">
+            <summary>
+            难受 消耗2.75 消耗x1.2
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.PlayerState.StateType.Headache">
+            <summary>
+            头疼 消耗3 消耗x1.3
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.PlayerState.StateType.Ill">
+            <summary>
+            生病 消耗3 消耗x1.5
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.PlayerState.State">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.PlayerState.Duration">
+            <summary>
+            持续时间
             </summary>
         </member>
         <member name="T:VUPSimulator.Interface.VideoNili">
@@ -1552,7 +1890,7 @@
         <member name="M:VUPSimulator.Interface.VideoNili.FansCalDay(VUPSimulator.Interface.IMainWindow,System.Int32)">
             <summary>
             计算今天可能获得的粉丝数量
-            =INT(($B$3)*((20+$B$3*20)/(A3+10))*$B$15)
+            =INT(($B$3+1)*((20+$B$3*20)/(A3+3))*$B$15)
             </summary>
         </member>
         <member name="P:VUPSimulator.Interface.VideoNili.FansCount">
@@ -2517,6 +2855,36 @@
             程序类型
             </summary>
         </member>
+        <member name="T:VUPSimulator.Interface.Function.WindowsSizeChange">
+            <summary>
+            窗体大小支持
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Function.WindowsSizeChange.Fixed">
+            <summary>
+            固定大小,不可修改
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Function.WindowsSizeChange.AllowMax">
+            <summary>
+            支持全屏
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Function.WindowsSizeChange.AllowVertical">
+            <summary>
+            支持垂直大小修改
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Function.WindowsSizeChange.AllowHorizontal">
+            <summary>
+            支持水平大小修改
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Function.WindowsSizeChange.AllowBoth">
+            <summary>
+            支持任意大小修改
+            </summary>
+        </member>
         <member name="T:VUPSimulator.Interface.IMainWindow">
             <summary>
             主窗体接口 开发者可通过此接口获取游戏信息和进行高级代码MOD开发
@@ -2642,13 +3010,14 @@
             <param name="ev">事件</param>
             <returns>侧边栏组件</returns>
         </member>
-        <member name="M:VUPSimulator.Interface.IMainWindow.ShowWindows(VUPSimulator.Interface.WindowsPageHandle,System.String,System.Uri)">
+        <member name="M:VUPSimulator.Interface.IMainWindow.ShowWindows(VUPSimulator.Interface.WindowsPageHandle,System.String,System.Uri,System.Boolean)">
             <summary>
             显示窗体
             </summary>
             <param name="Handle">窗体内控件</param>
             <param name="title">窗口标题</param>
             <param name="icon">窗口图标</param>
+            <param name="StoreSize">在设置中储存用户修改界面的大小</param>
             <returns>窗体信息</returns>
         </member>
         <member name="M:VUPSimulator.Interface.IMainWindow.ShowSoftWare(System.String,System.String)">
@@ -2679,9 +3048,14 @@
             物品数量
             </summary>
         </member>
-        <member name="P:VUPSimulator.Interface.Item.Price">
+        <member name="P:VUPSimulator.Interface.Item.Image">
             <summary>
-            物品单价 为-1则是禁止出售
+            物品图片
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Item.ImageSourse(VUPSimulator.Interface.IMainWindow)">
+            <summary>
+            物品图片
             </summary>
         </member>
         <member name="M:VUPSimulator.Interface.Item.New(LinePutScript.Line)">
@@ -2691,110 +3065,102 @@
             <param name="line">物品</param>
             <returns></returns>
         </member>
-        <member name="T:VUPSimulator.Interface.Item_L2D_base">
+        <member name="M:VUPSimulator.Interface.Item.NewSalability(LinePutScript.Line)">
             <summary>
-            L2D基础类
+            根据物品类型自动生成相应可出售Item
             </summary>
-        </member>
-        <member name="P:VUPSimulator.Interface.Item_L2D_base.Expression">
-            <summary>
-            表情
-            </summary>
-        </member>
-        <member name="P:VUPSimulator.Interface.Item_L2D_base.Painter">
-            <summary>
-            画师
-            </summary>
-        </member>
-        <member name="P:VUPSimulator.Interface.Item_L2D_base.Max">
-            <summary>
-            最大星级
-            </summary>
-        </member>
-        <member name="P:VUPSimulator.Interface.Item_L2D_base.Min">
-            <summary>
-            最小星级
-            </summary>
-        </member>
-        <member name="P:VUPSimulator.Interface.Item_L2D_base.RNDRANK">
-            <summary>
-            随机获得10%星级
-            </summary>
-        </member>
-        <member name="T:VUPSimulator.Interface.Item_L2D">
-            <summary>
-            L2D完整
-            </summary>
-        </member>
-        <member name="P:VUPSimulator.Interface.Item_L2D.ImageRank">
-            <summary>
-            立绘等级
-            </summary>
-        </member>
-        <member name="P:VUPSimulator.Interface.Item_L2D.ModelRank">
-            <summary>
-            建模等级
-            </summary>
-        </member>
-        <member name="P:VUPSimulator.Interface.Item_L2D.TotalRank">
-            <summary>
-            实际综合等级
-            </summary>
-        </member>
-        <member name="P:VUPSimulator.Interface.Item_L2D.Process">
-            <summary>
-            立绘生产进度 (100%)
-            </summary>
-        </member>
-        <member name="P:VUPSimulator.Interface.Item_L2D.Freshness">
-            <summary>
-            新鲜度
-            新鲜度越低实际等级越低(根据时间恢复)
-            </summary>
-        </member>
-        <member name="M:VUPSimulator.Interface.Item_L2D.#ctor(VUPSimulator.Interface.Item_L2D_base)">
-            <summary>
-            从零开始新建一个L2d
-            </summary>
-            <param name="l2dbase">L2d的模型</param>
-        </member>
-        <member name="M:VUPSimulator.Interface.Item_L2D.#ctor(VUPSimulator.Interface.Item_L2D_base,System.Int32,System.Double,System.Double)">
-            <summary>
-            从已有进度开始新建一个L2d
-            </summary>
-            <param name="l2dbase">L2d的模型</param>
-            <param name="process">生产进度,只有100才可以使用</param>
-            <param name="imagerank">立绘分数</param>
-            <param name="modlerank">建模分数</param>
-        </member>
-        <member name="M:VUPSimulator.Interface.Item_L2D.#ctor(LinePutScript.Line)">
-            <summary>
-            从已有进度开始新建一个L2d
-            </summary>
-        </member>
-        <member name="P:VUPSimulator.Interface.Item_L2D.ExpressionList">
-            <summary>
-            表情列表 这是实际获得的表情
-            </summary>
-        </member>
-        <member name="M:VUPSimulator.Interface.Item_L2D.ExpressionADD(System.String)">
-            <summary>
-            添加表情到表情列表
-            </summary>
-            <param name="newexp"></param>
-        </member>
-        <member name="M:VUPSimulator.Interface.Item_L2D.ExpressionDel(System.String)">
-            <summary>
-            删除表情从表情列表
-            </summary>
-            <param name="rmexp"></param>
-        </member>
-        <member name="M:VUPSimulator.Interface.Item_L2D.ToRankStar(System.Double)">
-            <summary>
-            转换成等级为星星
-            </summary>
-            <param name="rank">等级</param>
+            <param name="line">可出售物品</param>
             <returns></returns>
+        </member>
+        <member name="T:VUPSimulator.Interface.Item_Salability">
+            <summary>
+            可出售的物品
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Salability.Price">
+            <summary>
+            物品单价
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Salability.Description">
+            <summary>
+            物品描述
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Salability.Categories">
+            <summary>
+            物品分类
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Salability.SortValue">
+            <summary>
+            物品排序值
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.Item_Salability.BetterBuyItem">
+            <summary>
+            更好卖物品
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Item_Salability.BetterBuyItem.SalaItem">
+            <summary>
+            可出售的物品
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Item_Salability.BetterBuyItem.ImageShot">
+            <summary>
+            物品图像
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Salability.BetterBuyItem.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Salability.BetterBuyItem.DisplayName">
+            <summary>
+            显示名称
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Salability.BetterBuyItem.Description">
+            <summary>
+            物品描述
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Salability.BetterBuyItem.Categories">
+            <summary>
+            物品分类
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Salability.BetterBuyItem.Price">
+            <summary>
+            物品价格
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Salability.BetterBuyItem.Quantity">
+            <summary>
+            选择的物品个数
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Salability.BetterBuyItem.Discount">
+            <summary>
+            商品折扣 (100%)
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Item_Salability.BetterBuyItem.UpdateDiscount">
+            <summary>
+            更新商品折扣
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Salability.BetterBuyItem.SortValue">
+            <summary>
+            物品排序值
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Item_Salability.BetterBuyItem.Clone">
+            <summary>
+            克隆自身
+            </summary>
         </member>
         <member name="T:VUPSimulator.Interface.IMCTag">
             <summary>
@@ -2900,9 +3266,9 @@
             显示处理(一般为第二次显示)
             </summary>
         </member>
-        <member name="P:VUPSimulator.Interface.WindowsPageHandle.AllowMax">
+        <member name="P:VUPSimulator.Interface.WindowsPageHandle.AllowSizeChange">
             <summary>
-            允许最大化
+            允许修改大小
             </summary>
         </member>
         <member name="P:VUPSimulator.Interface.WindowsPageHandle.AllowHide">

@@ -37,6 +37,7 @@ namespace VUPSimulator.Interface
             food_nohealth,//零食
             food_health,//主食
             food_drink,//饮料
+            food_functional,//功能性
             food_drug,//药品
         }
         public ItemType Type
@@ -79,7 +80,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 物品图片
         /// </summary>
-        public string Image
+        public virtual string Image
         {
             get
             {
@@ -128,6 +129,21 @@ namespace VUPSimulator.Interface
                     break;
                 case "microphone":
                     item = new Item_Microphone(line);
+                    break;
+                case "food_nohealth":
+                    item = new Food_NoHealth(line);
+                    break;
+                case "food_health":
+                    item = new Food_Health(line);
+                    break;
+                case "food_drink":
+                    item = new Food_Drink(line);
+                    break;
+                case "food_functional":
+                    item = new Food_Functional(line);
+                    break;
+                case "food_drug":
+                    item = new Food_Drug(line);
                     break;
                 default:
                     item = new Item(line);

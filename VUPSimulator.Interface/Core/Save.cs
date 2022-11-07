@@ -145,6 +145,10 @@ namespace VUPSimulator.Interface
             }
         }
         /// <summary>
+        /// 玩家状态系统
+        /// </summary>
+        public PlayerStateSystem PStateSystem;
+        /// <summary>
         /// 属性: 思维
         /// </summary>
         public double Pidear;

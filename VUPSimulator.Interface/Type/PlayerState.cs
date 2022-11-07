@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using static VUPSimulator.Interface.Comment_base;
 using static VUPSimulator.Interface.PlayerState;
 
@@ -21,6 +22,7 @@ namespace VUPSimulator.Interface
             var strs = sub.GetInfos();
             Duration = Convert.ToDouble(strs[0]);
             Reason = strs[1];
+            Tag = strs.Length > 2 ? (TagType)Enum.Parse(typeof(TagType), sub.Name, true) : TagType.Nomal;
         }
         /// <summary>
         /// 玩家状态
@@ -28,11 +30,13 @@ namespace VUPSimulator.Interface
         /// <param name="state">状态</param>
         /// <param name="duration">持续时间</param>
         /// <param name="reason">原因</param>
-        public PlayerState(StateType state, double duration,string reason)
+        /// <param name="tag">标签</param>
+        public PlayerState(StateType state, double duration, string reason, TagType tag = TagType.Nomal)
         {
             State = state;
             Duration = duration;
             Reason = reason;
+            Tag = tag;
         }
         /// <summary>
         /// 玩家状态
@@ -97,11 +101,41 @@ namespace VUPSimulator.Interface
         /// </summary>
         public string Reason;
         /// <summary>
+        /// 标签,用于召回撤销等功能
+        /// </summary>
+        public TagType Tag;
+        /// <summary>
+        /// 标签
+        /// </summary>
+        public enum TagType
+        {
+            /// <summary>
+            /// 标准/默认
+            /// </summary>
+            Nomal,
+            /// <summary>
+            /// 由于食物影响
+            /// </summary>
+            Food,
+            /// <summary>
+            /// 由于药品影响
+            /// </summary>
+            Drag,
+            /// <summary>
+            /// 由于体力影响
+            /// </summary>
+            Strength,
+            /// <summary>
+            /// 由于运行时间
+            /// </summary>
+            RunTime
+        }
+        /// <summary>
         /// 转换成存档用数据
         /// </summary>
         public Sub ToSub()
         {
-            return new Sub(State.ToString(), Duration.ToString() + ',' + Reason);
+            return new Sub(State.ToString(), Duration.ToString("f4") + ',' + Reason+ ',' + Tag.ToString());
         }
     }
     /// <summary>
@@ -113,17 +147,17 @@ namespace VUPSimulator.Interface
         /// 玩家状态计算字典
         /// </summary>
         public static readonly dynamic[][] PlayerState = new dynamic[][] {
-                new dynamic[]{ "精力充沛", 1.25,0.6 } ,
-                new dynamic[]{ "活力", 1.5,0.7 } ,
-                new dynamic[]{ "兴奋", 1.75,0.8 },
-                new dynamic[]{ "感觉良好", 2.0,0.9 } ,
-                new dynamic[]{ "普通", 2,1 } ,
-                new dynamic[]{ "感觉不好", 2.5,1.1 } ,
-                new dynamic[]{ "状态不佳", 2.5,1.1 } ,
-                new dynamic[]{ "疲惫", 2.5,1.2 } ,
-                new dynamic[]{ "难受", 2.75,1.2 } ,
-                new dynamic[]{ "头疼", 3,1.3 } ,
-                new dynamic[]{ "生病", 3,1.5 } ,
+                new dynamic[]{ "精力充沛", 1.25,0.6 ,Color.FromRgb(66,165,254), Color.FromRgb(0, 60, 95) } ,
+                new dynamic[]{ "活力", 1.5,0.7, Color.FromRgb(41, 182, 246), Color.FromRgb(0, 73, 97) } ,
+                new dynamic[]{ "兴奋", 1.75,0.8 ,Color.FromRgb(38,198,218), Color.FromRgb(0, 77, 85)},
+                new dynamic[]{ "感觉良好", 2.0,0.9, Color.FromRgb(77, 182, 172), Color.FromRgb(0, 77, 61) } ,
+                new dynamic[]{ "普通", 2,1, Color.FromRgb(129, 199, 132), Color.FromRgb(40, 75, 43) } ,
+                new dynamic[]{ "感觉不好", 2.5,1.1, Color.FromRgb(174, 213, 129), Color.FromRgb(62, 82, 42) } ,
+                new dynamic[]{ "状态不佳", 2.5,1.1, Color.FromRgb(212, 225, 87), Color.FromRgb(80, 88, 18) } ,
+                new dynamic[]{ "疲惫", 2.5,1.2, Color.FromRgb(251, 192, 45), Color.FromRgb(83, 72, 0) } ,
+                new dynamic[]{ "难受", 2.75,1.2, Color.FromRgb(255, 179, 0), Color.FromRgb(98, 66, 0) } ,
+                new dynamic[]{ "头疼", 3,1.3, Color.FromRgb(251, 141, 0), Color.FromRgb(98, 48, 0) } ,
+                new dynamic[]{ "生病", 3,1.5, Color.FromRgb(244, 81, 30), Color.FromRgb(92, 10, 0) } ,
         };
         public List<PlayerState> PlayerStates = new List<PlayerState>();
         /// <summary>
@@ -140,9 +174,10 @@ namespace VUPSimulator.Interface
         /// <param name="state">状态</param>
         /// <param name="duration">持续时间</param>
         /// <param name="reason">原因</param>
-        public void AddState(StateType state, double duration, string reason)
+        /// <param name="tag">标签</param>
+        public void AddState(StateType state, double duration, string reason, TagType tag = TagType.Nomal)
         {
-            PlayerStates.Add(new PlayerState(state, duration,reason));
+            PlayerStates.Add(new PlayerState(state, duration, reason, tag));
         }
         /// <summary>
         /// 返回当前玩家状态
@@ -177,10 +212,10 @@ namespace VUPSimulator.Interface
         /// </summary>
         public Line ToLine()
         {
-            Line line = new Line();
+            Line line = new Line("playerstate");
             foreach (var state in PlayerStates)
             {
-                line.Add(new Sub(((int)state.State).ToString(), state.Duration.ToString("f4")));
+                line.Add(state.ToSub());
             }
             return line;
         }
@@ -197,12 +232,12 @@ namespace VUPSimulator.Interface
         /// </summary>
         public void TimeRels(TimeSpan span, IMainWindow mw)
         {
-            foreach(var state in PlayerStates)
+            foreach (var state in PlayerStates)
             {
                 state.Duration -= span.TotalHours;
                 if (state.Duration <= 0)
                 {
-                    PlayerStates.Remove(state);                 
+                    PlayerStates.Remove(state);
                 }
             }
         }

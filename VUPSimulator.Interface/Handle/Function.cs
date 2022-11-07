@@ -573,7 +573,7 @@ namespace VUPSimulator.Interface
             ////else
             ////    return neg + (value / 1000000000000.0).ToString(tostr) + 't';
             if (value < 1000)
-                return neg + value.ToString();
+                return neg + value.ToString(tostr);
             else if (value < 100000)
                 return neg + (value / 1000.0).ToString(tostr) + 'k';
             else if (value < 1000000)
@@ -582,6 +582,25 @@ namespace VUPSimulator.Interface
                 return neg + (value / 1000000.0).ToString(tostr) + "bw";
             else
                 return neg + (value / 100000000.0).ToString(tostr) + 'y';
+        }
+        /// <summary>
+        /// 单位转换时间
+        /// </summary>
+        /// <param name="day">天</param>
+        public static string DateConvert(double day, string tostr = "f1")
+        {
+            string neg = day < 0 ? "-" : "";
+            day = Math.Abs(day);
+            if (day < 1.5)
+                return neg + (day * 24).ToString(tostr) + 'm';
+            else if (day < 48)
+                return neg + day.ToString(tostr) + 'h';
+            else if (day < 960)
+                return neg + (day / 30).ToString(tostr) + 'd';
+            else if (day < 3072)
+                return neg + (day / 720).ToString(tostr) + 'm';
+            else
+                return neg + (day / 8760).ToString(tostr) + 'y';
         }
         /// <summary>
         /// Compares the two strings based on letter pair matches
@@ -735,7 +754,7 @@ namespace VUPSimulator.Interface
             PicTool,
         }
 
-       
+
 
         /// <summary>
         /// 窗体大小支持

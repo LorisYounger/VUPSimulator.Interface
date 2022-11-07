@@ -143,6 +143,7 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class PlayerStateSystem
     {
+        
         /// <summary>
         /// 玩家状态计算字典
         /// </summary>
@@ -178,6 +179,14 @@ namespace VUPSimulator.Interface
         public void AddState(StateType state, double duration, string reason, TagType tag = TagType.Nomal)
         {
             PlayerStates.Add(new PlayerState(state, duration, reason, tag));
+        }
+        /// <summary>
+        /// 移除状态
+        /// </summary>
+        /// <param name="tag">状态</param>
+        public void RemoveState(TagType tag)
+        {
+            PlayerStates.RemoveAll(x=>x.Tag == tag);
         }
         /// <summary>
         /// 返回当前玩家状态
@@ -241,5 +250,12 @@ namespace VUPSimulator.Interface
                 }
             }
         }
+    }
+    /// <summary>
+    /// 玩家体力消耗记录
+    /// </summary>
+    public class PlayerStrength
+    {
+        
     }
 }

@@ -25,6 +25,7 @@ namespace VUPSimulator.Interface
         /// 当前日期,游戏开始默认为2200年1月1日上午8点(实际为以开局日期为准)
         /// </summary>
         public DateTime Now;
+
         /// <summary>
         /// 游戏经过的天数
         /// </summary>
@@ -37,6 +38,10 @@ namespace VUPSimulator.Interface
         /// 游戏开局开始日期(日期,不包括时间)
         /// </summary>
         public DateTime StartGameTime;
+        /// <summary>
+        /// 上次睡觉时间
+        /// </summary>
+        public DateTime LastSleepTime;
         /// <summary>
         /// 当前正在处理的事件
         /// 请注意,虽然说部分软件可以挂后台,但是处理事件只能处理一件
@@ -97,7 +102,7 @@ namespace VUPSimulator.Interface
                     //if (ALLEvent.Find(x => x.EventName == "ill") == null) TODO
                     //    imw.Core.EventBases.Find(x => x.EventName == "ill").Create(imw, Now).TimeHandle(TimeSpan.Zero, imw);
                 }
-                else if (value <=0)
+                else if (value <= 0)
                 {
                     return;
                 }
@@ -140,8 +145,12 @@ namespace VUPSimulator.Interface
             else if (s <= Health / 3)
             {
                 //呼出疲惫的DEBUFF
-                if (ALLEvent.Find(x => x.EventName == "tired") == null)
-                    imw.Core.EventBases.Find(x => x.EventName == "tired").Create(imw, Now).TimeHandle(TimeSpan.Zero, imw);
+                if (PStateSystem.PlayerStates.Find(x => x.Tag == PlayerState.TagType.Strength) == null)
+                    PStateSystem.AddState(PlayerState.StateType.Tired, 4, "精力低而导致的疲惫", PlayerState.TagType.Strength);
+            }
+            else
+            {
+
             }
         }
         /// <summary>

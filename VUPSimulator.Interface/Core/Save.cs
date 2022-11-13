@@ -130,10 +130,12 @@ namespace VUPSimulator.Interface
         /// 扣除精力
         /// </summary>
         /// <param name="value">精力:0-100</param>
-        public void StrengthRemove(double value)
+        public void StrengthRemove(double strength, double duration, string reason)
         {
-            strengthsleep -= value;
-            strengthfood -= value;
+            strength *= PlayerStateSystem.PlayerState[PStateSystem.OutInt()][2];
+            PStateSystem.AddStrength(Now, strength, duration, reason);
+            strengthsleep -= strength;
+            strengthfood -= strength;
             var s = Strength;
             //事件判断和拉起
             if (s <= 0)

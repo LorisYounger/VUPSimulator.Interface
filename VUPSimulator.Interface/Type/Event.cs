@@ -681,7 +681,7 @@ namespace VUPSimulator.Interface
 
         public override void HandleAction(TimeSpan ts, IMainWindow mw)
         {
-            mw.Save.StrengthRemove(-Value);
+            mw.Save.StrengthRemove(-Value, GetDouble("duration", 1), GetString("reason", "由事件发起"));
         }
     }
 

@@ -135,7 +135,7 @@ namespace VUPSimulator.Interface
         /// </summary>
         public Sub ToSub()
         {
-            return new Sub(State.ToString(), Duration.ToString("f4") + ',' + Reason+ ',' + Tag.ToString());
+            return new Sub($"{State}#{Duration:f4},{Sub.TextReplace(Reason)},{Tag}:|");
         }
     }
     /// <summary>
@@ -143,7 +143,7 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class PlayerStateSystem
     {
-        
+        public List<PlayerStrength> StrengthsHistory = new List<PlayerStrength>();
         /// <summary>
         /// 玩家状态计算字典
         /// </summary>
@@ -170,6 +170,27 @@ namespace VUPSimulator.Interface
             PlayerStates.Add(state);
         }
         /// <summary>
+        /// 添加体力消耗
+        /// </summary>
+        /// <param name="strength">体力</param>
+        /// <param name="duration">持续时间</param>
+        /// <param name="reason">原因</param>
+        public void AddStrength(DateTime happenedTime, double strength, double duration, string reason)
+        {
+            var same = StrengthsHistory.Find(x => x.Reason == reason);
+            if (same == null)
+            {
+                StrengthsHistory.Add(new PlayerStrength(happenedTime, strength, duration, reason));
+            }
+            else
+            {
+                same.Duration += duration;
+                same.Strength += strength;
+                same.HappenedTime = happenedTime;
+            }
+            StrengthsHistory = StrengthsHistory.OrderBy(x => x.HappenedTime).ToList();
+        }
+        /// <summary>
         /// 添加玩家状态
         /// </summary>
         /// <param name="state">状态</param>
@@ -186,7 +207,7 @@ namespace VUPSimulator.Interface
         /// <param name="tag">状态</param>
         public void RemoveState(TagType tag)
         {
-            PlayerStates.RemoveAll(x=>x.Tag == tag);
+            PlayerStates.RemoveAll(x => x.Tag == tag);
         }
         /// <summary>
         /// 返回当前玩家状态
@@ -256,6 +277,41 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class PlayerStrength
     {
-        
+        /// <summary>
+        /// 总共消耗的体力
+        /// </summary>
+        public double Strength;
+        /// <summary>
+        /// 原因
+        /// </summary>
+        public string Reason;
+        /// <summary>
+        /// 持续时间 (小时)
+        /// </summary>
+        public double Duration;
+        /// <summary>
+        /// 发生结束时间
+        /// </summary>
+        public DateTime HappenedTime;
+        /// <summary>
+        /// 花费体力每小时
+        /// </summary>
+        public double StrengthPerHour => Strength / Duration;
+
+        /// <summary>
+        /// 玩家体力消耗记录
+        /// </summary>
+        /// <param name="happenedTime">发生结束时间</param>
+        /// <param name="strength">总共消耗的体力</param>
+        /// <param name="duration">持续时间 (小时)</param>
+        /// <param name="reason">原因</param>
+        public PlayerStrength(DateTime happenedTime, double strength, double duration, string reason)
+        {
+            Strength = strength;
+            Duration = duration;
+            Reason = reason;
+            HappenedTime = happenedTime;
+        }
+
     }
 }

@@ -262,14 +262,11 @@ namespace VUPSimulator.Interface
         /// </summary>
         public void TimeRels(TimeSpan span, IMainWindow mw)
         {
-            foreach (var state in PlayerStates)
+            PlayerStates.RemoveAll((state) =>
             {
                 state.Duration -= span.TotalHours;
-                if (state.Duration <= 0)
-                {
-                    PlayerStates.Remove(state);
-                }
-            }
+                return state.Duration <= 0;
+            });           
         }
     }
     /// <summary>

@@ -22,7 +22,7 @@ namespace VUPSimulator.Interface
             var strs = sub.GetInfos();
             Duration = Convert.ToDouble(strs[0]);
             Reason = strs[1];
-            Tag = strs.Length > 2 ? (TagType)Enum.Parse(typeof(TagType), sub.Name, true) : TagType.Nomal;
+            Tag = strs.Length > 2 ? (TagType)Enum.Parse(typeof(TagType), strs[2], true) : TagType.Nomal;
         }
         /// <summary>
         /// 玩家状态

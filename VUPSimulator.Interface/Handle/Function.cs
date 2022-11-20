@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -157,9 +159,19 @@ namespace VUPSimulator.Interface
                 return "E";
             return "F";
         }
-        // 自动生成头像相关
 
-
+        /// <summary>
+        /// 获取String的hashcode
+        /// </summary>
+        /// <param name="text">String</param>
+        /// <returns>HashCode</returns>
+        public static string GetHashCode(string text)
+        {
+            using (MD5 md5 = new MD5CryptoServiceProvider())
+            {
+                return BitConverter.ToString(md5.ComputeHash(Encoding.UTF8.GetBytes(text)));
+            }
+        }
 
 
         //  操作指令

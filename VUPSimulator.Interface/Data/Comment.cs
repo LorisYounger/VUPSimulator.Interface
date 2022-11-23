@@ -38,9 +38,9 @@ namespace VUPSimulator.Interface
         }
 
         /// <summary>
-        /// 评论内容 为Hash形式
+        /// 评论内容
         /// </summary>
-        public new string Comments => Text;
+        public new string Comments;
 
         /// <summary>
         /// 评论类型
@@ -251,6 +251,21 @@ namespace VUPSimulator.Interface
         {
             get => this[(gdat)"date"];
             set => this[(gdat)"date"] = value;
+        }
+        public static Comment Create(Line line,ICore core)
+        {
+            string com = core.I18Comment.Find(line.text);
+            switch ((CommentType)Enum.Parse(typeof(CommentType), line.info, true))
+            {
+                case CommentType.Game:
+                    return new Comment_Game(line) { Comments = com };
+                //case CommentType.Video:
+                //    break;
+                //case CommentType.Stream:
+                //    break;
+                default:
+                    return new Comment(line) { Comments = com };
+            }
         }
     }
     /// <summary>

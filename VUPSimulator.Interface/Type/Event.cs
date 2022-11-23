@@ -21,7 +21,7 @@ namespace VUPSimulator.Interface
         /// <returns>新的事件</returns>
         public Event Create(IMainWindow mw, DateTime startdate, params Sub[] setting)
         {
-            Line line = (Line)Clone();
+            Line line = new Line(this);
 
             //自动登记时间
             //是否随机触发

@@ -9,7 +9,7 @@ using LinePutScript;
 namespace VUPSimulator.Interface.Data
 {
     /// <summary>
-    /// 多语言
+    /// 多语言用类,但是不仅仅多语言
     /// </summary>
     public class I18n
     {

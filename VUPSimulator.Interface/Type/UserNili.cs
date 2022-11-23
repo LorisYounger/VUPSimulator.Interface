@@ -59,7 +59,7 @@ namespace VUPSimulator.Interface
                     string[] array = Data.Infos.GetString("fansUser", FindorAdd("fansuser").Info).Split(',');
                     for (int i = 0; i < array.Length; i++)
                     {
-                        array[i] = TextDeReplace(array[i]);
+                        array[i] = Sub.TextDeReplace(array[i]);
                     }
                     return array.ToList();
                 }

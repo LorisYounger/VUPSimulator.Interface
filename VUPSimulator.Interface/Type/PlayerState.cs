@@ -135,7 +135,7 @@ namespace VUPSimulator.Interface
         /// </summary>
         public Sub ToSub()
         {
-            return new Sub($"{State}#{Duration:f4},{Sub.TextReplace(Reason)},{Tag}:|");
+            return new Sub($"{State}#{Duration:f4},{Sub.TextReplace(Reason)},{Tag}");
         }
     }
     /// <summary>

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LinePutScript;
+using VUPSimulator.Interface.Data;
 
 namespace VUPSimulator.Interface
 {
@@ -59,10 +60,14 @@ namespace VUPSimulator.Interface
       
 
         /// <summary>
-        /// 所有评论 TODO
+        /// 所有评论 
         /// </summary>
-        [Obsolete("请不要使用该方法进行相关评论操作,请使用mw.Save")]
-        public List<CommentBase> Comments = new List<CommentBase>();       
+        public List<CommentBase> Comments = new List<CommentBase>();
+        /// <summary>
+        /// 所有游戏评论
+        /// </summary>
+        public List<CommentBase> Comments_Game = new List<CommentBase>();
+        
         /// <summary>
         /// 所有长视频剪辑类型
         /// </summary>
@@ -106,6 +111,10 @@ namespace VUPSimulator.Interface
         /// 所有三方插件
         /// </summary>
         public List<MainPlugin> Plugins = new List<MainPlugin>();
+        /// <summary>
+        /// 评论翻译
+        /// </summary>
+        public I18n I18Comment = new I18n();
 
     }
 

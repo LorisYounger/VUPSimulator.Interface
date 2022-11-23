@@ -11,30 +11,57 @@ namespace VUPSimulator.Interface
     /// <summary>
     /// 评论数据表
     /// </summary>
-    public abstract class CommentBase : Line
+    public class CommentBase : Line
     {
+        /// <summary>
+        /// 评论Hash值
+        /// </summary>
         public readonly string ContentHash;
+        /// <summary>
+        /// 类型
+        /// </summary>
         public CommentType Type;
+        /// <summary>
+        /// 评论内容
+        /// </summary>
+        public new string Comments;
 
-        public CommentBase(Line line) : base(line)
+        public CommentBase(Line line, ICore core) : base(line)
         {
-            ContentHash = Function.GetHashCode(line.text);
+            Comments = line.Text;
+            ContentHash = Function.GetHashCode(Comments);
+            core.I18Comment.Add(ContentHash, Comments);
+            this.text = ContentHash;
             Type = (CommentType)Enum.Parse(typeof(CommentType), line.info, true);
         }
+        /// <summary>
+        /// 绑定的游戏名称 (若为Type:Game)
+        /// </summary>
+        public string Game
+        {
+            get
+            {
+                if (game == null)
+                    game = this[(gstr)"game"];
+                return game;
+            }
+        }
+        private string game = null;
 
-        //public Comment Create(LpsDocument CommentData, Line data)
-        //{
-        //    switch ((CommentType)Enum.Parse(typeof(CommentType), info, true))
-        //    {
-        //        case CommentType.Game:
-        //            return new Comment_Game(this, data);
-        //        //case CommentType.Video:
-        //        //    break;
-        //        //case CommentType.Stream:
-        //        //    break;
-        //        default:
-        //            return new Comment_base(this, data);
-        //    }
-        //}
+
+        public Comment Create()
+        {
+            switch (Type)
+            {
+                case CommentType.Game:
+                    return new Comment_Game(this) { Comments = Comments };
+                //case CommentType.Video:
+                //    break;
+                //case CommentType.Stream:
+                //    break;
+                default:
+                    return new Comment(this) { Comments = Comments };
+            }
+        }
     }
 }

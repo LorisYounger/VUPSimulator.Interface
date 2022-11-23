@@ -59,15 +59,10 @@ namespace VUPSimulator.Interface
       
 
         /// <summary>
-        /// 所有评论 TODO:根据评论区分
+        /// 所有评论 TODO
         /// </summary>
         [Obsolete("请不要使用该方法进行相关评论操作,请使用mw.Save")]
-        public List<Comment_base> Comments = new List<Comment_base>();
-        /// <summary>
-        /// 所有评论 TODO:根据评论区分
-        /// </summary>
-        [Obsolete("请不要使用该方法进行相关评论操作,请使用mw.Save")]
-        public List<Comment_Game> Comments_Game = new List<Comment_Game>();
+        public List<CommentBase> Comments = new List<CommentBase>();       
         /// <summary>
         /// 所有长视频剪辑类型
         /// </summary>

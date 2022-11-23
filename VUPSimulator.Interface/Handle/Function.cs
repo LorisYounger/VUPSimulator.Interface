@@ -166,12 +166,7 @@ namespace VUPSimulator.Interface
         /// <param name="text">String</param>
         /// <returns>HashCode</returns>
         public static string GetHashCode(string text)
-        {
-            using (MD5 md5 = new MD5CryptoServiceProvider())
-            {
-                return BitConverter.ToString(md5.ComputeHash(Encoding.UTF8.GetBytes(text)));
-            }
-        }
+            => Sub.GetHashCode(text).ToString("x16");
 
 
         //  操作指令

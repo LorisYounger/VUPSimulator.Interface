@@ -51,6 +51,8 @@
     <Compile Include="Core\Core.cs" />
     <Compile Include="Core\Save.cs" />
     <Compile Include="Core\Source.cs" />
+    <Compile Include="Data\CommentBase.cs" />
+    <Compile Include="Data\I18n.cs" />
     <Compile Include="Handle\MainPlugin.cs" />
     <Compile Include="Handle\SoftWare.cs" />
     <Compile Include="Items\Computer.cs" />
@@ -62,12 +64,12 @@
     <Compile Include="Image\GenImageTemplate.cs" />
     <Compile Include="Image\ProfileImage.cs" />
     <Compile Include="Items\L2D.cs" />
-    <Compile Include="Type\Comment.cs" />
+    <Compile Include="Data\Comment.cs" />
     <Compile Include="Type\PlayerState.cs" />
-    <Compile Include="Type\VideoNili.cs" />
+    <Compile Include="Data\VideoNili.cs" />
     <Compile Include="Type\UserNili.cs" />
-    <Compile Include="Type\Video.cs" />
-    <Compile Include="Type\VideoEditorType.cs" />
+    <Compile Include="Data\Video.cs" />
+    <Compile Include="Data\VideoEditorType.cs" />
     <Compile Include="Type\Users.cs" />
     <Compile Include="Type\Event.cs" />
     <Compile Include="Core\Theme.cs" />
@@ -92,7 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="LinePutScript">
-      <Version>1.5.4</Version>
+      <Version>1.6.0</Version>
     </PackageReference>
     <PackageReference Include="Panuon.WPF">
       <Version>1.0.1</Version>
@@ -104,8 +106,6 @@
       <Version>1.0.0</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

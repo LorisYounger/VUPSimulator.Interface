@@ -9,9 +9,9 @@ namespace VUPSimulator.Interface
     /// <summary>
     /// 评论表: 包含评论的基础信息 表头:comment
     /// </summary>
-    public class Comment_base : Line
+    public class Comment : Line
     {
-        public Comment_base(Line line) : base(line) { }
+        public Comment(Line line) : base(line) { }
         /// <summary>
         /// 评分, 从0到100, 偏极端的偏极端
         /// </summary>
@@ -38,7 +38,7 @@ namespace VUPSimulator.Interface
         }
 
         /// <summary>
-        /// 评论内容
+        /// 评论内容 为Hash形式
         /// </summary>
         public new string Comments => Text;
 
@@ -149,39 +149,6 @@ namespace VUPSimulator.Interface
                 ls.Add(tag.ToString().ToLower());
             return ls;
         }
-        public static Comment_base Create(Line line)
-        {
-            switch ((CommentType)Enum.Parse(typeof(CommentType), line.info, true))
-            {
-                case CommentType.Game:
-                    return new Comment_Game(line);
-                //case CommentType.Video:
-                //    break;
-                //case CommentType.Stream:
-                //    break;
-                default:
-                    return new Comment_base(line);
-            }
-        }
-        public static void Create(Line line, ICore core)
-        {
-            switch ((CommentType)Enum.Parse(typeof(CommentType), line.info, true))
-            {
-                case CommentType.Game:
-#pragma warning disable CS0618 // 类型或成员已过时
-                    core.Comments_Game.Add(new Comment_Game(line));
-                    break;
-                //case CommentType.Video:
-                //    break;
-                //case CommentType.Stream:
-                //    break;
-                default:
-                    core.Comments.Add(new Comment_base(line));
-                    break;
-#pragma warning restore CS0618 // 类型或成员已过时
-            }
-        }
-
         /// <summary>
         /// 评论用户 为null则为随便拉个人
         /// </summary>
@@ -289,7 +256,7 @@ namespace VUPSimulator.Interface
     /// <summary>
     /// 游戏评论表
     /// </summary>
-    public class Comment_Game : Comment_base
+    public class Comment_Game : Comment
     {//游戏评论和别的不一样, 游戏评论不是自动生成的
         public Comment_Game(Line line) : base(line) { }
 

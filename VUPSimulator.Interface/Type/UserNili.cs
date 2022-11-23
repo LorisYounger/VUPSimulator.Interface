@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
-using static VUPSimulator.Interface.Comment_base;
+using static VUPSimulator.Interface.Comment;
 
 namespace VUPSimulator.Interface
 {

@@ -221,7 +221,11 @@ namespace VUPSimulator.Interface
         /// Name均为'other' 请使用 FindInfo 查找相关数据
         /// </summary>
         public LpsDocument Other = new LpsDocument();
-
+        /// <summary>
+        /// 评论数据 多用于评论
+        /// Name均为'comm' 请使用 FindInfo 查找相关数据
+        /// </summary>
+        public LpsDocument CommentData = new LpsDocument();
         /// <summary>
         /// 游戏统计 用于任务/成就等
         /// Name均为'statis' 请使用 FindInfo 查找相关数据

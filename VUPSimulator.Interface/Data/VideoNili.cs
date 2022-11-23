@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using LinePutScript;
-using static VUPSimulator.Interface.Comment_base;
+using static VUPSimulator.Interface.Comment;
 using static VUPSimulator.Interface.Video;
 
 namespace VUPSimulator.Interface

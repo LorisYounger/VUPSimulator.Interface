@@ -96,7 +96,7 @@ namespace VUPSimulator.Interface
             cache.Add(hash, bitmapImage);
             return bitmapImage;
         }
-        public BitmapImage GetRndImage(string name) => GetRndImage(Function.GetHashCode(name));
+        public BitmapImage GetRndImage(string name) => GetRndImage(name.GetHashCode());
 
 
         /// <summary>

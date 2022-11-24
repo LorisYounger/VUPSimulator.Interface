@@ -502,7 +502,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 是否拥有
         /// </summary>
-        public new bool Have
+        public bool Have
         {
             get => this[(gbol)"have"];
             set => this[(gbol)"have"] = value;

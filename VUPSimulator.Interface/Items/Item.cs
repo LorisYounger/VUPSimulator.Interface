@@ -279,7 +279,7 @@ namespace VUPSimulator.Interface
             /// 商品折扣 (100%)
             /// </summary>
             public int Discount { get => _discount; set => Set(ref _quantity, value); }
-            private int _discount = 1;
+            private int _discount = 100;
             /// <summary>
             /// 更新商品折扣
             /// </summary>

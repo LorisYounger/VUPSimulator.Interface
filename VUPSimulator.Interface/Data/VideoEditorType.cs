@@ -35,12 +35,12 @@ namespace VUPSimulator.Interface
         /// </summary>
         /// <param name="mw">主窗口</param>
         /// <returns>True:可以运行该事件</returns>
-        public bool StartDecied(IMainWindow mw) => Function.DataEnable(mw, this);
+        public bool StartDecied(IMainWindow mw) => Function.Cal.DataEnable(mw, this);
         /// <summary>
         /// 判断该Type前置条件是否满足,是Enabled的一部分
         /// </summary>
         /// <param name="mw">主窗口</param>
-        public string WhyPass(IMainWindow mw) => Function.DataEnableString(mw, this);
+        public string WhyPass(IMainWindow mw) => Function.Cal.DataEnableString(mw, this);
 
         int sort = int.MinValue;
         public int CompareTo(object obj)

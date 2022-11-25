@@ -99,7 +99,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 原因
         /// </summary>
-        public string Reason;
+        public string Reason { get; set; }
         /// <summary>
         /// 标签,用于召回撤销等功能
         /// </summary>
@@ -137,6 +137,14 @@ namespace VUPSimulator.Interface
         {
             return new Sub($"{State}#{Duration:f4},{Sub.TextReplace(Reason)},{Tag}");
         }
+        /// <summary>
+        /// 当前状态描述文本
+        /// </summary>
+        public string StateToText { get => PlayerStateSystem.PlayerState[(int)State][0]; set { } }
+        /// <summary>
+        /// 当前持续时间描述文本
+        /// </summary>
+        public string DurationToText { get => Function.DateConvert(Duration); set { } }
     }
     /// <summary>
     /// 玩家状态系统
@@ -266,49 +274,50 @@ namespace VUPSimulator.Interface
             {
                 state.Duration -= span.TotalHours;
                 return state.Duration <= 0;
-            });           
+            });
         }
-    }
-    /// <summary>
-    /// 玩家体力消耗记录
-    /// </summary>
-    public class PlayerStrength
-    {
-        /// <summary>
-        /// 总共消耗的体力
-        /// </summary>
-        public double Strength;
-        /// <summary>
-        /// 原因
-        /// </summary>
-        public string Reason;
-        /// <summary>
-        /// 持续时间 (小时)
-        /// </summary>
-        public double Duration;
-        /// <summary>
-        /// 发生结束时间
-        /// </summary>
-        public DateTime HappenedTime;
-        /// <summary>
-        /// 花费体力每小时
-        /// </summary>
-        public double StrengthPerHour => Strength / Duration;
-
         /// <summary>
         /// 玩家体力消耗记录
         /// </summary>
-        /// <param name="happenedTime">发生结束时间</param>
-        /// <param name="strength">总共消耗的体力</param>
-        /// <param name="duration">持续时间 (小时)</param>
-        /// <param name="reason">原因</param>
-        public PlayerStrength(DateTime happenedTime, double strength, double duration, string reason)
+        public class PlayerStrength
         {
-            Strength = strength;
-            Duration = duration;
-            Reason = reason;
-            HappenedTime = happenedTime;
-        }
+            /// <summary>
+            /// 总共消耗的体力
+            /// </summary>
+            public double Strength;
+            /// <summary>
+            /// 原因
+            /// </summary>
+            public string Reason;
+            /// <summary>
+            /// 持续时间 (小时)
+            /// </summary>
+            public double Duration;
+            /// <summary>
+            /// 发生结束时间
+            /// </summary>
+            public DateTime HappenedTime;
+            /// <summary>
+            /// 花费体力每小时
+            /// </summary>
+            public double StrengthPerHour => Strength / Duration;
 
+            /// <summary>
+            /// 玩家体力消耗记录
+            /// </summary>
+            /// <param name="happenedTime">发生结束时间</param>
+            /// <param name="strength">总共消耗的体力</param>
+            /// <param name="duration">持续时间 (小时)</param>
+            /// <param name="reason">原因</param>
+            public PlayerStrength(DateTime happenedTime, double strength, double duration, string reason)
+            {
+                Strength = strength;
+                Duration = duration;
+                Reason = reason;
+                HappenedTime = happenedTime;
+            }
+
+        }
     }
+
 }

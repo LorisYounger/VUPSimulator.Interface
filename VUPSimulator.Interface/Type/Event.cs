@@ -393,7 +393,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 执行该Event的计算
         /// </summary>
-        public void EventCalculat(IMainWindow mw) => Function.DataCalculat(mw, this);
+        public void EventCalculat(IMainWindow mw) => Function.Cal.DataCalculat(mw, this);
         /// <summary>
         /// 判断该Event能否自动激活从而触发事件链
         /// </summary>
@@ -414,11 +414,11 @@ namespace VUPSimulator.Interface
         /// </summary>
         /// <param name="mw">主窗口</param>
         /// <returns>True:可以运行该事件</returns>
-        public bool StartDecied(IMainWindow mw) => Function.DataEnable(mw, this);
+        public bool StartDecied(IMainWindow mw) => Function.Cal.DataEnable(mw, this);
         /// <summary>
         /// 告诉用户为啥可以通过这个Event/激活条件是什么
         /// </summary>
-        public string WhyPass(IMainWindow mw) => Function.DataEnableString(mw, this);
+        public string WhyPass(IMainWindow mw) => Function.Cal.DataEnableString(mw, this);
     }
 
 

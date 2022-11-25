@@ -693,17 +693,6 @@ namespace VUPSimulator.Interface
             get => 1;
         }
         /// <summary>
-        /// 大小 单位MB
-        /// </summary>
-        /// <param name="speed">speed</param>
-        /// <returns></returns>
-        public static string SizeToString(int speed)
-        {
-            if (speed < 10000)
-                return $"{speed} MB";
-            return $"{speed / 1000} GB";
-        }
-        /// <summary>
         /// 商品分类信息
         /// </summary>
         public override string[] Categories => new string[] { "配件", "内存" };
@@ -712,7 +701,7 @@ namespace VUPSimulator.Interface
         /// </summary>
         public override string Description
         {
-            get => GetString("desc", ItemDisplayName) + $"\n频率:{Speed}MHZ\n大小:{SizeToString(Size)}";
+            get => GetString("desc", ItemDisplayName) + $"\n频率:{Speed}MHZ\n大小:{Function.SizeConvert(Size)}";
         }
         /// <summary>
         /// 内存大小

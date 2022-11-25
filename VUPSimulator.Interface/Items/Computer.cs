@@ -21,7 +21,17 @@ namespace VUPSimulator.Interface
         /// 电脑名称
         /// </summary>
         public string Name;
-
+        /// <summary>
+        /// 重新计算 电脑信息
+        /// </summary>
+        public void ReCalValue()
+        {
+            camtotalqual = -1;
+            micrototalqual = -1;
+            memtotal = -1;
+            cputotal = double.MinValue;
+            gputotal = double.MinValue;
+        }
         public Computer(Line line, IMainWindow mw, List<Item> items)
         {
 
@@ -360,11 +370,13 @@ namespace VUPSimulator.Interface
         /// <returns>计算机和相关物品</returns>
         public List<Line> ToLine()
         {
-            List<Line> lines = new List<Line>();
-            lines.Add(new Line("computer", Name, "", new Sub("cpu", CPU.ItemName), new Sub("gpu", GPU.ItemName), new Sub("motherboard", MotherBoard.ItemName)));
-            lines.Add(CPU);
-            lines.Add(GPU);
-            lines.Add(MotherBoard);
+            List<Line> lines = new List<Line>
+            {
+                new Line("computer", Name, "", new Sub("cpu", CPU.ItemName), new Sub("gpu", GPU.ItemName), new Sub("motherboard", MotherBoard.ItemName)),
+                CPU,
+                GPU,
+                MotherBoard
+            };
 
             string tmp = "memory#";
             foreach (Item_Memory mem in Memorys)

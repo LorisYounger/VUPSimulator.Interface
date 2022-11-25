@@ -87,7 +87,7 @@ namespace VUPSimulator.Interface
                 var line = Find("image");
                 if (line == null)
                 {
-                    return info + '_' + ItemName;
+                    return $"item_{info}_{ItemName}";
                 }
                 return line.Info;
             }
@@ -95,7 +95,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 物品图片
         /// </summary>
-        public ImageSource ImageSourse(IMainWindow mw) => mw.Core.ImageSources.FindImage(Image);
+        public ImageSource ImageSourse(IMainWindow mw) => mw.Core.ImageSources.FindImage(Image,"item_" + info);
         /// <summary>
         /// 根据物品类型自动生成相应Item
         /// </summary>

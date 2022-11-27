@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using System.Windows.Threading;
 using LinePutScript;
 using Panuon.WPF;
 
@@ -95,7 +96,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 物品图片
         /// </summary>
-        public ImageSource ImageSourse(IMainWindow mw) => mw.Core.ImageSources.FindImage(Image,"item_" + info);
+        public ImageSource ImageSourse(IMainWindow mw) => mw.Core.ImageSources.FindImage(Image, "item_" + info);
         /// <summary>
         /// 根据物品类型自动生成相应Item
         /// </summary>
@@ -215,7 +216,7 @@ namespace VUPSimulator.Interface
         /// 物品分类
         /// </summary>
         public virtual string[] Categories => Find("categories").GetInfos();
-        
+
         /// <summary>
         /// 物品排序值
         /// </summary>
@@ -231,25 +232,28 @@ namespace VUPSimulator.Interface
             /// </summary>
             public Item_Salability SalaItem;
             private Line data;
-
+            private Dispatcher d;
             public BetterBuyItem(Item_Salability salaitem, Line data, IMainWindow mw)
             {
                 SalaItem = salaitem;
                 this.data = data;
-                ImageShot = salaitem.ImageSourse(mw);
+                d = mw.Dispatcher;
+                d.Invoke(() => { ImageShot = salaitem.ImageSourse(mw); });
                 UpdateDiscount();
             }
-            public BetterBuyItem(Item_Salability salaitem, Line data, ImageSource sourse, int quantity)
+            public BetterBuyItem(Dispatcher dispatcher, Item_Salability salaitem, Line data, ImageSource sourse, int quantity)
             {
                 SalaItem = salaitem;
                 this.data = data;
-                ImageShot = sourse;
+                d = dispatcher;
+                d.Invoke(() => { ImageShot = sourse; });
                 UpdateDiscount();
+                _quantity = quantity;
             }
             /// <summary>
             /// 物品图像
             /// </summary>
-            public ImageSource ImageShot;
+            public ImageSource ImageShot { get; set; }
             /// <summary>
             /// 名称
             /// </summary>
@@ -278,7 +282,7 @@ namespace VUPSimulator.Interface
             /// <summary>
             /// 商品折扣 (100%)
             /// </summary>
-            public int Discount { get => _discount; set => Set(ref _quantity, value); }
+            public int Discount { get => _discount; set => Set(ref _discount, value); }
             private int _discount = 100;
             /// <summary>
             /// 更新商品折扣
@@ -311,7 +315,7 @@ namespace VUPSimulator.Interface
             /// </summary>
             public BetterBuyItem Clone()
             {
-                return new BetterBuyItem(SalaItem, data, ImageShot, Quantity);
+                return new BetterBuyItem(d, SalaItem, data, ImageShot, Quantity);
             }
         }
     }

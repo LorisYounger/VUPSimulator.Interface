@@ -222,7 +222,7 @@ namespace VUPSimulator.Interface
         /// <param name="tag">状态</param>
         public void RemoveState(TagType tag)
         {
-            foreach (var state in PlayerStates.Where(x => x.Tag == tag))
+            foreach (var state in PlayerStates.Where(x => x.Tag == tag).ToList())
             {
                 PlayerStates.Remove(state);
             }
@@ -284,7 +284,7 @@ namespace VUPSimulator.Interface
             {
                 state.Duration -= span.TotalHours;
             }
-            foreach (var state in PlayerStates.Where(x => x.Duration <= 0))
+            foreach (var state in PlayerStates.Where(x => x.Duration <= 0).ToList())
             {
                 PlayerStates.Remove(state);
             }

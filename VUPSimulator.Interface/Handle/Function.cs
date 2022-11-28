@@ -581,7 +581,7 @@ namespace VUPSimulator.Interface
             ////else
             ////    return neg + (value / 1000000000000.0).ToString(tostr) + 't';
             if (value < 1000)
-                return neg + value.ToString(tostr);
+                return neg + value;
             else if (value < 100000)
                 return neg + (value / 1000.0).ToString(tostr) + 'k';
             else if (value < 1000000)

@@ -2,9 +2,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 using System.Windows.Media;
 using static VUPSimulator.Interface.Comment;
 using static VUPSimulator.Interface.PlayerState;
@@ -151,7 +153,7 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class PlayerStateSystem
     {
-        public List<PlayerStrength> StrengthsHistory = new List<PlayerStrength>();
+        public ObservableCollection<PlayerStrength> StrengthsHistory = new ObservableCollection<PlayerStrength>();
         /// <summary>
         /// 玩家状态计算字典
         /// </summary>
@@ -168,7 +170,7 @@ namespace VUPSimulator.Interface
                 new dynamic[]{ "头疼", 3,1.3, Color.FromRgb(251, 141, 0), Color.FromRgb(98, 48, 0) } ,
                 new dynamic[]{ "生病", 3,1.5, Color.FromRgb(244, 81, 30), Color.FromRgb(92, 10, 0) } ,
         };
-        public List<PlayerState> PlayerStates = new List<PlayerState>();
+        public ObservableCollection<PlayerState> PlayerStates = new ObservableCollection<PlayerState>();
         /// <summary>
         /// 添加状态
         /// </summary>
@@ -185,7 +187,7 @@ namespace VUPSimulator.Interface
         /// <param name="reason">原因</param>
         public void AddStrength(DateTime happenedTime, double strength, double duration, string reason)
         {
-            var same = StrengthsHistory.Find(x => x.Reason == reason);
+            var same = StrengthsHistory.FirstOrDefault(x => x.Reason == reason);
             if (same == null)
             {
                 StrengthsHistory.Add(new PlayerStrength(happenedTime, strength, duration, reason));
@@ -196,7 +198,12 @@ namespace VUPSimulator.Interface
                 same.Strength += strength;
                 same.HappenedTime = happenedTime;
             }
-            StrengthsHistory = StrengthsHistory.OrderBy(x => x.HappenedTime).ToList();
+            var lst = StrengthsHistory.OrderBy(x => x.HappenedTime).ToArray();
+            StrengthsHistory.Clear();
+            foreach (var item in lst)
+            {
+                StrengthsHistory.Add(item);
+            }
         }
         /// <summary>
         /// 添加玩家状态
@@ -215,7 +222,10 @@ namespace VUPSimulator.Interface
         /// <param name="tag">状态</param>
         public void RemoveState(TagType tag)
         {
-            PlayerStates.RemoveAll(x => x.Tag == tag);
+            foreach (var state in PlayerStates.Where(x => x.Tag == tag))
+            {
+                PlayerStates.Remove(state);
+            }
         }
         /// <summary>
         /// 返回当前玩家状态
@@ -270,11 +280,14 @@ namespace VUPSimulator.Interface
         /// </summary>
         public void TimeRels(TimeSpan span, IMainWindow mw)
         {
-            PlayerStates.RemoveAll((state) =>
+            foreach (var state in PlayerStates)
             {
                 state.Duration -= span.TotalHours;
-                return state.Duration <= 0;
-            });
+            }
+            foreach (var state in PlayerStates.Where(x => x.Duration <= 0))
+            {
+                PlayerStates.Remove(state);
+            }
         }
         /// <summary>
         /// 玩家体力消耗记录

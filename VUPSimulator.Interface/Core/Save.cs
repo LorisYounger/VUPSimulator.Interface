@@ -147,7 +147,7 @@ namespace VUPSimulator.Interface
             else if (s <= Health / 3)
             {
                 //呼出疲惫的DEBUFF
-                if (PStateSystem.PlayerStates.Find(x => x.Tag == PlayerState.TagType.Strength) == null)
+                if (PStateSystem.PlayerStates.FirstOrDefault(x => x.Tag == PlayerState.TagType.Strength) == null)
                     PStateSystem.AddState(PlayerState.StateType.Tired, 4, "精力低而导致的疲惫", PlayerState.TagType.Strength);
             }
             else

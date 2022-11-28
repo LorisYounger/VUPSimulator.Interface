@@ -275,6 +275,10 @@ namespace VUPSimulator.Interface
             /// </summary>
             public double Price => SalaItem.Price;
             /// <summary>
+            /// 商品实际价格
+            /// </summary>
+            public double RealPrice => SalaItem.Price * Discount / 100.0;
+            /// <summary>
             /// 选择的物品个数
             /// </summary>
             public int Quantity { get => _quantity; set => Set(ref _quantity, value); }

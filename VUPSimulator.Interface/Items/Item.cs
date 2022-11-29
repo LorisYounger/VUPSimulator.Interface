@@ -245,7 +245,7 @@ namespace VUPSimulator.Interface
                 d.Invoke(() => { ImageShot = salaitem.ImageSourse(mw); });
                 UpdateDiscount();
             }
-            public BetterBuyItem(Dispatcher dispatcher, Item_Salability salaitem, Line data, ImageSource sourse, int quantity)
+            public BetterBuyItem(Dispatcher dispatcher, Item_Salability salaitem, Line data, ImageSource sourse, int quantity, int discount)
             {
                 SalaItem = salaitem;
                 this.data = data;
@@ -253,6 +253,7 @@ namespace VUPSimulator.Interface
                 d.Invoke(() => { ImageShot = sourse; });
                 UpdateDiscount();
                 _quantity = quantity;
+                _discount = discount;
             }
             /// <summary>
             /// 物品图像
@@ -323,7 +324,7 @@ namespace VUPSimulator.Interface
             /// </summary>
             public BetterBuyItem Clone()
             {
-                return new BetterBuyItem(d, SalaItem, data, ImageShot, Quantity);
+                return new BetterBuyItem(d, SalaItem, data, ImageShot, Quantity, Discount);
             }
         }
     }

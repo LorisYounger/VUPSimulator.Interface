@@ -40,7 +40,7 @@ namespace VUPSimulator.Interface
         {
             get => this[(gdbe)"health"];
             set => this[(gdbe)"health"] = value;
-        }
+        }     
         /// <summary>
         /// 状态影响
         /// </summary>
@@ -178,7 +178,7 @@ namespace VUPSimulator.Interface
         public override string[] Categories => new string[] { "食物", "功能性" };
     }
     /// <summary>
-    /// 
+    /// 药品
     /// </summary>
     public class Food_Drug : Food
     {
@@ -186,7 +186,14 @@ namespace VUPSimulator.Interface
         {
 
         }
-
+        /// <summary>
+        /// 健康影响范围
+        /// </summary>
+        public double HealthRange
+        {
+            get => this[(gdbe)"range"];
+            set => this[(gdbe)"range"] = value;
+        }
         public override double SortValue => Health;
         public override string[] Categories => new string[] { "食物", "药品" };
     }

@@ -77,6 +77,10 @@ namespace VUPSimulator.Interface
             }
             set => FindorAdd("many").InfoToInt = value;
         }
+        /// <summary>
+        /// 允许多个物品数量堆叠
+        /// </summary>
+        public virtual bool AllowMultiple => true;
 
         /// <summary>
         /// 物品图片
@@ -184,7 +188,7 @@ namespace VUPSimulator.Interface
                     throw new Exception("MOD生成错误:不可出售的物品");
             }
             return item;
-        }
+        }        
     }
     /// <summary>
     /// 可出售的物品

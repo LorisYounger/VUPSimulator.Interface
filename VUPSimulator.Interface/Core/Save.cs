@@ -71,6 +71,27 @@ namespace VUPSimulator.Interface
         /// </summary>
         public List<Item> Items = new List<Item>();
         /// <summary>
+        /// 添加物品(如果已经存在则数量+1)
+        /// </summary>
+        /// <param name="item">物品</param>
+        public void AddItem(Item item, int many = 1)
+        {
+            if (item.AllowMultiple)
+            {
+                var i = Items.FirstOrDefault(x => x.ItemName == item.ItemName);
+                if (i != null)
+                {
+                    i.Many += item.Many + many - 1;
+                    return;
+                }
+            }
+            if (many == 1)
+                Items.Add(item);
+            else
+                for (int i = 0; i < many; i++)
+                    Items.Add(Item.New(item));
+        }
+        /// <summary>
         /// 全部游戏视频
         /// </summary>
         public List<Video> Video = new List<Video>();

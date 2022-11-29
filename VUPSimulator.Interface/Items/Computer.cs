@@ -626,6 +626,10 @@ namespace VUPSimulator.Interface
         /// 核心数量
         /// </summary>
         public override double SortValue => CoreNumber;
+        /// <summary>
+        /// 允许多个物品数量堆叠
+        /// </summary>
+        public override bool AllowMultiple => false;
     }
 
     /// <summary>
@@ -678,6 +682,10 @@ namespace VUPSimulator.Interface
         /// 频率
         /// </summary>
         public override double SortValue => Speed;
+        /// <summary>
+        /// 允许多个物品数量堆叠
+        /// </summary>
+        public override bool AllowMultiple => false;
     }
     /// <summary>
     /// 内存
@@ -719,6 +727,10 @@ namespace VUPSimulator.Interface
         /// 内存大小
         /// </summary>
         public override double SortValue => Size;
+        /// <summary>
+        /// 允许多个物品数量堆叠
+        /// </summary>
+        public override bool AllowMultiple => false;
     }
     /// <summary>
     /// 主板
@@ -762,12 +774,16 @@ namespace VUPSimulator.Interface
         /// </summary>
         public override string Description
         {
-            get => GetString("desc", ItemDisplayName) + $"\n网络速度:{Network}MB\n支持内存:{MemorySupport}个\n支持麦克风:{MicrophoneSupport}个\n支持摄像头:{CameraSupport}个";
+            get => GetString("desc", ItemDisplayName) + $"\n网络速度:{Network}MBPS\n支持内存:{MemorySupport}个\n支持麦克风:{MicrophoneSupport}个\n支持摄像头:{CameraSupport}个";
         }
         /// <summary>
         /// 支持的外设数量
         /// </summary>
         public override double SortValue => MemorySupport + MicrophoneSupport + CameraSupport;
+        /// <summary>
+        /// 允许多个物品数量堆叠
+        /// </summary>
+        public override bool AllowMultiple => false;
     }
     /// <summary>
     /// 摄像头
@@ -809,6 +825,10 @@ namespace VUPSimulator.Interface
         /// 成像质量
         /// </summary>
         public override double SortValue => Quality;
+        /// <summary>
+        /// 允许多个物品数量堆叠
+        /// </summary>
+        public override bool AllowMultiple => false;
     }
 
     /// <summary>
@@ -851,5 +871,9 @@ namespace VUPSimulator.Interface
         /// 成像质量
         /// </summary>
         public override double SortValue => Quality;
+        /// <summary>
+        /// 允许多个物品数量堆叠
+        /// </summary>
+        public override bool AllowMultiple => false;
     }
 }

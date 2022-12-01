@@ -44,11 +44,12 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 状态影响
         /// </summary>
-        public PlayerState.StateType PlayerState
+        public int PlayerState
         {
-            get => (PlayerState.StateType)this[(gint)"playerstate"];
-            set => this[(gint)"playerstate"] = (int)value;
+            get => this[(gint)"playerstate"];
+            set => this[(gint)"playerstate"] = value;
         }
+        
         /// <summary>
         /// 使用该物品
         /// </summary>

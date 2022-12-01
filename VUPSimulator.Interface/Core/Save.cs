@@ -102,8 +102,8 @@ namespace VUPSimulator.Interface
         public Computer Computer;
 
         protected double health;
-        private double strengthsleep;
-        private double strengthfood;
+        protected double strengthsleep;
+        protected double strengthfood;
         /// <summary>
         /// 资金
         /// </summary>
@@ -151,31 +151,7 @@ namespace VUPSimulator.Interface
         /// 扣除精力
         /// </summary>
         /// <param name="value">精力:0-100</param>
-        public void StrengthRemove(double strength, double duration, string reason)
-        {
-            strength *= PlayerStateSystem.PlayerState[PStateSystem.OutInt()][2];
-            PStateSystem.AddStrength(Now, strength, duration, reason);
-            strengthsleep -= strength;
-            strengthfood -= strength;
-            var s = Strength;
-            //事件判断和拉起
-            if (s <= 0)
-            {
-                //TODO如果精力为0,昏倒 //TODO:修改成手动弹窗,不使用事件系统
-                if (ALLEvent.Find(x => x.EventName == "faint") == null)
-                    imw.Core.EventBases.Find(x => x.EventName == "faint").Create(imw, Now).TimeHandle(TimeSpan.Zero, imw);
-            }
-            else if (s <= Health / 3)
-            {
-                //呼出疲惫的DEBUFF
-                if (PStateSystem.PlayerStates.FirstOrDefault(x => x.Tag == PlayerState.TagType.Strength) == null)
-                    PStateSystem.AddState(PlayerState.StateType.Tired, 4, "精力低而导致的疲惫", PlayerState.TagType.Strength);
-            }
-            else
-            {
-
-            }
-        }
+        public abstract void StrengthRemove(double strength, double duration, string reason);
         /// <summary>
         /// 玩家状态系统
         /// </summary>

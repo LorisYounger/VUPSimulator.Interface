@@ -594,21 +594,21 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 单位转换时间
         /// </summary>
-        /// <param name="day">天</param>
-        public static string DateConvert(double day, string tostr = "f1")
+        /// <param name="h">小时</param>
+        public static string DateConvert(double h, string tostr = "f1")
         {
-            string neg = day < 0 ? "-" : "";
-            day = Math.Abs(day);
-            if (day < 1.5)
-                return neg + (day * 24).ToString(tostr) + 'm';
-            else if (day < 48)
-                return neg + day.ToString(tostr) + 'h';
-            else if (day < 960)
-                return neg + (day / 30).ToString(tostr) + 'd';
-            else if (day < 3072)
-                return neg + (day / 720).ToString(tostr) + 'm';
+            string neg = h < 0 ? "-" : "";
+            h = Math.Abs(h);
+            if (h < 1.5)
+                return neg + (h * 60).ToString(tostr) + 'm';
+            else if (h < 48)
+                return neg + h.ToString(tostr) + 'h';
+            else if (h < 960)
+                return neg + (h / 24).ToString(tostr) + 'd';
+            else if (h < 3072)
+                return neg + (h / 720).ToString(tostr) + 'm';
             else
-                return neg + (day / 8760).ToString(tostr) + 'y';
+                return neg + (h / 8760).ToString(tostr) + 'y';
         }
         /// <summary>
         /// 单位换算大小 单位MB
@@ -751,6 +751,7 @@ namespace VUPSimulator.Interface
             ItemList = 129,
             Tutorial,
             InternetExplorer,
+            Report,
 
             //193-255 标准可执行程序 可以自行打开 不允许多开
             GameSetting = 193,

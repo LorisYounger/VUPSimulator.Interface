@@ -40,7 +40,23 @@ namespace VUPSimulator.Interface
         {
             get => this[(gdbe)"health"];
             set => this[(gdbe)"health"] = value;
-        }     
+        }
+        /// <summary>
+        /// 健康影响范围
+        /// </summary>
+        public double HealthRange
+        {
+            get => this[(gdbe)"healthrange"];
+            set => this[(gdbe)"healthrange"] = value;
+        }
+        /// <summary>
+        /// 健康影响范围长度
+        /// </summary>
+        public double HealthRangeLength
+        {
+            get => GetDouble("healthrangelength", 5);
+            set => this[(gdbe)"healthrangelength"] = value;
+        }
         /// <summary>
         /// 状态影响
         /// </summary>
@@ -49,31 +65,42 @@ namespace VUPSimulator.Interface
             get => this[(gint)"playerstate"];
             set => this[(gint)"playerstate"] = value;
         }
-        
+        /// <summary>
+        /// 状态持续时间
+        /// </summary>
+        public double PlayerStateLength
+        {
+            get => this[(gdbe)"playerstatelength"];
+            set => this[(gdbe)"playerstatelength"] = value;
+        }
         /// <summary>
         /// 使用该物品
         /// </summary>
         public void Use(IMainWindow mw)
         {
+            if (Many == 0)
+            {
+                mw.Save.Items.Remove(this);
+                return;
+            }
             mw.Save.StrengthFood += StrengthFood;
             mw.Save.StrengthSleep += StrengthSleep;
-            mw.Save.Health += Health;
-
+            //在范围内生效health
+            if (Health != 0)
+            {
+                var rh = 1 - Math.Pow(mw.Save.Health - HealthRange, 2) / 2 / Math.Pow(HealthRangeLength, 2);
+                if (rh >= 0)
+                    mw.Save.Health += rh * Health;
+            }
+            //状态系统应用
+            if (PlayerStateLength > 0)
+            {
+                mw.Save.PStateSystem.AddState((Interface.PlayerState.StateType)PlayerState, PlayerStateLength, $"吃 {ItemName}", Interface.PlayerState.TagType.Food);
+            }
             Many -= 1;
             if (Many == 0)
                 mw.Save.Items.Remove(this);
-        }
-        public override string Image
-        {
-            get
-            {
-                var line = Find("image");
-                if (line == null)
-                {
-                    return "food_" + ItemName;
-                }
-                return line.Info;
-            }
+
         }
         /// <summary>
         /// 物品描述
@@ -82,10 +109,17 @@ namespace VUPSimulator.Interface
         {
             get
             {
-                string heleff = "无";
+                string ret = GetString("desc", ItemDisplayName);
+                var v = StrengthFood;
+                if (v != 0)
+                    ret += $"\n卡路里: {StrengthFood * 10:f1}大卡";
+                v = StrengthSleep;
+                if (v != 0)
+                    ret += $"\n咖啡因: {StrengthSleep:f1}mg";
                 var h = Health;
                 if (h != 0)
                 {
+                    string heleff;
                     if (h > 0)
                     {//正面影响
                         if (h <= 0.02)
@@ -93,35 +127,47 @@ namespace VUPSimulator.Interface
                         else if (h <= 0.1)
                             heleff = "略微良性";
                         else if (h <= 0.2)
-                            heleff = $"轻微良性(+{h:2})";
+                            heleff = $"轻微良性(+{h:f2})";
                         else if (h <= 0.5)
-                            heleff = $"中等良性(+{h:2})";
+                            heleff = $"中等良性(+{h:f2})";
                         else if (h <= 1)
-                            heleff = $"大幅度良性(+{h:2})";
+                            heleff = $"大幅度良性(+{h:f2})";
                         else if (h <= 5)
-                            heleff = $"非常良性(+{h:2})";
+                            heleff = $"非常良性(+{h:f2})";
                         else
-                            heleff = $"(+{h:2})";
+                            heleff = $"(+{h:f2})";
                     }
                     else
                     {//负面
-                        if (h >= 0.02)
+                        if (h >= -0.02)
                             heleff = "几乎无负面";
-                        else if (h >= 0.1)
+                        else if (h >= -0.1)
                             heleff = "略微负面";
-                        else if (h >= 0.2)
-                            heleff = $"轻微负面({h:2})";
-                        else if (h >= 0.5)
-                            heleff = $"中等负面({h:2})";
-                        else if (h >= 1)
-                            heleff = $"显著负面({h:2})";
-                        else if (h >= 5)
-                            heleff = $"严重负面({h:2})";
+                        else if (h >= -0.2)
+                            heleff = $"轻微负面({h:f2})";
+                        else if (h >= -0.5)
+                            heleff = $"中等负面({h:f2})";
+                        else if (h >= -1)
+                            heleff = $"显著负面({h:f2})";
+                        else if (h >= -5)
+                            heleff = $"严重负面({h:f2})";
                         else
-                            heleff = $"({h:2})";
+                            heleff = $"({h:f2})";
+                    }
+                    ret += $"\n健康影响: {heleff}";
+
+                    var hr = HealthRange;
+                    if (hr != 0)
+                    {
+                        var hrl = HealthRangeLength;
+                        ret += $" [有效范围{hr - hrl}-{hr + hrl}]";
                     }
                 }
-                return GetString("desc", ItemDisplayName) + $"\n卡路里: {StrengthFood * 10:f1}大卡\n咖啡因: {StrengthSleep:f1}mg\n健康影响: {heleff}";
+                if (PlayerStateLength > 0)
+                {
+                    ret += $"\n心情作用: {PlayerStateSystem.PlayerState[PlayerState][0]}[{4 - PlayerState}] ({Function.DateConvert(PlayerStateLength)})";
+                }
+                return ret;
             }
         }
     }
@@ -135,8 +181,8 @@ namespace VUPSimulator.Interface
 
         }
 
-        public override double SortValue => StrengthFood;
-        public override string[] Categories => new string[] { "食物", "零食" };
+        public override double SortValue => 4 - PlayerState;
+        public override string[] Categories => new string[] { "食品", "零食" };
 
     }
     /// <summary>
@@ -150,7 +196,7 @@ namespace VUPSimulator.Interface
         }
 
         public override double SortValue => StrengthFood;
-        public override string[] Categories => new string[] { "食物", "主食" };
+        public override string[] Categories => new string[] { "食品", "主食" };
     }
     /// <summary>
     /// 饮料
@@ -161,9 +207,8 @@ namespace VUPSimulator.Interface
         {
 
         }
-
         public override double SortValue => StrengthFood;
-        public override string[] Categories => new string[] { "食物", "饮料" };
+        public override string[] Categories => new string[] { "食品", "饮料" };
     }
     /// <summary>
     /// 功能性
@@ -174,9 +219,8 @@ namespace VUPSimulator.Interface
         {
 
         }
-
         public override double SortValue => StrengthSleep;
-        public override string[] Categories => new string[] { "食物", "功能性" };
+        public override string[] Categories => new string[] { "食品", "功能性" };
     }
     /// <summary>
     /// 药品
@@ -187,15 +231,8 @@ namespace VUPSimulator.Interface
         {
 
         }
-        /// <summary>
-        /// 健康影响范围
-        /// </summary>
-        public double HealthRange
-        {
-            get => this[(gdbe)"range"];
-            set => this[(gdbe)"range"] = value;
-        }
+
         public override double SortValue => Health;
-        public override string[] Categories => new string[] { "食物", "药品" };
+        public override string[] Categories => new string[] { "食品", "药品" };
     }
 }

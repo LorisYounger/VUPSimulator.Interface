@@ -184,6 +184,21 @@ namespace VUPSimulator.Interface
                 case "microphone":
                     item = new Item_Microphone(line);
                     break;
+                case "food_nohealth":
+                    item = new Food_NoHealth(line);
+                    break;
+                case "food_health":
+                    item = new Food_Health(line);
+                    break;
+                case "food_drink":
+                    item = new Food_Drink(line);
+                    break;
+                case "food_functional":
+                    item = new Food_Functional(line);
+                    break;
+                case "food_drug":
+                    item = new Food_Drug(line);
+                    break;
                 default:
                     throw new Exception("MOD生成错误:不可出售的物品");
             }

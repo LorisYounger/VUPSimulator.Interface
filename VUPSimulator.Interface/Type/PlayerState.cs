@@ -130,7 +130,11 @@ namespace VUPSimulator.Interface
             /// <summary>
             /// 由于运行时间
             /// </summary>
-            RunTime
+            RunTime,
+            /// <summary>
+            /// 由于事件影响
+            /// </summary>
+            Event,
         }
         /// <summary>
         /// 转换成存档用数据

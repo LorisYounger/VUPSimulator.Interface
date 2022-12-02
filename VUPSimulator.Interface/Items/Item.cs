@@ -319,7 +319,7 @@ namespace VUPSimulator.Interface
                     Discount = dis.InfoToInt;
                     return;
                 }
-                int mindis = 100;
+                int mindis = data.GetInt("discount_all", 100);
                 foreach (var item in Categories)
                 {
                     dis = data.Find("discount_" + item);
@@ -327,7 +327,7 @@ namespace VUPSimulator.Interface
                     {
                         mindis = Math.Min(dis.InfoToInt, mindis);
                     }
-                }
+                }                
                 Discount = mindis;
             }
             /// <summary>

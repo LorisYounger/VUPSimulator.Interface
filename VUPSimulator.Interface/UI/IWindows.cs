@@ -46,6 +46,6 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 修改窗口大小状态
         /// </summary>
-        void ChangeMax();
+        void ChangeMax();      
     }
 }

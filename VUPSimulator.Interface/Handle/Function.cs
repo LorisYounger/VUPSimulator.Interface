@@ -35,7 +35,19 @@ namespace VUPSimulator.Interface
         /// 随机数生成中心
         /// </summary>
         public static Random Rnd = new Random();
-      
+        /// <summary>
+        /// 返回 num1 到 num2 之间的随机数,如果num2小于num1则返回num1
+        /// </summary>
+        /// <param name="num1">值1</param>
+        /// <param name="num2">值2</param>
+        /// <returns></returns>
+        public static int RndNext(int num1, int num2)
+        {
+            if (num1 < num2)
+                return Rnd.Next(num1, num2);
+            else
+                return num1;
+        }
         /// <summary>
         /// 数据计算类
         /// </summary>
@@ -560,7 +572,7 @@ namespace VUPSimulator.Interface
         //iflow#int_var1,int_var2:| 判断var1<var2
         //ifor:| 如果前面的判断均为true,则返回true,否则继续执行
 
-        
+
         /// <summary>
         /// 单位换算缩写
         /// </summary>

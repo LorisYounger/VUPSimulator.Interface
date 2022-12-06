@@ -111,25 +111,10 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 健康
         /// </summary>
-        public double Health
+        public virtual double Health
         {
             get => health;
-            set
-            {
-                //TODO:低健康 触发住院事件
-                //TODO:健康=0 结束游戏
-                if (value <= 30)
-                {
-                    //if (ALLEvent.Find(x => x.EventName == "ill") == null) TODO
-                    //    imw.Core.EventBases.Find(x => x.EventName == "ill").Create(imw, Now).TimeHandle(TimeSpan.Zero, imw);
-                }
-                else if (value <= 0)
-                {
-                    return;
-                }
-                health = value;
-
-            }
+            set => health = value;
         }
         /// <summary>
         /// 精力

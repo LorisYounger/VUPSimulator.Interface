@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static VUPSimulator.Interface.Comment;
 
 namespace VUPSimulator.Interface
 {
@@ -170,6 +171,19 @@ namespace VUPSimulator.Interface
                 return ret;
             }
         }
+        /// <summary>
+        /// 真食物类型(用于判断主食/饮料/零食)
+        /// </summary>
+        public ItemType RealFoodType
+        {
+            get
+            {
+                var sub = Find("realtype");
+                if (sub != null)
+                    return (ItemType)Enum.Parse(typeof(ItemType), sub.info, true);
+                return Type;
+            }
+        }
     }
     /// <summary>
     /// 零食
@@ -183,7 +197,6 @@ namespace VUPSimulator.Interface
 
         public override double SortValue => 4 - PlayerState;
         public override string[] Categories => new string[] { "食品", "零食" };
-
     }
     /// <summary>
     /// 主食

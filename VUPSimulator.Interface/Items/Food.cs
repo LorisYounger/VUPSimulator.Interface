@@ -19,7 +19,7 @@ namespace VUPSimulator.Interface
         }
 
         /// <summary>
-        /// 增加 精力:体力
+        /// 增加 精力:饱腹
         /// </summary>
         public double StrengthFood
         {
@@ -27,7 +27,7 @@ namespace VUPSimulator.Interface
             set => this[(gdbe)"strengthfood"] = value;
         }
         /// <summary>
-        /// 增加 体力:睡眠
+        /// 增加 饱腹:睡眠
         /// </summary>
         public double StrengthSleep
         {
@@ -138,26 +138,26 @@ namespace VUPSimulator.Interface
             /// </summary>
             public double SpendTimeLeft;
             /// <summary>
-            /// 增加 精力:体力
+            /// 增加 精力:饱腹
             /// </summary>
             public double StrengthFood;
-            private double TstrengthFood;
+            public double TstrengthFood;
             /// <summary>
-            /// 增加 体力:睡眠
+            /// 增加 饱腹:睡眠
             /// </summary>
             public double StrengthSleep;
-            private double TstrengthSleep;
+            public double TstrengthSleep;
             /// <summary>
             /// 增加 健康
             /// </summary>
             public double Health;
-            private double Thealth;
+            public double Thealth;
             /// <summary>
             /// 新建食物食用中
             /// </summary>
             /// <param name="spendtime">吃东西所需要的时间(分钟)</param>
-            /// <param name="strengthfood"> 增加 精力:体力</param>
-            /// <param name="strengthsleep">增加 体力:睡眠</param>
+            /// <param name="strengthfood"> 增加 精力:饱腹</param>
+            /// <param name="strengthsleep">增加 饱腹:睡眠</param>
             /// <param name="health">增加 健康</param>
             public FoodEatTimeHandle(double spendtime, double strengthfood, double strengthsleep, double health)
             {

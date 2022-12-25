@@ -138,5 +138,9 @@ namespace VUPSimulator.Interface
                 return new BitmapImage(new Uri(FindSource(superior, "pack://application:,,,/Res/Image/system/error.png")));
             return new BitmapImage(new Uri(source));
         }
+        /// <summary>
+        /// 图片设置 (eg:定位锚点等)
+        /// </summary>
+        public LpsDocument ImageSetting = new LpsDocument();
     }
 }

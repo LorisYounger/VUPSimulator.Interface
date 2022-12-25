@@ -62,7 +62,7 @@ namespace VUPSimulator.Interface
             /// </summary>
             FeelGood,
             /// <summary>
-            /// 普通: 体力消耗2 体力消耗x1.0
+            /// 普通: 饱腹消耗2 饱腹消耗x1.0
             /// </summary>
             Nomal,
             /// <summary>
@@ -124,7 +124,7 @@ namespace VUPSimulator.Interface
             /// </summary>
             Drag,
             /// <summary>
-            /// 由于体力影响
+            /// 由于饱腹影响
             /// </summary>
             Strength,
             /// <summary>
@@ -188,9 +188,9 @@ namespace VUPSimulator.Interface
             PlayerStates.Add(state);
         }
         /// <summary>
-        /// 添加体力消耗
+        /// 添加饱腹消耗
         /// </summary>
-        /// <param name="strength">体力</param>
+        /// <param name="strength">饱腹</param>
         /// <param name="duration">持续时间</param>
         /// <param name="reason">原因</param>
         public void AddStrength(DateTime happenedTime, double strength, double duration, string reason)
@@ -305,12 +305,12 @@ namespace VUPSimulator.Interface
             //}
         }
         /// <summary>
-        /// 玩家体力消耗记录
+        /// 玩家饱腹消耗记录
         /// </summary>
         public class PlayerStrength : IComparable
         {
             /// <summary>
-            /// 总共消耗的体力
+            /// 总共消耗的饱腹
             /// </summary>
             public double Strength;
             /// <summary>
@@ -330,18 +330,18 @@ namespace VUPSimulator.Interface
             /// </summary>
             public DateTime HappenedTime;
             /// <summary>
-            /// 花费体力每小时
+            /// 花费饱腹每小时
             /// </summary>
             public double StrengthPerHour => Strength / Duration;
             /// <summary>
-            /// 体力(文本)
+            /// 饱腹(文本)
             /// </summary>
             public string StrStrength { get => $"{Strength:f1} ({StrengthPerHour:f1}/h)"; }
             /// <summary>
-            /// 玩家体力消耗记录
+            /// 玩家饱腹消耗记录
             /// </summary>
             /// <param name="happenedTime">发生结束时间</param>
-            /// <param name="strength">总共消耗的体力</param>
+            /// <param name="strength">总共消耗的饱腹</param>
             /// <param name="duration">持续时间 (小时)</param>
             /// <param name="reason">原因</param>
             public PlayerStrength(DateTime happenedTime, double strength, double duration, string reason)

@@ -84,6 +84,15 @@ namespace VUPSimulator.Interface
                     i.Many += item.Many + many - 1;
                     return;
                 }
+                else
+                {
+                    if (item.Many == 1)
+                        item.Many = many;
+                    else
+                        item.Many += many;
+                    Items.Add(item);
+                    return;
+                }
             }
             if (many == 1)
                 Items.Add(item);

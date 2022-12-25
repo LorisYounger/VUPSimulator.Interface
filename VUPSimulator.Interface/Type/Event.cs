@@ -81,7 +81,7 @@ namespace VUPSimulator.Interface
 
             //数值操作相关类型
             health,//健康相关操作
-            strength,//体力相关操作
+            strength,//饱腹相关操作
 
             //这个以后会有专门的工作类型work,//工作
             //这个以后会有专门的工作房子类型endwork,//结束工作
@@ -677,7 +677,7 @@ namespace VUPSimulator.Interface
     public class EventStrength : EventDoubleValue
     {
         public EventStrength(IMainWindow mw, Line line) : base(mw, line) { }
-        public override string ToIntor => base.ToIntor + "\n体力:" + (Value >= 0 ? "+" : "") + Value;
+        public override string ToIntor => base.ToIntor + "\n饱腹:" + (Value >= 0 ? "+" : "") + Value;
 
         public override void HandleAction(TimeSpan ts, IMainWindow mw)
         {

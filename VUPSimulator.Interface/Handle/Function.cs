@@ -356,7 +356,7 @@ namespace VUPSimulator.Interface
                             case "health":
                                 return $"健康({mw.Save.Health:f2})";
                             case "strength":
-                                return $"体力({mw.Save.Strength:f2})";
+                                return $"饱腹({mw.Save.Strength:f2})";
                             case "pclip":
                                 return $"剪辑({mw.Save.Pclip:f2})";
                             case "pdraw":

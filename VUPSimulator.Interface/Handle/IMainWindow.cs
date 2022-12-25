@@ -93,7 +93,7 @@ namespace VUPSimulator.Interface
         /// <param name="ENDAction">结束事件</param>
         /// <param name="TextCenter">是否字体居中显示</param>
         /// <param name="CanHide">是否允许隐藏消息弹窗</param>
-        void winMessageBoxShow(string title, string text, MSGType type = Function.MSGType.notify, bool YesNo = false, Action<bool?> ENDAction = null, bool TextCenter = true, bool CanHide = false);
+        WindowsPageHandle winMessageBoxShow(string title, string text, MSGType type = Function.MSGType.notify, bool YesNo = false, Action<bool?> ENDAction = null, bool TextCenter = true, bool CanHide = false);
         /// <summary>
         /// 弹出图片显示窗口 请注意该窗口不会阻塞任何线程, 如需结束后调用,请使用ENDAction
         /// </summary>
@@ -103,7 +103,7 @@ namespace VUPSimulator.Interface
         /// <param name="ENDAction">结束事件</param>
         /// <param name="AllowMax">是否允许最大化</param>
         /// <param name="CanHide">是否允许隐藏消息弹窗</param>
-        void winImageBoxShow(string title, ImageSource image, Function.MSGType type = Function.MSGType.notify, Action ENDAction = null, bool CanHide = true, bool AllowMax = true);
+        WindowsPageHandle winImageBoxShow(string title, ImageSource image, Function.MSGType type = Function.MSGType.notify, Action ENDAction = null, bool CanHide = true, bool AllowMax = true);
         /// <summary>
         /// 弹出图片显示窗口 请注意该窗口不会阻塞任何线程, 如需结束后调用,请使用ENDAction
         /// </summary>
@@ -113,8 +113,12 @@ namespace VUPSimulator.Interface
         /// <param name="ENDAction">结束事件</param>
         /// <param name="AllowMax">是否允许最大化</param>
         /// <param name="CanHide">是否允许隐藏消息弹窗</param>
-        void winImageBoxShow(string title, UIElement image, Function.MSGType type = Function.MSGType.notify, Action ENDAction = null, bool CanHide = true, bool AllowMax = true);
-
+        WindowsPageHandle winImageBoxShow(string title, UIElement image, Function.MSGType type = Function.MSGType.notify, Action ENDAction = null, bool CanHide = true, bool AllowMax = true);
+        /// <summary>
+        /// 显示正在吃东西窗口,请勿直接调用,请使用 Food.Use
+        /// </summary>
+        [Obsolete]
+        void winEatingShow(Food food, Food.FoodEatTimeHandle timehandle);
         /// <summary>
         /// 创建一个侧边日历栏组件
         /// </summary>

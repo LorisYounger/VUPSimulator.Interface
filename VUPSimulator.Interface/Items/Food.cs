@@ -59,6 +59,14 @@ namespace VUPSimulator.Interface
             set => this[(gdbe)"healthrangelength"] = value;
         }
         /// <summary>
+        /// 吃所需要花费的时间
+        /// </summary>
+        public double SpendTime
+        {
+            get => GetDouble("spendtime", 20);
+            set => this[(gdbe)"spendtime"] = value;
+        }
+        /// <summary>
         /// 状态影响
         /// </summary>
         public int PlayerState
@@ -79,19 +87,28 @@ namespace VUPSimulator.Interface
         /// </summary>
         public void Use(IMainWindow mw)
         {
+            if (mw.Save.Working != null)
+            {//在干别的事情,不能吃东西
+                mw.winMessageBoxShow("正在干别的事情,不能吃东西", $"当前正在 {mw.Save.Working}\n吃饭要专心,不能三心二意");
+                return;
+            }
             if (Many == 0)
             {
                 mw.Save.Items.Remove(this);
                 return;
             }
-            mw.Save.StrengthFood += StrengthFood;
-            mw.Save.StrengthSleep += StrengthSleep;
+            mw.Save.StrengthFood += StrengthFood / 4;
+            mw.Save.StrengthSleep += StrengthSleep / 4;
+            double health = 0;
             //在范围内生效health
             if (Health != 0)
             {
                 var rh = 1 - Math.Pow(mw.Save.Health - HealthRange, 2) / 2 / Math.Pow(HealthRangeLength, 2);
                 if (rh >= 0)
-                    mw.Save.Health += rh * Health;
+                {
+                    health = rh * Health;
+                    mw.Save.Health += health / 4;
+                }
             }
             //状态系统应用
             if (PlayerStateLength > 0)
@@ -101,7 +118,81 @@ namespace VUPSimulator.Interface
             Many -= 1;
             if (Many == 0)
                 mw.Save.Items.Remove(this);
-
+#pragma warning disable CS0612 // 类型或成员已过时
+            mw.winEatingShow(this, new FoodEatTimeHandle(SpendTime, StrengthFood, StrengthSleep, health));
+#pragma warning restore CS0612 // 类型或成员已过时
+        }
+        /// <summary>
+        /// 食物使用中
+        /// </summary>
+        /// 这个是当食物正在吃的时候,会有个生效过程
+        /// 具体效果是: 立即获得25% -> 持续时间获得50% -> 吃完后获得25%
+        public class FoodEatTimeHandle
+        {
+            /// <summary>
+            /// 吃东西所需要的时间(分钟)
+            /// </summary>
+            public double SpendTime;
+            /// <summary>
+            /// 吃完剩余时间(分钟)
+            /// </summary>
+            public double SpendTimeLeft;
+            /// <summary>
+            /// 增加 精力:体力
+            /// </summary>
+            public double StrengthFood;
+            private double TstrengthFood;
+            /// <summary>
+            /// 增加 体力:睡眠
+            /// </summary>
+            public double StrengthSleep;
+            private double TstrengthSleep;
+            /// <summary>
+            /// 增加 健康
+            /// </summary>
+            public double Health;
+            private double Thealth;
+            /// <summary>
+            /// 新建食物食用中
+            /// </summary>
+            /// <param name="spendtime">吃东西所需要的时间(分钟)</param>
+            /// <param name="strengthfood"> 增加 精力:体力</param>
+            /// <param name="strengthsleep">增加 体力:睡眠</param>
+            /// <param name="health">增加 健康</param>
+            public FoodEatTimeHandle(double spendtime, double strengthfood, double strengthsleep, double health)
+            {
+                SpendTime = spendtime;
+                SpendTimeLeft = spendtime;
+                StrengthFood = strengthfood / 4;
+                StrengthSleep = strengthsleep / 4;
+                Health = health / 4;
+                TstrengthFood = strengthfood / 2 / spendtime;
+                TstrengthSleep = strengthsleep / 2 / spendtime;
+                Thealth = health / 2 / spendtime;
+            }
+            /// <summary>
+            /// 进行时间移动,吃和消化食物
+            /// </summary>
+            /// <returns>True:吃完了,可以关掉窗口了</returns>
+            public bool TimeRels(TimeSpan span, IMainWindow mw)
+            {
+                if (span.TotalMinutes >= SpendTimeLeft)
+                {//直接进行结算
+                    mw.Save.Health += Health / 4 + Thealth * SpendTimeLeft;
+                    mw.Save.StrengthFood += StrengthFood / 4 + TstrengthFood * SpendTimeLeft;
+                    mw.Save.StrengthSleep += StrengthSleep / 4 + TstrengthSleep * SpendTimeLeft;
+                    return true;
+                }
+                else
+                {
+                    var d = span.TotalMinutes;
+                    SpendTimeLeft -= d;
+                    mw.Save.Health += Thealth * d;
+                    mw.Save.StrengthFood += TstrengthFood * d;
+                    mw.Save.StrengthSleep += TstrengthSleep * d;
+                    return false;
+                }
+            }
         }
         /// <summary>
         /// 物品描述

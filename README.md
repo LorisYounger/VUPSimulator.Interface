@@ -1,19 +1,11 @@
-# 虚拟主播模拟器 公开资源与程序接口
-虚拟主播模拟器 公开资源与程序接口
-
+# 虚拟主播模拟器 程序接口
 <img src="VUPSimulator.png" height="150px" />
-
-## 公开资源
-
-* TODO
-
-## 程序接口
 
 通过使用虚拟主播模拟器程序接口, 您可以修改游戏中绝大部分内容和软件
 
 ***注意: 虚拟主播模拟器还在开发阶段,程序接口变动可能会比较大, 新版本可能不兼容旧版本接口或需要升级**
 
-### 安装和引用
+## 安装和引用
 
 引用项目 `VUPSimulator.Interface`
 
@@ -23,14 +15,14 @@
 Install-Package VUPSimulator.Interface
 ```
 
-### 编写
+## 编写
 
 新建类库^(仅后端)^或WPF类库^(包括软件等前端)^项目
 游戏与接口均使用 .net framework 4.8
 
 新建类并继承 `VUPSimulator.Interface.MainPlugin`, 这将是游戏调用主要端口
 
-### 项目结构
+## 项目结构
 
 详细请参见代码注释,基本上都有且很详细
 
@@ -67,7 +59,7 @@ Install-Package VUPSimulator.Interface
   * IWindows: 窗体, 会自动生成外边框和底部栏
   * WindowsPageHandle: 窗体内控件 请同时继承与Grid/UC以便进行窗体设计
 
-### 编写dll描述文件
+## 编写dll描述文件
 
 生成程序, 在生成位置找到你的dll 在本例中为`CheatEngine.dll`
 新建同名文件以lps为后缀 `CheatEngine.lps`
@@ -81,7 +73,7 @@ github#https://github.com/LorisYounger/VUPSimulator.OpenResources:|
 plugin为你的mod名称
 github为开源页面地址
 
-### 发布
+## 发布
 
 参考虚拟主播模拟器游戏MOD,编写相应 `info.lps` 和 将生成的文件夹置入 `plugin`目录下
 记得把编写好的dll描述文件一起放入plugin文件夹
@@ -107,7 +99,7 @@ github为开源页面地址
 
 ***发布DLL插件需要开源并遵循[虚拟主播模拟器创意工坊协议#代码插件协议]()**
 
-### 案例
+## 案例
 
 参见 [CheatEngine](https://github.com/LorisYounger/VUPSimulator.OpenResources/tree/main/VUPSimulator.Interface.Demo) 游戏内数据修改作弊器
 

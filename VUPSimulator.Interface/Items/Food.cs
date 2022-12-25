@@ -97,6 +97,8 @@ namespace VUPSimulator.Interface
                 mw.Save.Items.Remove(this);
                 return;
             }
+            //TODO:吃过期食物
+            
             mw.Save.StrengthFood += StrengthFood / 4;
             mw.Save.StrengthSleep += StrengthSleep / 4;
             double health = 0;
@@ -274,6 +276,31 @@ namespace VUPSimulator.Interface
                     return (ItemType)Enum.Parse(typeof(ItemType), sub.info, true);
                 return Type;
             }
+        }
+        /// <summary>
+        /// 保质期
+        /// </summary>
+        public double QualityGuaranteePeriod
+        {
+            get => GetDouble("period", 30);
+            set => this[(gdbe)"period"] = value;
+        }
+        /// <summary>
+        /// 保质期开始时间
+        /// </summary>
+        public DateTime QualityGuaranteeStartTime
+        {
+            get => GetDateTime("periodstart",DateTime.MaxValue);
+            set => this[(gdat)"periodstart"] = value;
+        }
+        /// <summary>
+        /// 保质期剩余时间
+        /// </summary>
+        /// <param name="now">当前时间</param>
+        /// <returns></returns>
+        public double QualityGuaranteeLeft(DateTime now)
+        {
+            return (QualityGuaranteePeriod - (now - QualityGuaranteeStartTime).TotalDays);
         }
     }
     /// <summary>

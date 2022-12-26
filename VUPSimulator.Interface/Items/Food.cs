@@ -97,25 +97,42 @@ namespace VUPSimulator.Interface
                 mw.Save.Items.Remove(this);
                 return;
             }
-            //TODO:吃过期食物
-            
+            //吃过期食物Debuff
+            var qdate = QualityGuaranteeLeft(mw.Save.Now);
+            double health = 0;
+            if (qdate < 0)
+            {//过期食物降低状态/健康
+                qdate = Math.Abs(qdate / QualityGuaranteePeriod);
+                if (qdate <= 1)
+                {//过期周期小于1:无影响
+                    mw.Save.PStateSystem.AddState(Interface.PlayerState.StateType.FeelBad, 4, $"吃了过期的{ItemDisplayName}", Interface.PlayerState.TagType.Food);
+                }
+                else
+                {
+                    var inf = (int)(qdate + 4);
+                    if (inf > 10)
+                        inf = 10;
+                    mw.Save.PStateSystem.AddState((Interface.PlayerState.StateType)inf, 4 + qdate, $"吃了坏了的{ItemDisplayName}", Interface.PlayerState.TagType.Food);
+                    //健康影响
+                    health = -qdate / 10;
+                }
+            }
             mw.Save.StrengthFood += StrengthFood / 4;
             mw.Save.StrengthSleep += StrengthSleep / 4;
-            double health = 0;
             //在范围内生效health
             if (Health != 0)
             {
                 var rh = 1 - Math.Pow(mw.Save.Health - HealthRange, 2) / 2 / Math.Pow(HealthRangeLength, 2);
                 if (rh >= 0)
                 {
-                    health = rh * Health;
+                    health += rh * Health;
                     mw.Save.Health += health / 4;
                 }
             }
             //状态系统应用
             if (PlayerStateLength > 0)
             {
-                mw.Save.PStateSystem.AddState((Interface.PlayerState.StateType)PlayerState, PlayerStateLength, $"吃 {ItemName}", Interface.PlayerState.TagType.Food);
+                mw.Save.PStateSystem.AddState((Interface.PlayerState.StateType)PlayerState, PlayerStateLength, $"吃 {ItemDisplayName}", Interface.PlayerState.TagType.Food);
             }
             Many -= 1;
             if (Many == 0)
@@ -290,7 +307,7 @@ namespace VUPSimulator.Interface
         /// </summary>
         public DateTime QualityGuaranteeStartTime
         {
-            get => GetDateTime("periodstart",DateTime.MaxValue);
+            get => GetDateTime("periodstart", DateTime.MaxValue);
             set => this[(gdat)"periodstart"] = value;
         }
         /// <summary>
@@ -327,7 +344,7 @@ namespace VUPSimulator.Interface
         }
 
         public override double SortValue => StrengthFood;
-        public override string[] Categories => new string[] { "食品", "主食" };
+        public override string[] Categories => new string[] { "食品", "外卖" };
     }
     /// <summary>
     /// 饮料

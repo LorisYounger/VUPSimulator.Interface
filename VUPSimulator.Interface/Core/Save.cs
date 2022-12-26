@@ -76,6 +76,8 @@ namespace VUPSimulator.Interface
         /// <param name="item">物品</param>
         public void AddItem(Item item, int many = 1)
         {
+            if (item is Food f)
+                f.QualityGuaranteeStartTime = Now;
             if (item.AllowMultiple)
             {
                 var i = Items.FirstOrDefault(x => x.ItemName == item.ItemName);

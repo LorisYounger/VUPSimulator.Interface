@@ -752,7 +752,7 @@ namespace VUPSimulator.Interface
             ImageBox,
             //各种viewer
             ViewerVideo,
-
+            ViewerFood,
             //65-127 系统程序 无法自行打开 不允许多开
             HelloWorld = 65,
             NewGame,

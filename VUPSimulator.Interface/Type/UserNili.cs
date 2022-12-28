@@ -173,7 +173,7 @@ namespace VUPSimulator.Interface
         {
             get
             {
-                Sub subtag = Find("tag");
+                Sub subtag = Find("nilitag");
                 if (subtag == null)
                     return new List<NiliTag>();
                 List<NiliTag> tags = new List<NiliTag>();

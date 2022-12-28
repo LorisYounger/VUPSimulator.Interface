@@ -66,6 +66,7 @@
     <Compile Include="Image\ProfileImage.cs" />
     <Compile Include="Items\L2D.cs" />
     <Compile Include="Data\Comment.cs" />
+    <Compile Include="Type\Author.cs" />
     <Compile Include="Type\PlayerState.cs" />
     <Compile Include="Data\VideoNili.cs" />
     <Compile Include="Type\UserNili.cs" />
@@ -101,7 +102,7 @@
       <Version>1.0.1</Version>
     </PackageReference>
     <PackageReference Include="Panuon.WPF.UI">
-      <Version>1.1.6.5</Version>
+      <Version>1.1.7</Version>
     </PackageReference>
     <PackageReference Include="TextToDocument">
       <Version>1.0.0</Version>

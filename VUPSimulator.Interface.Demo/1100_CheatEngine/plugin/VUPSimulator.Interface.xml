@@ -61,12 +61,12 @@
         </member>
         <member name="F:VUPSimulator.Interface.ICore.Comments">
             <summary>
-            所有评论 TODO:根据评论区分
+            所有评论 
             </summary>
         </member>
         <member name="F:VUPSimulator.Interface.ICore.Comments_Game">
             <summary>
-            所有评论 TODO:根据评论区分
+            所有游戏评论
             </summary>
         </member>
         <member name="F:VUPSimulator.Interface.ICore.VideoEditorsLong">
@@ -119,6 +119,11 @@
             所有三方插件
             </summary>
         </member>
+        <member name="F:VUPSimulator.Interface.ICore.I18Comment">
+            <summary>
+            评论翻译
+            </summary>
+        </member>
         <member name="T:VUPSimulator.Interface.ISave">
             <summary>
             玩家存档数据 若未开始游戏则为空
@@ -147,6 +152,11 @@
         <member name="F:VUPSimulator.Interface.ISave.StartGameTime">
             <summary>
             游戏开局开始日期(日期,不包括时间)
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ISave.LastSleepTime">
+            <summary>
+            上次睡觉时间
             </summary>
         </member>
         <member name="F:VUPSimulator.Interface.ISave.Working">
@@ -179,6 +189,12 @@
             <summary>
             全部物品
             </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.ISave.AddItem(VUPSimulator.Interface.Item,System.Int32)">
+            <summary>
+            添加物品(如果已经存在则数量+1)
+            </summary>
+            <param name="item">物品</param>
         </member>
         <member name="F:VUPSimulator.Interface.ISave.Video">
             <summary>
@@ -215,11 +231,16 @@
             精力:食物
             </summary>
         </member>
-        <member name="M:VUPSimulator.Interface.ISave.StrengthRemove(System.Double)">
+        <member name="M:VUPSimulator.Interface.ISave.StrengthRemove(System.Double,System.Double,System.String)">
             <summary>
             扣除精力
             </summary>
             <param name="value">精力:0-100</param>
+        </member>
+        <member name="F:VUPSimulator.Interface.ISave.PStateSystem">
+            <summary>
+            玩家状态系统
+            </summary>
         </member>
         <member name="F:VUPSimulator.Interface.ISave.Pidear">
             <summary>
@@ -280,6 +301,12 @@
             <summary>
             其他数据 多用于代码插件
             Name均为'other' 请使用 FindInfo 查找相关数据
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.ISave.CommentData">
+            <summary>
+            评论数据 多用于评论
+            Name均为'comm' 请使用 FindInfo 查找相关数据
             </summary>
         </member>
         <member name="F:VUPSimulator.Interface.ISave.Statistics">
@@ -396,6 +423,71 @@
             <returns>图片资源,如果未找到则退回错误提示图片</returns>
             <param name="superior">上级图片 如果没有专属的图片,则提供上级的图片</param>
         </member>
+        <member name="F:VUPSimulator.Interface.ImageResources.ImageSetting">
+            <summary>
+            图片设置 (eg:定位锚点等)
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.CommentBase">
+            <summary>
+            评论数据表
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.CommentBase.ContentHash">
+            <summary>
+            评论Hash值
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.CommentBase.Type">
+            <summary>
+            类型
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.CommentBase.Comments">
+            <summary>
+            评论内容
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.CommentBase.Game">
+            <summary>
+            绑定的游戏名称 (若为Type:Game)
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.Data.I18n">
+            <summary>
+            多语言用类,但是不仅仅多语言
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Data.I18n.Item(System.String)">
+            <summary>
+            查询该ID的翻译
+            </summary>
+            <param name="i18nid">用于定义翻译的id</param>
+            <returns>查找翻译,若无翻译则原路返回</returns>
+        </member>
+        <member name="F:VUPSimulator.Interface.Data.I18n.Name">
+            <summary>
+            语言名称
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Data.I18n.Add(System.String,System.String)">
+            <summary>
+            添加翻译对
+            </summary>       
+        </member>
+        <member name="F:VUPSimulator.Interface.Data.I18n.ExternalSource">
+            <summary>
+            额外源
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:VUPSimulator.Interface.Data.I18n.Find(System.String)">
+            <summary>
+            查找翻译
+            </summary>
+            <param name="i18nid">用于定义翻译的id</param>
+            <returns></returns>
+        </member>
         <member name="T:VUPSimulator.Interface.MainPlugin">
             <summary>
             这是插件的主体内容 请继承这个类
@@ -473,6 +565,11 @@
         <member name="F:VUPSimulator.Interface.Computer.Name">
             <summary>
             电脑名称
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Computer.ReCalValue">
+            <summary>
+            重新计算 电脑信息
             </summary>
         </member>
         <member name="P:VUPSimulator.Interface.Computer.CPU_Usage">
@@ -704,6 +801,11 @@
             核心数量
             </summary>
         </member>
+        <member name="P:VUPSimulator.Interface.Item_CPU.AllowMultiple">
+            <summary>
+            允许多个物品数量堆叠
+            </summary>
+        </member>
         <member name="T:VUPSimulator.Interface.Item_GPU">
             <summary>
             GPU物品
@@ -744,6 +846,11 @@
             频率
             </summary>
         </member>
+        <member name="P:VUPSimulator.Interface.Item_GPU.AllowMultiple">
+            <summary>
+            允许多个物品数量堆叠
+            </summary>
+        </member>
         <member name="T:VUPSimulator.Interface.Item_Memory">
             <summary>
             内存
@@ -764,13 +871,6 @@
             所有电子产品个数只能为1
             </summary>
         </member>
-        <member name="M:VUPSimulator.Interface.Item_Memory.SizeToString(System.Int32)">
-            <summary>
-            大小 单位MB
-            </summary>
-            <param name="speed">speed</param>
-            <returns></returns>
-        </member>
         <member name="P:VUPSimulator.Interface.Item_Memory.Categories">
             <summary>
             商品分类信息
@@ -784,6 +884,11 @@
         <member name="P:VUPSimulator.Interface.Item_Memory.SortValue">
             <summary>
             内存大小
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Memory.AllowMultiple">
+            <summary>
+            允许多个物品数量堆叠
             </summary>
         </member>
         <member name="T:VUPSimulator.Interface.Item_MotherBoard">
@@ -831,6 +936,11 @@
             支持的外设数量
             </summary>
         </member>
+        <member name="P:VUPSimulator.Interface.Item_MotherBoard.AllowMultiple">
+            <summary>
+            允许多个物品数量堆叠
+            </summary>
+        </member>
         <member name="T:VUPSimulator.Interface.Item_Camera">
             <summary>
             摄像头
@@ -864,6 +974,11 @@
         <member name="P:VUPSimulator.Interface.Item_Camera.SortValue">
             <summary>
             成像质量
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Camera.AllowMultiple">
+            <summary>
+            允许多个物品数量堆叠
             </summary>
         </member>
         <member name="T:VUPSimulator.Interface.Item_Microphone">
@@ -901,6 +1016,11 @@
             成像质量
             </summary>
         </member>
+        <member name="P:VUPSimulator.Interface.Item_Microphone.AllowMultiple">
+            <summary>
+            允许多个物品数量堆叠
+            </summary>
+        </member>
         <member name="T:VUPSimulator.Interface.Food">
             <summary>
             食品基本类
@@ -908,12 +1028,12 @@
         </member>
         <member name="P:VUPSimulator.Interface.Food.StrengthFood">
             <summary>
-            增加 精力:体力
+            增加 精力:饱腹
             </summary>
         </member>
         <member name="P:VUPSimulator.Interface.Food.StrengthSleep">
             <summary>
-            增加 体力:睡眠
+            增加 饱腹:睡眠
             </summary>
         </member>
         <member name="P:VUPSimulator.Interface.Food.Health">
@@ -921,19 +1041,133 @@
             健康影响
             </summary>
         </member>
+        <member name="P:VUPSimulator.Interface.Food.HealthRange">
+            <summary>
+            健康影响范围
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Food.HealthRangeLength">
+            <summary>
+            健康影响范围长度
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Food.SpendTime">
+            <summary>
+            吃所需要花费的时间
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Food.PlayerState">
+            <summary>
+            状态影响
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Food.PlayerStateLength">
+            <summary>
+            状态持续时间
+            </summary>
+        </member>
         <member name="M:VUPSimulator.Interface.Food.Use(VUPSimulator.Interface.IMainWindow)">
             <summary>
             使用该物品
             </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.Food.FoodEatTimeHandle">
+            <summary>
+            食物使用中
+            </summary>
+            这个是当食物正在吃的时候,会有个生效过程
+            具体效果是: 立即获得25% -> 持续时间获得50% -> 吃完后获得25%
+        </member>
+        <member name="F:VUPSimulator.Interface.Food.FoodEatTimeHandle.SpendTime">
+            <summary>
+            吃东西所需要的时间(分钟)
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Food.FoodEatTimeHandle.SpendTimeLeft">
+            <summary>
+            吃完剩余时间(分钟)
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Food.FoodEatTimeHandle.StrengthFood">
+            <summary>
+            增加 精力:饱腹
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Food.FoodEatTimeHandle.StrengthSleep">
+            <summary>
+            增加 饱腹:睡眠
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Food.FoodEatTimeHandle.Health">
+            <summary>
+            增加 健康
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Food.FoodEatTimeHandle.#ctor(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            新建食物食用中
+            </summary>
+            <param name="spendtime">吃东西所需要的时间(分钟)</param>
+            <param name="strengthfood"> 增加 精力:饱腹</param>
+            <param name="strengthsleep">增加 饱腹:睡眠</param>
+            <param name="health">增加 健康</param>
+        </member>
+        <member name="M:VUPSimulator.Interface.Food.FoodEatTimeHandle.TimeRels(System.TimeSpan,VUPSimulator.Interface.IMainWindow)">
+            <summary>
+            进行时间移动,吃和消化食物
+            </summary>
+            <returns>True:吃完了,可以关掉窗口了</returns>
         </member>
         <member name="P:VUPSimulator.Interface.Food.Description">
             <summary>
             物品描述
             </summary>
         </member>
+        <member name="P:VUPSimulator.Interface.Food.RealFoodType">
+            <summary>
+            真食物类型(用于判断主食/饮料/零食)
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Food.QualityGuaranteePeriod">
+            <summary>
+            保质期
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Food.QualityGuaranteeStartTime">
+            <summary>
+            保质期开始时间
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Food.QualityGuaranteeLeft(System.DateTime)">
+            <summary>
+            保质期剩余时间
+            </summary>
+            <param name="now">当前时间</param>
+            <returns></returns>
+        </member>
         <member name="T:VUPSimulator.Interface.Food_NoHealth">
             <summary>
             零食
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.Food_Health">
+            <summary>
+            主食
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.Food_Drink">
+            <summary>
+            饮料
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.Food_Functional">
+            <summary>
+            功能性
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.Food_Drug">
+            <summary>
+            药品
             </summary>
         </member>
         <member name="T:VUPSimulator.Interface.Item_Game_base">
@@ -1460,149 +1694,149 @@
             <param name="rank">等级</param>
             <returns></returns>
         </member>
-        <member name="T:VUPSimulator.Interface.Comment_base">
+        <member name="T:VUPSimulator.Interface.Comment">
             <summary>
             评论表: 包含评论的基础信息 表头:comment
             </summary>
         </member>
-        <member name="P:VUPSimulator.Interface.Comment_base.Score">
+        <member name="P:VUPSimulator.Interface.Comment.Score">
             <summary>
             评分, 从0到100, 偏极端的偏极端
             </summary>
         </member>
-        <member name="P:VUPSimulator.Interface.Comment_base.Quality">
+        <member name="P:VUPSimulator.Interface.Comment.Quality">
             <summary>
             评论质量 从0-100
             </summary>
         </member>
-        <member name="P:VUPSimulator.Interface.Comment_base.Comments">
+        <member name="F:VUPSimulator.Interface.Comment.Comments">
             <summary>
             评论内容
             </summary>
         </member>
-        <member name="T:VUPSimulator.Interface.Comment_base.CommentType">
+        <member name="T:VUPSimulator.Interface.Comment.CommentType">
             <summary>
             评论类型
             </summary>
         </member>
-        <member name="F:VUPSimulator.Interface.Comment_base.CommentType.Base">
+        <member name="F:VUPSimulator.Interface.Comment.CommentType.Base">
             <summary>
             基本评论
             </summary>
         </member>
-        <member name="F:VUPSimulator.Interface.Comment_base.CommentType.Game">
+        <member name="F:VUPSimulator.Interface.Comment.CommentType.Game">
             <summary>
             游戏评价
             </summary>
         </member>
-        <member name="F:VUPSimulator.Interface.Comment_base.CommentType.Video">
+        <member name="F:VUPSimulator.Interface.Comment.CommentType.Video">
             <summary>
             视频评论 会有回复的各种选项
             </summary>
         </member>
-        <member name="F:VUPSimulator.Interface.Comment_base.CommentType.Stream">
+        <member name="F:VUPSimulator.Interface.Comment.CommentType.Stream">
             <summary>
             直播评论 将会额外制作,会有各种选项
             </summary>
         </member>
-        <member name="T:VUPSimulator.Interface.Comment_base.CommentTag">
+        <member name="T:VUPSimulator.Interface.Comment.CommentTag">
             <summary>
             评论标签,方便用于从评论表拉出来
             </summary>
         </member>
-        <member name="F:VUPSimulator.Interface.Comment_base.CommentTag.Nomal">
+        <member name="F:VUPSimulator.Interface.Comment.CommentTag.Nomal">
             <summary>
             无感情,中立,都可以用的评价 例如: 第一,我来啦
             标准好评 例如: 支持支持, 催更
             标准差评 例如:好无聊,没意思
             </summary>
         </member>
-        <member name="F:VUPSimulator.Interface.Comment_base.CommentTag.Fun">
+        <member name="F:VUPSimulator.Interface.Comment.CommentTag.Fun">
             <summary>
             有趣的评价 一般点赞数会比较高
             </summary>
         </member>
-        <member name="F:VUPSimulator.Interface.Comment_base.CommentTag.Idear">
+        <member name="F:VUPSimulator.Interface.Comment.CommentTag.Idear">
             <summary>
             主意
             好评: 这点子真棒, 只有|author|才能想出来吧, 真有趣
             差评: 真无聊,没意思
             </summary>
         </member>
-        <member name="F:VUPSimulator.Interface.Comment_base.CommentTag.Speak">
+        <member name="F:VUPSimulator.Interface.Comment.CommentTag.Speak">
             <summary>
             口才
             好评: 说话真好听,说话真有意思
             差评: 声音好难听,听不清楚
             </summary>
         </member>
-        <member name="F:VUPSimulator.Interface.Comment_base.CommentTag.Operate">
+        <member name="F:VUPSimulator.Interface.Comment.CommentTag.Operate">
             <summary>
             运营
             好评: 走过路过不要错过,给|author|点波关注
             差评: 大家千万要小心|author|,有黑历史
             </summary>
         </member>
-        <member name="F:VUPSimulator.Interface.Comment_base.CommentTag.HighQuality">
+        <member name="F:VUPSimulator.Interface.Comment.CommentTag.HighQuality">
             <summary>
             高质量评论
             会根据评论质量自动添加此tag,无需手动添加
             </summary>
         </member>
-        <member name="F:VUPSimulator.Interface.Comment_base.CommentTag.LowQuality">
+        <member name="F:VUPSimulator.Interface.Comment.CommentTag.LowQuality">
             <summary>
             低质量评论
             会根据评论质量自动添加此tag,无需手动添加
             </summary>
         </member>
-        <member name="F:VUPSimulator.Interface.Comment_base.CommentTag.Rnd">
+        <member name="F:VUPSimulator.Interface.Comment.CommentTag.Rnd">
             <summary>
             允许随机拉取
             允许在条件不符合的情况下以一定概率被选中
             </summary>
         </member>
-        <member name="P:VUPSimulator.Interface.Comment_base.Type">
+        <member name="P:VUPSimulator.Interface.Comment.Type">
             <summary>
             评论类型
             </summary>
         </member>
-        <member name="P:VUPSimulator.Interface.Comment_base.Tags">
+        <member name="P:VUPSimulator.Interface.Comment.Tags">
             <summary>
             评论标签
             </summary>
         </member>
-        <member name="M:VUPSimulator.Interface.Comment_base.Tags_str">
+        <member name="M:VUPSimulator.Interface.Comment.Tags_str">
             <summary>
             评论标签
             </summary>
         </member>
-        <member name="P:VUPSimulator.Interface.Comment_base.User">
+        <member name="P:VUPSimulator.Interface.Comment.User">
             <summary>
             评论用户 为null则为随便拉个人
             </summary>
         </member>
-        <member name="M:VUPSimulator.Interface.Comment_base.GetUser(VUPSimulator.Interface.ICore,VUPSimulator.Interface.Item_Game_base)">
+        <member name="M:VUPSimulator.Interface.Comment.GetUser(VUPSimulator.Interface.ICore,VUPSimulator.Interface.Item_Game_base)">
             <summary>
             获取游戏评论用户 为null则为随便拉个人
             </summary>
             <returns></returns>
         </member>
-        <member name="P:VUPSimulator.Interface.Comment_base.Likes">
+        <member name="P:VUPSimulator.Interface.Comment.Likes">
             <summary>
             点赞数量
             </summary>
         </member>
-        <member name="P:VUPSimulator.Interface.Comment_base.IsLike">
+        <member name="P:VUPSimulator.Interface.Comment.IsLike">
             <summary>
             玩家是否点过赞 0未 1=点赞 -1=点踩
             </summary>
         </member>
-        <member name="P:VUPSimulator.Interface.Comment_base.Publish">
+        <member name="P:VUPSimulator.Interface.Comment.Publish">
             <summary>
             发布日期
             </summary>
         </member>
-        <member name="P:VUPSimulator.Interface.Comment_base.PublishDate">
+        <member name="P:VUPSimulator.Interface.Comment.PublishDate">
             <summary>
             发布日期
             </summary>
@@ -1617,17 +1851,24 @@
             绑定的游戏名称
             </summary>
         </member>
+        <member name="T:VUPSimulator.Interface.Author">
+            <summary>
+            老画师作者
+            </summary>
+        </member>
         <member name="T:VUPSimulator.Interface.PlayerState">
             <summary>
             玩家状态类
             </summary>
         </member>
-        <member name="M:VUPSimulator.Interface.PlayerState.#ctor(VUPSimulator.Interface.PlayerState.StateType,System.Int32)">
+        <member name="M:VUPSimulator.Interface.PlayerState.#ctor(VUPSimulator.Interface.PlayerState.StateType,System.Double,System.String,VUPSimulator.Interface.PlayerState.TagType)">
             <summary>
             玩家状态
             </summary>
             <param name="state">状态</param>
             <param name="duration">持续时间</param>
+            <param name="reason">原因</param>
+            <param name="tag">标签</param>
         </member>
         <member name="T:VUPSimulator.Interface.PlayerState.StateType">
             <summary>
@@ -1656,7 +1897,7 @@
         </member>
         <member name="F:VUPSimulator.Interface.PlayerState.StateType.Nomal">
             <summary>
-            普通: 体力消耗2 体力消耗x1.0
+            普通: 饱腹消耗2 饱腹消耗x1.0
             </summary>
         </member>
         <member name="F:VUPSimulator.Interface.PlayerState.StateType.FeelBad">
@@ -1696,8 +1937,186 @@
         </member>
         <member name="F:VUPSimulator.Interface.PlayerState.Duration">
             <summary>
-            持续时间
+            持续时间 (小时)
             </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.PlayerState.Reason">
+            <summary>
+            原因
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.PlayerState.Tag">
+            <summary>
+            标签,用于召回撤销等功能
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.PlayerState.TagType">
+            <summary>
+            标签
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.PlayerState.TagType.Nomal">
+            <summary>
+            标准/默认
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.PlayerState.TagType.Food">
+            <summary>
+            由于食物影响
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.PlayerState.TagType.Drag">
+            <summary>
+            由于药品影响
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.PlayerState.TagType.Strength">
+            <summary>
+            由于饱腹影响
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.PlayerState.TagType.RunTime">
+            <summary>
+            由于运行时间
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.PlayerState.TagType.Event">
+            <summary>
+            由于事件影响
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.PlayerState.ToSub">
+            <summary>
+            转换成存档用数据
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.PlayerState.StateToText">
+            <summary>
+            当前状态描述文本
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.PlayerState.StateToInt">
+            <summary>
+            当前状态值
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.PlayerState.DurationToText">
+            <summary>
+            当前持续时间描述文本
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.PlayerStateSystem">
+            <summary>
+            玩家状态系统
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.PlayerStateSystem.PlayerState">
+            <summary>
+            玩家状态计算字典
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.PlayerStateSystem.AddState(VUPSimulator.Interface.PlayerState)">
+            <summary>
+            添加状态
+            </summary>
+            <param name="state">状态</param>
+        </member>
+        <member name="M:VUPSimulator.Interface.PlayerStateSystem.AddStrength(System.DateTime,System.Double,System.Double,System.String)">
+            <summary>
+            添加饱腹消耗
+            </summary>
+            <param name="strength">饱腹</param>
+            <param name="duration">持续时间</param>
+            <param name="reason">原因</param>
+        </member>
+        <member name="M:VUPSimulator.Interface.PlayerStateSystem.AddState(VUPSimulator.Interface.PlayerState.StateType,System.Double,System.String,VUPSimulator.Interface.PlayerState.TagType)">
+            <summary>
+            添加玩家状态
+            </summary>
+            <param name="state">状态</param>
+            <param name="duration">持续时间</param>
+            <param name="reason">原因</param>
+            <param name="tag">标签</param>
+        </member>
+        <member name="M:VUPSimulator.Interface.PlayerStateSystem.RemoveState(VUPSimulator.Interface.PlayerState.TagType)">
+            <summary>
+            移除状态
+            </summary>
+            <param name="tag">状态</param>
+        </member>
+        <member name="M:VUPSimulator.Interface.PlayerStateSystem.OutDouble">
+            <summary>
+            返回当前玩家状态
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.PlayerStateSystem.OutInt">
+            <summary>
+            返回当前玩家状态
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.PlayerStateSystem.OutState">
+            <summary>
+            返回当前玩家状态
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.PlayerStateSystem.ToLine">
+            <summary>
+            转换成存档用数据
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.PlayerStateSystem.TimeRels(System.TimeSpan)">
+            <summary>
+            时间刷新
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.PlayerStateSystem.PlayerStrength">
+            <summary>
+            玩家饱腹消耗记录
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.PlayerStateSystem.PlayerStrength.Strength">
+            <summary>
+            总共消耗的饱腹
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.PlayerStateSystem.PlayerStrength.Reason">
+            <summary>
+            原因
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.PlayerStateSystem.PlayerStrength.Duration">
+            <summary>
+            持续时间 (小时)
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.PlayerStateSystem.PlayerStrength.StrTime">
+            <summary>
+            时间(文本)
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.PlayerStateSystem.PlayerStrength.HappenedTime">
+            <summary>
+            发生结束时间
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.PlayerStateSystem.PlayerStrength.StrengthPerHour">
+            <summary>
+            花费饱腹每小时
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.PlayerStateSystem.PlayerStrength.StrStrength">
+            <summary>
+            饱腹(文本)
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.PlayerStateSystem.PlayerStrength.#ctor(System.DateTime,System.Double,System.Double,System.String)">
+            <summary>
+            玩家饱腹消耗记录
+            </summary>
+            <param name="happenedTime">发生结束时间</param>
+            <param name="strength">总共消耗的饱腹</param>
+            <param name="duration">持续时间 (小时)</param>
+            <param name="reason">原因</param>
         </member>
         <member name="T:VUPSimulator.Interface.VideoNili">
             <summary>
@@ -2739,6 +3158,69 @@
             随机数生成中心
             </summary>
         </member>
+        <member name="M:VUPSimulator.Interface.Function.RndNext(System.Int32,System.Int32)">
+            <summary>
+            返回 num1 到 num2 之间的随机数,如果num2小于num1则返回num1
+            </summary>
+            <param name="num1">值1</param>
+            <param name="num2">值2</param>
+            <returns></returns>
+        </member>
+        <member name="T:VUPSimulator.Interface.Function.Cal">
+            <summary>
+            数据计算类
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Function.Cal.DataEnable(VUPSimulator.Interface.IMainWindow,LinePutScript.Line)">
+            <summary>
+            前置条件是否满足 虽然说使用了EventData版,但是数据其实是通用的
+            </summary>
+            <param name="mw">主窗口</param>
+            <param name="data">相关数据/运算符</param>
+            <returns>True:可以运行</returns>
+        </member>
+        <member name="M:VUPSimulator.Interface.Function.Cal.DataEnableString(VUPSimulator.Interface.IMainWindow,LinePutScript.Line)">
+            <summary>
+            提供前置条件的判断文本,告诉玩家为啥可以或不可以使用
+            </summary>
+            <param name="mw">主窗口</param>
+            <param name="data">相关数据/运算符</param>
+            <returns>提供前置条件的判断文本</returns>
+        </member>
+        <member name="M:VUPSimulator.Interface.Function.Cal.DataConvert(VUPSimulator.Interface.IMainWindow,System.String,LinePutScript.Line)">
+            <summary>
+            字符串数据转换 虽然说使用了EventData版,但是数据其实是通用的
+            </summary>
+            <param name="mw">主窗口</param>
+            <param name="name">相关字符串</param>
+            <param name="data">相关本地数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:VUPSimulator.Interface.Function.Cal.DataConvertString(VUPSimulator.Interface.IMainWindow,System.String,LinePutScript.Line)">
+            <summary>
+            字符串数据转换 虽然说使用了EventData版,但是数据其实是通用的
+            </summary>
+            <param name="mw">主窗口</param>
+            <param name="name">相关字符串</param>
+            <param name="data">相关本地数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:VUPSimulator.Interface.Function.Cal.DataCalculat(VUPSimulator.Interface.IMainWindow,LinePutScript.Line)">
+            <summary>
+            执行数据计算
+            </summary>
+            <param name="mw">主窗口</param>
+            <param name="data">相关数据/运算符</param>
+        </member>
+        <member name="M:VUPSimulator.Interface.Function.Cal.DataSet(VUPSimulator.Interface.IMainWindow,System.String,System.Object,LinePutScript.Line)">
+            <summary>
+            设置相关数据
+            </summary>
+            <param name="mw">主窗体</param>
+            <param name="name">设置名称</param>
+            <param name="value">设置值</param>
+            <param name="data">若未找到则修改的源行</param>
+        </member>
         <member name="M:VUPSimulator.Interface.Function.ScoretoString(System.Int32,System.Windows.Media.Color@)">
             <summary>
             退回评分标准
@@ -2760,55 +3242,12 @@
             E  >=20
             </returns>
         </member>
-        <member name="M:VUPSimulator.Interface.Function.DataEnable(VUPSimulator.Interface.IMainWindow,LinePutScript.Line)">
+        <member name="M:VUPSimulator.Interface.Function.GetHashCode(System.String)">
             <summary>
-            前置条件是否满足 虽然说使用了EventData版,但是数据其实是通用的
+            获取String的hashcode
             </summary>
-            <param name="mw">主窗口</param>
-            <param name="data">相关数据/运算符</param>
-            <returns>True:可以运行</returns>
-        </member>
-        <member name="M:VUPSimulator.Interface.Function.DataEnableString(VUPSimulator.Interface.IMainWindow,LinePutScript.Line)">
-            <summary>
-            提供前置条件的判断文本,告诉玩家为啥可以或不可以使用
-            </summary>
-            <param name="mw">主窗口</param>
-            <param name="data">相关数据/运算符</param>
-            <returns>提供前置条件的判断文本</returns>
-        </member>
-        <member name="M:VUPSimulator.Interface.Function.DataConvert(VUPSimulator.Interface.IMainWindow,System.String,LinePutScript.Line)">
-            <summary>
-            字符串数据转换 虽然说使用了EventData版,但是数据其实是通用的
-            </summary>
-            <param name="mw">主窗口</param>
-            <param name="name">相关字符串</param>
-            <param name="data">相关本地数据</param>
-            <returns></returns>
-        </member>
-        <member name="M:VUPSimulator.Interface.Function.DataConvertString(VUPSimulator.Interface.IMainWindow,System.String,LinePutScript.Line)">
-            <summary>
-            字符串数据转换 虽然说使用了EventData版,但是数据其实是通用的
-            </summary>
-            <param name="mw">主窗口</param>
-            <param name="name">相关字符串</param>
-            <param name="data">相关本地数据</param>
-            <returns></returns>
-        </member>
-        <member name="M:VUPSimulator.Interface.Function.DataCalculat(VUPSimulator.Interface.IMainWindow,LinePutScript.Line)">
-            <summary>
-            执行数据计算
-            </summary>
-            <param name="mw">主窗口</param>
-            <param name="data">相关数据/运算符</param>
-        </member>
-        <member name="M:VUPSimulator.Interface.Function.DataSet(VUPSimulator.Interface.IMainWindow,System.String,System.Object,LinePutScript.Line)">
-            <summary>
-            设置相关数据
-            </summary>
-            <param name="mw">主窗体</param>
-            <param name="name">设置名称</param>
-            <param name="value">设置值</param>
-            <param name="data">若未找到则修改的源行</param>
+            <param name="text">String</param>
+            <returns>HashCode</returns>
         </member>
         <member name="M:VUPSimulator.Interface.Function.UnitConvert(System.Int64,System.String)">
             <summary>
@@ -2816,6 +3255,18 @@
             </summary>
             <param name="value">转换值</param>
             <returns>缩写结果</returns>
+        </member>
+        <member name="M:VUPSimulator.Interface.Function.DateConvert(System.Double,System.String)">
+            <summary>
+            单位转换时间
+            </summary>
+            <param name="h">小时</param>
+        </member>
+        <member name="M:VUPSimulator.Interface.Function.SizeConvert(System.Int32,System.String)">
+            <summary>
+            单位换算大小 单位MB
+            </summary>
+            <param name="speed">MB</param>
         </member>
         <member name="M:VUPSimulator.Interface.Function.CompareStrings(System.String[],System.String[])">
             <summary>
@@ -2974,7 +3425,7 @@
             <param name="TextCenter">是否字体居中显示</param>
             <param name="CanHide">是否允许隐藏消息弹窗</param>
         </member>
-        <member name="M:VUPSimulator.Interface.IMainWindow.winImageBoxShow(System.String,System.Windows.Media.ImageSource,VUPSimulator.Interface.Function.MSGType,System.Action,System.Boolean,System.Boolean)">
+        <member name="M:VUPSimulator.Interface.IMainWindow.winImageBoxShow(System.String,System.Windows.Media.ImageSource,VUPSimulator.Interface.Function.MSGType,System.String,System.Action,System.Boolean,System.Boolean)">
             <summary>
             弹出图片显示窗口 请注意该窗口不会阻塞任何线程, 如需结束后调用,请使用ENDAction
             </summary>
@@ -2985,7 +3436,7 @@
             <param name="AllowMax">是否允许最大化</param>
             <param name="CanHide">是否允许隐藏消息弹窗</param>
         </member>
-        <member name="M:VUPSimulator.Interface.IMainWindow.winImageBoxShow(System.String,System.Windows.UIElement,VUPSimulator.Interface.Function.MSGType,System.Action,System.Boolean,System.Boolean)">
+        <member name="M:VUPSimulator.Interface.IMainWindow.winImageBoxShow(System.String,System.Windows.UIElement,VUPSimulator.Interface.Function.MSGType,System.String,System.Action,System.Boolean,System.Boolean)">
             <summary>
             弹出图片显示窗口 请注意该窗口不会阻塞任何线程, 如需结束后调用,请使用ENDAction
             </summary>
@@ -2995,6 +3446,11 @@
             <param name="ENDAction">结束事件</param>
             <param name="AllowMax">是否允许最大化</param>
             <param name="CanHide">是否允许隐藏消息弹窗</param>
+        </member>
+        <member name="M:VUPSimulator.Interface.IMainWindow.winEatingShow(VUPSimulator.Interface.Food,VUPSimulator.Interface.Food.FoodEatTimeHandle)">
+            <summary>
+            显示正在吃东西窗口,请勿直接调用,请使用 Food.Use
+            </summary>
         </member>
         <member name="M:VUPSimulator.Interface.IMainWindow.CreateCALTag(VUPSimulator.Interface.Event)">
             <summary>
@@ -3046,6 +3502,11 @@
         <member name="P:VUPSimulator.Interface.Item.Many">
             <summary>
             物品数量
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item.AllowMultiple">
+            <summary>
+            允许多个物品数量堆叠
             </summary>
         </member>
         <member name="P:VUPSimulator.Interface.Item.Image">
@@ -3107,7 +3568,7 @@
             可出售的物品
             </summary>
         </member>
-        <member name="F:VUPSimulator.Interface.Item_Salability.BetterBuyItem.ImageShot">
+        <member name="P:VUPSimulator.Interface.Item_Salability.BetterBuyItem.ImageShot">
             <summary>
             物品图像
             </summary>
@@ -3135,6 +3596,11 @@
         <member name="P:VUPSimulator.Interface.Item_Salability.BetterBuyItem.Price">
             <summary>
             物品价格
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Item_Salability.BetterBuyItem.RealPrice">
+            <summary>
+            商品实际价格
             </summary>
         </member>
         <member name="P:VUPSimulator.Interface.Item_Salability.BetterBuyItem.Quantity">

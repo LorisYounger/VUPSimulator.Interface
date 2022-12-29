@@ -195,6 +195,7 @@
             添加物品(如果已经存在则数量+1)
             </summary>
             <param name="item">物品</param>
+            <param name="many">数量</param>
         </member>
         <member name="F:VUPSimulator.Interface.ISave.Video">
             <summary>
@@ -235,7 +236,9 @@
             <summary>
             扣除精力
             </summary>
-            <param name="value">精力:0-100</param>
+            <param name="strength">精力:0-100</param>
+            <param name="duration">持续时间</param>
+            <param name="reason">原因</param>
         </member>
         <member name="F:VUPSimulator.Interface.ISave.PStateSystem">
             <summary>
@@ -515,15 +518,16 @@
         </member>
         <member name="M:VUPSimulator.Interface.MainPlugin.Load">
             <summary>
-            初始化程序
+            初始化程序,
             </summary>
-            例如, 添加窗体至主程序
+            例如, 添加自定义窗体至主程序
             MW.Core.SoftWares.Add(ISoftWare);
         </member>
         <member name="M:VUPSimulator.Interface.MainPlugin.StartGame">
             <summary>
-            游戏开始 (可以读取Save存档)
+            游戏开始 (可以读取Save存档) (如果玩家登出后重新开始游戏,将会被再次调用)
             </summary>
+            或添加自己的Tick到 mw.TimeHandle
         </member>
         <member name="M:VUPSimulator.Interface.MainPlugin.EndGame">
             <summary>
@@ -532,7 +536,7 @@
         </member>
         <member name="M:VUPSimulator.Interface.MainPlugin.Save">
             <summary>
-            储存游戏 (可以写Save.other储存设置和数据等)
+            储存游戏 (可以写 Save.Other 储存设置和数据等)
             </summary>
         </member>
         <member name="T:VUPSimulator.Interface.ISoftWare">
@@ -1466,7 +1470,8 @@
             <summary>
             生成封面
             </summary>
-            <param name="data">数据</param>        
+            <param name="data">数据</param>
+            <param name="mw">主窗体</param>
         </member>
         <member name="M:VUPSimulator.Interface.GenImage.#ctor(VUPSimulator.Interface.IMainWindow,System.String,VUPSimulator.Interface.GenImage.GIBase[])">
             <summary>
@@ -1475,6 +1480,7 @@
             </summary>
             <param name="mw">主窗体</param>
             <param name="giBases">所有控件</param>
+            <param name="name">名字 方便调用</param>
         </member>
         <member name="T:VUPSimulator.Interface.GenImage.GIBase">
             <summary>
@@ -1553,7 +1559,22 @@
             自动生成图片基本类, 可以生成图片控件,方便多次调用
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:VUPSimulator.Interface.ProfileImage" -->
+        <member name="T:VUPSimulator.Interface.ProfileImage">
+            <summary>
+            随机生成profile图片
+            顶层->底层
+            0装饰: 头发脸部装饰等 为可选(20%莫得)
+            1前头发: 覆盖在前面的头发,和后头发绑定
+            2脸装饰: 覆盖在脸上的装饰 为可选(20%莫得)
+            3嘴巴: 覆盖在脸上的嘴巴 为可选
+            4衣服: 因为是头像,衣服部分不多,大约到袖口位置
+            5眼睛: 眼睛+表情,不包括脸
+            6脸+身体: 脸部+身体
+            7后头发: 在脸部后面的头发,和前头发绑定
+            ---
+            如果rgb值如果是相等的，就会自动生成相应灰度随机的颜色，0和255除外
+            </summary>
+        </member>
         <member name="F:VUPSimulator.Interface.ProfileImage.len">
             <summary>
             图层层数
@@ -2028,6 +2049,7 @@
             <param name="strength">饱腹</param>
             <param name="duration">持续时间</param>
             <param name="reason">原因</param>
+            <param name="happenedTime">发生时间</param>
         </member>
         <member name="M:VUPSimulator.Interface.PlayerStateSystem.AddState(VUPSimulator.Interface.PlayerState.StateType,System.Double,System.String,VUPSimulator.Interface.PlayerState.TagType)">
             <summary>
@@ -2134,6 +2156,11 @@
             </summary>
             <param name="video">视频</param>
             <param name="nowtime">发布时间</param>
+            <param name="name">视频名</param>
+            <param name="content">视频内容</param>
+            <param name="imgname">封面名</param>
+            <param name="joinprofit">是否参与创作收益</param>
+            <param name="tags">标签</param>
         </member>
         <member name="P:VUPSimulator.Interface.VideoNili.VideoName">
             <summary>
@@ -3435,6 +3462,7 @@
             <param name="ENDAction">结束事件</param>
             <param name="AllowMax">是否允许最大化</param>
             <param name="CanHide">是否允许隐藏消息弹窗</param>
+            <param name="text">消息文本</param>
         </member>
         <member name="M:VUPSimulator.Interface.IMainWindow.winImageBoxShow(System.String,System.Windows.UIElement,VUPSimulator.Interface.Function.MSGType,System.String,System.Action,System.Boolean,System.Boolean)">
             <summary>
@@ -3445,6 +3473,7 @@
             <param name="type">消息类型: 显示的图标和声音提示将会不同</param>
             <param name="ENDAction">结束事件</param>
             <param name="AllowMax">是否允许最大化</param>
+            <param name="text">消息文本</param>
             <param name="CanHide">是否允许隐藏消息弹窗</param>
         </member>
         <member name="M:VUPSimulator.Interface.IMainWindow.winEatingShow(VUPSimulator.Interface.Food,VUPSimulator.Interface.Food.FoodEatTimeHandle)">

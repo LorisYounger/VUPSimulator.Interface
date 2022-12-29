@@ -74,6 +74,7 @@ namespace VUPSimulator.Interface
         /// 添加物品(如果已经存在则数量+1)
         /// </summary>
         /// <param name="item">物品</param>
+        /// <param name="many">数量</param>
         public void AddItem(Item item, int many = 1)
         {
             if (item is Food f)
@@ -146,7 +147,10 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 扣除精力
         /// </summary>
-        /// <param name="value">精力:0-100</param>
+        /// <param name="strength">精力:0-100</param>
+        /// <param name="duration">持续时间</param>
+        /// <param name="reason">原因</param>
+
         public abstract void StrengthRemove(double strength, double duration, string reason);
         /// <summary>
         /// 玩家状态系统

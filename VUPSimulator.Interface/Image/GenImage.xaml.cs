@@ -32,7 +32,8 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 生成封面
         /// </summary>
-        /// <param name="data">数据</param>        
+        /// <param name="data">数据</param>
+        /// <param name="mw">主窗体</param>
         public GenImage(IMainWindow mw, Line data)
         {
             InitializeComponent();
@@ -48,6 +49,7 @@ namespace VUPSimulator.Interface
         /// </summary>
         /// <param name="mw">主窗体</param>
         /// <param name="giBases">所有控件</param>
+        /// <param name="name">名字 方便调用</param>
         public GenImage(IMainWindow mw, string name, params GIBase[] giBases)
         {
             InitializeComponent();

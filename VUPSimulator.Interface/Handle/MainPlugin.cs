@@ -1,9 +1,9 @@
-﻿using System;
+﻿using LinePutScript;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace VUPSimulator.Interface
 {
     /// <summary>
@@ -31,29 +31,27 @@ namespace VUPSimulator.Interface
         /// 加载游戏主题
         /// </summary>
         /// <param name="theme">主题</param>
-        public void LoadTheme(Theme theme)
-        {
-
-        }
+        public virtual void LoadTheme(Theme theme) { }
         /// <summary>
-        /// 初始化程序
+        /// 初始化程序,
         /// </summary>
-        /// 例如, 添加窗体至主程序
+        /// 例如, 添加自定义窗体至主程序
         /// MW.Core.SoftWares.Add(ISoftWare);
         public abstract Task Load();
         /// <summary>
-        /// 游戏开始 (可以读取Save存档)
+        /// 游戏开始 (可以读取Save存档) (如果玩家登出后重新开始游戏,将会被再次调用)
         /// </summary>
-        public abstract Task StartGame();
+        /// 或添加自己的Tick到 mw.TimeHandle
+        public virtual void StartGame() { }
 
         /// <summary>
         /// 游戏结束 (可以保存或清空等,不过保存有专门的Save())
         /// </summary>
-        public abstract Task EndGame();
+        public virtual void EndGame() { }
 
         /// <summary>
-        /// 储存游戏 (可以写Save.other储存设置和数据等)
+        /// 储存游戏 (可以写 Save.Other 储存设置和数据等)
         /// </summary>
-        public abstract Task Save();
+        public virtual void Save() { }
     }
 }

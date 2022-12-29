@@ -149,6 +149,11 @@ namespace VUPSimulator.Interface
         /// </summary>
         /// <param name="video">视频</param>
         /// <param name="nowtime">发布时间</param>
+        /// <param name="name">视频名</param>
+        /// <param name="content">视频内容</param>
+        /// <param name="imgname">封面名</param>
+        /// <param name="joinprofit">是否参与创作收益</param>
+        /// <param name="tags">标签</param>
         public VideoNili(Video video, string name, string content, int nowtime, string imgname, string[] tags, bool joinprofit)
         {
             Name = "nilivideo";

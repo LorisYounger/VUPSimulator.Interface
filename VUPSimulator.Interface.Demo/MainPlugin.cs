@@ -23,20 +23,15 @@ namespace CheatEngine
         }
 
         //因为不需要对游戏数据干啥,所以这些类保持为空即可
-        public override async Task EndGame()
-        {
-
-        }
-
-        public override async Task StartGame()
-        {
-          
-        }
-
-        public override async Task Save()
-        {
-
-        }
+        //public override async void EndGame()
+        //{
+        //}
+        //public override async void StartGame()
+        //{          
+        //}
+        //public override async void Save()
+        //{
+        //}
 
     }
 }

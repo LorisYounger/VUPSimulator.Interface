@@ -193,6 +193,7 @@ namespace VUPSimulator.Interface
         /// <param name="strength">饱腹</param>
         /// <param name="duration">持续时间</param>
         /// <param name="reason">原因</param>
+        /// <param name="happenedTime">发生时间</param>
         public void AddStrength(DateTime happenedTime, double strength, double duration, string reason)
         {
             var same = StrengthsHistory.FirstOrDefault(x => x.Reason == reason);

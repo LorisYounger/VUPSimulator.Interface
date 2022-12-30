@@ -16,9 +16,13 @@ namespace VUPSimulator.Interface
         IMainWindow IMW { get; }
 
         /// <summary>
-        /// 关闭窗口 无确认
+        /// 执行关闭窗口
         /// </summary>
         void Close();
+        /// <summary>
+        /// 关闭窗口 无确认
+        /// </summary>
+        void CloseForce();
 
         /// <summary>
         /// 居中窗口

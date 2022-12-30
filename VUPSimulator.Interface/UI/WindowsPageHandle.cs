@@ -17,7 +17,7 @@ namespace VUPSimulator.Interface
         //public WindowsPageHandle(MainWindow mainw)
         //{
         //    Host = new Windows(mainw,this);
-        //}      
+        //}
         /// <summary>
         /// 宽度
         /// </summary>

@@ -1,8 +1,10 @@
-﻿using System;
+﻿using LinePutScript;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace VUPSimulator.Interface
 {
@@ -11,10 +13,115 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class Author
     {
+        public Author(LpsDocument lps)
+        {
+
+        }
+        /// <summary>
+        /// 作者存档数据
+        /// </summary>
+        public Line AuthorData;
+        /// <summary>
+        /// 加载Save中的作者存档数据
+        /// </summary>
+        /// <param name="AuthorDataSet">存档数据 AuthorData</param>
+        public void LoadSaveData(List<Line> AuthorDataSet)
+        {
+            var line = AuthorDataSet.Find(x => x.info == Name);
+            if (line == null)
+            {
+                AuthorData = new Line("author", Name);
+                AuthorDataSet.Add(AuthorData);
+            }
+            else
+                AuthorData = line;
+        }
+
+        /// <summary>
+        /// 名字
+        /// </summary>
+        public string Name;
+        /// <summary>
+        /// 评分
+        /// </summary>
+        public double Score
+        {
+            get
+            {
+                var sub = AuthorData.Find("score");
+                if (sub != null)
+                    return sub.InfoToDouble;
+                else
+                    return basescore;
+            }
+        }
+        /// <summary>
+        /// 添加新评价 (评分,是否完成,是否准时)
+        /// </summary>
+        public void AddNewFinish(double score, bool isfinish, bool isontime)
+        {
+            var s = Score;
+            var nb = TaskNumber;
+            var ns = (s * nb + score) / (nb + 1);
+            //新分数
+            AuthorData[(gdbe)"score"] = ns;
+            AuthorData[(gint)"number"]++;
+            if (isontime)
+                AuthorData[(gint)"ontime"]++;
+            if (isfinish)
+                AuthorData[(gint)"finish"]++;
+        }
+        private double basescore;
+        private int basescorenumber;
+        private int basefinish;
+        private int baseisontime;
+        /// <summary>
+        /// 准时率
+        /// </summary>
+        public double OnTime
+        {
+            get
+            {
+                var sub = AuthorData.Find("ontime");
+                if (sub != null)
+                    return sub.InfoToDouble / TaskNumber;
+                else
+                    return (double)baseisontime / TaskNumber;
+            }
+        }
+        /// <summary>
+        /// 完成率
+        /// </summary>
+        public double Finish
+        {
+            get
+            {
+                var sub = AuthorData.Find("finish");
+                if (sub != null)
+                    return sub.InfoToDouble / TaskNumber;
+                else
+                    return (double)basefinish / TaskNumber;
+            }
+        }
+        /// <summary>
+        /// 总共任务次数
+        /// </summary>
+        public int TaskNumber
+        {
+            get
+            {
+                var sub = AuthorData.Find("number");
+                if (sub != null)
+                    return sub.InfoToInt;
+                else
+                    return basescorenumber;
+            }
+        }
+
         /// <summary>
         /// 技能类型
         /// </summary>
-        public enum SkillType
+        public enum Type
         {
             /// <summary>
             /// Live2D立绘
@@ -37,24 +144,87 @@ namespace VUPSimulator.Interface
             /// </summary>
             Expression,
         }
+        public static readonly string[] TypeToString = new string[] { "Live2D立绘", "Live2D建模", "插图", "头像", "表情包" };
+
+
         /// <summary>
         /// 作者技能
         /// </summary>
         public class Skill
         {
-           
             /// <summary>
             /// 技能类型
             /// </summary>
-            public SkillType SkillType;
+            public Type Type;
             /// <summary>
             /// 技能等级(最小值) 0-5/10
             /// </summary>
-            public double SkillLevelMin;
+            public double LevelMin;
             /// <summary>
             /// 技能等级(最大值) 0-5/10
             /// </summary>
-            public double SkillLevelMax;
+            public double LevelMax;
+            /// <summary>
+            /// 报价价格区间: 最小价格
+            /// </summary>
+            public double PriceMin;
+            /// <summary>
+            /// 报价价格区间: 最大价格
+            /// </summary>
+            public double PriceMax;
+            public double priceplevel = 0;
+            /// <summary>
+            /// 根据价格计算预期等级
+            /// </summary>
+            public double PricepLevel(double price)
+            {
+                if (priceplevel == 0)
+                    priceplevel = (PriceMax - PriceMin) / (LevelMax - LevelMin);
+                price -= PriceMin;
+                double v = LevelMin + price * priceplevel;
+                return Math.Min(LevelMax, Math.Max(v, LevelMin));
+            }
+            public Skill(Line line)
+            {
+                Type = (Type)Enum.Parse(typeof(Type), line.info);
+                LevelMin = line.GetDouble("levelmin");
+                LevelMax = line.GetDouble("levelmax");
+                PriceMin = line.GetDouble("pricemin");
+                PriceMax = line.GetDouble("pricemax");
+            }
+        }
+        /// <summary>
+        /// 展示的画作
+        /// </summary>
+        public class Work
+        {
+            /// <summary>
+            /// 画作类型
+            /// </summary>
+            public Type SkillType;
+            /// <summary>
+            /// 画作名字
+            /// </summary>
+            public string Name;
+            /// <summary>
+            /// 图片
+            /// </summary>
+            public string Image;
+            /// <summary>
+            /// 获取画作图片
+            /// </summary>
+            public ImageSource ImageSource(IMainWindow mw) => mw.Core.ImageSources.FindImage("auth_" + Image);
+            /// <summary>
+            /// 画作介绍
+            /// </summary>
+            public string Intor;
+            public Work(Line line)
+            {
+                SkillType = (Type)Enum.Parse(typeof(Type), line.info);
+                Name = line.GetString("name");
+                Image = line.GetString("image");
+                Intor = line.Text;
+            }
         }
     }
 }

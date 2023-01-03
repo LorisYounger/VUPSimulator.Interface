@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using static VUPSimulator.Interface.Author;
 
 namespace VUPSimulator.Interface
 {
@@ -15,7 +16,18 @@ namespace VUPSimulator.Interface
     {
         public Author(LpsDocument lps)
         {
-
+            var line = lps.FindLine("author");
+            Name = line.Info;
+            basescore = line.GetDouble("score");
+            basescorenumber = line.GetInt("scorenumber");
+            basefinish = line.GetInt("finish");
+            baseisontime = line.GetInt("isontime");
+            ProfileImage = line.GetString("profileimage");
+            Intor = line.GetString("intor");
+            foreach (var lin in lps.FindAllLine("skill"))
+                Skills.Add(new Skill(lin));
+            foreach (var lin in lps.FindAllLine("work"))
+                Works.Add(new Work(lin));
         }
         /// <summary>
         /// 作者存档数据
@@ -36,11 +48,23 @@ namespace VUPSimulator.Interface
             else
                 AuthorData = line;
         }
+        /// <summary>
+        /// 作者头像图
+        /// </summary>
+        public string ProfileImage;
+        /// <summary>
+        /// 获得作者头像
+        /// </summary>
+        public ImageSource ProfileImageSource(IMainWindow mw) => mw.Core.ImageSources.FindImage("profile_" + ProfileImage);
 
         /// <summary>
         /// 名字
         /// </summary>
         public string Name;
+        /// <summary>
+        /// 作者介绍
+        /// </summary>
+        public string Intor;
         /// <summary>
         /// 评分
         /// </summary>
@@ -144,9 +168,18 @@ namespace VUPSimulator.Interface
             /// </summary>
             Expression,
         }
+        /// <summary>
+        /// 技能
+        /// </summary>
         public static readonly string[] TypeToString = new string[] { "Live2D立绘", "Live2D建模", "插图", "头像", "表情包" };
-
-
+        /// <summary>
+        /// 当前作者技能
+        /// </summary>
+        public List<Skill> Skills = new List<Skill>();
+        /// <summary>
+        /// 当前作者画作
+        /// </summary>
+        public List<Work> Works = new List<Work>();
         /// <summary>
         /// 作者技能
         /// </summary>
@@ -186,7 +219,7 @@ namespace VUPSimulator.Interface
             }
             public Skill(Line line)
             {
-                Type = (Type)Enum.Parse(typeof(Type), line.info);
+                Type = (Type)Enum.Parse(typeof(Type), line.info, true);
                 LevelMin = line.GetDouble("levelmin");
                 LevelMax = line.GetDouble("levelmax");
                 PriceMin = line.GetDouble("pricemin");

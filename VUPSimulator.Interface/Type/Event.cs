@@ -60,6 +60,7 @@ namespace VUPSimulator.Interface
                 case EventType.xnamedisposed: return new EventXNameDisposed(mw, line);
                 case EventType.xnameenable: return new EventXNameEnable(mw, line);
                 case EventType.xnamefource: return new EventXNameFource(mw, line);
+                case EventType.none:
                 default:
                     return new Event(mw, line);
             }

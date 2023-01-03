@@ -67,6 +67,7 @@
     <Compile Include="Items\L2D.cs" />
     <Compile Include="Data\Comment.cs" />
     <Compile Include="Type\Author.cs" />
+    <Compile Include="Type\OldPainterTask.cs" />
     <Compile Include="Type\PlayerState.cs" />
     <Compile Include="Data\VideoNili.cs" />
     <Compile Include="Type\UserNili.cs" />

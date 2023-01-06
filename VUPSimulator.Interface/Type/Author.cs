@@ -209,14 +209,19 @@ namespace VUPSimulator.Interface
             /// <summary>
             /// 根据价格计算预期等级
             /// </summary>
-            public double PricepLevel(double price)
+            public double PricepLevel(double price, double time)
             {
                 if (priceplevel == 0)
                     priceplevel = (PriceMax - PriceMin) / (LevelMax - LevelMin);
                 price -= PriceMin;
                 double v = LevelMin + price * priceplevel;
+                v *= SpendTime / time;
                 return Math.Min(LevelMax, Math.Max(v, LevelMin));
             }
+            /// <summary>
+            /// 平均作品所需时长
+            /// </summary>
+            public double SpendTime;
             public Skill(Line line)
             {
                 Type = (Type)Enum.Parse(typeof(Type), line.info, true);
@@ -224,6 +229,7 @@ namespace VUPSimulator.Interface
                 LevelMax = line.GetDouble("levelmax");
                 PriceMin = line.GetDouble("pricemin");
                 PriceMax = line.GetDouble("pricemax");
+                SpendTime = line.GetDouble("spendtime");
             }
         }
         /// <summary>

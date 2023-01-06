@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LinePutScript;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,14 +11,10 @@ using static VUPSimulator.Interface.Function;
 namespace VUPSimulator.Interface
 {
     /// <summary>
-    /// 窗体内控件 请同时继承与Grid/UC以便进行窗体设计
+    /// 桌面控件接口
     /// </summary>
-    public interface WindowsPageHandle
+    public interface WidgetHandle
     {
-        //public WindowsPageHandle(MainWindow mainw)
-        //{
-        //    Host = new Windows(mainw,this);
-        //}
         /// <summary>
         /// 宽度
         /// </summary>
@@ -31,57 +28,38 @@ namespace VUPSimulator.Interface
         double MaxHeight { get; set; }
         double MinWidth { get; set; }
         double MinHeight { get; set; }
-
         /// <summary>
-        /// 程序ID 用于重复性检查
+        /// 允许修改大小
         /// </summary>
-        string ID { get; }
+        WindowsSizeChange AllowSizeChange { get; }
+        
         /// <summary>
         /// 执行关闭程序
         /// </summary>
         /// <returns>反馈是否关闭</returns>
         bool Closeing();
-        /// <summary>
-        /// 最大化处理
-        /// </summary>
-        void Max();
-        /// <summary>
-        /// 正常化处理
-        /// </summary>
-        void Min();
-        /// <summary>
-        /// 隐藏处理
-        /// </summary>
-        void Hide();
-        /// <summary>
-        /// 显示处理(一般为第二次显示)
-        /// </summary>
-        void Show();
-        /// <summary>
-        /// 允许修改大小
-        /// </summary>
-        WindowsSizeChange AllowSizeChange { get; }
-        /// <summary>
-        /// 允许隐藏
-        /// </summary>
-        bool AllowHide { get; }
+
         /// <summary>
         /// 该窗口的host
         /// </summary>
-        IWindows Host { get; }
+        IWidget Host { get; }
         /// <summary>
-        /// 这个Gird/MW窗口
+        /// 这个Gird/桌面控件
         /// </summary>
         FrameworkElement This { get; }
 
         /// <summary>
-        /// 电脑使用性能与配置
+        /// 桌面控件名 用于显示与重复性检查
         /// </summary>
-        ComputerUsage Usage { get; set; }
+        string ID { get; }
         /// <summary>
-        /// 是否储存窗体大小设置
+        /// 右键菜单,如需自定义请修改设置 MenuItems
         /// </summary>
-        bool StoreSize { get; }
+        ContextMenu ContextMenu { set; }
+        /// <summary>
+        /// 右键菜单详细设置 如需自定义请添加
+        /// </summary>
+        List<MenuItem> MenuItems { get; }
         /// <summary>
         /// 是否为等比缩放
         /// </summary>

@@ -57,6 +57,7 @@
     <Compile Include="Handle\MainPlugin.cs" />
     <Compile Include="Handle\SoftWare.cs" />
     <Compile Include="Items\Computer.cs" />
+    <Compile Include="Items\Draw.cs" />
     <Compile Include="Items\Food.cs" />
     <Compile Include="Items\Game.cs" />
     <Compile Include="Image\GenImage.xaml.cs">
@@ -81,6 +82,8 @@
     <Compile Include="Items\Item.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\IMCTag.cs" />
+    <Compile Include="UI\IWidget.cs" />
+    <Compile Include="UI\WidgetHandle.cs" />
     <Compile Include="UI\IWindows.cs" />
     <Compile Include="UI\WindowsPageHandle.cs" />
   </ItemGroup>

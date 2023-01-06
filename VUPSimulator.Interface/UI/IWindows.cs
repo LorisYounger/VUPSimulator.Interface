@@ -50,6 +50,15 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 修改窗口大小状态
         /// </summary>
-        void ChangeMax();      
+        void ChangeMax();
+
+        /// <summary>
+        /// 当前窗体是否为置顶窗体
+        /// </summary>
+        public bool NowTop { get; set; }
+        /// <summary>
+        /// 更新 修改窗口大小状态
+        /// </summary>
+        public void SetThumb();
     }
 }

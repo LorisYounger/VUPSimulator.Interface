@@ -59,6 +59,11 @@
             所有用户
             </summary>
         </member>
+        <member name="F:VUPSimulator.Interface.ICore.Authors">
+            <summary>
+            所有老画师作者
+            </summary>
+        </member>
         <member name="F:VUPSimulator.Interface.ICore.Comments">
             <summary>
             所有评论 
@@ -333,6 +338,11 @@
             Nili所有的视频(包括玩家发的视频)
             </summary>
         </member>
+        <member name="F:VUPSimulator.Interface.ISave.AuthorData">
+            <summary>
+            老画师作者数据
+            </summary>
+        </member>
         <member name="F:VUPSimulator.Interface.ISave.UsersNili">
             <summary>
             所有Nili用户(加速检索用)
@@ -560,6 +570,28 @@
             </summary>
             <param name="mw">主窗体</param>
             <param name="args">软件启动参数</param>
+        </member>
+        <member name="T:VUPSimulator.Interface.IDesktopWidget">
+            <summary>
+            桌面控件类, 添加至控件列表 以在桌面控件中心显示
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.IDesktopWidget.WidgetName">
+            <summary>
+            桌面控件名
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.IDesktopWidget.WidgetInfo">
+            <summary>
+            软件介绍
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.IDesktopWidget.NewWidget(VUPSimulator.Interface.IMainWindow,LinePutScript.Line)">
+            <summary>
+            桌面控件, 由开发者设计和提供
+            </summary>
+            <param name="mw">主窗体</param>
+            <param name="data">桌面控件设置相关参数</param>
         </member>
         <member name="T:VUPSimulator.Interface.Computer">
             <summary>
@@ -1023,6 +1055,41 @@
         <member name="P:VUPSimulator.Interface.Item_Microphone.AllowMultiple">
             <summary>
             允许多个物品数量堆叠
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.Draw">
+            <summary>
+            所有的画基础类
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Draw.Painter">
+            <summary>
+            画师
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Draw.Max">
+            <summary>
+            最大星级
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Draw.Min">
+            <summary>
+            最小星级
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Draw.RNDRANK">
+            <summary>
+            随机获得10%星级
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Draw.Rank">
+            <summary>
+            画等级
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.IOldPainterDraw">
+            <summary>
+            老画师画作管理接口
             </summary>
         </member>
         <member name="T:VUPSimulator.Interface.Food">
@@ -1875,6 +1942,233 @@
         <member name="T:VUPSimulator.Interface.Author">
             <summary>
             老画师作者
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Author.AuthorData">
+            <summary>
+            作者存档数据
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Author.LoadSaveData(System.Collections.Generic.List{LinePutScript.Line})">
+            <summary>
+            加载Save中的作者存档数据
+            </summary>
+            <param name="AuthorDataSet">存档数据 AuthorData</param>
+        </member>
+        <member name="F:VUPSimulator.Interface.Author.ProfileImage">
+            <summary>
+            作者头像图
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Author.ProfileImageSource(VUPSimulator.Interface.IMainWindow)">
+            <summary>
+            获得作者头像
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Author.Name">
+            <summary>
+            名字
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Author.Intor">
+            <summary>
+            作者介绍
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Author.Score">
+            <summary>
+            评分
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Author.AddNewFinish(System.Double,System.Boolean,System.Boolean)">
+            <summary>
+            添加新评价 (评分,是否完成,是否准时)
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Author.OnTime">
+            <summary>
+            准时率
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Author.Finish">
+            <summary>
+            完成率
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.Author.TaskNumber">
+            <summary>
+            总共任务次数
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.Author.Type">
+            <summary>
+            技能类型
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Author.Type.L2DPaint">
+            <summary>
+            Live2D立绘
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Author.Type.L2DModel">
+            <summary>
+            Live2D建模
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Author.Type.Illustration">
+            <summary>
+            插图
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Author.Type.Profile">
+            <summary>
+            头像
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Author.Type.Expression">
+            <summary>
+            表情包
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Author.TypeToString">
+            <summary>
+            技能
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Author.Skills">
+            <summary>
+            当前作者技能
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Author.Works">
+            <summary>
+            当前作者画作
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.Author.Skill">
+            <summary>
+            作者技能
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Author.Skill.Type">
+            <summary>
+            技能类型
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Author.Skill.LevelMin">
+            <summary>
+            技能等级(最小值) 0-5/10
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Author.Skill.LevelMax">
+            <summary>
+            技能等级(最大值) 0-5/10
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Author.Skill.PriceMin">
+            <summary>
+            报价价格区间: 最小价格
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Author.Skill.PriceMax">
+            <summary>
+            报价价格区间: 最大价格
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Author.Skill.PricepLevel(System.Double,System.Double)">
+            <summary>
+            根据价格计算预期等级
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Author.Skill.SpendTime">
+            <summary>
+            平均作品所需时长
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.Author.Work">
+            <summary>
+            展示的画作
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Author.Work.SkillType">
+            <summary>
+            画作类型
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Author.Work.Name">
+            <summary>
+            画作名字
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Author.Work.Image">
+            <summary>
+            图片
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.Author.Work.ImageSource(VUPSimulator.Interface.IMainWindow)">
+            <summary>
+            获取画作图片
+            </summary>
+        </member>
+        <member name="F:VUPSimulator.Interface.Author.Work.Intor">
+            <summary>
+            画作介绍
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.OldPainterTask">
+            <summary>
+            老画师绘画任务
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.OldPainterTask.Type">
+            <summary>
+            画师任务
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.OldPainterTask.Author">
+            <summary>
+            作者
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.OldPainterTask.Process">
+            <summary>
+            进度
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.OldPainterTask.AuthorInTask">
+            <summary>
+            应征作者参数
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.OldPainterTask.AuthorInTask.Price">
+            <summary>
+            应征价格
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.OldPainterTask.AuthorInTask.Author">
+            <summary>
+            应征作者名称
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.OldPainterTask.Authors">
+            <summary>
+            所有应征作者
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.OldPainterTask.AddAuthorInTask(VUPSimulator.Interface.OldPainterTask.AuthorInTask)">
+            <summary>
+            添加应征作者
+            </summary>
+            <param name="ait"></param>
+        </member>
+        <member name="P:VUPSimulator.Interface.OldPainterTask.IsFinish">
+            <summary>
+            是否完毕(关闭企划/退款/完成)
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.OldPainterTask.ToFinishTask">
+            <summary>
+            设置当前项目为完毕
             </summary>
         </member>
         <member name="T:VUPSimulator.Interface.PlayerState">
@@ -3495,15 +3789,22 @@
             <param name="ev">事件</param>
             <returns>侧边栏组件</returns>
         </member>
-        <member name="M:VUPSimulator.Interface.IMainWindow.ShowWindows(VUPSimulator.Interface.WindowsPageHandle,System.String,System.Uri,System.Boolean)">
+        <member name="M:VUPSimulator.Interface.IMainWindow.ShowWindows(VUPSimulator.Interface.WindowsPageHandle,System.String,System.Uri)">
             <summary>
             显示窗体
             </summary>
             <param name="Handle">窗体内控件</param>
             <param name="title">窗口标题</param>
             <param name="icon">窗口图标</param>
-            <param name="StoreSize">在设置中储存用户修改界面的大小</param>
-            <returns>窗体信息</returns>
+            <returns>窗体外框架</returns>
+        </member>
+        <member name="M:VUPSimulator.Interface.IMainWindow.ShowWidget(VUPSimulator.Interface.WidgetHandle,LinePutScript.Line)">
+            <summary>
+            显示桌面控件
+            </summary>
+            <param name="Handle">桌面内控件</param>
+            <param name="Config">控件设置</param>
+            <returns>控件外框架</returns>
         </member>
         <member name="M:VUPSimulator.Interface.IMainWindow.ShowSoftWare(System.String,System.String)">
             <summary>
@@ -3677,12 +3978,103 @@
             当被事件激活时事件
             </summary>
         </member>
+        <member name="T:VUPSimulator.Interface.IWidget">
+            <summary>
+            UI显示桌面控件 会自动生成可修改大小的控件和倍率调整器
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.IWidget.ZoomSize">
+            <summary>
+            缩放倍率比率
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.IWidget.SetThumb">
+            <summary>
+            更新 修改控件大小状态
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.IWidget.SetTop">
+            <summary>
+            设置当前widget为顶层
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.IWidget.SetBotton">
+            <summary>
+            设置当前widget为底层
+            </summary>
+        </member>
+        <member name="T:VUPSimulator.Interface.WidgetHandle">
+            <summary>
+            桌面控件接口
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.WidgetHandle.Width">
+            <summary>
+            宽度
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.WidgetHandle.Height">
+            <summary>
+            高度
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.WidgetHandle.AllowSizeChange">
+            <summary>
+            允许修改大小
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.WidgetHandle.AllowMove">
+            <summary>
+            允许移动设置
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.WidgetHandle.Closeing">
+            <summary>
+            执行关闭程序
+            </summary>
+            <returns>反馈是否关闭</returns>
+        </member>
+        <member name="P:VUPSimulator.Interface.WidgetHandle.Host">
+            <summary>
+            该窗口的host
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.WidgetHandle.This">
+            <summary>
+            这个Gird/桌面控件
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.WidgetHandle.ID">
+            <summary>
+            桌面控件ID 用于重复性检查
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.WidgetHandle.ContextMenu">
+            <summary>
+            右键菜单,如需自定义请修改设置 MenuItems
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.WidgetHandle.MenuItems">
+            <summary>
+            右键菜单详细设置 如需自定义请添加
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.WidgetHandle.IsUniformSizeChanged">
+            <summary>
+            是否为等比缩放
+            </summary>
+        </member>
         <member name="T:VUPSimulator.Interface.IWindows">
             <summary>
             UI显示窗体 会自动生成外边框和底部栏
             </summary>
         </member>
         <member name="M:VUPSimulator.Interface.IWindows.Close">
+            <summary>
+            执行关闭窗口
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.IWindows.CloseForce">
             <summary>
             关闭窗口 无确认
             </summary>
@@ -3713,6 +4105,16 @@
         <member name="M:VUPSimulator.Interface.IWindows.ChangeMax">
             <summary>
             修改窗口大小状态
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.IWindows.NowTop">
+            <summary>
+            当前窗体是否为置顶窗体
+            </summary>
+        </member>
+        <member name="M:VUPSimulator.Interface.IWindows.SetThumb">
+            <summary>
+            更新 修改窗口大小状态
             </summary>
         </member>
         <member name="T:VUPSimulator.Interface.WindowsPageHandle">
@@ -3784,6 +4186,16 @@
         <member name="P:VUPSimulator.Interface.WindowsPageHandle.Usage">
             <summary>
             电脑使用性能与配置
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.WindowsPageHandle.StoreSize">
+            <summary>
+            是否储存窗体大小设置
+            </summary>
+        </member>
+        <member name="P:VUPSimulator.Interface.WindowsPageHandle.IsUniformSizeChanged">
+            <summary>
+            是否为等比缩放
             </summary>
         </member>
     </members>

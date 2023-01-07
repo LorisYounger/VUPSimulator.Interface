@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace VUPSimulator.Interface
 {
     /// <summary>
-    /// UI显示桌面控件 会自动生成可修改大小的控件和倍率调整器
+    /// UI显示桌面组件 会自动生成可修改大小的控件和倍率调整器
     /// </summary>
     public interface IWidget
     {

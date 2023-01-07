@@ -111,6 +111,10 @@ namespace VUPSimulator.Interface
         /// </summary>
         public List<ISoftWare> SoftWares = new List<ISoftWare>();
         /// <summary>
+        /// 所有桌面组件
+        /// </summary>
+        public List<IDesktopWidget> Widgets = new List<IDesktopWidget>();
+        /// <summary>
         /// 所有三方插件
         /// </summary>
         public List<MainPlugin> Plugins = new List<MainPlugin>();

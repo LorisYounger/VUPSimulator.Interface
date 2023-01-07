@@ -1,6 +1,7 @@
 ﻿using LinePutScript;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ using static VUPSimulator.Interface.Function;
 namespace VUPSimulator.Interface
 {
     /// <summary>
-    /// 桌面控件接口
+    /// 桌面组件接口
     /// </summary>
     public interface WidgetHandle
     {
@@ -44,22 +45,22 @@ namespace VUPSimulator.Interface
         /// </summary>
         IWidget Host { get; }
         /// <summary>
-        /// 这个Gird/桌面控件
+        /// 这个Gird/桌面组件
         /// </summary>
         FrameworkElement This { get; }
 
         /// <summary>
-        /// 桌面控件名 用于显示与重复性检查
+        /// 桌面组件名 用于显示
         /// </summary>
-        string ID { get; }
+        string WidgetName { get; }
         /// <summary>
         /// 右键菜单,如需自定义请修改设置 MenuItems
         /// </summary>
         ContextMenu ContextMenu { set; }
         /// <summary>
-        /// 右键菜单详细设置 如需自定义请添加
+        /// 右键菜单详细设置 如需自定义请添加 请使用dispatch
         /// </summary>
-        List<MenuItem> MenuItems { get; }
+        ObservableCollection<MenuItem> MenuItems { get; }
         /// <summary>
         /// 是否为等比缩放
         /// </summary>

@@ -758,6 +758,7 @@ namespace VUPSimulator.Interface
             NewGame,
             SoftwareCenter,//虽然说无法自行打开,但是其实可以打开 相当于隐藏起来
             CommandLinePrompt,
+            WidgetCenter,
 
             //129-191 标准可执行程序 可以自行打开 允许多开
             ItemList = 129,

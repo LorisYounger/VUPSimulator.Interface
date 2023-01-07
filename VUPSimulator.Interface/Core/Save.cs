@@ -203,6 +203,10 @@ namespace VUPSimulator.Interface
         /// </summary>
         public LpsDocument UIData = new LpsDocument();
         /// <summary>
+        /// 桌面控件储存数据
+        /// </summary>
+        public LpsDocument WidgetData = new LpsDocument();
+        /// <summary>
         /// 所有'游戏'数据
         /// </summary>
         public List<Item_Game_base> Games = new List<Item_Game_base>();

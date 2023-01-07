@@ -145,7 +145,7 @@ namespace VUPSimulator.Interface
         /// <returns>窗体外框架</returns>
         IWindows ShowWindows(WindowsPageHandle Handle, string title, Uri icon);
         /// <summary>
-        /// 显示桌面控件
+        /// 显示桌面组件
         /// </summary>
         /// <param name="Handle">桌面内控件</param>
         /// <param name="Config">控件设置</param>

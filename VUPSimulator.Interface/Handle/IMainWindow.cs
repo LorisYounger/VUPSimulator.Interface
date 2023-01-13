@@ -16,6 +16,10 @@ namespace VUPSimulator.Interface
     public interface IMainWindow
     {
         /// <summary>
+        /// 桌宠 VPet_Simulator.Core.Main, 如需使用可以自行转换(Main)VPetMain
+        /// </summary>
+        object VPetMain { get; }
+        /// <summary>
         /// 调用UI界面时,必须使用 Dispatcher 进行调度
         /// </summary>
         Dispatcher Dispatcher { get; }

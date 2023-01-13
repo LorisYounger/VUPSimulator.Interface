@@ -214,6 +214,7 @@ namespace VUPSimulator.Interface
         ///// 所有DIY评论 //修改:评论现在储存在各种子类里,例如Games
         ///// </summary>
         //public List<Comment_base> Comments = new List<Comment_base>();
+        
         #endregion
 
         #region 游戏数据
@@ -229,9 +230,8 @@ namespace VUPSimulator.Interface
         public LpsDocument CommentData = new LpsDocument();
         /// <summary>
         /// 游戏统计 用于任务/成就等
-        /// Name均为'statis' 请使用 FindInfo 查找相关数据
         /// </summary>
-        public LpsDocument Statistics = new LpsDocument();
+        public Line Statistics;
         /// <summary>
         /// 图片数据
         /// </summary>
@@ -239,7 +239,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 用户数据
         /// </summary>
-        public Line UsersData;
+        public Line UsersData;      
         /// <summary>
         /// Nili所有的视频(包括玩家发的视频)
         /// </summary>
@@ -252,7 +252,6 @@ namespace VUPSimulator.Interface
         /// 所有Nili用户(加速检索用)
         /// </summary>
         public List<UserNili> UsersNili = new List<UserNili>();
-        #endregion
-
+        #endregion        
     }
 }

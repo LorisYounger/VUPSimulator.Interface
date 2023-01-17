@@ -31,6 +31,11 @@ namespace VUPSimulator.Interface
         /// </summary>
         public int DayTimePass = 0;
         /// <summary>
+        /// 难度 增益除以 减益乘以
+        /// </summary>
+        public double Difficulty;
+
+        /// <summary>
         /// 该存档开始游戏的日期
         /// </summary>
         public DateTime StartTime;
@@ -214,7 +219,7 @@ namespace VUPSimulator.Interface
         ///// 所有DIY评论 //修改:评论现在储存在各种子类里,例如Games
         ///// </summary>
         //public List<Comment_base> Comments = new List<Comment_base>();
-        
+
         #endregion
 
         #region 游戏数据
@@ -231,7 +236,12 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 游戏统计 用于任务/成就等
         /// </summary>
-        public Line Statistics;
+        public Line Statistic;
+        /// <summary>
+        /// 游戏统计 用于日常/月度统计
+        /// Name均为'stat'
+        /// </summary>
+        public LpsDocument Statistics = new LpsDocument();
         /// <summary>
         /// 图片数据
         /// </summary>
@@ -239,7 +249,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 用户数据
         /// </summary>
-        public Line UsersData;      
+        public Line UsersData;
         /// <summary>
         /// Nili所有的视频(包括玩家发的视频)
         /// </summary>
@@ -252,6 +262,37 @@ namespace VUPSimulator.Interface
         /// 所有Nili用户(加速检索用)
         /// </summary>
         public List<UserNili> UsersNili = new List<UserNili>();
-        #endregion        
+        /// <summary>
+        /// 讲述人类型
+        /// </summary>
+        public enum TellerType
+        {
+            /// <summary>
+            /// 经典: 卡拉斯特
+            /// </summary>
+            Classic,
+            /// <summary>
+            /// 挑战: 玛哈萝
+            /// </summary>
+            Challenge,
+            /// <summary>
+            /// 随机: 兰迪
+            /// </summary>
+            Random,
+        }
+        /// <summary>
+        /// 讲述人数据: 包括模型等所有所需数据
+        /// </summary>
+        public Line TellerData;
+        /// <summary>
+        /// 讲述人类型
+        /// </summary>
+        public TellerType Teller
+        {
+            get => (TellerType)TellerData[(gint)"TellerType"];
+            set => TellerData[(gint)"TellerType"] = (int)value;
+        }
+
+        #endregion
     }
 }

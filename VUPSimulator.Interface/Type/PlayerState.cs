@@ -200,6 +200,10 @@ namespace VUPSimulator.Interface
             if (same == null)
             {
                 StrengthsHistory.Add(new PlayerStrength(happenedTime, strength, duration, reason));
+                while(StrengthsHistory.Count >= 20)
+                {
+                    StrengthsHistory.RemoveAt(0);
+                }
             }
             else
             {
@@ -255,7 +259,7 @@ namespace VUPSimulator.Interface
                     state += states.StateToInt;
                 }
                 state /= Math.Sqrt(PlayerStates.Count);
-                return 4 - state;
+                return Math.Min(Math.Max(4 - state, 0), 10);
             }
         }
         /// <summary>

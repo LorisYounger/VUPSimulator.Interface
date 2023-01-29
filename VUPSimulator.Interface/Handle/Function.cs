@@ -599,9 +599,9 @@ namespace VUPSimulator.Interface
             else if (value < 1000000)
                 return neg + (value / 10000.0).ToString(tostr) + 'w';
             else if (value < 100000000)
-                return neg + (value / 1000000.0).ToString(tostr) + "bw";
+                return neg + (value / 1000000.0).ToString(tostr) + "m";
             else
-                return neg + (value / 100000000.0).ToString(tostr) + 'y';
+                return neg + (value / 100000000.0).ToString(tostr) + 'b';
         }
         /// <summary>
         /// 单位转换时间

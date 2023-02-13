@@ -25,6 +25,31 @@ namespace VUPSimulator.Interface
         /// 当前日期,游戏开始默认为2200年1月1日上午8点(实际为以开局日期为准)
         /// </summary>
         public DateTime Now;
+        /// <summary>
+        /// 将当前时间转换成资源查找文本
+        /// </summary>
+        public string TimeString
+        {
+            get
+            {
+                switch (Now.Hour / 3)
+                {
+                    case 1:
+                    case 2:
+                        return "morning";
+                    case 3:
+                    case 4:
+                    default:
+                        return "noon";
+                    case 5:
+                    case 6:
+                        return "afternoon";
+                    case 7:
+                    case 0:
+                        return "night";
+                }
+            }
+        }
 
         /// <summary>
         /// 游戏经过的天数

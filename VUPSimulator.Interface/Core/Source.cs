@@ -93,7 +93,16 @@ namespace VUPSimulator.Interface
         /// <param name="name">资源名称</param>
         /// <param name="nofind">如果未找到,退回这个值</param>
         /// <returns>返回资源位置,如果未找到,则退回nofind</returns>
-        public Uri FindSourceUri(string name, string nofind = null) => new Uri(FindSource(name, nofind));
+        public Uri FindSourceUri(string name, string nofind = null)
+        {
+            Line line = FindLine(name.ToLower());
+            if (line == null)
+                if (nofind != null)
+                    return new Uri(nofind);
+                else
+                    return null;
+            return new Uri(line.Find("source").Info);
+        }
     }
 
     /// <summary>
@@ -124,7 +133,18 @@ namespace VUPSimulator.Interface
         /// <returns>图片资源,如果未找到则退回错误提示图片</returns>
         public BitmapImage FindImage(string imagename) => new BitmapImage(FindImageUri(imagename));
 
-        public Uri FindImageUri(string imagename) => FindSourceUri(imagename, "pack://application:,,,/Res/Image/system/error.png");
+        public Uri FindImageUri(string imagename)
+        {
+#if DEBUGs
+            var v = FindSourceUri(imagename, "pack://application:,,,/Res/Image/system/error.png");
+            if (v.AbsoluteUri == "pack://application:,,,/Res/Image/system/error.png")
+                throw new Exception($"image nofound {imagename}");
+            return v;
+#else
+            return FindSourceUri(imagename, "pack://application:,,,/Res/Image/system/error.png");
+#endif
+        }
+
         /// <summary>
         /// 查找图片资源 如果找不到则使用上级
         /// </summary>
@@ -135,7 +155,9 @@ namespace VUPSimulator.Interface
         {
             string source = FindSource(imagename);
             if (source == null)
-                return new BitmapImage(new Uri(FindSource(superior, "pack://application:,,,/Res/Image/system/error.png")));
+            {
+                return new BitmapImage(FindImageUri(superior));
+            }
             return new BitmapImage(new Uri(source));
         }
         /// <summary>

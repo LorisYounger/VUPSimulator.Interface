@@ -143,7 +143,7 @@ namespace VUPSimulator.Interface
         {
             Name = "nilivideo";
         }
-        public VideoNili(Line line) : base(line) { Name = "nilivideo"; }
+        public VideoNili(ILine line) : base(line) { Name = "nilivideo"; }
         /// <summary>
         /// 发布视频到nilinili
         /// </summary>
@@ -422,7 +422,7 @@ namespace VUPSimulator.Interface
             {
                 if (tags == null)
                 {
-                    Sub subtag = Find("tag");
+                    ISub subtag = Find("tag");
                     tags = new List<string>();
 
                     if (TotalQuality < 1)
@@ -446,7 +446,7 @@ namespace VUPSimulator.Interface
                 var t = value.ToList();
                 t.Remove("lowquality");
                 t.Remove("highquality");
-                Sub subtag = FindorAdd("tag");
+                ISub subtag = FindorAdd("tag");
                 subtag.info = string.Join(",", t);
             }
         }

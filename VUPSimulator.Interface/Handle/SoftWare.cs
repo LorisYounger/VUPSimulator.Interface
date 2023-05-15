@@ -57,7 +57,7 @@ namespace VUPSimulator.Interface
         /// </summary>
         /// <param name="mw">主窗体</param>
         /// <param name="data">桌面组件设置相关参数</param>
-        WidgetHandle NewWidget(IMainWindow mw, Line data);
+        WidgetHandle NewWidget(IMainWindow mw, ILine data);
 
     }
 }

@@ -26,7 +26,7 @@ namespace VUPSimulator.Interface
         /// </summary>
         public new string Comments;
 
-        public CommentBase(Line line, ICore core) : base(line)
+        public CommentBase(ILine line, ICore core) : base(line)
         {
             Comments = line.Text;
             ContentHash = Function.GetHashCode(Comments);

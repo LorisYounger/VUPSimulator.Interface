@@ -12,7 +12,7 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class OldPainterTask : Line
     {
-        public OldPainterTask(Line line) : base(line) { }
+        public OldPainterTask(ILine line) : base(line) { }
         public OldPainterTask() { }
         /// <summary>
         /// 画师任务
@@ -43,7 +43,7 @@ namespace VUPSimulator.Interface
         /// </summary>
         public class AuthorInTask : Sub
         {
-            public AuthorInTask(Sub sub)
+            public AuthorInTask(ISub sub)
             {
                 Set(sub);
             }

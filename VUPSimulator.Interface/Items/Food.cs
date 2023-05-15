@@ -13,7 +13,7 @@ namespace VUPSimulator.Interface
     /// </summary>
     public abstract class Food : Item_Salability
     {
-        public Food(Line line) : base(line)
+        public Food(ILine line) : base(line)
         {
 
         }
@@ -325,7 +325,7 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class Food_NoHealth : Food
     {
-        public Food_NoHealth(Line line) : base(line)
+        public Food_NoHealth(ILine line) : base(line)
         {
 
         }
@@ -338,7 +338,7 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class Food_Health : Food
     {
-        public Food_Health(Line line) : base(line)
+        public Food_Health(ILine line) : base(line)
         {
 
         }
@@ -351,7 +351,7 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class Food_Drink : Food
     {
-        public Food_Drink(Line line) : base(line)
+        public Food_Drink(ILine line) : base(line)
         {
 
         }
@@ -363,7 +363,7 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class Food_Functional : Food
     {
-        public Food_Functional(Line line) : base(line)
+        public Food_Functional(ILine line) : base(line)
         {
 
         }
@@ -375,7 +375,7 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class Food_Drug : Food
     {
-        public Food_Drug(Line line) : base(line)
+        public Food_Drug(ILine line) : base(line)
         {
 
         }

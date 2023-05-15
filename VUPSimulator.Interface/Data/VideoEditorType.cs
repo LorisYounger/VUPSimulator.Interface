@@ -11,7 +11,7 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class VideoEditorType : Line, IComparable, IComparable<VideoEditorType>
     {
-        public VideoEditorType(Line line) : base(line) { }
+        public VideoEditorType(ILine line) : base(line) { }
 
         /// <summary>
         /// 显示的文本
@@ -43,7 +43,7 @@ namespace VUPSimulator.Interface
         public string WhyPass(IMainWindow mw) => Function.Cal.DataEnableString(mw, this);
 
         int sort = int.MinValue;
-        public int CompareTo(object obj)
+        public new int CompareTo(object obj)
         {
             return Sort.CompareTo(((VideoEditorType)obj).Sort);
         }

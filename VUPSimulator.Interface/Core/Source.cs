@@ -18,9 +18,9 @@ namespace VUPSimulator.Interface
         /// </summary>
         /// <param name="line">资源行</param>
         /// <param name="modpath">功能位置</param>
-        public void AddSource(Line line, string modpath)
+        public void AddSource(ILine line, string modpath)
         {
-            Sub source = line.Find("source");
+            ISub source = line.Find("source");
             if (source == null)
                 return;
             //else if (!source.Info.Contains(":\\"))
@@ -32,9 +32,9 @@ namespace VUPSimulator.Interface
         /// 添加资源,后来覆盖之前
         /// </summary>
         /// <param name="line">资源行</param>
-        public void AddSource(Line line)
+        public void AddSource(ILine line)
         {
-            Sub source = line.Find("source");
+            ISub source = line.Find("source");
             if (source == null)
                 return;
             //else if (!source.Info.Contains(":\\"))
@@ -47,7 +47,7 @@ namespace VUPSimulator.Interface
         /// <param name="lps">资源表</param>
         public void AddSources(LpsDocument lps)
         {
-            foreach (Line line in lps)
+            foreach (ILine line in lps)
             {
                 line.Name = line.Name.ToLower();
                 AddSource(line);
@@ -60,7 +60,7 @@ namespace VUPSimulator.Interface
         /// <param name="modpath">功能位置</param>
         public void AddSources(LpsDocument lps, string modpath = "")
         {
-            foreach (Line line in lps)
+            foreach (ILine line in lps)
             {
                 AddSource(line, modpath);
             }
@@ -82,7 +82,7 @@ namespace VUPSimulator.Interface
         /// <returns>返回资源位置,如果未找到,则退回nofind</returns>
         public string FindSource(string name, string nofind = null)
         {
-            Line line = FindLine(name.ToLower());
+            ILine line = FindLine(name.ToLower());
             if (line == null)
                 return nofind;
             return line.Find("source").Info;
@@ -95,7 +95,7 @@ namespace VUPSimulator.Interface
         /// <returns>返回资源位置,如果未找到,则退回nofind</returns>
         public Uri FindSourceUri(string name, string nofind = null)
         {
-            Line line = FindLine(name.ToLower());
+            ILine line = FindLine(name.ToLower());
             if (line == null)
                 if (nofind != null)
                     return new Uri(nofind);
@@ -125,7 +125,7 @@ namespace VUPSimulator.Interface
         /// </summary>
         /// <param name="line">图片行</param>
         /// <param name="modpath">文件夹位置</param>
-        public void AddImage(Line line, string modpath = "") => AddSource(line, modpath);
+        public void AddImage(ILine line, string modpath = "") => AddSource(line, modpath);
         /// <summary>
         /// 查找图片资源
         /// </summary>

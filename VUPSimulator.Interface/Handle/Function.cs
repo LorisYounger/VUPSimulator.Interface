@@ -123,11 +123,11 @@ namespace VUPSimulator.Interface
             /// <param name="mw">主窗口</param>
             /// <param name="data">相关数据/运算符</param>
             /// <returns>True:可以运行</returns>
-            public static bool DataEnable(IMainWindow mw, Line data)
+            public static bool DataEnable(IMainWindow mw, ILine data)
             {
                 //判断相关参数
                 bool trigger = true;
-                foreach (Sub ifsub in data.Subs.FindAll(x => x.Name.StartsWith("if")))
+                foreach (ISub ifsub in ((Line)data).Subs.FindAll(x => x.Name.StartsWith("if")))
                 {
                     if (ifsub.Name.ToLower() == "ifor")
                     {
@@ -176,12 +176,12 @@ namespace VUPSimulator.Interface
             /// <param name="mw">主窗口</param>
             /// <param name="data">相关数据/运算符</param>
             /// <returns>提供前置条件的判断文本</returns>
-            public static string DataEnableString(IMainWindow mw, Line data)
+            public static string DataEnableString(IMainWindow mw, ILine data)
             {
                 //判断相关参数
                 bool trigger = true;
                 StringBuilder sb = new StringBuilder();
-                foreach (Sub ifsub in data.Subs.FindAll(x => x.Name.StartsWith("if")))
+                foreach (ISub ifsub in ((Line)data).Subs.FindAll(x => x.Name.StartsWith("if")))
                 {
                     if (ifsub.Name.ToLower() == "ifor")
                     {
@@ -239,7 +239,7 @@ namespace VUPSimulator.Interface
             /// <param name="name">相关字符串</param>
             /// <param name="data">相关本地数据</param>
             /// <returns></returns>
-            public static IComparable DataConvert(IMainWindow mw, string name, Line data = null)
+            public static IComparable DataConvert(IMainWindow mw, string name, ILine data = null)
             {
                 if (double.TryParse(name, out var value))
                     return value;
@@ -317,7 +317,7 @@ namespace VUPSimulator.Interface
             /// <param name="name">相关字符串</param>
             /// <param name="data">相关本地数据</param>
             /// <returns></returns>
-            public static string DataConvertString(IMainWindow mw, string name, Line data = null)
+            public static string DataConvertString(IMainWindow mw, string name, ILine data = null)
             {
                 if (double.TryParse(name, out var value))
                     return value.ToString();
@@ -392,9 +392,9 @@ namespace VUPSimulator.Interface
             /// </summary>
             /// <param name="mw">主窗口</param>
             /// <param name="data">相关数据/运算符</param>
-            public static void DataCalculat(IMainWindow mw, Line data)
+            public static void DataCalculat(IMainWindow mw, ILine data)
             {
-                foreach (Sub calsub in data.Subs.FindAll(x => x.Name.ToLower().StartsWith("cal")))
+                foreach (ISub calsub in ((Line)data).Subs.FindAll(x => x.Name.ToLower().StartsWith("cal")))
                 {
                     var calstrs = calsub.GetInfos();
                     IComparable[] calobj = { DataConvert(mw, calstrs[0]), DataConvert(mw, calstrs[1]) };
@@ -425,7 +425,7 @@ namespace VUPSimulator.Interface
             /// <param name="name">设置名称</param>
             /// <param name="value">设置值</param>
             /// <param name="data">若未找到则修改的源行</param>
-            public static void DataSet(IMainWindow mw, string name, object value, Line data = null)
+            public static void DataSet(IMainWindow mw, string name, object value, ILine data = null)
             {
                 switch (name.ToLower().Substring(0, 3))
                 {

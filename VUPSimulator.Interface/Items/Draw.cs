@@ -12,7 +12,7 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class Draw : Item
     {
-        public Draw(Line line) : base(line) { }
+        public Draw(ILine line) : base(line) { }
         /// <summary>
         /// 画师
         /// </summary>

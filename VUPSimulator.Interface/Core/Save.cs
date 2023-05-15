@@ -95,7 +95,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 全部数据
         /// </summary>
-        public Line EventData = new Line();
+        public ILine EventData = new Line();
         /// <summary>
         /// 全部物品
         /// </summary>
@@ -308,7 +308,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 讲述人数据: 包括模型等所有所需数据
         /// </summary>
-        public Line TellerData;
+        public ILine TellerData;
         /// <summary>
         /// 讲述人类型
         /// </summary>

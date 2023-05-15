@@ -32,7 +32,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 作者存档数据
         /// </summary>
-        public Line AuthorData;
+        public ILine AuthorData;
         /// <summary>
         /// 加载Save中的作者存档数据
         /// </summary>
@@ -222,7 +222,7 @@ namespace VUPSimulator.Interface
             /// 平均作品所需时长
             /// </summary>
             public double SpendTime;
-            public Skill(Line line)
+            public Skill(ILine line)
             {
                 Type = (Type)Enum.Parse(typeof(Type), line.info, true);
                 LevelMin = line.GetDouble("levelmin");
@@ -257,7 +257,7 @@ namespace VUPSimulator.Interface
             /// 画作介绍
             /// </summary>
             public string Intor;
-            public Work(Line line)
+            public Work(ILine line)
             {
                 SkillType = (Type)Enum.Parse(typeof(Type), line.info);
                 Name = line.GetString("name");

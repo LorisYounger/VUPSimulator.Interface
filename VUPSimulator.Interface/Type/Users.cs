@@ -31,8 +31,8 @@ namespace VUPSimulator.Interface
         ///// <summary>
         ///// 全局用户信息设置
         ///// </summary>
-        //public Line ALLUserSetting = null;
-        //public CoreUsers(Line line,Line set): base(line)
+        //public ILine ALLUserSetting = null;
+        //public CoreUsers(ILine line,ILine set): base(line)
         //{
         //    ALLUserSetting = set;
         //}
@@ -62,7 +62,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 对主人公的好感度
         /// </summary>
-        public double GetFriendliness(Line globaluserset)
+        public double GetFriendliness(ILine globaluserset)
         {
             ISub gs = globaluserset.Find(UserName);
             if (gs == null)
@@ -74,7 +74,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 对主人公的好感度
         /// </summary>
-        public void SetFriendliness(Line globaluserset, int value)
+        public void SetFriendliness(ILine globaluserset, int value)
         {
             globaluserset[UserName].Infos[(gflt)"friendliness"] = value;
         }
@@ -89,7 +89,7 @@ namespace VUPSimulator.Interface
                 ISub s = Find("vtag");
                 if (s == null)
                     return null;
-                s.info = s.info.ToLower();
+                s.info = s.GetString().ToLower();
                 return s.GetInfos();
             }
         }
@@ -105,7 +105,7 @@ namespace VUPSimulator.Interface
                 ISub s = Find("gtag");
                 if (s == null)
                     return null;
-                s.info = s.info.ToLower();
+                s.info = s.GetString().ToLower();
                 return s.GetInfos();
             }
         }

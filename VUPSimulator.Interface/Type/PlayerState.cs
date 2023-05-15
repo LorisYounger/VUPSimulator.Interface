@@ -18,7 +18,7 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class PlayerState
     {
-        public PlayerState(Sub sub)
+        public PlayerState(ISub sub)
         {
             State = (StateType)Enum.Parse(typeof(StateType), sub.Name, true);
             var strs = sub.GetInfos();
@@ -139,7 +139,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 转换成存档用数据
         /// </summary>
-        public Sub ToSub()
+        public ISub ToSub()
         {
             return new Sub($"{State}#{Duration:f4},{Sub.TextReplace(Reason)},{Tag}");
         }
@@ -273,16 +273,16 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 转换成存档用数据
         /// </summary>
-        public Line ToLine()
+        public ILine ToLine()
         {
-            Line line = new Line("playerstate");
+            ILine line = new Line("playerstate");
             foreach (var state in PlayerStates)
             {
                 line.Add(state.ToSub());
             }
             return line;
         }
-        public PlayerStateSystem(Line line)
+        public PlayerStateSystem(ILine line)
         {
             foreach (var sub in line)
             {

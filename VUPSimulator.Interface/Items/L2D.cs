@@ -20,7 +20,7 @@ namespace VUPSimulator.Interface
         //    get => FindorAdd("path").Info;
         //    set => FindorAdd("path").Info = value;
         //}
-        public Item_L2D_base(Line line) : base(line)
+        public Item_L2D_base(ILine line) : base(line)
         {
             //ItemName = line.Name;
             //Name = "item";
@@ -151,7 +151,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 从已有进度开始新建一个L2d
         /// </summary>
-        public Item_L2D(Line line) : base(line)
+        public Item_L2D(ILine line) : base(line)
         {
 
         }
@@ -165,7 +165,7 @@ namespace VUPSimulator.Interface
         /// <param name="newexp"></param>
         public void ExpressionADD(string newexp)
         {
-            Sub sb = FindorAdd("haveexpression");
+            ISub sb = FindorAdd("haveexpression");
             if (sb.info == "")
             {
                 sb.info = newexp;
@@ -181,11 +181,11 @@ namespace VUPSimulator.Interface
         /// <param name="rmexp"></param>
         public void ExpressionDel(string rmexp)
         {
-            Sub sb = FindorAdd("haveexpression");
+            ISub sb = FindorAdd("haveexpression");
             if (sb.info == rmexp)
                 sb.info = "";
             else
-                sb.info = sb.info.GetString().Replace(rmexp + ',', "");
+                sb.info = sb.GetString().Replace(rmexp + ',', "");
         }
         /// <summary>
         /// 转换成等级为星星

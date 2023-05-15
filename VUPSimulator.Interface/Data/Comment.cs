@@ -11,7 +11,7 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class Comment : Line
     {
-        public Comment(Line line) : base(line) { }
+        public Comment(ILine line) : base(line) { }
         /// <summary>
         /// 评分, 从0到100, 偏极端的偏极端
         /// </summary>
@@ -126,7 +126,7 @@ namespace VUPSimulator.Interface
         {
             get
             {
-                Sub subtag = Find("tag");
+                ISub subtag = Find("tag");
                 if (subtag == null)
                     return new List<CommentTag>();
                 List<CommentTag> tags = new List<CommentTag>();
@@ -213,7 +213,7 @@ namespace VUPSimulator.Interface
         {
             get
             {
-                Sub l = Find("likes");
+                ISub l = Find("likes");
                 if (l == null)
                 {
                     int i = Function.Rnd.Next(Quality / 2, Quality);
@@ -252,7 +252,7 @@ namespace VUPSimulator.Interface
             get => this[(gdat)"date"];
             set => this[(gdat)"date"] = value;
         }
-        public static Comment Create(Line line,ICore core)
+        public static Comment Create(ILine line,ICore core)
         {
             string com = core.I18Comment.Find(line.text);
             switch ((CommentType)Enum.Parse(typeof(CommentType), line.info, true))
@@ -273,7 +273,7 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class Comment_Game : Comment
     {//游戏评论和别的不一样, 游戏评论不是自动生成的
-        public Comment_Game(Line line) : base(line) { }
+        public Comment_Game(ILine line) : base(line) { }
 
         /// <summary>
         /// 绑定的游戏名称

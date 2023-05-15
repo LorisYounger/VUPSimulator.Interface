@@ -32,7 +32,7 @@ namespace VUPSimulator.Interface
             cputotal = double.MinValue;
             gputotal = double.MinValue;
         }
-        public Computer(Line line, IMainWindow mw, List<Item> items)
+        public Computer(ILine line, IMainWindow mw, List<Item> items)
         {
 
             Name = line.Info;
@@ -368,9 +368,9 @@ namespace VUPSimulator.Interface
         /// 导出可保存的计算机
         /// </summary>
         /// <returns>计算机和相关物品</returns>
-        public List<Line> ToLine()
+        public List<ILine> ToLine()
         {
-            List<Line> lines = new List<Line>
+            List<ILine> lines = new List<ILine>
             {
                 new Line("computer", Name, "", new Sub("cpu", CPU.ItemName), new Sub("gpu", GPU.ItemName), new Sub("motherboard", MotherBoard.ItemName)),
                 CPU,
@@ -580,7 +580,7 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class Item_CPU : Item_Salability
     {
-        public Item_CPU(Line line) : base(line)
+        public Item_CPU(ILine line) : base(line)
         {
 
         }
@@ -637,7 +637,7 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class Item_GPU : Item_Salability
     {
-        public Item_GPU(Line line) : base(line)
+        public Item_GPU(ILine line) : base(line)
         {
 
         }
@@ -656,7 +656,7 @@ namespace VUPSimulator.Interface
         {
             get
             {
-                Sub sub = Find("dura");
+                ISub sub = Find("dura");
                 if (sub == null)
                     return 10;
                 return sub.InfoToInt;
@@ -692,7 +692,7 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class Item_Memory : Item_Salability
     {
-        public Item_Memory(Line line) : base(line)
+        public Item_Memory(ILine line) : base(line)
         {
 
         }
@@ -737,7 +737,7 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class Item_MotherBoard : Item_Salability
     {
-        public Item_MotherBoard(Line line) : base(line)
+        public Item_MotherBoard(ILine line) : base(line)
         {
 
         }
@@ -790,7 +790,7 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class Item_Camera : Item_Salability
     {
-        public Item_Camera(Line line) : base(line)
+        public Item_Camera(ILine line) : base(line)
         {
 
         }
@@ -836,7 +836,7 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class Item_Microphone : Item_Salability
     {
-        public Item_Microphone(Line line) : base(line)
+        public Item_Microphone(ILine line) : base(line)
         {
 
         }

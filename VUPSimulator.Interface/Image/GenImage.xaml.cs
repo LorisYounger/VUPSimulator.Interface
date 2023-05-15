@@ -34,12 +34,12 @@ namespace VUPSimulator.Interface
         /// </summary>
         /// <param name="data">数据</param>
         /// <param name="mw">主窗体</param>
-        public GenImage(IMainWindow mw, Line data)
+        public GenImage(IMainWindow mw, ILine data)
         {
             InitializeComponent();
             Name = data.Info;
             this.mw = mw;
-            foreach (Sub sub in data)
+            foreach (ISub sub in data)
                 GIBases.Add(GIBase.Create(sub));
             Rels();
         }
@@ -64,9 +64,9 @@ namespace VUPSimulator.Interface
             foreach (var gi in GIBases)
                 InGrid.Children.Add(gi.GenUI(mw));
         }
-        public Line ToLine()
+        public ILine ToLine()
         {
-            Line Data = new Line("gimg", Name);
+            ILine Data = new Line("gimg", Name);
             foreach (var gi in GIBases)
                 Data.Add(gi.ToSub());
             return Data;
@@ -83,12 +83,12 @@ namespace VUPSimulator.Interface
                 Opacity = opacity;
                 Type = type;
             }
-            public GIBase(Sub sub)
+            public GIBase(ISub sub)
             {
                 Opacity = sub.Infos.GetDouble("o", 1);
             }
             public abstract UIElement GenUI(IMainWindow mw);
-            public virtual Sub ToSub() => new Sub(Type, "o=" + Opacity);
+            public virtual ISub ToSub() => new Sub(Type, "o=" + Opacity);
 
             protected private static ImageSource getImage(IMainWindow mw, string image)
             {
@@ -114,7 +114,7 @@ namespace VUPSimulator.Interface
             /// </summary>
             /// <param name="sub">数据</param>
             /// <returns></returns>
-            public static GIBase Create(Sub sub)
+            public static GIBase Create(ISub sub)
             {
                 switch (sub.Name)
                 {
@@ -141,7 +141,7 @@ namespace VUPSimulator.Interface
                 PointY = y;
                 Rotate = rotate;
             }
-            public GIPlaceBase(Sub sub) : base(sub)
+            public GIPlaceBase(ISub sub) : base(sub)
             {
                 PointX = sub.Infos.GetDouble("x", 0);
                 PointY = sub.Infos.GetDouble("y", 0);
@@ -160,7 +160,7 @@ namespace VUPSimulator.Interface
             /// </summary>
             public double Rotate;
 
-            public override Sub ToSub()
+            public override ISub ToSub()
             {
                 var sub = base.ToSub();
                 sub.Infos[(gdbe)"x"] = PointX;
@@ -178,7 +178,7 @@ namespace VUPSimulator.Interface
             {
                 BackGround = backgroundpath;
             }
-            public GIBackGround(Sub sub) : base(sub)
+            public GIBackGround(ISub sub) : base(sub)
             {
                 BackGround = sub.Infos.GetString("bg", "");
             }
@@ -186,7 +186,7 @@ namespace VUPSimulator.Interface
             {
                 return new Image() { Source = getImage(mw, BackGround), Opacity = Opacity, Stretch = Stretch.UniformToFill };
             }
-            public override Sub ToSub()
+            public override ISub ToSub()
             {
                 var sub = base.ToSub();
                 sub.Infos[(gstr)"bg"] = BackGround;
@@ -208,7 +208,7 @@ namespace VUPSimulator.Interface
                 TextSize = textSize;
                 Text = text;
             }
-            public GIText(Sub sub) : base(sub)
+            public GIText(ISub sub) : base(sub)
             {
                 TextSize = sub.Infos.GetInt("s", 12);
                 TextColor = Function.HEXToColor(sub.Infos.GetString("c", "#000000"));
@@ -310,7 +310,7 @@ namespace VUPSimulator.Interface
                 return gd;
             }
 
-            public override Sub ToSub()
+            public override ISub ToSub()
             {
                 var sub = base.ToSub();
                 sub.Infos[(gint)"s"] = TextSize;
@@ -331,7 +331,7 @@ namespace VUPSimulator.Interface
                 ImagePath = imagepath;
                 Size = size;
             }
-            public GIImage(Sub sub) : base(sub)
+            public GIImage(ISub sub) : base(sub)
             {
                 ImagePath = sub.Infos.GetString("p", "");
                 Size = sub.Infos.GetDouble("s", 100);
@@ -352,7 +352,7 @@ namespace VUPSimulator.Interface
                     LayoutTransform = new RotateTransform(Rotate),
                 };
             }
-            public override Sub ToSub()
+            public override ISub ToSub()
             {
                 var sub = base.ToSub();
                 sub.Infos[(gstr)"p"] = ImagePath;

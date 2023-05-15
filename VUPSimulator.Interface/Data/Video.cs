@@ -14,7 +14,7 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class Video : Line
     {
-        public Video(Line line) : base(line) { }
+        public Video(ILine line) : base(line) { }
         public Video() { Name = "video"; }
 
         /// <summary>

@@ -19,9 +19,9 @@ namespace VUPSimulator.Interface
         /// <param name="startdate">事件开始日期</param>
         /// <param name="setting">事件相关设置</param>
         /// <returns>新的事件</returns>
-        public Event Create(IMainWindow mw, DateTime startdate, params Sub[] setting)
+        public Event Create(IMainWindow mw, DateTime startdate, params ISub[] setting)
         {
-            Line line = new Line(this);
+            ILine line = new Line(this);
 
             //自动登记时间
             //是否随机触发
@@ -35,7 +35,7 @@ namespace VUPSimulator.Interface
             if (EndTime != 0)
                 line[(gstr)"enddate"] = startdate.AddHours(EndTime).ToString("yyyy/MM/dd HH:mm");
 
-            foreach (Sub sub in setting)
+            foreach (ISub sub in setting)
                 line.AddorReplaceSub(sub);
 
             //创建事件并添加进事件链
@@ -48,7 +48,7 @@ namespace VUPSimulator.Interface
         /// <param name="line">数据</param>
         /// <param name="type">事件类型</param>
         /// <returns></returns>
-        public static Event Create(IMainWindow mw, Line line, EventType type)
+        public static Event Create(IMainWindow mw, ILine line, EventType type)
         {
             switch (type)
             {
@@ -70,7 +70,7 @@ namespace VUPSimulator.Interface
         /// </summary>
         /// <param name="mw">主窗体</param>
         /// <param name="line">数据</param>
-        public static Event Create(IMainWindow mw, Line line) => Create(mw, line, (EventType)Enum.Parse(typeof(EventType), line.info, true));
+        public static Event Create(IMainWindow mw, ILine line) => Create(mw, line, (EventType)Enum.Parse(typeof(EventType), line.info, true));
         public enum EventType
         {
             none,//无 看上去啥也没有其实可以用setget进行很多操作
@@ -109,7 +109,7 @@ namespace VUPSimulator.Interface
             get => (EventType)Enum.Parse(typeof(EventType), info, true);
             set => info = value.ToString();
         }
-        public EventBase(Line line) : base(line)
+        public EventBase(ILine line) : base(line)
         {
 
         }
@@ -124,7 +124,7 @@ namespace VUPSimulator.Interface
         {
             get
             {
-                Sub vissub = Find("visible");
+                ISub vissub = Find("visible");
                 if (vissub == null)
                     return VisibleType.None;
                 if (int.TryParse(vissub.info, out int p))
@@ -157,7 +157,7 @@ namespace VUPSimulator.Interface
         {
             get
             {
-                Sub ass = Find("associated");
+                ISub ass = Find("associated");
                 if (ass == null)
                     return new string[0];
                 return ass.GetInfos();
@@ -174,7 +174,7 @@ namespace VUPSimulator.Interface
         {
             get
             {
-                Sub ass = Find("endassociated");
+                ISub ass = Find("endassociated");
                 if (ass == null)
                     return new string[0];
                 return ass.GetInfos();
@@ -207,7 +207,7 @@ namespace VUPSimulator.Interface
         {
             get
             {
-                Sub sub = Find("info");
+                ISub sub = Find("info");
                 if (sub == null)
                     return info;
                 else
@@ -223,7 +223,7 @@ namespace VUPSimulator.Interface
         {
             get
             {
-                Sub sub = Find("message");
+                ISub sub = Find("message");
                 if (sub == null)
                     return EventInfo;
                 else
@@ -240,7 +240,7 @@ namespace VUPSimulator.Interface
         {
             get
             {
-                Sub sub = Find("intor");
+                ISub sub = Find("intor");
                 if (sub == null)
                     return EventInfo;
                 else
@@ -308,7 +308,7 @@ namespace VUPSimulator.Interface
         {
             get
             {
-                Sub sub = Find("period");
+                ISub sub = Find("period");
                 if (sub == null)
                     return 0;
                 if (int.TryParse(sub.info, out int p))
@@ -324,7 +324,7 @@ namespace VUPSimulator.Interface
         {
             get
             {
-                Sub sub = Find("period");
+                ISub sub = Find("period");
                 if (sub == null)
                     return "Single";
                 if (int.TryParse(sub.info, out int p))
@@ -428,7 +428,7 @@ namespace VUPSimulator.Interface
 
     public class Event : EventBase
     {
-        public Event(IMainWindow mw, Line line) : base(line)
+        public Event(IMainWindow mw, ILine line) : base(line)
         {
             if (mw == null)
                 return;
@@ -450,7 +450,7 @@ namespace VUPSimulator.Interface
         {
             get
             {
-                Sub sub = Find("startdate");
+                ISub sub = Find("startdate");
                 if (sub == null)
                     return Function.DateMaxValue;
                 else
@@ -465,7 +465,7 @@ namespace VUPSimulator.Interface
         {
             get
             {
-                Sub sub = Find("enddate");
+                ISub sub = Find("enddate");
                 if (sub == null)
                     return Function.DateMaxValue;
                 else
@@ -520,7 +520,7 @@ namespace VUPSimulator.Interface
         {
             get
             {
-                Sub sub = Find("nextdate");
+                ISub sub = Find("nextdate");
                 if (sub == null)
                     return StartDate;
                 else
@@ -613,7 +613,7 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class EventDoubleValue : Event
     {
-        public EventDoubleValue(IMainWindow mw, Line line) : base(mw, line)
+        public EventDoubleValue(IMainWindow mw, ILine line) : base(mw, line)
         {
 
         }
@@ -631,7 +631,7 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class EventIntValue : Event
     {
-        public EventIntValue(IMainWindow mw, Line line) : base(mw, line)
+        public EventIntValue(IMainWindow mw, ILine line) : base(mw, line)
         {
 
         }
@@ -649,7 +649,7 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class EventMoney : EventDoubleValue
     {
-        public EventMoney(IMainWindow mw, Line line) : base(mw, line)
+        public EventMoney(IMainWindow mw, ILine line) : base(mw, line)
         {
 
         }
@@ -665,7 +665,7 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class EventHealth : EventDoubleValue
     {
-        public EventHealth(IMainWindow mw, Line line) : base(mw, line)
+        public EventHealth(IMainWindow mw, ILine line) : base(mw, line)
         {
 
         }
@@ -677,7 +677,7 @@ namespace VUPSimulator.Interface
     }
     public class EventStrength : EventDoubleValue
     {
-        public EventStrength(IMainWindow mw, Line line) : base(mw, line) { }
+        public EventStrength(IMainWindow mw, ILine line) : base(mw, line) { }
         public override string ToIntor => base.ToIntor + "\n饱腹:" + (Value >= 0 ? "+" : "") + Value;
 
         public override void HandleAction(TimeSpan ts, IMainWindow mw)
@@ -688,7 +688,7 @@ namespace VUPSimulator.Interface
 
     public class EventTime : Event
     {
-        public EventTime(IMainWindow mw, Line line) : base(mw, line) { }
+        public EventTime(IMainWindow mw, ILine line) : base(mw, line) { }
 
         public TimeSpan Time
         {
@@ -703,7 +703,7 @@ namespace VUPSimulator.Interface
     }
     public class EventTimePass : EventTime
     {
-        public EventTimePass(IMainWindow mw, Line line) : base(mw, line) { }
+        public EventTimePass(IMainWindow mw, ILine line) : base(mw, line) { }
         public override void HandleAction(TimeSpan ts, IMainWindow mw)
         {
             mw.Save.Now.Add(Time);
@@ -712,7 +712,7 @@ namespace VUPSimulator.Interface
 
     public class EventXName : Event
     {
-        public EventXName(IMainWindow mw, Line line) : base(mw, line)
+        public EventXName(IMainWindow mw, ILine line) : base(mw, line)
         {
 
         }
@@ -723,7 +723,7 @@ namespace VUPSimulator.Interface
     }
     public class EventXNameDisposed : EventXName
     {
-        public EventXNameDisposed(IMainWindow mw, Line line) : base(mw, line) { }
+        public EventXNameDisposed(IMainWindow mw, ILine line) : base(mw, line) { }
         public override async void HandleAction(TimeSpan ts, IMainWindow mw)
         {
             string xname = XName;
@@ -733,7 +733,7 @@ namespace VUPSimulator.Interface
     }
     public class EventXNameDisenable : EventXName
     {
-        public EventXNameDisenable(IMainWindow mw, Line line) : base(mw, line) { }
+        public EventXNameDisenable(IMainWindow mw, ILine line) : base(mw, line) { }
         public override void HandleAction(TimeSpan ts, IMainWindow mw)
         {
             string xname = XName;
@@ -743,7 +743,7 @@ namespace VUPSimulator.Interface
     }
     public class EventXNameEnable : EventXName
     {
-        public EventXNameEnable(IMainWindow mw, Line line) : base(mw, line) { }
+        public EventXNameEnable(IMainWindow mw, ILine line) : base(mw, line) { }
         public override void HandleAction(TimeSpan ts, IMainWindow mw)
         {
             string xname = XName;
@@ -753,7 +753,7 @@ namespace VUPSimulator.Interface
     }
     public class EventXNameFource : EventXName
     {
-        public EventXNameFource(IMainWindow mw, Line line) : base(mw, line) { }
+        public EventXNameFource(IMainWindow mw, ILine line) : base(mw, line) { }
         public override void HandleAction(TimeSpan ts, IMainWindow mw)
         {
             string xname = XName;
@@ -763,7 +763,7 @@ namespace VUPSimulator.Interface
     }
     public class EventXNameStart : EventXName
     {
-        public EventXNameStart(IMainWindow mw, Line line) : base(mw, line) { }
+        public EventXNameStart(IMainWindow mw, ILine line) : base(mw, line) { }
         public bool Fource
         {
             get => this[(gbol)"fource"];
@@ -786,7 +786,7 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class EventCG : Event
     {
-        public EventCG(IMainWindow mw, Line line) : base(mw, line)
+        public EventCG(IMainWindow mw, ILine line) : base(mw, line)
         {
 
         }

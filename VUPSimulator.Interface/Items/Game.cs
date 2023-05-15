@@ -22,7 +22,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 创建新游戏类
         /// </summary>       
-        public Item_Game_base(string lps, List<Comment_Game> comms, Line igame = null) : base(lps)
+        public Item_Game_base(string lps, List<Comment_Game> comms, ILine igame = null) : base(lps)
         {
             if (igame == null)
             {
@@ -125,7 +125,7 @@ namespace VUPSimulator.Interface
             get
             {
                 List<string> list = new List<string>();
-                Sub sub = FindLine("image")["screenshot"];
+                ISub sub = FindLine("image")["screenshot"];
                 if (sub != null && !string.IsNullOrWhiteSpace(sub.info))
                     list.AddRange(sub.GetInfos());
                 else
@@ -441,11 +441,11 @@ namespace VUPSimulator.Interface
         /// name:视频名称
         /// info:视频简介
         /// </summary>
-        public List<Sub> Nili => FindorAddLine("nili").Subs;
+        public ILine Nili => FindorAddLine("nili");
 
         public ComputerUsage ToComputerUsage()
         {
-            Line cu = this["computerusage"];
+            ILine cu = this["computerusage"];
             return new ComputerUsage(cu.Info)
             {
                 CPUUsage = cu[(gdbe)"cpu"],
@@ -479,7 +479,7 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class Item_Game : Line
     {
-        public Item_Game(Line line) : base(line)
+        public Item_Game(ILine line) : base(line)
         {
 
         }

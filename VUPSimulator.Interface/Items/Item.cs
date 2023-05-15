@@ -46,7 +46,7 @@ namespace VUPSimulator.Interface
             get => (ItemType)Enum.Parse(typeof(ItemType), info);
             set => info = value.ToString();
         }
-        public Item(Line line) : base(line)
+        public Item(ILine line) : base(line)
         {
 
         }
@@ -70,7 +70,7 @@ namespace VUPSimulator.Interface
         {
             get
             {
-                Sub sub = Find("many");
+                ISub sub = Find("many");
                 if (sub == null)
                     return 1;
                 return sub.InfoToInt;
@@ -106,10 +106,10 @@ namespace VUPSimulator.Interface
         /// </summary>
         /// <param name="line">物品</param>
         /// <returns></returns>
-        public static Item New(Line line)
+        public static Item New(ILine line)
         {
             Item item;
-            switch (line.info.GetString().ToLower())
+            switch (line.GetString().ToLower())
             {
                 case "l2d_base":
                     item = new Item_L2D_base(line);
@@ -161,10 +161,10 @@ namespace VUPSimulator.Interface
         /// </summary>
         /// <param name="line">可出售物品</param>
         /// <returns></returns>
-        public static Item_Salability NewSalability(Line line)
+        public static Item_Salability NewSalability(ILine line)
         {
             Item_Salability item;
-            switch (line.info.GetString().ToLower())
+            switch (line.GetString().ToLower())
             {
                 case "cpu":
                     item = new Item_CPU(line);
@@ -210,7 +210,7 @@ namespace VUPSimulator.Interface
     /// </summary>
     public abstract class Item_Salability : Item
     {
-        public Item_Salability(Line line) : base(line)
+        public Item_Salability(ILine line) : base(line)
         {
 
         }
@@ -250,9 +250,9 @@ namespace VUPSimulator.Interface
             /// 可出售的物品
             /// </summary>
             public Item_Salability SalaItem;
-            private Line data;
+            private ILine data;
             private Dispatcher d;
-            public BetterBuyItem(Item_Salability salaitem, Line data, IMainWindow mw)
+            public BetterBuyItem(Item_Salability salaitem, ILine data, IMainWindow mw)
             {
                 SalaItem = salaitem;
                 this.data = data;
@@ -260,7 +260,7 @@ namespace VUPSimulator.Interface
                 d.Invoke(() => { ImageShot = salaitem.ImageSourse(mw); });
                 UpdateDiscount();
             }
-            public BetterBuyItem(Dispatcher dispatcher, Item_Salability salaitem, Line data, ImageSource sourse, int quantity, int discount)
+            public BetterBuyItem(Dispatcher dispatcher, Item_Salability salaitem, ILine data, ImageSource sourse, int quantity, int discount)
             {
                 SalaItem = salaitem;
                 this.data = data;

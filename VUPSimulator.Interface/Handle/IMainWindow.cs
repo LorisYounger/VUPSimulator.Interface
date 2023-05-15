@@ -154,7 +154,7 @@ namespace VUPSimulator.Interface
         /// <param name="Handle">桌面内控件</param>
         /// <param name="Config">控件设置</param>
         /// <returns>控件外框架</returns>
-        IWidget ShowWidget(WidgetHandle Handle, Line Config);
+        IWidget ShowWidget(WidgetHandle Handle, ILine Config);
         /// <summary>
         /// 显示软件 (可用于游戏内置软件/MOD软件)
         /// </summary>

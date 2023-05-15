@@ -37,7 +37,7 @@ namespace VUPSimulator.Interface
         /// 加载Save中的作者存档数据
         /// </summary>
         /// <param name="AuthorDataSet">存档数据 AuthorData</param>
-        public void LoadSaveData(List<Line> AuthorDataSet)
+        public void LoadSaveData(List<ILine> AuthorDataSet)
         {
             var line = AuthorDataSet.Find(x => x.info == Name);
             if (line == null)

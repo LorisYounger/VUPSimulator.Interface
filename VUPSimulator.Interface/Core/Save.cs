@@ -261,7 +261,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 游戏统计 用于任务/成就等
         /// </summary>
-        public Line Statistic;
+        public ILine Statistic;
         /// <summary>
         /// 游戏统计 用于日常/月度统计
         /// Name均为'stat'
@@ -274,7 +274,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 用户数据
         /// </summary>
-        public Line UsersData;
+        public ILine UsersData;
         /// <summary>
         /// Nili所有的视频(包括玩家发的视频)
         /// </summary>
@@ -282,7 +282,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 老画师作者数据
         /// </summary>
-        public List<Line> AuthorData = new List<Line>();
+        public List<ILine> AuthorData = new List<ILine>();
         /// <summary>
         /// 所有Nili用户(加速检索用)
         /// </summary>

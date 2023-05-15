@@ -14,8 +14,8 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class UserNili : Users
     {
-        public readonly Sub Data;
-        public UserNili(Line line, Line globaluserset = null) : base(line)
+        public readonly ISub Data;
+        public UserNili(ILine line, ILine globaluserset = null) : base(line)
         {
             Data = globaluserset?[UserName];
         }
@@ -173,7 +173,7 @@ namespace VUPSimulator.Interface
         {
             get
             {
-                Sub subtag = Find("nilitag");
+                ISub subtag = Find("nilitag");
                 if (subtag == null)
                     return new List<NiliTag>();
                 List<NiliTag> tags = new List<NiliTag>();

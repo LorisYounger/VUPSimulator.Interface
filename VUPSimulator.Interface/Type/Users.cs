@@ -14,7 +14,7 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class Users : Line
     {
-        public Users(Line line) : base(line) { }
+        public Users(ILine line) : base(line) { }
         /// <summary>
         /// 新建标准随机普通用户
         /// </summary>
@@ -64,7 +64,7 @@ namespace VUPSimulator.Interface
         /// </summary>
         public double GetFriendliness(Line globaluserset)
         {
-            Sub gs = globaluserset.Find(UserName);
+            ISub gs = globaluserset.Find(UserName);
             if (gs == null)
             {
                 return this[(gdbe)"friendliness"];
@@ -86,10 +86,10 @@ namespace VUPSimulator.Interface
         {
             get
             {
-                Sub s = Find("vtag");
+                ISub s = Find("vtag");
                 if (s == null)
                     return null;
-                s.info = s.info.GetString().ToLower();
+                s.info = s.info.ToLower();
                 return s.GetInfos();
             }
         }
@@ -102,10 +102,10 @@ namespace VUPSimulator.Interface
         {
             get
             {
-                Sub s = Find("gtag");
+                ISub s = Find("gtag");
                 if (s == null)
                     return null;
-                s.info = s.info.GetString().ToLower();
+                s.info = s.info.ToLower();
                 return s.GetInfos();
             }
         }

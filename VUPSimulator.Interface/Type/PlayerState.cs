@@ -170,7 +170,7 @@ namespace VUPSimulator.Interface
                 new dynamic[]{ "活力", 1.5,0.7, Color.FromRgb(41, 182, 246), Color.FromRgb(0, 73, 97) } ,
                 new dynamic[]{ "兴奋", 1.75,0.8 ,Color.FromRgb(38,198,218), Color.FromRgb(0, 77, 85)},
                 new dynamic[]{ "感觉良好", 2.0,0.9, Color.FromRgb(77, 182, 172), Color.FromRgb(0, 77, 61) } ,
-                new dynamic[]{ "普通", 2,1, Color.FromRgb(129, 199, 132), Color.FromRgb(40, 75, 43) } ,
+                new dynamic[]{ "普通", 2,1, Color.FromRgb(139, 213, 129), Color.FromRgb(47, 153, 76) } ,
                 new dynamic[]{ "感觉不好", 2.5,1.1, Color.FromRgb(174, 213, 129), Color.FromRgb(62, 82, 42) } ,
                 new dynamic[]{ "状态不佳", 2.5,1.1, Color.FromRgb(212, 225, 87), Color.FromRgb(80, 88, 18) } ,
                 new dynamic[]{ "疲惫", 2.5,1.2, Color.FromRgb(251, 192, 45), Color.FromRgb(83, 72, 0) } ,

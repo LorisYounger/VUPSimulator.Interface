@@ -5,12 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using LinePutScript;
+using LinePutScript.Dictionary;
+
 namespace VUPSimulator.Interface
 {
     /// <summary>
     /// 资源集
     /// </summary>
-    public class Resources : LpsDocument
+    public class Resources : LPS_D
     {
         public Resources() { }
         /// <summary>
@@ -45,7 +47,7 @@ namespace VUPSimulator.Interface
         /// 添加多个资源,后来覆盖之前
         /// </summary>
         /// <param name="lps">资源表</param>
-        public void AddSources(LpsDocument lps)
+        public void AddSources(ILPS lps)
         {
             foreach (ILine line in lps)
             {
@@ -58,7 +60,7 @@ namespace VUPSimulator.Interface
         /// </summary>
         /// <param name="lps">资源表</param>
         /// <param name="modpath">功能位置</param>
-        public void AddSources(LpsDocument lps, string modpath = "")
+        public void AddSources(ILPS lps, string modpath = "")
         {
             foreach (ILine line in lps)
             {

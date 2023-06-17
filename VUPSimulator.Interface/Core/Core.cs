@@ -40,7 +40,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 音乐列表
         /// </summary>
-        public Resources Music = new Resources();
+        public LpsDocument Music = new LpsDocument();
         /// <summary>
         /// 所有事件库
         /// </summary>

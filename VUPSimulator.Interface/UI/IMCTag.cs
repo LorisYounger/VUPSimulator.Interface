@@ -23,6 +23,8 @@ namespace VUPSimulator.Interface
         /// 当被事件激活时事件
         /// </summary>
         void MW_TimeUIHandle(TimeSpan span, IMainWindow mw);
+
+
     }
 
 }

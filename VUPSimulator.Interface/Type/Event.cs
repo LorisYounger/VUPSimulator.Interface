@@ -496,7 +496,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 销毁这个Event 消息在消息查看后销毁, 事件在最后一次激发销毁
         /// </summary>
-        public async Task Disposed(IMainWindow mw)
+        public void Disposed(IMainWindow mw)
         {
             //在销毁前执行ENDASS
             //拉相关事件 如果已经存在就不拉
@@ -506,7 +506,7 @@ namespace VUPSimulator.Interface
 
             if (VisibleMCTag != null)
             {
-                await mw.Dispatcher.InvokeAsync(() => mw.RemoveIMCTag(VisibleMCTag));
+                mw.Dispatcher.Invoke(() => mw.RemoveIMCTag(VisibleMCTag));
                 mw.TimeUIHandle -= VisibleMCTag.MW_TimeUIHandle;
                 VisibleMCTag = null;
             }
@@ -586,7 +586,7 @@ namespace VUPSimulator.Interface
                     }
                     //如果是最后一次运行
                     if (NextDate.Ticks > EndDate.Ticks && Visible != VisibleType.Message)
-                        await Disposed(mw);
+                        Disposed(mw);
                     else
                         goto TimeAgain;//再运行次,如果时间间隔长但是激发次数短,则多来几下
                 }
@@ -724,11 +724,11 @@ namespace VUPSimulator.Interface
     public class EventXNameDisposed : EventXName
     {
         public EventXNameDisposed(IMainWindow mw, ILine line) : base(mw, line) { }
-        public override async void HandleAction(TimeSpan ts, IMainWindow mw)
+        public override void HandleAction(TimeSpan ts, IMainWindow mw)
         {
             string xname = XName;
             foreach (Event ev in mw.Save.ALLEvent.FindAll(x => x.EventName == xname))
-                await ev.Disposed(mw);
+                ev.Disposed(mw);
         }
     }
     public class EventXNameDisenable : EventXName

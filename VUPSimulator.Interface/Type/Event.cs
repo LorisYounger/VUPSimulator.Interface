@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LinePutScript;
+using LinePutScript.Localization.WPF;
 
 namespace VUPSimulator.Interface
 {
@@ -477,7 +478,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 转换成介绍
         /// </summary>
-        public virtual string ToIntor => $"开始日期:{StartDate.ToShortDateString()}\n{(EndDate == Function.DateMaxValue ? "" : "结束日期:" + EndDate.ToShortDateString() + '\n')}" +
+        public virtual string ToIntor => $"{"开始日期".Translate()}:{StartDate.ToShortDateString()}\n{(EndDate == Function.DateMaxValue ? "" : "结束日期".Translate() + ':' + EndDate.ToShortDateString() + '\n')}" +
             $"循环:{PeriodtoString}";
         /// <summary>
         /// 是否生效 失效则不会起用,尽管在时间范围内
@@ -653,7 +654,7 @@ namespace VUPSimulator.Interface
         {
 
         }
-        public override string ToIntor => base.ToIntor + "\n金钱:" + (Value >= 0 ? "+" : "") + Value;
+        public override string ToIntor => base.ToIntor + '\n' + "金钱".Translate() + ':' + (Value >= 0 ? "+" : "") + Value;
 
         public override void HandleAction(TimeSpan ts, IMainWindow mw)
         {
@@ -669,7 +670,7 @@ namespace VUPSimulator.Interface
         {
 
         }
-        public override string ToIntor => base.ToIntor + "\n健康:" + (Value >= 0 ? "+" : "") + Value;
+        public override string ToIntor => base.ToIntor + '\n' + "健康".Translate() + ':' + (Value >= 0 ? "+" : "") + Value;
         public override void HandleAction(TimeSpan ts, IMainWindow mw)
         {
             mw.Save.Health += Value;
@@ -678,11 +679,11 @@ namespace VUPSimulator.Interface
     public class EventStrength : EventDoubleValue
     {
         public EventStrength(IMainWindow mw, ILine line) : base(mw, line) { }
-        public override string ToIntor => base.ToIntor + "\n饱腹:" + (Value >= 0 ? "+" : "") + Value;
+        public override string ToIntor => base.ToIntor + '\n' + "饱腹".Translate() + ':' + (Value >= 0 ? "+" : "") + Value;
 
         public override void HandleAction(TimeSpan ts, IMainWindow mw)
         {
-            mw.Save.StrengthRemove(-Value, GetDouble("duration", 1), GetString("reason", "由事件发起"));
+            mw.Save.StrengthRemove(-Value, GetDouble("duration", 1), GetString("reason", "由事件发起".Translate()));
         }
     }
 

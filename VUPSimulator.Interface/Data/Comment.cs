@@ -252,9 +252,9 @@ namespace VUPSimulator.Interface
             get => this[(gdat)"date"];
             set => this[(gdat)"date"] = value;
         }
-        public static Comment Create(ILine line,ICore core)
+        public static Comment Create(ILine line)
         {
-            string com = core.I18Comment.Find(line.text);
+            string com = line.text;
             switch ((CommentType)Enum.Parse(typeof(CommentType), line.info, true))
             {
                 case CommentType.Game:

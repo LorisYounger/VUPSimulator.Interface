@@ -276,7 +276,7 @@ namespace VUPSimulator.Interface
                 }
                 if (PlayerStateLength > 0)
                 {
-                    ret += $"\n心情作用: {PlayerStateSystem.PlayerState[PlayerState][0]}[{4 - PlayerState}] ({Function.DateConvert(PlayerStateLength)})";
+                    ret += $"\n心情作用: {PlayerStateSystem.PlayerState[PlayerState].Item1}[{4 - PlayerState}] ({Function.DateConvert(PlayerStateLength)})";
                 }               
                 return ret + $"\n保质期: {QualityGuaranteePeriod} 天";
             }

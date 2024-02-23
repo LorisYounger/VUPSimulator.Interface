@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using System.IO;
 using LinePutScript;
+using LinePutScript.Localization.WPF;
 
 namespace VUPSimulator.Interface
 {
@@ -333,9 +334,9 @@ namespace VUPSimulator.Interface
                 switch (VideoType)
                 {
                     case Type.Game:
-                        return "游戏 " + GetString("game", "未知");
+                        return "游戏".Translate() + ' ' + GetString("game", "未知".Translate());
                     default:
-                        return "未知";
+                        return "未知".Translate();
                 }
             }
         }

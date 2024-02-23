@@ -168,10 +168,10 @@ namespace VUPSimulator.Interface
             /// </summary>
             Expression,
         }
-        /// <summary>
-        /// 技能
-        /// </summary>
-        public static readonly string[] TypeToString = new string[] { "Live2D立绘", "Live2D建模", "插图", "头像", "表情包" };
+        ///// <summary>
+        ///// 技能
+        ///// </summary>
+        //public static readonly string[] TypeToString = new string[] { "Live2D立绘", "Live2D建模", "插图", "头像", "表情包" };
         /// <summary>
         /// 当前作者技能
         /// </summary>

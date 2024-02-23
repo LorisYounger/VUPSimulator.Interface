@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using LinePutScript;
 using TextToDocument;
 using System.Windows.Documents;
+using LinePutScript.Localization.WPF;
 
 namespace VUPSimulator.Interface
 {
@@ -367,36 +368,36 @@ namespace VUPSimulator.Interface
         public static string GetReviewString(int rate, int popularity, int commentscount, out SolidColorBrush brush, out string ratestr)
         {
             brush = new SolidColorBrush(Color.FromRgb(102, 192, 244));
-            ratestr = $"{commentscount} 篇用户的游戏评测中有 {rate}% 为好评";
+            ratestr = "{0} 篇用户的游戏评测中有 {1}% 为好评".Translate(commentscount, rate);
             if (rate == 0)
             {
                 brush = new SolidColorBrush(Color.FromRgb(85, 103, 114));
-                ratestr = "无用户评测";
-                return "无用户评测";
+                ratestr = "无用户评测".Translate();
+                return "无用户评测".Translate();
             }
             else if (rate > 80)
                 if (popularity >= 80 && rate > 90)
-                    return $"好评如潮";
+                    return $"好评如潮".Translate();
                 else
-                    return "特别好评";
+                    return "特别好评".Translate();
             else if (rate > 70)
-                return "好评";
+                return "好评".Translate();
             else if (rate > 60)
-                return "多半好评";
+                return "多半好评".Translate();
             else if (rate > 40)
             {
                 brush = new SolidColorBrush(Color.FromRgb(185, 160, 116));
-                return "褒贬不一";
+                return "褒贬不一".Translate();
             }
             else if (rate < 20 && popularity >= 70)
             {
                 brush = new SolidColorBrush(Color.FromRgb(163, 76, 37));
-                return "差评如潮";
+                return "差评如潮".Translate();
             }
             else
             {
                 brush = new SolidColorBrush(Color.FromRgb(195, 92, 44));
-                return "多半差评";
+                return "多半差评".Translate();
             }
         }
         /// <summary>

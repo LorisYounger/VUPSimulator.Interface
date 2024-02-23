@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Threading;
 using LinePutScript;
+using LinePutScript.Localization.WPF;
 using Panuon.WPF;
 
 namespace VUPSimulator.Interface
@@ -200,7 +201,7 @@ namespace VUPSimulator.Interface
                     item = new Food_Drug(line);
                     break;
                 default:
-                    throw new Exception("MOD生成错误:不可出售的物品");
+                    throw new Exception("MOD生成错误:不可出售的物品".Translate());
             }
             return item;
         }        

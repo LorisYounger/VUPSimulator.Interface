@@ -14,10 +14,6 @@ namespace VUPSimulator.Interface
     public class CommentBase : Line
     {
         /// <summary>
-        /// 评论Hash值
-        /// </summary>
-        public readonly string ContentHash;
-        /// <summary>
         /// 类型
         /// </summary>
         public CommentType Type;
@@ -26,12 +22,9 @@ namespace VUPSimulator.Interface
         /// </summary>
         public new string Comments;
 
-        public CommentBase(ILine line, ICore core) : base(line)
+        public CommentBase(ILine line) : base(line)
         {
-            Comments = line.Text;
-            ContentHash = Function.GetHashCode(Comments);
-            core.I18Comment.Add(ContentHash, Comments);
-            this.text = ContentHash;
+            Comments = line.Text;            
             Type = (CommentType)Enum.Parse(typeof(CommentType), line.info, true);
         }
         /// <summary>

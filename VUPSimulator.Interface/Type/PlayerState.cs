@@ -1,4 +1,5 @@
 ﻿using LinePutScript;
+using LinePutScript.Localization.WPF;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -146,7 +147,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 当前状态描述文本
         /// </summary>
-        public string StateToText { get => PlayerStateSystem.PlayerState[(int)State][0]; set { } }
+        public string StateToText { get => PlayerStateSystem.PlayerState[(int)State].Item1.Translate(); set { } }
         /// <summary>
         /// 当前状态值
         /// </summary>
@@ -165,18 +166,18 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 玩家状态计算字典
         /// </summary>
-        public static readonly dynamic[][] PlayerState = new dynamic[][] {
-                new dynamic[]{ "精力充沛", 1.25,0.6 ,Color.FromRgb(66,165,254), Color.FromRgb(0, 60, 95) } ,
-                new dynamic[]{ "活力", 1.5,0.7, Color.FromRgb(41, 182, 246), Color.FromRgb(0, 73, 97) } ,
-                new dynamic[]{ "兴奋", 1.75,0.8 ,Color.FromRgb(38,198,218), Color.FromRgb(0, 77, 85)},
-                new dynamic[]{ "感觉良好", 2.0,0.9, Color.FromRgb(77, 182, 172), Color.FromRgb(0, 77, 61) } ,
-                new dynamic[]{ "普通", 2,1, Color.FromRgb(139, 213, 129), Color.FromRgb(47, 153, 76) } ,
-                new dynamic[]{ "感觉不好", 2.5,1.1, Color.FromRgb(174, 213, 129), Color.FromRgb(62, 82, 42) } ,
-                new dynamic[]{ "状态不佳", 2.5,1.1, Color.FromRgb(212, 225, 87), Color.FromRgb(80, 88, 18) } ,
-                new dynamic[]{ "疲惫", 2.5,1.2, Color.FromRgb(251, 192, 45), Color.FromRgb(83, 72, 0) } ,
-                new dynamic[]{ "难受", 2.75,1.2, Color.FromRgb(255, 179, 0), Color.FromRgb(98, 66, 0) } ,
-                new dynamic[]{ "头疼", 3,1.3, Color.FromRgb(251, 141, 0), Color.FromRgb(98, 48, 0) } ,
-                new dynamic[]{ "生病", 3,1.5, Color.FromRgb(244, 81, 30), Color.FromRgb(92, 10, 0) } ,
+        public static readonly (string, double, double, Color, Color)[] PlayerState = new (string, double, double, Color, Color)[] {
+                new ( "精力充沛", 1.25,0.6 ,Color.FromRgb(66,165,254), Color.FromRgb(0, 60, 95) ) ,
+                new ( "活力", 1.5,0.7, Color.FromRgb(41, 182, 246), Color.FromRgb(0, 73, 97) ) ,
+                new ( "兴奋", 1.75,0.8 ,Color.FromRgb(38,198,218), Color.FromRgb(0, 77, 85)),
+                new ( "感觉良好", 2.0,0.9, Color.FromRgb(77, 182, 172), Color.FromRgb(0, 77, 61) ) ,
+                new ( "普通", 2,1, Color.FromRgb(139, 213, 129), Color.FromRgb(47, 153, 76) ) ,
+                new ( "感觉不好", 2.5,1.1, Color.FromRgb(174, 213, 129), Color.FromRgb(62, 82, 42) ) ,
+                new ( "状态不佳", 2.5,1.1, Color.FromRgb(212, 225, 87), Color.FromRgb(80, 88, 18) ) ,
+                new ( "疲惫", 2.5,1.2, Color.FromRgb(251, 192, 45), Color.FromRgb(83, 72, 0) ) ,
+                new ( "难受", 2.75,1.2, Color.FromRgb(255, 179, 0), Color.FromRgb(98, 66, 0) ) ,
+                new ( "头疼", 3,1.3, Color.FromRgb(251, 141, 0), Color.FromRgb(98, 48, 0) ) ,
+                new ( "生病", 3,1.5, Color.FromRgb(244, 81, 30), Color.FromRgb(92, 10, 0) ) ,
         };
         public List<PlayerState> PlayerStates = new List<PlayerState>();
         /// <summary>
@@ -200,7 +201,7 @@ namespace VUPSimulator.Interface
             if (same == null)
             {
                 StrengthsHistory.Add(new PlayerStrength(happenedTime, strength, duration, reason));
-                while(StrengthsHistory.Count >= 20)
+                while (StrengthsHistory.Count >= 20)
                 {
                     StrengthsHistory.RemoveAt(0);
                 }

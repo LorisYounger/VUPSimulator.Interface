@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LinePutScript;
-using VUPSimulator.Interface.Data;
 
 namespace VUPSimulator.Interface
 {
@@ -118,10 +117,6 @@ namespace VUPSimulator.Interface
         /// 所有三方插件
         /// </summary>
         public List<MainPlugin> Plugins = new List<MainPlugin>();
-        /// <summary>
-        /// 评论翻译
-        /// </summary>
-        public I18n I18Comment = new I18n();
 
     }
 

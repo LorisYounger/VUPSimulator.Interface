@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 using LinePutScript;
+using LinePutScript.Localization.WPF;
 
 namespace VUPSimulator.Interface
 {
@@ -185,7 +186,7 @@ namespace VUPSimulator.Interface
                 {
                     if (ifsub.Name.ToLower() == "ifor")
                     {
-                        sb.AppendLine($"通过:{trigger}\n或");
+                        sb.AppendLine("通过:{0}\n或".Translate(trigger));
                         trigger = true;
                         continue;
                     }
@@ -229,7 +230,7 @@ namespace VUPSimulator.Interface
                 }
                 if (sb.Length == 0)
                     return null;
-                return $"激活条件:\n{sb}通过:{trigger}";
+                return "激活条件:\n{0}通过:{1}".Translate(sb, trigger);
             }
 
             /// <summary>
@@ -331,13 +332,13 @@ namespace VUPSimulator.Interface
                         return $"{name.ToLower().Substring(3)}({mw.Save.EventData.GetString(name)})";
                     case "rdi":
                         var v = name.Split('_');
-                        if (v.Length == 2) return $"随机整数(0-{(Convert.ToInt32(v[1]) - 1)})";
-                        else if (v.Length == 3) return $"随机整数({v[1]}-{(Convert.ToInt32(v[2]) - 1)})";
+                        if (v.Length == 2) return "随机整数(0-{0})".Translate((Convert.ToInt32(v[1]) - 1));
+                        else if (v.Length == 3) return "随机整数({0}-{1})".Translate(v[1].(Convert.ToInt32(v[2]) - 1));
                         else
                             return "随机整数";
                     case "rdd":
                         v = name.Split('_');
-                        if (v.Length == 2) return $"随机浮点数(0-{v[1]})";
+                        if (v.Length == 2) return "随机浮点数(0-{1})".Translate(v[1]);
                         else if (v.Length == 3)
                         {
                             return $"随机浮点数({v[1]}-{v[2]})";
@@ -352,29 +353,29 @@ namespace VUPSimulator.Interface
                         switch (name.ToLower())
                         {
                             case "money"://其他指定参数
-                                return $"资金({mw.Save.Money:f2})";
+                                return "资金".Translate() + $"({mw.Save.Money:f2})";
                             case "health":
-                                return $"健康({mw.Save.Health:f2})";
+                                return "健康".Translate() + $"({mw.Save.Health:f2})";
                             case "strength":
-                                return $"饱腹({mw.Save.Strength:f2})";
+                                return "饱腹".Translate() + $"({mw.Save.Strength:f2})";
                             case "pclip":
-                                return $"剪辑({mw.Save.Pclip:f2})";
+                                return "剪辑".Translate() + $"({mw.Save.Pclip:f2})";
                             case "pdraw":
-                                return $"绘画({mw.Save.Pdraw:f2})";
+                                return "绘画".Translate() + $"({mw.Save.Pdraw:f2})";
                             case "pgame":
-                                return $"游戏({mw.Save.Pgame:f2})";
+                                return "游戏".Translate() + $"({mw.Save.Pgame:f2})";
                             case "pidear":
-                                return $"思维({mw.Save.Pidear:f2})";
+                                return "思维".Translate() + $"({mw.Save.Pidear:f2})";
                             case "pimage":
-                                return $"修图({mw.Save.Pimage:f2})";
+                                return "修图".Translate() + $"({mw.Save.Pimage:f2})";
                             case "poperate":
-                                return $"运营({mw.Save.Poperate:f2})";
+                                return "运营".Translate() + $"({mw.Save.Poperate:f2})";
                             case "pprogram":
-                                return $"程序({mw.Save.Pprogram:f2})";
+                                return "程序".Translate() + $"({mw.Save.Pprogram:f2})";
                             case "pspeak":
-                                return $"口才({mw.Save.Pspeak:f2})";
+                                return "口才".Translate() + $"({mw.Save.Pspeak:f2})";
                             case "psong":
-                                return $"声乐({mw.Save.Pspeak:f2})";
+                                return "声乐".Translate() + $"({mw.Save.Pspeak:f2})";
                             default:
                                 //尝试解析和获取本身属性
                                 if (data == null)

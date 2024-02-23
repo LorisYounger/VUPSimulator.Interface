@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LinePutScript;
+using LinePutScript.Localization.WPF;
 namespace VUPSimulator.Interface
 {
     /// <summary>
@@ -620,7 +621,7 @@ namespace VUPSimulator.Interface
         /// </summary>
         public override string Description
         {
-            get => GetString("desc", ItemDisplayName) + $"\n速度:{Speed}GHZ\n核心数:{CoreNumber}";
+            get => GetString("desc", ItemDisplayName) + "\n速度:{0}GHZ\n核心数:{1}".Translate(Speed, CoreNumber);
         }
         /// <summary>
         /// 核心数量
@@ -676,7 +677,7 @@ namespace VUPSimulator.Interface
         /// </summary>
         public override string Description
         {
-            get => GetString("desc", ItemDisplayName) + $"\n速度:{Speed}MHZ\n核心数:{CoreNumber}";
+            get => GetString("desc", ItemDisplayName) + "\n速度:{0}MHZ\n核心数:{1}".Translate(Speed, CoreNumber);
         }
         /// <summary>
         /// 频率
@@ -721,7 +722,7 @@ namespace VUPSimulator.Interface
         /// </summary>
         public override string Description
         {
-            get => GetString("desc", ItemDisplayName) + $"\n频率:{Speed}MHZ\n大小:{Function.SizeConvert(Size)}";
+            get => GetString("desc", ItemDisplayName) + "\n频率:{0}MHZ\n大小:{1}".Translate(Speed, Function.SizeConvert(Size));
         }
         /// <summary>
         /// 内存大小
@@ -774,7 +775,7 @@ namespace VUPSimulator.Interface
         /// </summary>
         public override string Description
         {
-            get => GetString("desc", ItemDisplayName) + $"\n网络速度:{Network}MBPS\n支持内存:{MemorySupport}个\n支持麦克风:{MicrophoneSupport}个\n支持摄像头:{CameraSupport}个";
+            get => GetString("desc", ItemDisplayName) + "\n网络速度:{0}MBPS\n支持内存:{1}个\n支持麦克风:{2}个\n支持摄像头:{3}个".Translate(Network, MemorySupport, MicrophoneSupport, CameraSupport);
         }
         /// <summary>
         /// 支持的外设数量
@@ -819,7 +820,7 @@ namespace VUPSimulator.Interface
         /// </summary>
         public override string Description
         {
-            get => GetString("desc", ItemDisplayName) + $"\n分辨率:{Resolution}\n成像质量:{Quality}";
+            get => GetString("desc", ItemDisplayName) + "\n分辨率:{0}\n成像质量:{1}".Translate(Resolution, Quality);
         }
         /// <summary>
         /// 成像质量
@@ -865,7 +866,7 @@ namespace VUPSimulator.Interface
         /// </summary>
         public override string Description
         {
-            get => GetString("desc", ItemDisplayName) + $"\n分辨率:{Resolution}\n成像质量:{Quality}";
+            get => GetString("desc", ItemDisplayName) + "\n分辨率:{0}\n成像质量:{1}".Translate(Resolution, Quality);
         }
         /// <summary>
         /// 成像质量

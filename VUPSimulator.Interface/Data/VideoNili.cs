@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using LinePutScript;
+using LinePutScript.Localization.WPF;
 using static VUPSimulator.Interface.Comment;
 using static VUPSimulator.Interface.Video;
 
@@ -352,7 +353,7 @@ namespace VUPSimulator.Interface
                 string v = this[(gstr)"content"];
                 if (v != null)
                     return v;
-                return "无内容描述";
+                return "无内容描述".Translate();
             }
             set => this[(gstr)"content"] = value;
         }

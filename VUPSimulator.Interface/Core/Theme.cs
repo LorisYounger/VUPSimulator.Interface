@@ -1,9 +1,11 @@
 ﻿using LinePutScript;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace VUPSimulator.Interface
 {
@@ -29,17 +31,24 @@ namespace VUPSimulator.Interface
             Images = new ImageResources();
         }
     }
+    /// <summary>
+    /// 字体
+    /// </summary>
     public class IFont
     {
         public string Name;
         public string Path;
-        public IFont(string path)
+        public IFont(FileInfo path)
         {
-            var p = path.Split('\\').ToList();
-            Name = p[p.Count - 1].Split('.').First();
-            p.RemoveAt(p.Count - 1);
-            Path = string.Join("\\", p) + @"\#" + Name;
+            Name = path.Name.Substring(0, path.Name.Length - path.Extension.Length);
+            Path = path.Directory.FullName + @"\#" + Name;
         }
-    
+        public FontFamily Font
+        {
+            get
+            {//file:///D:\Documents\Visual Studio 2022\Projects\VPet\VPet-Simulator.Windows\Res\#凤凰点阵体 12px
+                return new FontFamily(@"file:///" + Path);
+            }
+        }
     }
 }

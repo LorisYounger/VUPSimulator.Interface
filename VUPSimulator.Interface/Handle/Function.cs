@@ -333,7 +333,7 @@ namespace VUPSimulator.Interface
                     case "rdi":
                         var v = name.Split('_');
                         if (v.Length == 2) return "随机整数(0-{0})".Translate((Convert.ToInt32(v[1]) - 1));
-                        else if (v.Length == 3) return "随机整数({0}-{1})".Translate(v[1].(Convert.ToInt32(v[2]) - 1));
+                        else if (v.Length == 3) return "随机整数({0}-{1})".Translate(v[1],(Convert.ToInt32(v[2]) - 1));
                         else
                             return "随机整数";
                     case "rdd":

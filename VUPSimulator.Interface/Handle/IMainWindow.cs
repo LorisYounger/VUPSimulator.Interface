@@ -44,7 +44,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 版本号
         /// </summary>
-        string Verison { get; }
+        string Version { get; }
 
         string ModPath { get; }
         string GameSavePath { get; }

@@ -102,6 +102,7 @@ namespace VUPSimulator.Interface
         /// 物品图片
         /// </summary>
         public ImageSource ImageSourse(IMainWindow mw) => mw.Core.ImageSources.FindImage(Image, "item_" + info);
+        public static Dictionary<string, Func<ILine, Item>> NewItemFunction = new Dictionary<string, Func<ILine, Item>>();
         /// <summary>
         /// 根据物品类型自动生成相应Item
         /// </summary>
@@ -109,7 +110,7 @@ namespace VUPSimulator.Interface
         /// <returns></returns>
         public static Item New(ILine line)
         {
-            Item item;
+            Item item = null;
             switch (line.GetString().ToLower())
             {
                 case "l2d_base":
@@ -152,59 +153,15 @@ namespace VUPSimulator.Interface
                     item = new Food_Drug(line);
                     break;
                 default:
-                    item = new Item(line);
+                    if (NewItemFunction.TryGetValue(line.GetString().ToLower(), out var function))
+                    {
+                        item = function(line);
+                    }
+                    item ??= new Item(line);
                     break;
             }
             return item;
-        }
-        /// <summary>
-        /// 根据物品类型自动生成相应可出售Item
-        /// </summary>
-        /// <param name="line">可出售物品</param>
-        /// <returns></returns>
-        public static Item_Salability NewSalability(ILine line)
-        {
-            Item_Salability item;
-            switch (line.GetString().ToLower())
-            {
-                case "cpu":
-                    item = new Item_CPU(line);
-                    break;
-                case "gpu":
-                    item = new Item_GPU(line);
-                    break;
-                case "memory":
-                    item = new Item_Memory(line);
-                    break;
-                case "motherboard":
-                    item = new Item_MotherBoard(line);
-                    break;
-                case "camera":
-                    item = new Item_Camera(line);
-                    break;
-                case "microphone":
-                    item = new Item_Microphone(line);
-                    break;
-                case "food_nohealth":
-                    item = new Food_NoHealth(line);
-                    break;
-                case "food_health":
-                    item = new Food_Health(line);
-                    break;
-                case "food_drink":
-                    item = new Food_Drink(line);
-                    break;
-                case "food_functional":
-                    item = new Food_Functional(line);
-                    break;
-                case "food_drug":
-                    item = new Food_Drug(line);
-                    break;
-                default:
-                    throw new Exception("MOD生成错误:不可出售的物品".Translate());
-            }
-            return item;
-        }        
+        }       
     }
     /// <summary>
     /// 可出售的物品
@@ -328,7 +285,7 @@ namespace VUPSimulator.Interface
                     {
                         mindis = Math.Min(dis.InfoToInt, mindis);
                     }
-                }                
+                }
                 Discount = mindis;
             }
             /// <summary>

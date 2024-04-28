@@ -79,75 +79,68 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 游戏内图片 无Logo
         /// </summary>
-        public string Image_Blank
-        {
-            get
-            {
-                var line = FindLine("image").Find("blank");
-                if (line == null)
-                {
-                    return FindLine("image").info + "_blank";
-                }
-                return line.info;
-            }
-        }
+        public string Image_Blank => Name + "_blank";
         /// <summary>
         /// 库标图
         /// </summary>
-        public string Image_Head
-        {
-            get
-            {
-                var line = FindLine("image").Find("head");
-                if (line == null)
-                {
-                    return FindLine("image").info + "_head";
-                }
-                return line.info;
-            }
-        }
+        public string Image_Head => Name + "_head";
         /// <summary>
         /// 软件图标
         /// </summary>
-        public string Image_Icon
-        {
-            get
-            {
-                var line = FindLine("image").Find("icon");
-                if (line == null)
-                {
-                    return FindLine("image").info + "_icon";
-                }
-                return line.info;
-            }
-        }
-        public string[] Image_Screenshot
-        {
-            get
-            {
-                List<string> list = new List<string>();
-                ISub sub = FindLine("image")["screenshot"];
-                if (sub != null && !string.IsNullOrWhiteSpace(sub.info))
-                    list.AddRange(sub.GetInfos());
-                else
-                    list.Add(Image_Blank);
-                return list.ToArray();
-            }
-        }
+        public string Image_Icon => Name + "_icon";
+        private string[] image_Screenshot = null;
 
+        public string[] Image_Screenshot(ICore core)
+        {
+            if (image_Screenshot == null)
+            {
+                List<string> list = new();
+                int falsecount = 0;
+                for (int i = 0; falsecount < 3; i++)
+                {
+                    string s = Name + "_screenshot_" + i;
+                    if (core.ImageSources.FindSource(s) == null)
+                    {
+                        falsecount++;
+                        continue;
+                    }
+                    list.Add(s);
+                }
+                if (list.Count == 0)
+                {
+                    list.Add("game_" + Image_Blank);
+                }
+                image_Screenshot = list.ToArray();
+            }
+            return image_Screenshot;
+        }
         public ImageSource[] ImageSource_Screenshot(ICore core)
         {
-            List<ImageSource> list = new List<ImageSource>();
-            foreach (string str in Image_Screenshot)
-                list.Add(core.ImageSources.FindImage("game_" + str));
-            return list.ToArray();
+            if (image_Screenshot == null)
+            {
+                List<string> list = new();
+                int falsecount = 0;
+                for (int i = 0; falsecount < 3; i++)
+                {
+                    string s = "game_" + Name + "_screenshot_" + i;
+                    if (core.ImageSources.FindSource(s) == null)
+                    {
+                        falsecount++;
+                        continue;
+                    }
+                    list.Add(s);
+                }
+                if (list.Count == 0)
+                {
+                    list.Add("game_" + Image_Blank);
+                }
+                image_Screenshot = list.ToArray();
+            }
+            return image_Screenshot.Select(x => core.ImageSources.FindImage(x)).ToArray();
         }
-        /// <summary>
-        /// 游戏图标 包含logo
-        /// </summary>
-        public string Image_Game => FindLine("image").info;
 
-        public ImageSource ImageSource_Games(ICore core) => core.ImageSources.FindImage("game_" + Image_Game);
+
+        public ImageSource ImageSource_Games(ICore core) => core.ImageSources.FindImage("game_" + Name);
         public ImageSource ImageSource_Blank(ICore core) => core.ImageSources.FindImage("game_" + Image_Blank);
         public ImageSource ImageSource_Head(ICore core) => core.ImageSources.FindImage("game_" + Image_Head);
         public ImageSource ImageSource_Name(ICore core) => core.ImageSources.FindImage("game_" + this["image"]["name"].info);

@@ -133,11 +133,11 @@ namespace VUPSimulator.Interface
         /// </summary>
         /// <param name="imagename">图片名称</param>
         /// <returns>图片资源,如果未找到则退回错误提示图片</returns>
-        public BitmapImage FindImage(string imagename) => new BitmapImage(FindImageUri(imagename));
+        public BitmapImage FindImage(string imagename) => NewSafeBitmapImage(FindImageUri(imagename));
 
         public Uri FindImageUri(string imagename)
         {
-#if DEBUGs
+#if DEBUG
             var v = FindSourceUri(imagename, "pack://application:,,,/Res/Image/system/error.png");
             if (v.AbsoluteUri == "pack://application:,,,/Res/Image/system/error.png")
                 throw new Exception($"image nofound {imagename}");
@@ -158,13 +158,33 @@ namespace VUPSimulator.Interface
             string source = FindSource(imagename);
             if (source == null)
             {
-                return new BitmapImage(FindImageUri(superior));
+                return NewSafeBitmapImage(FindImageUri(superior));
             }
-            return new BitmapImage(new Uri(source));
+            return NewSafeBitmapImage(source);
         }
         /// <summary>
         /// 图片设置 (eg:定位锚点等)
         /// </summary>
         public LpsDocument ImageSetting = new LpsDocument();
+        /// <summary>
+        /// 更加安全的图片URI加载
+        /// </summary>
+        /// <param name="source">图片源</param>
+        /// <returns>BitmapImage</returns>
+        public static BitmapImage NewSafeBitmapImage(string source) => NewSafeBitmapImage(new Uri(source));
+        /// <summary>
+        /// 更加安全的图片URI加载
+        /// </summary>
+        /// <param name="source">图片源</param>
+        /// <returns>BitmapImage</returns>
+        public static BitmapImage NewSafeBitmapImage(Uri source)
+        {
+            BitmapImage bi = new BitmapImage();
+            bi.BeginInit();
+            bi.CreateOptions = BitmapCreateOptions.IgnoreColorProfile;
+            bi.UriSource = source;
+            bi.EndInit();
+            return bi;
+        }
     }
 }

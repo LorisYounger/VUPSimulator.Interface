@@ -18,8 +18,8 @@ namespace VUPSimulator.Interface
         public string xName;
         public string Image;
         public ImageResources Images;
-        public LpsDocument ThemeColor;
-        public Theme(LpsDocument lps)
+        public LPS ThemeColor;
+        public Theme(LPS lps)
         {
             xName = lps.First().Name;
             Name = lps.First().Info;

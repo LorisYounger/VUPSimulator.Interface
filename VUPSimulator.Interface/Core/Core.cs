@@ -39,7 +39,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 音乐列表
         /// </summary>
-        public LpsDocument Music = new LpsDocument();
+        public List<Music> BGMusic = new();
         /// <summary>
         /// 所有事件库
         /// </summary>
@@ -69,7 +69,7 @@ namespace VUPSimulator.Interface
         /// 所有游戏评论
         /// </summary>
         public List<CommentBase> Comments_Game = new List<CommentBase>();
-        
+
         /// <summary>
         /// 所有长视频剪辑类型
         /// </summary>

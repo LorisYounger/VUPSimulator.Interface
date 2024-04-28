@@ -14,7 +14,7 @@ namespace VUPSimulator.Interface
     /// <summary>
     /// 游戏类
     /// </summary>
-    public class Item_Game_base : LpsDocument
+    public class Item_Game_base : LPS
     {
         /// <summary>
         /// 游戏数据
@@ -143,7 +143,7 @@ namespace VUPSimulator.Interface
         public ImageSource ImageSource_Games(ICore core) => core.ImageSources.FindImage("game_" + Name);
         public ImageSource ImageSource_Blank(ICore core) => core.ImageSources.FindImage("game_" + Image_Blank);
         public ImageSource ImageSource_Head(ICore core) => core.ImageSources.FindImage("game_" + Image_Head);
-        public ImageSource ImageSource_Name(ICore core) => core.ImageSources.FindImage("game_" + this["image"]["name"].info);
+        public ImageSource ImageSource_Name(ICore core) => core.ImageSources.FindImage("game_" + Name);
 
         /// <summary>
         /// 游戏介绍 短

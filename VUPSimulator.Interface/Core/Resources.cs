@@ -121,7 +121,7 @@ namespace VUPSimulator.Interface
         /// </summary>
         /// <param name="lps">图片集</param>
         /// <param name="modpath">文件夹位置</param>
-        public void AddImages(LpsDocument lps, string modpath = "") => AddSources(lps, modpath);
+        public void AddImages(LPS lps, string modpath = "") => AddSources(lps, modpath);
         /// <summary>
         /// 添加单个图片,后来覆盖之前
         /// </summary>
@@ -165,7 +165,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 图片设置 (eg:定位锚点等)
         /// </summary>
-        public LpsDocument ImageSetting = new LpsDocument();
+        public LPS ImageSetting = new LPS();
         /// <summary>
         /// 更加安全的图片URI加载
         /// </summary>

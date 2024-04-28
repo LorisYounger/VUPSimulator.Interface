@@ -14,7 +14,7 @@ namespace VUPSimulator.Interface
     /// </summary>
     public class Author
     {
-        public Author(LpsDocument lps)
+        public Author(LPS lps)
         {
             var line = lps.FindLine("author");
             Name = line.Info;

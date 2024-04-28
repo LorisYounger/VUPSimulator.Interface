@@ -231,11 +231,11 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 简单UI数据储存位置,包括 收藏夹 等
         /// </summary>
-        public LpsDocument UIData = new LpsDocument();
+        public LPS UIData = new LPS();
         /// <summary>
         /// 桌面控件储存数据
         /// </summary>
-        public LpsDocument WidgetData = new LpsDocument();
+        public LPS WidgetData = new LPS();
         /// <summary>
         /// 所有'游戏'数据
         /// </summary>
@@ -252,12 +252,12 @@ namespace VUPSimulator.Interface
         /// 其他数据 多用于代码插件
         /// Name均为'other' 请使用 FindInfo 查找相关数据
         /// </summary>
-        public LpsDocument Other = new LpsDocument();
+        public LPS Other = new LPS();
         /// <summary>
         /// 评论数据 多用于评论
         /// Name均为'comm' 请使用 FindInfo 查找相关数据
         /// </summary>
-        public LpsDocument CommentData = new LpsDocument();
+        public LPS CommentData = new LPS();
         /// <summary>
         /// 游戏统计 用于任务/成就等
         /// </summary>
@@ -266,7 +266,7 @@ namespace VUPSimulator.Interface
         /// 游戏统计 用于日常/月度统计
         /// Name均为'stat'
         /// </summary>
-        public LpsDocument Statistics = new LpsDocument();
+        public LPS Statistics = new LPS();
         /// <summary>
         /// 图片数据
         /// </summary>

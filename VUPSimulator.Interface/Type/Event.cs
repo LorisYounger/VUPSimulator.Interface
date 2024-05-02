@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -522,10 +523,10 @@ namespace VUPSimulator.Interface
             get
             {
                 ISub sub = Find("nextdate");
-                if (sub == null)
+                if (sub == null || !DateTime.TryParse(sub.info, out var date))
                     return StartDate;
                 else
-                    return Convert.ToDateTime(sub.info);
+                    return date;
             }
             set => FindorAdd("nextdate").info = value.ToString("yyyy/MM/dd HH:mm");
         }

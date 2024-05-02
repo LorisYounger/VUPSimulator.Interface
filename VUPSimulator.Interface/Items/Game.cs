@@ -79,15 +79,15 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 游戏内图片 无Logo
         /// </summary>
-        public string Image_Blank => Name + "_blank";
+        public string Image_Blank => "game_" + Name + "_blank";
         /// <summary>
         /// 库标图
         /// </summary>
-        public string Image_Head => Name + "_head";
+        public string Image_Head => "game_" + Name + "_head";
         /// <summary>
         /// 软件图标
         /// </summary>
-        public string Image_Icon => Name + "_icon";
+        public string Image_Icon => "game_" + Name + "_icon";
         private string[] image_Screenshot = null;
 
         public string[] Image_Screenshot(ICore core)
@@ -98,7 +98,7 @@ namespace VUPSimulator.Interface
                 int falsecount = 0;
                 for (int i = 0; falsecount < 3; i++)
                 {
-                    string s = Name + "_screenshot_" + i;
+                    string s = "game_" + Name + "_screenshot_" + i;
                     if (core.ImageSources.FindSource(s) == null)
                     {
                         falsecount++;
@@ -108,7 +108,7 @@ namespace VUPSimulator.Interface
                 }
                 if (list.Count == 0)
                 {
-                    list.Add("game_" + Image_Blank);
+                    list.Add(Image_Blank);
                 }
                 image_Screenshot = list.ToArray();
             }
@@ -132,7 +132,7 @@ namespace VUPSimulator.Interface
                 }
                 if (list.Count == 0)
                 {
-                    list.Add("game_" + Image_Blank);
+                    list.Add(Image_Blank);
                 }
                 image_Screenshot = list.ToArray();
             }

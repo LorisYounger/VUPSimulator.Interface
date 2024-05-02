@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media.Imaging;
 using LinePutScript;
 using LinePutScript.Dictionary;
@@ -140,7 +141,7 @@ namespace VUPSimulator.Interface
 #if DEBUG
             var v = FindSourceUri(imagename, "pack://application:,,,/Res/Image/system/error.png");
             if (v.AbsoluteUri == "pack://application:,,,/Res/Image/system/error.png")
-                throw new Exception($"image nofound {imagename}");
+                MessageBox.Show($"image nofound {imagename}");
             return v;
 #else
             return FindSourceUri(imagename, "pack://application:,,,/Res/Image/system/error.png");

@@ -30,10 +30,7 @@ namespace VUPSimulator.Interface
         {
             //BasePath = l2dbase.BasePath;
         }
-        ///// <summary>
-        ///// 基础图片位置 现在统一用 Image
-        ///// </summary>
-        //public string Nomal => Find("nomal").Info;
+
         /// <summary>
         /// 表情
         /// </summary>
@@ -78,7 +75,7 @@ namespace VUPSimulator.Interface
             set => FindorAdd("imagerank").InfoToDouble = value;
         }
         /// <summary>
-        /// 建模等级
+        /// 建模等级 
         /// </summary>
         public double ModelRank
         {

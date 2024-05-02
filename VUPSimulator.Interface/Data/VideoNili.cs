@@ -40,7 +40,7 @@ namespace VUPSimulator.Interface
                     {
                         if (xt.Contains("rnd") && Function.Rnd.Next(chs) == 0)
                             return true;
-                        foreach (var t in video.Tags)
+                        foreach (var t in tags)
                         {
                             if (xt.Contains(t))//包含选定条件,通过
                             {
@@ -277,8 +277,9 @@ namespace VUPSimulator.Interface
         {
             get
             {
-                if (totalquality == null)
-                    totalquality = (Quality * .5 + QualityVideo * .3 + QualityVoice * .2 + QualityFun * .3) / TimeLength.TotalHours;
+                if (TimeLength.TotalHours == 0)
+                    return 0;
+                else totalquality ??= (Quality * .5 + QualityVideo * .3 + QualityVoice * .2 + QualityFun * .3) / TimeLength.TotalHours;
                 return totalquality.Value;
             }
         }
@@ -425,12 +426,17 @@ namespace VUPSimulator.Interface
                 {
                     ISub subtag = Find("tag");
                     tags = new List<string>();
-
-                    if (TotalQuality < 1)
-                        tags.Add("lowquality");
-                    else if (TotalQuality > 3)
-                        tags.Add("highquality");
-
+                    if (TimeLength.TotalHours != 0)
+                    {
+                        if (TimeLength.TotalHours < 0.5)
+                            tags.Add("lengthshort");
+                        else if (TimeLength.TotalHours > 1)
+                            tags.Add("lengthlong");
+                        if (TotalQuality < 1)
+                            tags.Add("lowquality");
+                        else if (TotalQuality > 3)
+                            tags.Add("highquality");
+                    }
                     //给tag添加类型元素
                     tags.Add(VideoType.ToString());
 

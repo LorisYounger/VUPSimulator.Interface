@@ -129,7 +129,7 @@ namespace VUPSimulator.Interface
             video.QualityVideo = vq * tl;
             video.QualityVoice = vv * tl;
 
-            video.PublishDate = nowtime;// Function.Rnd.Next(-365, mw.Save.DayTimePass);
+            video.PublishDate = nowtime;// Function.Rnd.Next(-365, mw.Save.Base.DayTimePass);
 
             //高质量视频再添加创作收益
             video.JoinProfit = false;
@@ -200,7 +200,7 @@ namespace VUPSimulator.Interface
             get => GetInt("settledate", PublishDate);
             set => this[(gint)"settledate"] = value;
         }
-        public DateTime PublishDateTime(IMainWindow mw) => mw.Save.StartGameTime.AddDays(PublishDate);
+        public DateTime PublishDateTime(IMainWindow mw) => mw.Save.Base.StartGameTime.AddDays(PublishDate);
         /// <summary>
         /// 录制时长
         /// </summary>
@@ -333,7 +333,7 @@ namespace VUPSimulator.Interface
                 if (img.StartsWith("nilivideo_"))
                     path = mw.Core.ImageSources.FindSource(img, "pack://application:,,,/Res/Image/system/error.png");
                 else
-                    path = mw.GameSavePath + '\\' + mw.Save.UserName + "\\video_" + ImageName + ".png";
+                    path = mw.GameSavePath + '\\' + mw.Save.Base.UserName + "\\video_" + ImageName + ".png";
                 return new Image()
                 {
                     Source = new BitmapImage(new Uri(path)),
@@ -468,7 +468,7 @@ namespace VUPSimulator.Interface
         public void RelsDate(IMainWindow mw)
         {
             bool isplayer = Author.Equals("_");
-            var pt = mw.Save.DayTimePass - SettleDate;
+            var pt = mw.Save.Base.DayTimePass - SettleDate;
             for (int i = 1; i <= pt; i++)
             {
                 //播放量
@@ -511,7 +511,7 @@ namespace VUPSimulator.Interface
                     IncomeYesterday = (int)ind;
 
                     //图标
-                    var pf = mw.Save.DayTimePass - pt;
+                    var pf = mw.Save.Base.DayTimePass - pt;
                     gint pg = (gint)(pf + i).ToString();
                     PlayGraph[pg] = pcd;
                     LikeGraph[pg] = lcd;
@@ -524,7 +524,7 @@ namespace VUPSimulator.Interface
                     mw.Save.UserNili.IncomeGraph[(gflt)(pf + i).ToString()] += ind;
                 }
             }
-            SettleDate = mw.Save.DayTimePass;
+            SettleDate = mw.Save.Base.DayTimePass;
         }
 
 

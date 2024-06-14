@@ -504,7 +504,7 @@ namespace VUPSimulator.Interface
             //拉相关事件 如果已经存在就不拉
             foreach (var evs in EndAssociated)
                 if (mw.Save.ALLEvent.Find(x => x.EventName == evs) == null)
-                    mw.Core.EventBases.Find(x => x.EventName == evs).Create(mw, mw.Save.Now);
+                    mw.Core.EventBases.Find(x => x.EventName == evs).Create(mw, mw.Save.Base.Now);
 
             if (VisibleMCTag != null)
             {
@@ -538,10 +538,10 @@ namespace VUPSimulator.Interface
         public async void TimeHandle(TimeSpan ts, IMainWindow mw)
         {
         TimeAgain:
-            if (IsEnable(mw.Save.Now))
+            if (IsEnable(mw.Save.Base.Now))
             {
                 //触发条件
-                if (NextDate.Ticks <= mw.Save.Now.Ticks)
+                if (NextDate.Ticks <= mw.Save.Base.Now.Ticks)
                 {
                     //其他条件判断(例如金钱等) 成功则执行 失败就跳过并计算下一次激活周期
                     if (StartDecied(mw))
@@ -568,7 +568,7 @@ namespace VUPSimulator.Interface
                         //拉相关事件 如果已经存在就不拉
                         foreach (var evs in Associated)
                             if (mw.Save.ALLEvent.Find(x => x.EventName == evs) == null)
-                                mw.Core.EventBases.Find(x => x.EventName == evs).Create(mw, mw.Save.Now);
+                                mw.Core.EventBases.Find(x => x.EventName == evs).Create(mw, mw.Save.Base.Now);
                     }
 
                     //计算下一次激活周期
@@ -659,7 +659,7 @@ namespace VUPSimulator.Interface
 
         public override void HandleAction(TimeSpan ts, IMainWindow mw)
         {
-            mw.Save.Money += Value;
+            mw.Save.Base.Money += Value;
         }
     }
     /// <summary>
@@ -674,9 +674,12 @@ namespace VUPSimulator.Interface
         public override string ToIntor => base.ToIntor + '\n' + "健康".Translate() + ':' + (Value >= 0 ? "+" : "") + Value;
         public override void HandleAction(TimeSpan ts, IMainWindow mw)
         {
-            mw.Save.Health += Value;
+            mw.Save.Base.Health += Value;
         }
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public class EventStrength : EventDoubleValue
     {
         public EventStrength(IMainWindow mw, ILine line) : base(mw, line) { }
@@ -708,7 +711,7 @@ namespace VUPSimulator.Interface
         public EventTimePass(IMainWindow mw, ILine line) : base(mw, line) { }
         public override void HandleAction(TimeSpan ts, IMainWindow mw)
         {
-            mw.Save.Now.Add(Time);
+            mw.Save.Base.Now.Add(Time);
         }
     }
 
@@ -780,7 +783,7 @@ namespace VUPSimulator.Interface
                 if (ev != null)
                     return;
             }
-            mw.Core.EventBases.Find(x => x.EventName == xname)?.Create(mw, mw.Save.Now);
+            mw.Core.EventBases.Find(x => x.EventName == xname)?.Create(mw, mw.Save.Base.Now);
         }
     }
     /// <summary>

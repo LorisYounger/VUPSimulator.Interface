@@ -276,29 +276,29 @@ namespace VUPSimulator.Interface
                         switch (name.ToLower())
                         {
                             case "money"://其他指定参数
-                                return mw.Save.Money;
+                                return mw.Save.Base.Money;
                             case "health":
-                                return mw.Save.Health;
+                                return mw.Save.Base.Health;
                             case "strength":
-                                return mw.Save.Strength;
+                                return mw.Save.Base.Strength;
                             case "pclip":
-                                return mw.Save.Pclip;
+                                return mw.Save.Base.Pclip;
                             case "pdraw":
-                                return mw.Save.Pdraw;
+                                return mw.Save.Base.Pdraw;
                             case "pgame":
-                                return mw.Save.Pgame;
+                                return mw.Save.Base.Pgame;
                             case "pidear":
-                                return mw.Save.Pidear;
+                                return mw.Save.Base.Pidear;
                             case "pimage":
-                                return mw.Save.Pimage;
+                                return mw.Save.Base.Pimage;
                             case "poperate":
-                                return mw.Save.Poperate;
+                                return mw.Save.Base.Poperate;
                             case "pprogram":
-                                return mw.Save.Pprogram;
+                                return mw.Save.Base.Pprogram;
                             case "pspeak":
-                                return mw.Save.Pspeak;
+                                return mw.Save.Base.Pspeak;
                             case "psong":
-                                return mw.Save.Psong;
+                                return mw.Save.Base.Psong;
                             default:
                                 //尝试解析和获取本身属性
                                 if (data == null)
@@ -353,29 +353,29 @@ namespace VUPSimulator.Interface
                         switch (name.ToLower())
                         {
                             case "money"://其他指定参数
-                                return "资金".Translate() + $"({mw.Save.Money:f2})";
+                                return "资金".Translate() + $"({mw.Save.Base.Money:f2})";
                             case "health":
-                                return "健康".Translate() + $"({mw.Save.Health:f2})";
+                                return "健康".Translate() + $"({mw.Save.Base.Health:f2})";
                             case "strength":
-                                return "饱腹".Translate() + $"({mw.Save.Strength:f2})";
+                                return "饱腹".Translate() + $"({mw.Save.Base.Strength:f2})";
                             case "pclip":
-                                return "剪辑".Translate() + $"({mw.Save.Pclip:f2})";
+                                return "剪辑".Translate() + $"({mw.Save.Base.Pclip:f2})";
                             case "pdraw":
-                                return "绘画".Translate() + $"({mw.Save.Pdraw:f2})";
+                                return "绘画".Translate() + $"({mw.Save.Base.Pdraw:f2})";
                             case "pgame":
-                                return "游戏".Translate() + $"({mw.Save.Pgame:f2})";
+                                return "游戏".Translate() + $"({mw.Save.Base.Pgame:f2})";
                             case "pidear":
-                                return "思维".Translate() + $"({mw.Save.Pidear:f2})";
+                                return "思维".Translate() + $"({mw.Save.Base.Pidear:f2})";
                             case "pimage":
-                                return "修图".Translate() + $"({mw.Save.Pimage:f2})";
+                                return "修图".Translate() + $"({mw.Save.Base.Pimage:f2})";
                             case "poperate":
-                                return "运营".Translate() + $"({mw.Save.Poperate:f2})";
+                                return "运营".Translate() + $"({mw.Save.Base.Poperate:f2})";
                             case "pprogram":
-                                return "程序".Translate() + $"({mw.Save.Pprogram:f2})";
+                                return "程序".Translate() + $"({mw.Save.Base.Pprogram:f2})";
                             case "pspeak":
-                                return "口才".Translate() + $"({mw.Save.Pspeak:f2})";
+                                return "口才".Translate() + $"({mw.Save.Base.Pspeak:f2})";
                             case "psong":
-                                return "声乐".Translate() + $"({mw.Save.Pspeak:f2})";
+                                return "声乐".Translate() + $"({mw.Save.Base.Pspeak:f2})";
                             default:
                                 //尝试解析和获取本身属性
                                 if (data == null)
@@ -445,43 +445,43 @@ namespace VUPSimulator.Interface
                         switch (name.ToLower())
                         {
                             case "money"://其他指定参数
-                                mw.Save.Money = (double)value;
+                                mw.Save.Base.Money = (double)value;
                                 break;
                             case "health":
-                                mw.Save.Health = (double)value;
+                                mw.Save.Base.Health = (double)value;
                                 break;
                             case "strengthfood":
-                                mw.Save.StrengthFood = (double)value;
+                                mw.Save.Base.StrengthFood = (double)value;
                                 break;
                             case "strengthsleep":
-                                mw.Save.StrengthSleep = (double)value;
+                                mw.Save.Base.StrengthSleep = (double)value;
                                 break;
                             case "pclip":
-                                mw.Save.Pclip = (double)value;
+                                mw.Save.Base.Pclip = (double)value;
                                 break;
                             case "pdraw":
-                                mw.Save.Pdraw = (double)value;
+                                mw.Save.Base.Pdraw = (double)value;
                                 break;
                             case "pgame":
-                                mw.Save.Pgame = (double)value;
+                                mw.Save.Base.Pgame = (double)value;
                                 break;
                             case "pidear":
-                                mw.Save.Pidear = (double)value;
+                                mw.Save.Base.Pidear = (double)value;
                                 break;
                             case "pimage":
-                                mw.Save.Pimage = (double)value;
+                                mw.Save.Base.Pimage = (double)value;
                                 break;
                             case "poperate":
-                                mw.Save.Poperate = (double)value;
+                                mw.Save.Base.Poperate = (double)value;
                                 break;
                             case "pprogram":
-                                mw.Save.Pprogram = (double)value;
+                                mw.Save.Base.Pprogram = (double)value;
                                 break;
                             case "pspeak":
-                                mw.Save.Pspeak = (double)value;
+                                mw.Save.Base.Pspeak = (double)value;
                                 break;
                             case "psong":
-                                mw.Save.Psong = (double)value;
+                                mw.Save.Base.Psong = (double)value;
                                 break;
                             default://对本身属性进行设置
                                 if (data != null)

@@ -238,7 +238,7 @@ namespace VUPSimulator.Interface
             }
             set => this[(gstr)"image"] = value;
         }
-        public string ImagePATH(IMainWindow mw) => mw.GameSavePath + '\\' + mw.Save.UserName + "\\video_" + ImageName + ".png";
+        public string ImagePATH(IMainWindow mw) => mw.GameSavePath + '\\' + mw.Save.Base.UserName + "\\video_" + ImageName + ".png";
         public BitmapImage Image(IMainWindow mw) => new BitmapImage(new Uri(ImagePATH(mw)));
         /// <summary>
         /// 保存图像

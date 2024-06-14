@@ -98,7 +98,7 @@ namespace VUPSimulator.Interface
                 return;
             }
             //吃过期食物Debuff
-            var qdate = QualityGuaranteeLeft(mw.Save.Now);
+            var qdate = QualityGuaranteeLeft(mw.Save.Base.Now);
             double health = 0;
             if (qdate < 0)
             {//过期食物降低状态/健康
@@ -117,16 +117,16 @@ namespace VUPSimulator.Interface
                     health = -qdate / 10;
                 }
             }
-            mw.Save.StrengthFood += StrengthFood / 4;
-            mw.Save.StrengthSleep += StrengthSleep / 4;
+            mw.Save.Base.StrengthFood += StrengthFood / 4;
+            mw.Save.Base.StrengthSleep += StrengthSleep / 4;
             //在范围内生效health
             if (Health != 0)
             {
-                var rh = 1 - Math.Pow(mw.Save.Health - HealthRange, 2) / 2 / Math.Pow(HealthRangeLength, 2);
+                var rh = 1 - Math.Pow(mw.Save.Base.Health - HealthRange, 2) / 2 / Math.Pow(HealthRangeLength, 2);
                 if (rh >= 0)
                 {
                     health += rh * Health;
-                    mw.Save.Health += health / 4;
+                    mw.Save.Base.Health += health / 4;
                 }
             }
             //状态系统应用
@@ -197,18 +197,18 @@ namespace VUPSimulator.Interface
             {
                 if (span.TotalMinutes >= SpendTimeLeft)
                 {//直接进行结算
-                    mw.Save.Health += Health / 4 + Thealth * SpendTimeLeft;
-                    mw.Save.StrengthFood += StrengthFood / 4 + TstrengthFood * SpendTimeLeft;
-                    mw.Save.StrengthSleep += StrengthSleep / 4 + TstrengthSleep * SpendTimeLeft;
+                    mw.Save.Base.Health += Health / 4 + Thealth * SpendTimeLeft;
+                    mw.Save.Base.StrengthFood += StrengthFood / 4 + TstrengthFood * SpendTimeLeft;
+                    mw.Save.Base.StrengthSleep += StrengthSleep / 4 + TstrengthSleep * SpendTimeLeft;
                     return true;
                 }
                 else
                 {
                     var d = span.TotalMinutes;
                     SpendTimeLeft -= d;
-                    mw.Save.Health += Thealth * d;
-                    mw.Save.StrengthFood += TstrengthFood * d;
-                    mw.Save.StrengthSleep += TstrengthSleep * d;
+                    mw.Save.Base.Health += Thealth * d;
+                    mw.Save.Base.StrengthFood += TstrengthFood * d;
+                    mw.Save.Base.StrengthSleep += TstrengthSleep * d;
                     return false;
                 }
             }

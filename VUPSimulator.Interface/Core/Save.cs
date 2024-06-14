@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LinePutScript;
+using LinePutScript.Converter;
 
 namespace VUPSimulator.Interface
 {
@@ -18,13 +19,122 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 游戏存档名字 (一般是人名+日期组合)
         /// </summary>//干脆直接就存用户名, 这样方便登陆,就不保存了
-        public string FileName => UserName + '-' + Now.ToString("yyyy-MM-dd-HH-mm") + ".vup.lps"; //注:文件名不允许出现:/符号
+        public string FileName => Base.UserName + '-' + Base.Now.ToString("yyyy-MM-dd-HH-mm") + ".vup.lps"; //注:文件名不允许出现:/符号
 
-        public string UserName;
+       
+
         /// <summary>
-        /// 当前日期,游戏开始默认为2200年1月1日上午8点(实际为以开局日期为准)
+        /// 基本数据
         /// </summary>
-        public DateTime Now;
+        public class BaseValue
+        {
+            /// <summary>
+            /// 游戏开局开始日期(日期,不包括时间)
+            /// </summary>
+            public DateTime StartGameTime;
+
+            /// <summary>
+            /// 上次睡觉时间
+            /// </summary>
+            [Line] public DateTime LastSleepTime;
+
+            /// <summary>
+            /// 游戏经过的天数
+            /// </summary>
+            [Line] public int DayTimePass = 0;
+            /// <summary>
+            /// 玩家名称
+            /// </summary>
+            [Line]
+            public string UserName;
+            /// <summary>
+            /// 当前日期,游戏开始默认为2200年1月1日上午8点(实际为以开局日期为准)
+            /// </summary>
+            [Line] public DateTime Now;
+
+            [Line] protected double health;
+            protected double strengthsleep;
+            protected double strengthfood;
+            /// <summary>
+            /// 资金
+            /// </summary>
+            [Line] public double Money;
+            /// <summary>
+            /// 健康
+            /// </summary>
+            public double Health
+            {
+                get => health;
+                set
+                {
+                    health = value;
+                    if (health > 100)
+                        health = 100;
+                    else if (health <= 0)
+                    {//健康归零,寄了
+
+                    }
+                }
+            }
+            /// <summary>
+            /// 精力
+            /// </summary>
+            public double Strength
+            {
+                get => Math.Min(strengthsleep, strengthfood);
+            }
+            /// <summary>
+            /// 精力:睡眠程度
+            /// </summary>
+            [Line] public double StrengthSleep { get => strengthsleep; set => strengthsleep = Math.Min(Health, value); }
+            /// <summary>
+            /// 精力:食物
+            /// </summary>
+            [Line] public double StrengthFood { get => strengthfood; set => strengthfood = Math.Min(Health, value); }
+
+            /// <summary>
+            /// 属性: 思维
+            /// </summary>
+            [Line] public double Pidear;
+            /// <summary>
+            /// 属性: 口才
+            /// </summary>
+            [Line] public double Pspeak;
+            /// <summary>
+            /// 属性: 运营
+            /// </summary>
+            [Line] public double Poperate;
+            /// <summary>
+            /// 属性: 修图
+            /// </summary>
+            [Line] public double Pimage;
+            /// <summary>
+            /// 属性: 剪辑
+            /// </summary>
+            [Line] public double Pclip;
+            /// <summary>
+            /// 属性: 绘画
+            /// </summary>
+            [Line] public double Pdraw;
+            /// <summary>
+            /// 属性: 程序
+            /// </summary>
+            [Line] public double Pprogram;
+            /// <summary>
+            /// 属性: 游戏
+            /// </summary>
+            [Line] public double Pgame;
+            /// <summary>
+            /// 属性: 声乐
+            /// </summary>
+            [Line] public double Psong;
+        }
+
+        /// <summary>
+        /// 基本游戏数据
+        /// </summary>
+        public BaseValue Base = new BaseValue();
+
         /// <summary>
         /// 将当前时间转换成资源查找文本
         /// </summary>
@@ -32,7 +142,7 @@ namespace VUPSimulator.Interface
         {
             get
             {
-                switch (Now.Hour / 3)
+                switch (Base.Now.Hour / 3)
                 {
                     case 1:
                     case 2:
@@ -52,10 +162,6 @@ namespace VUPSimulator.Interface
         }
 
         /// <summary>
-        /// 游戏经过的天数
-        /// </summary>
-        public int DayTimePass = 0;
-        /// <summary>
         /// 难度 增益除以 减益乘以
         /// </summary>
         public double Difficulty;
@@ -64,14 +170,7 @@ namespace VUPSimulator.Interface
         /// 该存档开始游戏的日期
         /// </summary>
         public DateTime StartTime;
-        /// <summary>
-        /// 游戏开局开始日期(日期,不包括时间)
-        /// </summary>
-        public DateTime StartGameTime;
-        /// <summary>
-        /// 上次睡觉时间
-        /// </summary>
-        public DateTime LastSleepTime;
+
         /// <summary>
         /// 当前正在处理的事件
         /// 请注意,虽然说部分软件可以挂后台,但是处理事件只能处理一件
@@ -108,7 +207,7 @@ namespace VUPSimulator.Interface
         public void AddItem(Item item, int many = 1)
         {
             if (item is Food f)
-                f.QualityGuaranteeStartTime = Now;
+                f.QualityGuaranteeStartTime = Base.Now;
             if (item.AllowMultiple)
             {
                 var i = Items.FirstOrDefault(x => x.ItemName == item.ItemName);
@@ -143,36 +242,6 @@ namespace VUPSimulator.Interface
         /// </summary>
         public Computer Computer;
 
-        protected double health;
-        protected double strengthsleep;
-        protected double strengthfood;
-        /// <summary>
-        /// 资金
-        /// </summary>
-        public double Money;
-        /// <summary>
-        /// 健康
-        /// </summary>
-        public virtual double Health
-        {
-            get => health;
-            set => health = value;
-        }
-        /// <summary>
-        /// 精力
-        /// </summary>
-        public double Strength
-        {
-            get => Math.Min(strengthsleep, strengthfood);
-        }
-        /// <summary>
-        /// 精力:睡眠程度
-        /// </summary>
-        public double StrengthSleep { get => strengthsleep; set => strengthsleep = Math.Min(Health, value); }
-        /// <summary>
-        /// 精力:食物
-        /// </summary>
-        public double StrengthFood { get => strengthfood; set => strengthfood = Math.Min(Health, value); }
 
         /// <summary>
         /// 扣除精力
@@ -186,42 +255,7 @@ namespace VUPSimulator.Interface
         /// 玩家状态系统
         /// </summary>
         public PlayerStateSystem PStateSystem;
-        /// <summary>
-        /// 属性: 思维
-        /// </summary>
-        public double Pidear;
-        /// <summary>
-        /// 属性: 口才
-        /// </summary>
-        public double Pspeak;
-        /// <summary>
-        /// 属性: 运营
-        /// </summary>
-        public double Poperate;
-        /// <summary>
-        /// 属性: 修图
-        /// </summary>
-        public double Pimage;
-        /// <summary>
-        /// 属性: 剪辑
-        /// </summary>
-        public double Pclip;
-        /// <summary>
-        /// 属性: 绘画
-        /// </summary>
-        public double Pdraw;
-        /// <summary>
-        /// 属性: 程序
-        /// </summary>
-        public double Pprogram;
-        /// <summary>
-        /// 属性: 游戏
-        /// </summary>
-        public double Pgame;
-        /// <summary>
-        /// 属性: 声乐
-        /// </summary>
-        public double Psong;
+
 
         #endregion
 
@@ -231,11 +265,11 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 简单UI数据储存位置,包括 收藏夹 等
         /// </summary>
-        public LPS UIData = new LPS();
+        public LPS UIData { get; } = new LPS();
         /// <summary>
         /// 桌面控件储存数据
         /// </summary>
-        public LPS WidgetData = new LPS();
+        public LPS WidgetData { get; } = new LPS();
         /// <summary>
         /// 所有'游戏'数据
         /// </summary>
@@ -259,22 +293,20 @@ namespace VUPSimulator.Interface
         /// </summary>
         public LPS CommentData = new LPS();
         /// <summary>
-        /// 游戏统计 用于任务/成就等
-        /// </summary>
-        public ILine Statistic;
-        /// <summary>
         /// 游戏统计 用于日常/月度统计
         /// Name均为'stat'
         /// </summary>
-        public LPS Statistics = new LPS();
+        public Statistics Statistics;
         /// <summary>
         /// 图片数据
         /// </summary>
         public List<GenBase> GenBases = new List<GenBase>();
+
         /// <summary>
         /// 用户数据
         /// </summary>
-        public ILine UsersData;
+        public ILine NPCUsersData;
+
         /// <summary>
         /// Nili所有的视频(包括玩家发的视频)
         /// </summary>
@@ -287,6 +319,7 @@ namespace VUPSimulator.Interface
         /// 所有Nili用户(加速检索用)
         /// </summary>
         public List<UserNili> UsersNili = new List<UserNili>();
+
         /// <summary>
         /// 讲述人类型
         /// </summary>

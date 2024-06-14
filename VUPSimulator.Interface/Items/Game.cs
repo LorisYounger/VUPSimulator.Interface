@@ -415,12 +415,12 @@ namespace VUPSimulator.Interface
         {
             if (!Data.Publish)
                 return null;
-            int time = mw.Save.DayTimePass;
+            int time = mw.Save.Base.DayTimePass;
             List<Comment_Game> ablecom = Comments.FindAll(x => x.Publish <= time);
             foreach (Comment_Game cg in ablecom)
             {
                 if (cg.PublishDate == DateTime.MinValue)
-                    cg.PublishDate = mw.Save.StartGameTime.AddDays(cg.Publish).Date;
+                    cg.PublishDate = mw.Save.Base.StartGameTime.AddDays(cg.Publish).Date;
             }
             return ablecom;
         }

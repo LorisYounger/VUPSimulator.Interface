@@ -9,6 +9,7 @@ using System.Windows.Threading;
 using LinePutScript;
 using LinePutScript.Localization.WPF;
 using Panuon.WPF;
+using static VUPSimulator.Interface.UIData;
 
 namespace VUPSimulator.Interface
 {
@@ -161,7 +162,7 @@ namespace VUPSimulator.Interface
                     break;
             }
             return item;
-        }       
+        }
     }
     /// <summary>
     /// 可出售的物品
@@ -208,9 +209,9 @@ namespace VUPSimulator.Interface
             /// 可出售的物品
             /// </summary>
             public Item_Salability SalaItem;
-            private ILine data;
+            private BetterBuyData data;
             private Dispatcher d;
-            public BetterBuyItem(Item_Salability salaitem, ILine data, IMainWindow mw)
+            public BetterBuyItem(Item_Salability salaitem, BetterBuyData data, IMainWindow mw)
             {
                 SalaItem = salaitem;
                 this.data = data;
@@ -218,7 +219,7 @@ namespace VUPSimulator.Interface
                 d.Invoke(() => { ImageShot = salaitem.ImageSourse(mw); });
                 UpdateDiscount();
             }
-            public BetterBuyItem(Dispatcher dispatcher, Item_Salability salaitem, ILine data, ImageSource sourse, int quantity, int discount)
+            public BetterBuyItem(Dispatcher dispatcher, Item_Salability salaitem, BetterBuyData data, ImageSource sourse, int quantity, int discount)
             {
                 SalaItem = salaitem;
                 this.data = data;
@@ -271,19 +272,17 @@ namespace VUPSimulator.Interface
             /// </summary>
             public void UpdateDiscount()
             {
-                var dis = data.Find("discount_" + SalaItem.ItemName);
-                if (dis != null)
+                if (data.Discont.TryGetValue(SalaItem.ItemName, out int dis))
                 {
-                    Discount = dis.InfoToInt;
+                    Discount = dis;
                     return;
                 }
-                int mindis = data.GetInt("discount_all", 100);
+                int mindis = data.Discont.TryGetValue("discount_all", out dis) ? dis : 100;
                 foreach (var item in Categories)
                 {
-                    dis = data.Find("discount_" + item);
-                    if (dis != null)
+                    if (data.Discont.TryGetValue(item, out dis))
                     {
-                        mindis = Math.Min(dis.InfoToInt, mindis);
+                        mindis = Math.Min(dis, mindis);
                     }
                 }
                 Discount = mindis;

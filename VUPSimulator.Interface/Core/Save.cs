@@ -21,7 +21,7 @@ namespace VUPSimulator.Interface
         /// </summary>//干脆直接就存用户名, 这样方便登陆,就不保存了
         public string FileName => Base.UserName + '-' + Base.Now.ToString("yyyy-MM-dd-HH-mm") + ".vup.lps"; //注:文件名不允许出现:/符号
 
-       
+
 
         /// <summary>
         /// 基本数据
@@ -265,7 +265,8 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 简单UI数据储存位置,包括 收藏夹 等
         /// </summary>
-        public LPS UIData { get; } = new LPS();
+        public UIData UIData { get; set; }
+
         /// <summary>
         /// 桌面控件储存数据
         /// </summary>

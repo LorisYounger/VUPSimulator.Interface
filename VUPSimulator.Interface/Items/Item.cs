@@ -299,6 +299,8 @@ namespace VUPSimulator.Interface
                 return new BetterBuyItem(d, SalaItem, data, ImageShot, Quantity, Discount);
             }
         }
+
+
     }
 
 

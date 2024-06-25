@@ -288,14 +288,9 @@ namespace VUPSimulator.Interface
         /// Name均为'other' 请使用 FindInfo 查找相关数据
         /// </summary>
         public LPS Other = new LPS();
-        /// <summary>
-        /// 评论数据 多用于评论
-        /// Name均为'comm' 请使用 FindInfo 查找相关数据
-        /// </summary>
-        public LPS CommentData = new LPS();
+       
         /// <summary>
         /// 游戏统计 用于日常/月度统计
-        /// Name均为'stat'
         /// </summary>
         public Statistics Statistics;
         /// <summary>

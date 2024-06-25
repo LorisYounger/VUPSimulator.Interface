@@ -47,7 +47,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 所有可出售物品
         /// </summary>
-        public List<Item_Salability> Items = new List<Item_Salability>();
+        public List<Item_Salability> Items_Salability = new List<Item_Salability>();
         /// <summary>
         /// 所有Steam游戏
         /// </summary>

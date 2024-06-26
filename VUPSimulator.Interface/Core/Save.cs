@@ -53,8 +53,8 @@ namespace VUPSimulator.Interface
             [Line] public DateTime Now;
 
             [Line] protected double health;
-            protected double strengthsleep;
-            protected double strengthfood;
+            [Line] protected double strengthsleep;
+            [Line] protected double strengthfood;
             /// <summary>
             /// 资金
             /// </summary>
@@ -86,11 +86,11 @@ namespace VUPSimulator.Interface
             /// <summary>
             /// 精力:睡眠程度
             /// </summary>
-            [Line] public double StrengthSleep { get => strengthsleep; set => strengthsleep = Math.Min(Health, value); }
+            public double StrengthSleep { get => strengthsleep; set => strengthsleep = Math.Min(Health, value); }
             /// <summary>
             /// 精力:食物
             /// </summary>
-            [Line] public double StrengthFood { get => strengthfood; set => strengthfood = Math.Min(Health, value); }
+            public double StrengthFood { get => strengthfood; set => strengthfood = Math.Min(Health, value); }
 
             /// <summary>
             /// 属性: 思维
@@ -288,7 +288,7 @@ namespace VUPSimulator.Interface
         /// Name均为'other' 请使用 FindInfo 查找相关数据
         /// </summary>
         public LPS Other = new LPS();
-       
+
         /// <summary>
         /// 游戏统计 用于日常/月度统计
         /// </summary>

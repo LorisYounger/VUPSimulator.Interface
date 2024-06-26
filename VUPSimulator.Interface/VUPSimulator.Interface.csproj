@@ -24,7 +24,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="LinePutScript">
-      <Version>1.11.6</Version>
+      <Version>1.11.7</Version>
     </PackageReference>
     <PackageReference Include="LinePutScript.Localization.WPF">
       <Version>1.0.7</Version>

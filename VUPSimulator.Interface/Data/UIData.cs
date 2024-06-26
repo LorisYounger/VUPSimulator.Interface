@@ -23,6 +23,7 @@ namespace VUPSimulator.Interface
             Nili = new NiliData();
             OBS = new ObsData();
             Sbeam = new SbeamData();
+            OldPainter = new OldPainterData();
         }
         public UIData(LPS data)
         {
@@ -32,6 +33,7 @@ namespace VUPSimulator.Interface
             Nili = LPSConvert.DeserializeObject<NiliData>(data["NiliData"]);
             OBS = LPSConvert.DeserializeObject<ObsData>(data["OBSData"]);
             Sbeam = LPSConvert.DeserializeObject<SbeamData>(data["SbeamData"]);
+            OldPainter = LPSConvert.DeserializeObject<OldPainterData>(data["OldPainterData"]);
         }
         public List<ILine> ToList()
         {
@@ -41,7 +43,8 @@ namespace VUPSimulator.Interface
                 LPSConvert.SerializeObject(MusicPlayer,"MusicPlayerData"),
                 LPSConvert.SerializeObject(Nili,"NiliData"),
                 LPSConvert.SerializeObject(OBS,"OBSData"),
-                LPSConvert.SerializeObject(Sbeam,"SbeamData")
+                LPSConvert.SerializeObject(Sbeam,"SbeamData"),
+                LPSConvert.SerializeObject(OldPainter,"OldPainterData"),
             };
             DesktopUI.ToList(data);
             return data;
@@ -55,12 +58,7 @@ namespace VUPSimulator.Interface
         /// 更好买数据
         /// </summary>
         public class BetterBuyData
-        {
-            public BetterBuyData()
-            {
-                ScheduleBuyItems = new ObservableCollection<ScheduleBuyItem>();
-                BuyHistory = new ObservableCollection<HistoryBuyItem>();
-            }
+        {          
             /// <summary>
             /// 上次折扣时间
             /// </summary>
@@ -74,24 +72,18 @@ namespace VUPSimulator.Interface
             /// <summary>
             /// 定时购买的商品
             /// </summary>
-            [Line] public ObservableCollection<ScheduleBuyItem> ScheduleBuyItems;
+            [Line] public ObservableCollection<ScheduleBuyItem> ScheduleBuyItems = new ObservableCollection<ScheduleBuyItem>();
 
             /// <summary>
             /// 购买历史
             /// </summary>
-            [Line] public ObservableCollection<HistoryBuyItem> BuyHistory;
+            [Line] public ObservableCollection<HistoryBuyItem> BuyHistory = new ObservableCollection<HistoryBuyItem>();
 
             /// <summary>
             /// 定时购买
             /// </summary>
-            public class ScheduleBuyItem
-               : NotifyPropertyChangedBase
-            {
-                public ScheduleBuyItem() { }
-                public ScheduleBuyItem(Item_Salability salaItem, int quantity, BuyFrequency frequency)
-                {
-
-                }
+            public class ScheduleBuyItem : NotifyPropertyChangedBase
+            {                
                 /// <summary>
                 /// 商品
                 /// </summary>
@@ -105,7 +97,7 @@ namespace VUPSimulator.Interface
                     }
                     return _betterBuyItem;
                 }
-                public Item_Salability.BetterBuyItem _betterBuyItem;
+                public Item_Salability.BetterBuyItem _betterBuyItem { get; set; }
                 /// <summary>
                 /// 更好买物品
                 /// </summary>
@@ -188,7 +180,7 @@ namespace VUPSimulator.Interface
                     }
                     return _betterBuyItem;
                 }
-                public Item_Salability.BetterBuyItem _betterBuyItem;
+                public Item_Salability.BetterBuyItem _betterBuyItem { get; set; }
                 /// <summary>
                 /// 更好买物品
                 /// </summary>
@@ -339,6 +331,17 @@ namespace VUPSimulator.Interface
             /// 愿望单
             /// </summary>
             [Line] public List<string> WishList;
+        }
+        /// <summary>
+        /// 老画师数据
+        /// </summary>
+        public OldPainterData OldPainter { get; set; }
+        /// <summary>
+        /// 老画师数据
+        /// </summary>
+        public class OldPainterData
+        {
+
         }
     }
 

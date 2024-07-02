@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static VUPSimulator.Interface.Item_Salability;
 
 namespace VUPSimulator.Interface
 {
@@ -58,7 +59,7 @@ namespace VUPSimulator.Interface
         /// 更好买数据
         /// </summary>
         public class BetterBuyData
-        {          
+        {
             /// <summary>
             /// 上次折扣时间
             /// </summary>
@@ -83,21 +84,30 @@ namespace VUPSimulator.Interface
             /// 定时购买
             /// </summary>
             public class ScheduleBuyItem : NotifyPropertyChangedBase
-            {                
+            {
+                private Item_Salability.BetterBuyItem _betterBuyItem;
                 /// <summary>
                 /// 商品
                 /// </summary>
                 public Item_Salability.BetterBuyItem BetterBuyItem(IMainWindow mw)
                 {
-                    if (_betterBuyItem == null)
+                    if (betterBuyItem == null)
                     {
                         Item_Salability v = mw.Core.Items_Salability.FirstOrDefault(x => x.Name == SalabilityItemName);
                         if (v != null)
                             _betterBuyItem = new Item_Salability.BetterBuyItem(v, mw.Save.UIData.BetterBuy, mw);
                     }
-                    return _betterBuyItem;
+                    return betterBuyItem;
                 }
-                public Item_Salability.BetterBuyItem _betterBuyItem { get; set; }
+                public Item_Salability.BetterBuyItem betterBuyItem
+                {
+                    get => _betterBuyItem;
+                    set
+                    {
+                        _betterBuyItem = value;
+                        SalabilityItemName = value.Name;
+                    }
+                }
                 /// <summary>
                 /// 更好买物品
                 /// </summary>
@@ -167,20 +177,30 @@ namespace VUPSimulator.Interface
             public class HistoryBuyItem
                : NotifyPropertyChangedBase
             {
+                private Item_Salability.BetterBuyItem _betterBuyItem;
+
                 /// <summary>
                 /// 商品
                 /// </summary>
                 public Item_Salability.BetterBuyItem BetterBuyItem(IMainWindow mw)
                 {
-                    if (_betterBuyItem == null)
+                    if (betterBuyItem == null)
                     {
                         Item_Salability v = mw.Core.Items_Salability.FirstOrDefault(x => x.Name == SalabilityItemName);
                         if (v != null)
                             _betterBuyItem = new Item_Salability.BetterBuyItem(v, mw.Save.UIData.BetterBuy, mw);
                     }
-                    return _betterBuyItem;
+                    return betterBuyItem;
                 }
-                public Item_Salability.BetterBuyItem _betterBuyItem { get; set; }
+                public Item_Salability.BetterBuyItem betterBuyItem
+                {
+                    get => _betterBuyItem;
+                    set
+                    {
+                        _betterBuyItem = value;
+                        SalabilityItemName = value.Name;
+                    }
+                }
                 /// <summary>
                 /// 更好买物品
                 /// </summary>

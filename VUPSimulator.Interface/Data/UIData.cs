@@ -350,7 +350,7 @@ namespace VUPSimulator.Interface
             /// <summary>
             /// 愿望单
             /// </summary>
-            [Line] public List<string> WishList;
+            [Line] public List<string> WishList = new List<string>();
         }
         /// <summary>
         /// 老画师数据

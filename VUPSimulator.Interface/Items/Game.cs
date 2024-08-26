@@ -141,9 +141,9 @@ namespace VUPSimulator.Interface
 
 
         public ImageSource ImageSource_Games(ICore core) => core.ImageSources.FindImage("game_" + Name);
-        public ImageSource ImageSource_Blank(ICore core) => core.ImageSources.FindImage("game_" + Image_Blank);
-        public ImageSource ImageSource_Head(ICore core) => core.ImageSources.FindImage("game_" + Image_Head);
-        public ImageSource ImageSource_Name(ICore core) => core.ImageSources.FindImage("game_" + Name);
+        public ImageSource ImageSource_Blank(ICore core) => core.ImageSources.FindImage(Image_Blank);
+        public ImageSource ImageSource_Head(ICore core) => core.ImageSources.FindImage(Image_Head);
+        public ImageSource ImageSource_Name(ICore core) => core.ImageSources.FindImage(Name);
 
         /// <summary>
         /// 游戏介绍 短

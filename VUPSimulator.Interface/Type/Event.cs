@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LinePutScript;
 using LinePutScript.Localization.WPF;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace VUPSimulator.Interface
 {
@@ -54,9 +55,7 @@ namespace VUPSimulator.Interface
         {
             switch (type)
             {
-                case EventType.money: return new EventMoney(mw, line);
-                case EventType.strength: return new EventStrength(mw, line);
-                case EventType.health: return new EventHealth(mw, line);
+                case EventType.property: return new EventProperty(mw, line);
                 case EventType.timepass: return new EventTimePass(mw, line);
                 case EventType.xnamedisenable: return new EventXNameDisenable(mw, line);
                 case EventType.xnamedisposed: return new EventXNameDisposed(mw, line);
@@ -77,7 +76,7 @@ namespace VUPSimulator.Interface
         {
             none,//无 看上去啥也没有其实可以用setget进行很多操作
 
-            money,//钱相关操作
+            property,//钱相关操作
             //bank,//银行(储蓄内金额)相关操作
             //debt,//负债 属于银行系统
             //这个以后会有专门的房子类型house,//房租(同时也是房子,加成)
@@ -111,14 +110,62 @@ namespace VUPSimulator.Interface
             get => (EventType)Enum.Parse(typeof(EventType), info, true);
             set => info = value.ToString();
         }
+        /// <summary>
+        /// 从line中创建新事件
+        /// </summary>
+        /// <param name="line">数据</param>
         public EventBase(ILine line) : base(line)
         {
 
         }
         /// <summary>
+        /// 初始化一个新的事件基础类实例
+        /// </summary>
+        /// <param name="name">事件的名称</param>
+        /// <param name="type">事件类型，默认为none</param>
+        /// <param name="visible">事件的可见性类型，默认为None</param>
+        /// <param name="associated">伴生对象数组，默认为null</param>
+        /// <param name="endAssociated">事件结束后伴生对象数组，默认为null</param>
+        /// <param name="visibleMessage">是否在事件发生时显示消息，默认为false</param>
+        /// <param name="visibleMessageIsSingle">如果显示消息，是否只显示一次，默认为false</param>
+        /// <param name="eventInfo">事件信息（标题），默认为""</param>
+        /// <param name="message">显示消息（事件触发后弹窗消息），默认为""</param>
+        /// <param name="intor">事件注释（事件前显示的消息），默认为""</param>
+        /// <param name="period">周期触发频率(单位小时)，默认为0</param>
+        /// <param name="periodRandom">是否随机触发，默认为false</param>
+        /// <param name="endTime">事件结束时间，单位小时，默认为0</param>
+        /// <param name="autoTrigger">是否能够从事件库中触发该事件，默认为false</param>
+        /// <param name="mSGType">消息类型，默认为notify</param>
+        public EventBase(string name, string eventInfo = "", EventType type = EventType.none, string message = "", string intor = "",
+            VisibleType visible = VisibleType.None, Function.MSGType mSGType = Function.MSGType.notify, string[] associated = null, string[] endAssociated = null, bool visibleMessage = false,
+            bool visibleMessageIsSingle = false, int period = 0, bool periodRandom = false, int endTime = 0, bool autoTrigger = false)
+            : base(name, "")
+        {
+            Type = type;
+            Visible = visible;
+            if (associated != null)
+                Associated = associated;
+            if (endAssociated != null)
+                EndAssociated = endAssociated;
+            VisibleMessage = visibleMessage;
+            VisibleMessageIsSingle = visibleMessageIsSingle;
+            EventInfo = eventInfo;
+            Message = message;
+            Intor = intor;
+            Period = period;
+            EndTime = endTime;
+            AutoTrigger = autoTrigger;
+            MSGType = mSGType;
+        }
+
+        /// <summary>
         /// Event的名字,方便从Event库呼出
         /// </summary>
-        public string EventName => FindorAdd("name").Info;
+        public string EventName
+        {
+            get => FindorAdd("name").Info;
+            set => FindorAdd("name").Info = value;
+        }
         /// <summary>
         /// 是否对玩家可见 (在侧边栏)
         /// </summary>
@@ -133,7 +180,7 @@ namespace VUPSimulator.Interface
                     return (VisibleType)p;
                 return (VisibleType)Enum.Parse(typeof(VisibleType), vissub.info, true);
             }
-            set => FindorAdd("period").info = value.ToString();
+            set => FindorAdd("visible").info = value.ToString();
         }
 
         public enum VisibleType
@@ -317,7 +364,19 @@ namespace VUPSimulator.Interface
                     return p;
                 return (int)Enum.Parse(typeof(PeriodType), sub.info, true);
             }
-            set => Find("period").info = value.ToString();
+            set => FindorAdd("period").info = value.ToString();
+        }
+        public PeriodType PeriodtoType
+        {
+            get
+            {
+                if (Find("period") == null)
+                    return PeriodType.Single;
+                if (int.TryParse(Find("period").info, out int p))
+                    return (PeriodType)p;
+                return (PeriodType)Enum.Parse(typeof(PeriodType), Find("period").info, true);
+            }
+            set => FindorAdd("period").info = ((int)value).ToString();
         }
         /// <summary>
         /// 周期触发频率 PeriodType 版本
@@ -335,7 +394,7 @@ namespace VUPSimulator.Interface
                     return pt.ToString();
                 return sub.info;
             }
-            set => Find("period").info = value.ToString();
+            set => FindorAdd("period").info = value.ToString();
         }
         /// <summary>
         /// 事件结束时间,单位小时 0为null,会在新建的时候自动添加
@@ -375,7 +434,9 @@ namespace VUPSimulator.Interface
             get => this[(gbol)"autotrigger"];
             set => this[(gbol)"autotrigger"] = value;
         }
-
+        /// <summary>
+        /// 消息类型,用于指定事件弹出的消息类型
+        /// </summary>
         public Function.MSGType MSGType
         {
             get
@@ -390,7 +451,7 @@ namespace VUPSimulator.Interface
                     return pt;
                 return 0;
             }
-            set => this[(gint)"periodrandom"] = (int)value;
+            set => this[(gint)"msgtype"] = (int)value;
         }
 
         /// <summary>
@@ -425,11 +486,9 @@ namespace VUPSimulator.Interface
     }
 
 
-
-
-
     public class Event : EventBase
     {
+
         public Event(IMainWindow mw, ILine line) : base(line)
         {
             if (mw == null)
@@ -445,6 +504,82 @@ namespace VUPSimulator.Interface
             //mw.TimeHandle += TimeHandle;
             mw.Save?.ALLEvent.Add(this);
         }
+        public Event(IMainWindow mw, string name, params ISub[] setting) : base(new Line(name, "", "", setting))
+        {
+            if (mw == null)
+                return;
+            mw.Dispatcher.Invoke(new Action(() =>
+            {
+                //如果是日历,则一开始就进侧边栏
+                if (Visible == VisibleType.Calendar)
+                    VisibleMCTag = mw.CreateCALTag(this);
+                else if (Visible == VisibleType.Message && Name == "gevent")//如果是游戏存档,也可以进侧边栏
+                    VisibleMCTag = mw.CreateMSGTag(this);
+            }));
+            //mw.TimeHandle += TimeHandle;
+            mw.Save?.ALLEvent.Add(this);
+        }
+        public Event(IMainWindow mw, string name) : base(new Line(name, ""))
+        {
+            if (mw == null)
+                return;
+            mw.Dispatcher.Invoke(new Action(() =>
+            {
+                //如果是日历,则一开始就进侧边栏
+                if (Visible == VisibleType.Calendar)
+                    VisibleMCTag = mw.CreateCALTag(this);
+                else if (Visible == VisibleType.Message && Name == "gevent")//如果是游戏存档,也可以进侧边栏
+                    VisibleMCTag = mw.CreateMSGTag(this);
+            }));
+            //mw.TimeHandle += TimeHandle;
+            mw.Save?.ALLEvent.Add(this);
+        }
+        /// <summary>
+        /// 初始化一个新的事件基础类实例
+        /// </summary>
+        /// <param name="name">事件的名称</param>
+        /// <param name="type">事件类型，默认为none</param>
+        /// <param name="visible">事件的可见性类型，默认为None</param>
+        /// <param name="associated">伴生对象数组，默认为null</param>
+        /// <param name="endAssociated">事件结束后伴生对象数组，默认为null</param>
+        /// <param name="visibleMessage">是否在事件发生时显示消息，默认为false</param>
+        /// <param name="visibleMessageIsSingle">如果显示消息，是否只显示一次，默认为false</param>
+        /// <param name="eventInfo">事件信息（标题），默认为""</param>
+        /// <param name="message">显示消息（事件触发后弹窗消息），默认为""</param>
+        /// <param name="intor">事件注释（事件前显示的消息），默认为""</param>
+        /// <param name="periodRandom">是否随机触发，默认为false</param>
+        /// <param name="endTime">事件结束时间，单位小时，默认为0</param>
+        /// <param name="autoTrigger">是否能够从事件库中触发该事件，默认为false</param>
+        /// <param name="mSGType">消息类型，默认为notify</param>
+        /// <param name="mw">主窗口</param>
+        /// <param name="enabled">是否生效</param>
+        /// <param name="endDate">结束日期</param>
+        /// <param name="period">周期触发频率(单位小时)，默认为0</param>
+        /// <param name="startDate">开始日期</param>
+        public Event(IMainWindow mw, string name,
+            string eventInfo = "", EventType type = EventType.none, string message = "", string intor = "",
+            DateTime startDate = default, DateTime endDate = default, bool enabled = true,
+            VisibleType visible = VisibleType.None, Function.MSGType mSGType = Function.MSGType.notify, string[] associated = null, string[] endAssociated = null, bool visibleMessage = false,
+            bool visibleMessageIsSingle = false, int period = 0, bool periodRandom = false, int endTime = 0, bool autoTrigger = false
+            ) : base(name, eventInfo, type, message, intor, visible, mSGType, associated, endAssociated, visibleMessage, visibleMessageIsSingle, period, periodRandom, endTime, autoTrigger)
+        {
+            StartDate = startDate == default ? Function.DateMaxValue : startDate;
+            EndDate = endDate == default ? Function.DateMaxValue : endDate;
+            Enabled = enabled;
+            if (mw == null)
+                return;
+            mw.Dispatcher.Invoke(new Action(() =>
+            {
+                //如果是日历,则一开始就进侧边栏
+                if (Visible == VisibleType.Calendar)
+                    VisibleMCTag = mw.CreateCALTag(this);
+                else if (Visible == VisibleType.Message && Name == "gevent")//如果是游戏存档,也可以进侧边栏
+                    VisibleMCTag = mw.CreateMSGTag(this);
+            }));
+            //mw.TimeHandle += TimeHandle;
+            mw.Save?.ALLEvent.Add(this);
+        }
+
         /// <summary>
         /// 开始日期
         /// </summary>
@@ -610,91 +745,251 @@ namespace VUPSimulator.Interface
         public virtual void HandleAction(TimeSpan ts, IMainWindow mw) { }
 
     }
+
     /// <summary>
-    /// 事件操作浮点值寄存类
+    /// 添加或者减少属性 事件
     /// </summary>
-    public class EventDoubleValue : Event
+    public class EventProperty : Event
     {
-        public EventDoubleValue(IMainWindow mw, ILine line) : base(mw, line)
+        public EventProperty(IMainWindow mw, ILine line) : base(mw, line)
         {
 
         }
         /// <summary>
-        /// 值
+        /// 初始化一个新的 添加或者减少属性 事件
         /// </summary>
-        public double Value
+        /// <param name="name">事件的名称</param>
+        /// <param name="type">事件类型，默认为none</param>
+        /// <param name="visible">事件的可见性类型，默认为None</param>
+        /// <param name="associated">伴生对象数组，默认为null</param>
+        /// <param name="endAssociated">事件结束后伴生对象数组，默认为null</param>
+        /// <param name="visibleMessage">是否在事件发生时显示消息，默认为false</param>
+        /// <param name="visibleMessageIsSingle">如果显示消息，是否只显示一次，默认为false</param>
+        /// <param name="eventInfo">事件信息（标题），默认为""</param>
+        /// <param name="message">显示消息（事件触发后弹窗消息），默认为""</param>
+        /// <param name="intor">事件注释（事件前显示的消息），默认为""</param>
+        /// <param name="periodRandom">是否随机触发，默认为false</param>
+        /// <param name="endTime">事件结束时间，单位小时，默认为0</param>
+        /// <param name="autoTrigger">是否能够从事件库中触发该事件，默认为false</param>
+        /// <param name="mSGType">消息类型，默认为notify</param>
+        /// <param name="mw">主窗口</param>
+        /// <param name="enabled">是否生效</param>
+        /// <param name="endDate">结束日期</param>
+        /// <param name="startDate">开始日期</param>
+        /// <param name="health">健康</param>
+        /// <param name="money">金钱</param>
+        /// <param name="notifyText">通知文本</param>
+        /// <param name="pclip">剪辑</param>
+        /// <param name="pdraw">绘画</param>
+        /// <param name="pgame">游戏</param>
+        /// <param name="pidear">思维</param>
+        /// <param name="pimage">修图</param>
+        /// <param name="poperate">运营</param>
+        /// <param name="pprogram">程序</param>
+        /// <param name="psong">声乐</param>
+        /// <param name="pspeak">口才</param>
+        /// <param name="strength">精力</param>
+        /// <param name="strengthFood">食物</param>
+        /// <param name="period">周期触发频率(单位小时)，默认为0</param>
+        /// <param name="strengthSleep">睡眠</param>
+        public EventProperty(IMainWindow mw, string name, string eventInfo = "", EventType type = EventType.none, string message = "", string intor = "",
+            double money = 0, double health = 0, double strength = 0, double strengthSleep = 0, double strengthFood = 0,
+            string notifyText = null, double pidear = 0, double pspeak = 0, double poperate = 0, double pimage = 0, double pclip = 0, double pdraw = 0,
+            double pprogram = 0, double pgame = 0, double psong = 0, bool visibleMessageIsSingle = false, int period = 0, bool periodRandom = false, int endTime = 0, bool autoTrigger = false,
+            DateTime startDate = default, DateTime endDate = default, bool enabled = true,
+            VisibleType visible = VisibleType.None, Function.MSGType mSGType = Function.MSGType.notify, string[] associated = null, string[] endAssociated = null, bool visibleMessage = false
+           ) : base(mw, name, eventInfo, type, message, intor, startDate, endDate, enabled, visible, mSGType, associated, endAssociated, visibleMessage, visibleMessageIsSingle, period, periodRandom, endTime, autoTrigger)
         {
-            get => Find("value").InfoToDouble;
-            set => Find("value").InfoToDouble = value;
+            Money = money;
+            Health = health;
+            Strength = strength;
+            StrengthSleep = strengthSleep;
+            StrengthFood = strengthFood;
+            if (notifyText != null)
+                NotifyText = notifyText;
+            Pidear = pidear;
+            Pspeak = pspeak;
+            Poperate = poperate;
+            Pimage = pimage;
+            Pclip = pclip;
+            Pdraw = pdraw;
+            Pprogram = pprogram;
+            Pgame = pgame;
+            Psong = psong;
         }
-    }
-    /// <summary>
-    /// 事件操作int值寄存类
-    /// </summary>
-    public class EventIntValue : Event
-    {
-        public EventIntValue(IMainWindow mw, ILine line) : base(mw, line)
-        {
 
+        public override string ToIntor
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder(base.ToIntor);
+                if (Money != 0)
+                    sb.Append('\n').Append("金钱".Translate()).Append(':').Append(Money >= 0 ? "+" : "").Append(Money);
+                if (Health != 0)
+                    sb.Append('\n').Append("健康".Translate()).Append(':').Append(Health >= 0 ? "+" : "").Append(Health);
+                if (Strength != 0)
+                    sb.Append('\n').Append("饱腹".Translate()).Append(':').Append(Strength >= 0 ? "+" : "").Append(Strength);
+                if (StrengthSleep != 0)
+                    sb.Append('\n').Append("睡眠".Translate()).Append(':').Append(StrengthSleep >= 0 ? "+" : "").Append(StrengthSleep);
+                if (StrengthFood != 0)
+                    sb.Append('\n').Append("食物".Translate()).Append(':').Append(StrengthFood >= 0 ? "+" : "").Append(StrengthFood);
+                if (Pidear != 0)
+                    sb.Append('\n').Append("思维".Translate()).Append(':').Append(Pidear >= 0 ? "+" : "").Append(Pidear);
+                if (Pspeak != 0)
+                    sb.Append('\n').Append("口才".Translate()).Append(':').Append(Pspeak >= 0 ? "+" : "").Append(Pspeak);
+                if (Poperate != 0)
+                    sb.Append('\n').Append("运营".Translate()).Append(':').Append(Poperate >= 0 ? "+" : "").Append(Poperate);
+                if (Pimage != 0)
+                    sb.Append('\n').Append("修图".Translate()).Append(':').Append(Pimage >= 0 ? "+" : "").Append(Pimage);
+                if (Pclip != 0)
+                    sb.Append('\n').Append("剪辑".Translate()).Append(':').Append(Pclip >= 0 ? "+" : "").Append(Pclip);
+                if (Pdraw != 0)
+                    sb.Append('\n').Append("绘画".Translate()).Append(':').Append(Pdraw >= 0 ? "+" : "").Append(Pdraw);
+                if (Pprogram != 0)
+                    sb.Append('\n').Append("程序".Translate()).Append(':').Append(Pprogram >= 0 ? "+" : "").Append(Pprogram);
+                if (Pgame != 0)
+                    sb.Append('\n').Append("游戏".Translate()).Append(':').Append(Pgame >= 0 ? "+" : "").Append(Pgame);
+                if (Psong != 0)
+                    sb.Append('\n').Append("声乐".Translate()).Append(':').Append(Psong >= 0 ? "+" : "").Append(Psong);
+
+                return sb.ToString();
+            }
         }
         /// <summary>
-        /// 值
+        /// 资金
         /// </summary>
-        public int Value
+        public double Money
         {
-            get => Find("value").InfoToInt;
-            set => Find("value").InfoToInt = value;
+            get => this[(gdbe)"money"];
+            set => this[(gdbe)"money"] = value;
         }
-    }
-    /// <summary>
-    /// 添加或者减少钱 事件
-    /// </summary>
-    public class EventMoney : EventDoubleValue
-    {
-        public EventMoney(IMainWindow mw, ILine line) : base(mw, line)
-        {
+        /// <summary>
+        /// 健康
+        /// </summary>
+        public double Health { get => this[(gdbe)"health"]; set => this[(gdbe)"health"] = value; }
+        /// <summary>
+        /// 精力
+        /// </summary>
+        public double Strength { get => this[(gdbe)"strength"]; set => this[(gdbe)"strength"] = value; }
+        /// <summary>
+        /// 精力:睡眠程度
+        /// </summary>
+        public double StrengthSleep { get => this[(gdbe)"strengthsleep"]; set => this[(gdbe)"strengthsleep"] = value; }
+        /// <summary>
+        /// 精力:食物
+        /// </summary>
+        public double StrengthFood { get => this[(gdbe)"strengthfood"]; set => this[(gdbe)"strengthfood"] = value; }
+        /// <summary>
+        /// 属性: 思维
+        /// </summary>
+        public double Pidear { get => this[(gdbe)"pidear"]; set => this[(gdbe)"pidear"] = value; }
+        /// <summary>
+        /// 属性: 口才
+        /// </summary>
+        public double Pspeak { get => this[(gdbe)"pspeak"]; set => this[(gdbe)"pspeak"] = value; }
+        /// <summary>
+        /// 属性: 运营
+        /// </summary>
+        public double Poperate { get => this[(gdbe)"poperate"]; set => this[(gdbe)"poperate"] = value; }
+        /// <summary>
+        /// 属性: 修图
+        /// </summary>
+        public double Pimage { get => this[(gdbe)"pimage"]; set => this[(gdbe)"pimage"] = value; }
+        /// <summary>
+        /// 属性: 剪辑
+        /// </summary>
+        public double Pclip { get => this[(gdbe)"pclip"]; set => this[(gdbe)"pclip"] = value; }
+        /// <summary>
+        /// 属性: 绘画
+        /// </summary>
+        public double Pdraw { get => this[(gdbe)"pdraw"]; set => this[(gdbe)"pdraw"] = value; }
+        /// <summary>
+        /// 属性: 程序
+        /// </summary>
+        public double Pprogram { get => this[(gdbe)"pprogram"]; set => this[(gdbe)"pprogram"] = value; }
+        /// <summary>
+        /// 属性: 游戏
+        /// </summary>
+        public double Pgame { get => this[(gdbe)"pgame"]; set => this[(gdbe)"pgame"] = value; }
+        /// <summary>
+        /// 属性: 声乐
+        /// </summary>
+        public double Psong { get => this[(gdbe)"psong"]; set => this[(gdbe)"psong"] = value; }
 
+        public string NotifyText
+        {
+            get => this.GetString("notifytext", "由事件{0}发起".Translate(EventName));
+            set => this[(gstr)"notifytext"] = value;
         }
-        public override string ToIntor => base.ToIntor + '\n' + "金钱".Translate() + ':' + (Value >= 0 ? "+" : "") + Value;
 
         public override void HandleAction(TimeSpan ts, IMainWindow mw)
         {
-            mw.Save.Base.Money += Value;
+            mw.Save.Base.Money += Money;
+            mw.Save.Base.Health += Health;
+            if (Strength < 0)
+            {
+                mw.Save.StrengthRemove(Strength, 1, NotifyText);
+            }
+            else
+            {
+                mw.Save.Base.StrengthSleep += Strength;
+                mw.Save.Base.StrengthFood += Strength;
+            }
+            mw.Save.Base.StrengthSleep += StrengthSleep;
+            mw.Save.Base.StrengthFood += StrengthFood;
+
+            mw.Save.Base.Pidear += Pidear;
+            mw.Save.Base.Pspeak += Pspeak;
+            mw.Save.Base.Poperate += Poperate;
+            mw.Save.Base.Pimage += Pimage;
+            mw.Save.Base.Pclip += Pclip;
+            mw.Save.Base.Pdraw += Pdraw;
+            mw.Save.Base.Pprogram += Pprogram;
+            mw.Save.Base.Pgame += Pgame;
+            mw.Save.Base.Psong += Psong;
         }
     }
-    /// <summary>
-    /// 操作健康 事件
-    /// </summary>
-    public class EventHealth : EventDoubleValue
-    {
-        public EventHealth(IMainWindow mw, ILine line) : base(mw, line)
-        {
 
+    /// <summary>
+    /// 时间跳过时间
+    /// </summary>
+    public class EventTimePass : Event
+    {
+        public EventTimePass(IMainWindow mw, ILine line) : base(mw, line) { }
+        /// <summary>
+        /// 初始化一个新的 时间跳过 事件
+        /// </summary>
+        /// <param name="name">事件的名称</param>
+        /// <param name="type">事件类型，默认为none</param>
+        /// <param name="visible">事件的可见性类型，默认为None</param>
+        /// <param name="associated">伴生对象数组，默认为null</param>
+        /// <param name="endAssociated">事件结束后伴生对象数组，默认为null</param>
+        /// <param name="visibleMessage">是否在事件发生时显示消息，默认为false</param>
+        /// <param name="visibleMessageIsSingle">如果显示消息，是否只显示一次，默认为false</param>
+        /// <param name="eventInfo">事件信息（标题），默认为""</param>
+        /// <param name="message">显示消息（事件触发后弹窗消息），默认为""</param>
+        /// <param name="intor">事件注释（事件前显示的消息），默认为""</param>
+        /// <param name="periodRandom">是否随机触发，默认为false</param>
+        /// <param name="endTime">事件结束时间，单位小时，默认为0</param>
+        /// <param name="autoTrigger">是否能够从事件库中触发该事件，默认为false</param>
+        /// <param name="mSGType">消息类型，默认为notify</param>
+        /// <param name="mw">主窗口</param>
+        /// <param name="enabled">是否生效</param>
+        /// <param name="endDate">结束日期</param>
+        /// <param name="startDate">开始日期</param>
+        /// <param name="time">时间</param>
+        public EventTimePass(IMainWindow mw, string name, TimeSpan time, string eventInfo = "", EventType type = EventType.none, string message = "", string intor = "",
+           bool visibleMessageIsSingle = false, int period = 0, bool periodRandom = false, int endTime = 0, bool autoTrigger = false,
+           DateTime startDate = default, DateTime endDate = default, bool enabled = true,
+           VisibleType visible = VisibleType.None, Function.MSGType mSGType = Function.MSGType.notify, string[] associated = null, string[] endAssociated = null, bool visibleMessage = false
+            ) : base(mw, name, eventInfo, type, message, intor, startDate, endDate, enabled, visible, mSGType, associated, endAssociated, visibleMessage, visibleMessageIsSingle, period, periodRandom, endTime, autoTrigger)
+        {
+            Time = time;
         }
-        public override string ToIntor => base.ToIntor + '\n' + "健康".Translate() + ':' + (Value >= 0 ? "+" : "") + Value;
         public override void HandleAction(TimeSpan ts, IMainWindow mw)
         {
-            mw.Save.Base.Health += Value;
+            mw.Save.Base.Now.Add(Time);
         }
-    }
-    /// <summary>
-    /// 
-    /// </summary>
-    public class EventStrength : EventDoubleValue
-    {
-        public EventStrength(IMainWindow mw, ILine line) : base(mw, line) { }
-        public override string ToIntor => base.ToIntor + '\n' + "饱腹".Translate() + ':' + (Value >= 0 ? "+" : "") + Value;
-
-        public override void HandleAction(TimeSpan ts, IMainWindow mw)
-        {
-            mw.Save.StrengthRemove(-Value, GetDouble("duration", 1), GetString("reason", "由事件发起".Translate()));
-        }
-    }
-
-    public class EventTime : Event
-    {
-        public EventTime(IMainWindow mw, ILine line) : base(mw, line) { }
-
         public TimeSpan Time
         {
             get => new TimeSpan(this[(gint)"d"], this[(gint)"h"], this[(gint)"m"], 0);
@@ -706,14 +1001,6 @@ namespace VUPSimulator.Interface
             }
         }
     }
-    public class EventTimePass : EventTime
-    {
-        public EventTimePass(IMainWindow mw, ILine line) : base(mw, line) { }
-        public override void HandleAction(TimeSpan ts, IMainWindow mw)
-        {
-            mw.Save.Base.Now.Add(Time);
-        }
-    }
 
     public class EventXName : Event
     {
@@ -722,13 +1009,78 @@ namespace VUPSimulator.Interface
 
         }
         /// <summary>
+        /// 初始化一个新的 时间跳过 事件
+        /// </summary>
+        /// <param name="name">事件的名称</param>
+        /// <param name="type">事件类型，默认为none</param>
+        /// <param name="visible">事件的可见性类型，默认为None</param>
+        /// <param name="associated">伴生对象数组，默认为null</param>
+        /// <param name="endAssociated">事件结束后伴生对象数组，默认为null</param>
+        /// <param name="visibleMessage">是否在事件发生时显示消息，默认为false</param>
+        /// <param name="visibleMessageIsSingle">如果显示消息，是否只显示一次，默认为false</param>
+        /// <param name="eventInfo">事件信息（标题），默认为""</param>
+        /// <param name="message">显示消息（事件触发后弹窗消息），默认为""</param>
+        /// <param name="intor">事件注释（事件前显示的消息），默认为""</param>
+        /// <param name="periodRandom">是否随机触发，默认为false</param>
+        /// <param name="endTime">事件结束时间，单位小时，默认为0</param>
+        /// <param name="autoTrigger">是否能够从事件库中触发该事件，默认为false</param>
+        /// <param name="mSGType">消息类型，默认为notify</param>
+        /// <param name="mw">主窗口</param>
+        /// <param name="enabled">是否生效</param>
+        /// <param name="endDate">结束日期</param>
+        /// <param name="startDate">开始日期</param>
+        /// <param name="xname">事件操作名称, 指定要操作的事件</param>
+        public EventXName(IMainWindow mw, string name, string xname, string eventInfo = "", EventType type = EventType.none, string message = "", string intor = "",
+            DateTime startDate = default, DateTime endDate = default, bool enabled = true,
+            VisibleType visible = VisibleType.None, Function.MSGType mSGType = Function.MSGType.notify, string[] associated = null, string[] endAssociated = null, bool visibleMessage = false,
+            bool visibleMessageIsSingle = false, int period = 0, bool periodRandom = false, int endTime = 0, bool autoTrigger = false
+            ) : base(mw, name, eventInfo, type, message, intor, startDate, endDate, enabled, visible, mSGType, associated, endAssociated, visibleMessage, visibleMessageIsSingle, period, periodRandom, endTime, autoTrigger)
+        {
+            XName = xname;
+        }
+        /// <summary>
         /// 事件操作名称, 指定要操作的事件
         /// </summary>
-        public string XName => Find("xname").Info;
+        public string XName
+        {
+            get => this.GetString("xname", "");
+            set => this[(gstr)"xname"] = value;
+        }
     }
+    /// <summary>
+    /// 销毁指定的事件
+    /// </summary>
     public class EventXNameDisposed : EventXName
     {
         public EventXNameDisposed(IMainWindow mw, ILine line) : base(mw, line) { }
+        /// <summary>
+        /// 初始化一个新的 销毁指定的事件
+        /// </summary>
+        /// <param name="name">事件的名称</param>
+        /// <param name="type">事件类型，默认为none</param>
+        /// <param name="visible">事件的可见性类型，默认为None</param>
+        /// <param name="associated">伴生对象数组，默认为null</param>
+        /// <param name="endAssociated">事件结束后伴生对象数组，默认为null</param>
+        /// <param name="visibleMessage">是否在事件发生时显示消息，默认为false</param>
+        /// <param name="visibleMessageIsSingle">如果显示消息，是否只显示一次，默认为false</param>
+        /// <param name="eventInfo">事件信息（标题），默认为""</param>
+        /// <param name="message">显示消息（事件触发后弹窗消息），默认为""</param>
+        /// <param name="intor">事件注释（事件前显示的消息），默认为""</param>
+        /// <param name="periodRandom">是否随机触发，默认为false</param>
+        /// <param name="endTime">事件结束时间，单位小时，默认为0</param>
+        /// <param name="autoTrigger">是否能够从事件库中触发该事件，默认为false</param>
+        /// <param name="mSGType">消息类型，默认为notify</param>
+        /// <param name="mw">主窗口</param>
+        /// <param name="enabled">是否生效</param>
+        /// <param name="endDate">结束日期</param>
+        /// <param name="startDate">开始日期</param>
+        /// <param name="xname">事件操作名称, 指定要操作的事件</param>
+        public EventXNameDisposed(IMainWindow mw, string name, string xname, string eventInfo = "", EventType type = EventType.none, string message = "", string intor = "",
+             bool visibleMessageIsSingle = false, int period = 0, bool periodRandom = false, int endTime = 0, bool autoTrigger = false,
+           DateTime startDate = default, DateTime endDate = default, bool enabled = true,
+           VisibleType visible = VisibleType.None, Function.MSGType mSGType = Function.MSGType.notify, string[] associated = null, string[] endAssociated = null, bool visibleMessage = false
+            ) : base(mw, name, xname, eventInfo, type, message, intor, startDate, endDate, enabled, visible, mSGType, associated, endAssociated, visibleMessage, visibleMessageIsSingle, period, periodRandom, endTime, autoTrigger)
+        { }
         public override void HandleAction(TimeSpan ts, IMainWindow mw)
         {
             string xname = XName;
@@ -736,8 +1088,39 @@ namespace VUPSimulator.Interface
                 ev.Disposed(mw);
         }
     }
+    /// <summary>
+    /// 关闭指定的事件
+    /// </summary>
     public class EventXNameDisenable : EventXName
     {
+        /// <summary>
+        /// 初始化一个新的 关闭指定的事件
+        /// </summary>
+        /// <param name="name">事件的名称</param>
+        /// <param name="type">事件类型，默认为none</param>
+        /// <param name="visible">事件的可见性类型，默认为None</param>
+        /// <param name="associated">伴生对象数组，默认为null</param>
+        /// <param name="endAssociated">事件结束后伴生对象数组，默认为null</param>
+        /// <param name="visibleMessage">是否在事件发生时显示消息，默认为false</param>
+        /// <param name="visibleMessageIsSingle">如果显示消息，是否只显示一次，默认为false</param>
+        /// <param name="eventInfo">事件信息（标题），默认为""</param>
+        /// <param name="message">显示消息（事件触发后弹窗消息），默认为""</param>
+        /// <param name="intor">事件注释（事件前显示的消息），默认为""</param>
+        /// <param name="periodRandom">是否随机触发，默认为false</param>
+        /// <param name="endTime">事件结束时间，单位小时，默认为0</param>
+        /// <param name="autoTrigger">是否能够从事件库中触发该事件，默认为false</param>
+        /// <param name="mSGType">消息类型，默认为notify</param>
+        /// <param name="mw">主窗口</param>
+        /// <param name="enabled">是否生效</param>
+        /// <param name="endDate">结束日期</param>
+        /// <param name="startDate">开始日期</param>
+        /// <param name="xname">事件操作名称, 指定要操作的事件</param>
+        public EventXNameDisenable(IMainWindow mw, string name, string xname, string eventInfo = "", EventType type = EventType.none, string message = "", string intor = "",
+             bool visibleMessageIsSingle = false, int period = 0, bool periodRandom = false, int endTime = 0, bool autoTrigger = false,
+           DateTime startDate = default, DateTime endDate = default, bool enabled = true,
+           VisibleType visible = VisibleType.None, Function.MSGType mSGType = Function.MSGType.notify, string[] associated = null, string[] endAssociated = null, bool visibleMessage = false
+            ) : base(mw, name, xname, eventInfo, type, message, intor, startDate, endDate, enabled, visible, mSGType, associated, endAssociated, visibleMessage, visibleMessageIsSingle, period, periodRandom, endTime, autoTrigger)
+        { }
         public EventXNameDisenable(IMainWindow mw, ILine line) : base(mw, line) { }
         public override void HandleAction(TimeSpan ts, IMainWindow mw)
         {
@@ -746,8 +1129,39 @@ namespace VUPSimulator.Interface
                 ev.Enabled = false;
         }
     }
+    /// <summary>
+    /// 启用指定的事件
+    /// </summary>
     public class EventXNameEnable : EventXName
     {
+        /// <summary>
+        /// 初始化一个新的 启用指定的事件
+        /// </summary>
+        /// <param name="name">事件的名称</param>
+        /// <param name="type">事件类型，默认为none</param>
+        /// <param name="visible">事件的可见性类型，默认为None</param>
+        /// <param name="associated">伴生对象数组，默认为null</param>
+        /// <param name="endAssociated">事件结束后伴生对象数组，默认为null</param>
+        /// <param name="visibleMessage">是否在事件发生时显示消息，默认为false</param>
+        /// <param name="visibleMessageIsSingle">如果显示消息，是否只显示一次，默认为false</param>
+        /// <param name="eventInfo">事件信息（标题），默认为""</param>
+        /// <param name="message">显示消息（事件触发后弹窗消息），默认为""</param>
+        /// <param name="intor">事件注释（事件前显示的消息），默认为""</param>
+        /// <param name="periodRandom">是否随机触发，默认为false</param>
+        /// <param name="endTime">事件结束时间，单位小时，默认为0</param>
+        /// <param name="autoTrigger">是否能够从事件库中触发该事件，默认为false</param>
+        /// <param name="mSGType">消息类型，默认为notify</param>
+        /// <param name="mw">主窗口</param>
+        /// <param name="enabled">是否生效</param>
+        /// <param name="endDate">结束日期</param>
+        /// <param name="startDate">开始日期</param>
+        /// <param name="xname">事件操作名称, 指定要操作的事件</param>
+        public EventXNameEnable(IMainWindow mw, string name, string xname, string eventInfo = "", EventType type = EventType.none, string message = "", string intor = "",
+             bool visibleMessageIsSingle = false, int period = 0, bool periodRandom = false, int endTime = 0, bool autoTrigger = false,
+           DateTime startDate = default, DateTime endDate = default, bool enabled = true,
+           VisibleType visible = VisibleType.None, Function.MSGType mSGType = Function.MSGType.notify, string[] associated = null, string[] endAssociated = null, bool visibleMessage = false
+            ) : base(mw, name, xname, eventInfo, type, message, intor, startDate, endDate, enabled, visible, mSGType, associated, endAssociated, visibleMessage, visibleMessageIsSingle, period, periodRandom, endTime, autoTrigger)
+        { }
         public EventXNameEnable(IMainWindow mw, ILine line) : base(mw, line) { }
         public override void HandleAction(TimeSpan ts, IMainWindow mw)
         {
@@ -756,8 +1170,39 @@ namespace VUPSimulator.Interface
                 ev.Enabled = true;
         }
     }
+    /// <summary>
+    /// 强制执行指定的事件
+    /// </summary>
     public class EventXNameFource : EventXName
     {
+        /// <summary>
+        /// 初始化一个新的 强制执行指定的事件
+        /// </summary>
+        /// <param name="name">事件的名称</param>
+        /// <param name="type">事件类型，默认为none</param>
+        /// <param name="visible">事件的可见性类型，默认为None</param>
+        /// <param name="associated">伴生对象数组，默认为null</param>
+        /// <param name="endAssociated">事件结束后伴生对象数组，默认为null</param>
+        /// <param name="visibleMessage">是否在事件发生时显示消息，默认为false</param>
+        /// <param name="visibleMessageIsSingle">如果显示消息，是否只显示一次，默认为false</param>
+        /// <param name="eventInfo">事件信息（标题），默认为""</param>
+        /// <param name="message">显示消息（事件触发后弹窗消息），默认为""</param>
+        /// <param name="intor">事件注释（事件前显示的消息），默认为""</param>
+        /// <param name="periodRandom">是否随机触发，默认为false</param>
+        /// <param name="endTime">事件结束时间，单位小时，默认为0</param>
+        /// <param name="autoTrigger">是否能够从事件库中触发该事件，默认为false</param>
+        /// <param name="mSGType">消息类型，默认为notify</param>
+        /// <param name="mw">主窗口</param>
+        /// <param name="enabled">是否生效</param>
+        /// <param name="endDate">结束日期</param>
+        /// <param name="startDate">开始日期</param>
+        /// <param name="xname">事件操作名称, 指定要操作的事件</param>
+        public EventXNameFource(IMainWindow mw, string name, string xname, string eventInfo = "", EventType type = EventType.none, string message = "", string intor = "",
+             bool visibleMessageIsSingle = false, int period = 0, bool periodRandom = false, int endTime = 0, bool autoTrigger = false,
+           DateTime startDate = default, DateTime endDate = default, bool enabled = true,
+           VisibleType visible = VisibleType.None, Function.MSGType mSGType = Function.MSGType.notify, string[] associated = null, string[] endAssociated = null, bool visibleMessage = false
+            ) : base(mw, name, xname, eventInfo, type, message, intor, startDate, endDate, enabled, visible, mSGType, associated, endAssociated, visibleMessage, visibleMessageIsSingle, period, periodRandom, endTime, autoTrigger)
+        { }
         public EventXNameFource(IMainWindow mw, ILine line) : base(mw, line) { }
         public override void HandleAction(TimeSpan ts, IMainWindow mw)
         {
@@ -766,8 +1211,39 @@ namespace VUPSimulator.Interface
                 ev.TimeHandle(ts, mw);
         }
     }
+    /// <summary>
+    /// 开始指定的事件
+    /// </summary>
     public class EventXNameStart : EventXName
     {
+        /// <summary>
+        /// 初始化一个新的 开始指定的事件
+        /// </summary>
+        /// <param name="name">事件的名称</param>
+        /// <param name="type">事件类型，默认为none</param>
+        /// <param name="visible">事件的可见性类型，默认为None</param>
+        /// <param name="associated">伴生对象数组，默认为null</param>
+        /// <param name="endAssociated">事件结束后伴生对象数组，默认为null</param>
+        /// <param name="visibleMessage">是否在事件发生时显示消息，默认为false</param>
+        /// <param name="visibleMessageIsSingle">如果显示消息，是否只显示一次，默认为false</param>
+        /// <param name="eventInfo">事件信息（标题），默认为""</param>
+        /// <param name="message">显示消息（事件触发后弹窗消息），默认为""</param>
+        /// <param name="intor">事件注释（事件前显示的消息），默认为""</param>
+        /// <param name="periodRandom">是否随机触发，默认为false</param>
+        /// <param name="endTime">事件结束时间，单位小时，默认为0</param>
+        /// <param name="autoTrigger">是否能够从事件库中触发该事件，默认为false</param>
+        /// <param name="mSGType">消息类型，默认为notify</param>
+        /// <param name="mw">主窗口</param>
+        /// <param name="enabled">是否生效</param>
+        /// <param name="endDate">结束日期</param>
+        /// <param name="startDate">开始日期</param>
+        /// <param name="xname">事件操作名称, 指定要操作的事件</param>
+        public EventXNameStart(IMainWindow mw, string name, string xname, string eventInfo = "", EventType type = EventType.none, string message = "", string intor = "",
+             bool visibleMessageIsSingle = false, int period = 0, bool periodRandom = false, int endTime = 0, bool autoTrigger = false,
+           DateTime startDate = default, DateTime endDate = default, bool enabled = true,
+           VisibleType visible = VisibleType.None, Function.MSGType mSGType = Function.MSGType.notify, string[] associated = null, string[] endAssociated = null, bool visibleMessage = false
+            ) : base(mw, name, xname, eventInfo, type, message, intor, startDate, endDate, enabled, visible, mSGType, associated, endAssociated, visibleMessage, visibleMessageIsSingle, period, periodRandom, endTime, autoTrigger)
+        { }
         public EventXNameStart(IMainWindow mw, ILine line) : base(mw, line) { }
         public bool Fource
         {
@@ -787,7 +1263,7 @@ namespace VUPSimulator.Interface
         }
     }
     /// <summary>
-    /// 显示CG的event
+    /// 显示CG的事件
     /// </summary>
     public class EventCG : Event
     {
@@ -801,7 +1277,7 @@ namespace VUPSimulator.Interface
         public string CG
         {
             get => Find("cg").Info;
-            set => Find("cg").Info = value;
+            set => FindorAdd("cg").Info = value;
         }
         /// <summary>
         /// CG 显示大小 如果为0 则为AUTO (尽量最大化)

@@ -186,7 +186,7 @@ namespace VUPSimulator.Interface
                 {
                     if (betterBuyItem == null)
                     {
-                        Item_Salability v = mw.Core.Items_Salability.FirstOrDefault(x => x.Name == SalabilityItemName);
+                        Item_Salability v = mw.Core.Items_Salability.FirstOrDefault(x => x.ItemName == SalabilityItemName);
                         if (v != null)
                             _betterBuyItem = new Item_Salability.BetterBuyItem(v, mw.Save.UIData.BetterBuy, mw);
                     }

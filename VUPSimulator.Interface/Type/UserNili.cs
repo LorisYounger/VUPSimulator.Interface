@@ -309,24 +309,24 @@ namespace VUPSimulator.Interface
         /// </summary>
         public double IncomeTotal
         {
-            get => FindorAdd("incometotal").GetFloat();
-            set => FindorAdd("incometotal").SetFloat(value);
+            get => GetFloat("incometotal", 0);
+            set => SetFloat("incometotal", value);
         }
         /// <summary>
         /// 月度收入
         /// </summary>
         public double IncomeMonth
         {
-            get => FindorAdd("incomemonth").GetFloat();
-            set => FindorAdd("incomemonth").SetFloat(value);
+            get => GetFloat("incomemonth", 0);
+            set => SetFloat("incomemonth", value);
         }
         /// <summary>
         /// 未提取收入
         /// </summary>
         public double IncomeNoOut
         {
-            get => FindorAdd("incomenoout").GetFloat();
-            set => FindorAdd("incomenoout").SetFloat(value);
+            get => GetFloat("incomenoout", 0);
+            set => SetFloat("incomenoout", value);
         }
     }
 }

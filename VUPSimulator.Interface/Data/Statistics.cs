@@ -112,7 +112,7 @@ namespace VUPSimulator.Interface
 
         public void SetInt64(string subName, long value) => Set(subName, value);
 
-        public FInt64 GetFloat(string subName, FInt64 defaultvalue = default) => Find(subName)?.GetFloat() ?? defaultvalue;
+        public FInt64 GetFloat(string subName, FInt64 defaultvalue = default) => GetFloat(subName, defaultvalue);
 
         public void SetFloat(string subName, FInt64 value) => Set(subName, new SetObject(value));
 

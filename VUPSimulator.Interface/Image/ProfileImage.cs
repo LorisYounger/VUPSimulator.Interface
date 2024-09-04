@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LinePutScript;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -55,7 +56,7 @@ namespace VUPSimulator.Interface
             foreach (int i in new int[] { 0, 2 })
                 if ((hash / (100 + i)) % 5 == 0)
                     imgs[i] = null;
-            
+
 
             //计算人物色系
             float H = (hash) % 360;
@@ -96,8 +97,7 @@ namespace VUPSimulator.Interface
             cache.Add(hash, bitmapImage);
             return bitmapImage;
         }
-        public BitmapImage GetRndImage(string name) => GetRndImage(name.GetHashCode());
-
+        public BitmapImage GetRndImage(string name) => GetRndImage((int)Sub.GetHashCode(name));
 
         /// <summary>
         /// HSB颜色值转颜色

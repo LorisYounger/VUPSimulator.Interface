@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -546,14 +547,6 @@ namespace VUPSimulator.Interface
             return "F";
         }
 
-        /// <summary>
-        /// 获取String的hashcode
-        /// </summary>
-        /// <param name="text">String</param>
-        /// <returns>HashCode</returns>
-        public static string GetHashCode(string text)
-            => Sub.GetHashCode(text).ToString("x16");
-
 
         //  操作指令
         //caladd#int_var,1:| 添加1至int_ver
@@ -813,6 +806,30 @@ namespace VUPSimulator.Interface
             /// 支持任意大小修改
             /// </summary>
             AllowBoth
+        }
+
+        /// <summary>
+        /// 启动URL
+        /// </summary>
+        public static void StartURL(string url)
+        {
+            try
+            {
+                var psi = new ProcessStartInfo
+                {
+                    FileName = url,
+                    UseShellExecute = true
+                };
+                Process.Start(psi);
+            }
+            catch
+            {
+                ProcessStartInfo startInfo = new ProcessStartInfo();
+                startInfo.FileName = "explorer.exe";
+                startInfo.UseShellExecute = false;
+                startInfo.Arguments = url;
+                Process.Start(startInfo);
+            }
         }
     }
 

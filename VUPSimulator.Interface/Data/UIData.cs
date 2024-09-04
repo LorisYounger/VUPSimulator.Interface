@@ -119,7 +119,7 @@ namespace VUPSimulator.Interface
                 [Line] public int Quantity { get; set; }
 
                 /// <summary>
-                /// 频次
+                /// 频次(天)
                 /// </summary>
                 public enum BuyFrequency
                 {
@@ -132,6 +132,11 @@ namespace VUPSimulator.Interface
                 /// 购买频率
                 /// </summary>
                 [Line] public BuyFrequency Frequency { get; set; }
+
+                /// <summary>
+                /// 下次购买时间 (当NextBuyTime>Frequency则会自动购买)
+                /// </summary>
+                [Line] public int NextBuyTime { get; set; }
 
                 public int Frequency_id
                 {

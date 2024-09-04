@@ -31,7 +31,7 @@ namespace VUPSimulator.Interface
             /// <summary>
             /// 游戏开局开始日期(日期,不包括时间)
             /// </summary>
-            public DateTime StartGameTime;
+            [Line] public DateTime StartGameTime;
 
             /// <summary>
             /// 上次睡觉时间

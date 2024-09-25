@@ -59,7 +59,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 所有老画师作者
         /// </summary>
-        public List<Author> Authors = new List<Author>();
+        public List<UserOldPainter> Authors = new List<UserOldPainter>();
 
         /// <summary>
         /// 所有评论 

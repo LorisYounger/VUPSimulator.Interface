@@ -1,20 +1,20 @@
 ﻿using LinePutScript;
+using Panuon.WPF;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
-using static VUPSimulator.Interface.Author;
 
 namespace VUPSimulator.Interface
 {
     /// <summary>
-    /// 老画师作者
+    /// 老画师作者 (虽然说是User,但是不是User)
     /// </summary>
-    public class Author
+    public class UserOldPainter : NotifyPropertyChangedBase
     {
-        public Author(LPS lps)
+        public UserOldPainter(LPS lps)
         {
             var line = lps.FindLine("author");
             Name = line.Info;
@@ -94,6 +94,8 @@ namespace VUPSimulator.Interface
                 AuthorData[(gint)"ontime"]++;
             if (isfinish)
                 AuthorData[(gint)"finish"]++;
+
+            NotifyOfPropertyChange("Score");
         }
         private double basescore;
         private int basescorenumber;

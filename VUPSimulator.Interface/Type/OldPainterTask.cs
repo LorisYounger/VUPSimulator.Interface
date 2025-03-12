@@ -76,8 +76,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 评分。
         /// </summary>
-        public double Rate { get => _rate; set => Set(ref _rate, value); }
-        private double _rate;
+        public double Rate => RecruitPainters.Count == 0 ? 5 : RecruitPainters.Average(x => x.Rate);
 
         /// <summary>
         /// 创建时间

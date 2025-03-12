@@ -85,7 +85,15 @@ namespace VUPSimulator.Interface
             /// </summary>
             public class ScheduleBuyItem : NotifyPropertyChangedBase
             {
-                private Item_Salability.BetterBuyItem _betterBuyItem;
+                public ScheduleBuyItem()
+                {
+
+                }
+                public ScheduleBuyItem(BetterBuyItem betterBuyItem)
+                {
+                    this.betterBuyItem = betterBuyItem;
+                    SalabilityItemName = betterBuyItem.Name;
+                }
                 /// <summary>
                 /// 商品
                 /// </summary>
@@ -93,21 +101,13 @@ namespace VUPSimulator.Interface
                 {
                     if (betterBuyItem == null)
                     {
-                        Item_Salability v = mw.Core.Items_Salability.FirstOrDefault(x => x.Name == SalabilityItemName);
+                        Item_Salability v = mw.Core.Items_Salability.FirstOrDefault(x => x.ItemName == SalabilityItemName);
                         if (v != null)
-                            _betterBuyItem = new Item_Salability.BetterBuyItem(v, mw.Save.UIData.BetterBuy, mw);
+                            betterBuyItem = new Item_Salability.BetterBuyItem(v, mw.Save.UIData.BetterBuy, mw);
                     }
                     return betterBuyItem;
                 }
-                public Item_Salability.BetterBuyItem betterBuyItem
-                {
-                    get => _betterBuyItem;
-                    set
-                    {
-                        _betterBuyItem = value;
-                        SalabilityItemName = value.Name;
-                    }
-                }
+                private Item_Salability.BetterBuyItem betterBuyItem;
                 /// <summary>
                 /// 更好买物品
                 /// </summary>

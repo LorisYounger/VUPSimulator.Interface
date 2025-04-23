@@ -71,7 +71,14 @@ namespace VUPSimulator.Interface
         /// </summary>
         /// <param name="mw">主窗体</param>
         /// <param name="line">数据</param>
-        public static Event Create(IMainWindow mw, ILine line) => Create(mw, line, (EventType)Enum.Parse(typeof(EventType), line.info, true));
+        public static Event Create(IMainWindow mw, ILine line)
+        {
+            if (EventType.TryParse(line.info, true, out EventType eventtype))
+            {
+                return Create(mw, line, eventtype);
+            }
+            return Create(mw, line, EventType.none);
+        }
         public enum EventType
         {
             none,//无 看上去啥也没有其实可以用setget进行很多操作

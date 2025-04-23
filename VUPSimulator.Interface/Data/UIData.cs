@@ -341,6 +341,19 @@ namespace VUPSimulator.Interface
             /// 设置: 分辨率质量
             /// </summary>
             [Line] public Video.VideoResolution Resolution = Video.VideoResolution.r1920x1080;
+
+            /// <summary>
+            /// 设置: VUPX轴
+            /// </summary>
+            [Line] public double VUPX = 20;
+            /// <summary>
+            /// 设置: VUPY轴
+            /// </summary>
+            [Line] public double VUPY = 0;
+            /// <summary>
+            /// 设置: VUP高度
+            /// </summary>
+            [Line] public double VUPH = 150;
         }
 
         /// <summary>

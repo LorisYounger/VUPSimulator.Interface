@@ -10,14 +10,14 @@ using System.Windows.Media;
 namespace VUPSimulator.Interface
 {
     /// <summary>
-    /// 老画师作者 (虽然说是User,但是不是User)
+    /// 老画师作者
     /// </summary>
-    public class UserOldPainter : NotifyPropertyChangedBase
+    public class OldPainterAuthor : NotifyPropertyChangedBase
     {
-        public UserOldPainter(LPS lps)
+        public OldPainterAuthor(LPS lps)
         {
             var line = lps.FindLine("author");
-            Name = line.Info;
+            Identy = line.Info;
             basescore = line.GetDouble("score");
             basescorenumber = line.GetInt("scorenumber");
             basefinish = line.GetInt("finish");
@@ -39,10 +39,10 @@ namespace VUPSimulator.Interface
         /// <param name="AuthorDataSet">存档数据 AuthorData</param>
         public void LoadSaveData(List<ILine> AuthorDataSet)
         {
-            var line = AuthorDataSet.Find(x => x.info == Name);
+            var line = AuthorDataSet.Find(x => x.info == Identy);
             if (line == null)
             {
-                AuthorData = new Line("author", Name);
+                AuthorData = new Line("author", Identy);
                 AuthorDataSet.Add(AuthorData);
             }
             else
@@ -58,8 +58,10 @@ namespace VUPSimulator.Interface
         public ImageSource ProfileImageSource(IMainWindow mw) => mw.Core.ImageSources.FindImage("profile_" + ProfileImage);
 
         /// <summary>
-        /// 名字
+        /// 定位id
         /// </summary>
+        public string Identy;
+
         public string Name;
         /// <summary>
         /// 作者介绍
@@ -147,7 +149,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 技能类型
         /// </summary>
-        public enum Type
+        public enum SkillType
         {
             /// <summary>
             /// Live2D立绘
@@ -190,7 +192,7 @@ namespace VUPSimulator.Interface
             /// <summary>
             /// 技能类型
             /// </summary>
-            public Type Type;
+            public SkillType Type;
             /// <summary>
             /// 技能等级(最小值) 0-5/10
             /// </summary>
@@ -226,7 +228,7 @@ namespace VUPSimulator.Interface
             public double SpendTime;
             public Skill(ILine line)
             {
-                Type = (Type)Enum.Parse(typeof(Type), line.info, true);
+                Type = (SkillType)Enum.Parse(typeof(SkillType), line.info, true);
                 LevelMin = line.GetDouble("levelmin");
                 LevelMax = line.GetDouble("levelmax");
                 PriceMin = line.GetDouble("pricemin");
@@ -242,7 +244,7 @@ namespace VUPSimulator.Interface
             /// <summary>
             /// 画作类型
             /// </summary>
-            public Type SkillType;
+            public SkillType SkillType;
             /// <summary>
             /// 画作名字
             /// </summary>
@@ -261,7 +263,7 @@ namespace VUPSimulator.Interface
             public string Intor;
             public Work(ILine line)
             {
-                SkillType = (Type)Enum.Parse(typeof(Type), line.info);
+                SkillType = (SkillType)Enum.Parse(typeof(SkillType), line.info);
                 Name = line.GetString("name");
                 Image = line.GetString("image");
                 Intor = line.Text;

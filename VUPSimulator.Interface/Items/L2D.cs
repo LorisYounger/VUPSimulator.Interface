@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using LinePutScript;
 
 namespace VUPSimulator.Interface
@@ -22,8 +23,8 @@ namespace VUPSimulator.Interface
         //}
         public Item_L2D_base(ILine line) : base(line)
         {
-            //ItemName = line.Name;
-            //Name = "item";
+            //ItemIdentifier = line.Identy;
+            //Identy = "item";
             //info = "l2d_base";//ItemType
         }
         public Item_L2D_base(Item_L2D_base l2dbase) : base(l2dbase)
@@ -32,13 +33,113 @@ namespace VUPSimulator.Interface
         }
 
         /// <summary>
-        /// 表情
+        /// 表情列表
         /// </summary>
-        public string[] Expression => Find("expression").GetInfos();
+        public List<(int expid, ExpressionType exp)> ExpressionList
+        {
+            get
+            {
+                if (expressionList != null) return expressionList;
+                expressionList = new List<(int expid, ExpressionType exp)>();
+                int expid = 0;
+                while (Find($"exp{expid}") != null)
+                {
+                    var exp = (expid, (ExpressionType)Find($"exp{expid}").InfoToInt);
+                    if (exp.Item2 != ExpressionType.none)
+                    {
+                        expressionList.Add(exp);
+                    }
+                    expid++;
+                }
+                return expressionList;
+            }
+        }
         /// <summary>
-        /// 画师
+        /// 表情列表
+        /// </summary>
+        List<(int expid, ExpressionType exp)> expressionList;
+
+
+        /// <summary>
+        /// 表情类型
+        /// </summary>
+        public enum ExpressionType
+        {
+            /// <summary>  
+            /// 占位符
+            /// </summary>  
+            none,
+            /// <summary>  
+            /// A普通
+            /// </summary>  
+            A_Nomal,
+            /// <summary>  
+            /// B开心
+            /// </summary>  
+            B_Happy,
+            /// <summary>  
+            /// C愤怒
+            /// </summary>  
+            C_Angry,
+            /// <summary>  
+            /// D悲伤
+            /// </summary>  
+            D_Sad,
+            /// <summary>  
+            /// E害羞
+            /// </summary>  
+            E_Shy,
+            /// <summary>  
+            /// F惊讶
+            /// </summary>  
+            F_Surprise,
+            /// <summary>  
+            /// G感动
+            /// </summary>  
+            G_Touch,
+            /// <summary>  
+            /// H害怕
+            /// </summary>  
+            H_Afraid,
+            /// <summary>  
+            /// I嘲笑
+            /// </summary>  
+            I_Derision,
+            /// <summary>  
+            /// J脸红
+            /// </summary>  
+            J_Redden,
+            /// <summary>  
+            /// K无语
+            /// </summary>  
+            K_Speechless,
+            L_Other,
+            M_Other,
+            N_Other,
+            O_Other,
+        }
+
+        /// <summary>
+        /// 画师 (用于定位) OldPainterAuthor
         /// </summary>
         public string Painter => this[(gstr)"painter"];
+        /// <summary>
+        /// 真画师 (部分作者会被塞到其他集团名下)
+        /// </summary>
+        public string PainterReal
+        {
+            get
+            {
+                if (Find("painterreal") == null)
+                {
+                    return Painter;
+                }
+                else
+                {
+                    return Find("painterreal").Info;
+                }
+            }
+        }
         /// <summary>
         /// 最大星级
         /// </summary>
@@ -58,8 +159,27 @@ namespace VUPSimulator.Interface
             }
         }
         public Item_L2D CreateNew() => new Item_L2D(this);
-        public Item_L2D CreateNew(int process, double imagerank, double modlerank) => new Item_L2D(this, process, imagerank, modlerank);
-        public Item_L2D CreateOld(double imagerank, double modlerank, string name) => new Item_L2D(this, 100, imagerank, modlerank) { ItemName = name, Modeler = "LorisYounger" };
+        public Item_L2D CreateOld(ILine line) => new Item_L2D(this, line[(gdbe)"star"], line[(gdbe)"build"], line["haveexpression"].info)
+        { ItemDisplayName = "初始L2D", Modeler = "LorisYounger" };
+        public override bool AllowMultiple => false;
+        /// <summary>
+        /// L2D默认图片
+        /// </summary>
+        public override string Image
+        {
+            get
+            {
+                //L2D 使用 ExpressionList
+                //if (ExpressionList.Count > 0)
+                //{
+                //    return 
+                //}
+                //else
+                //    return base.Image;
+                return $"l2d_{ItemIdentifier}_0";
+            }
+        }
+        public ImageSource ImageSourse(IMainWindow mw, int expid) => mw.Core.ImageSources.FindImage($"l2d_{ItemIdentifier}_{expid}", "item_l2d");
     }
     /// <summary>
     /// L2D完整
@@ -88,10 +208,10 @@ namespace VUPSimulator.Interface
         /// </summary>
         public double TotalRank
         {//根据新鲜度计算,最低不低于50%
-            get => (ImageRank + ModelRank) * (Freshness + 100) / 200;
+            get => (ImageRank + ModelRank) * (Freshness + 100 + Math.Pow(ExpressionHave.Count, 1.5) * 10) / 200;
         }
         /// <summary>
-        /// 立绘生产进度 (100%)
+        /// 立绘生产进度 (100%) 50%为立绘完成 100%为模型完成
         /// </summary>
         public int Process
         {
@@ -129,21 +249,24 @@ namespace VUPSimulator.Interface
             Process = 0;//50%为立绘完成 100%为模型完成
             ImageRank = 0;//等级根据进度会缓慢增加,每次增加 (min-max)/10
             ModelRank = 0;
+            ExpressionADD(0);
         }
         /// <summary>
         /// 从已有进度开始新建一个L2d
         /// </summary>
         /// <param name="l2dbase">L2d的模型</param>
-        /// <param name="process">生产进度,只有100才可以使用</param>
         /// <param name="imagerank">立绘分数</param>
         /// <param name="modlerank">建模分数</param>
-        public Item_L2D(Item_L2D_base l2dbase, int process, double imagerank, double modlerank) : base(l2dbase)
+        public Item_L2D(Item_L2D_base l2dbase, double imagerank, double modlerank, string expressionHave) : base(l2dbase)
         {
             info = "l2d";
             Freshness = 100;
-            Process = process;
+            Process = 100;
             ImageRank = imagerank;
             ModelRank = modlerank;
+            if (string.IsNullOrWhiteSpace(expressionHave))
+                expressionHave = "0";
+            FindorAdd("haveexpression").info = expressionHave;
         }
         /// <summary>
         /// 从已有进度开始新建一个L2d
@@ -155,34 +278,21 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 表情列表 这是实际获得的表情
         /// </summary>
-        public string[] ExpressionList => FindorAdd("haveexpression").GetInfos();
-        /// <summary>
-        /// 添加表情到表情列表
-        /// </summary>
-        /// <param name="newexp"></param>
-        public void ExpressionADD(string newexp)
+        public List<int> ExpressionHave
         {
-            ISub sb = FindorAdd("haveexpression");
-            if (sb.info == "")
-            {
-                sb.info = newexp;
-            }
-            else
-            {
-                sb.info += "," + newexp;
-            }
+            get => FindorAdd("haveexpression").GetInfos().Select(int.Parse).ToList();
+            set => FindorAdd("haveexpression").info = string.Join(",", value);
         }
         /// <summary>
-        /// 删除表情从表情列表
+        /// 添加表情到表情列表 (自动去重)
         /// </summary>
-        /// <param name="rmexp"></param>
-        public void ExpressionDel(string rmexp)
+        public void ExpressionADD(int newexp)
         {
-            ISub sb = FindorAdd("haveexpression");
-            if (sb.info == rmexp)
-                sb.info = "";
-            else
-                sb.info = sb.GetString().Replace(rmexp + ',', "");
+            var exp = ExpressionHave;
+            if (exp.Contains(newexp))
+                return;
+            exp.Add(newexp);
+            ExpressionHave = exp;
         }
         /// <summary>
         /// 转换成等级为星星

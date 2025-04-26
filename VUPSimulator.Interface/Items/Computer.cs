@@ -37,9 +37,9 @@ namespace VUPSimulator.Interface
         {
 
             Name = line.Info;
-            CPU = (Item_CPU)items.Find(x => x.ItemName == line.Find("cpu").Info);
-            GPU = (Item_GPU)items.Find(x => x.ItemName == line.Find("gpu").Info);
-            MotherBoard = (Item_MotherBoard)items.Find(x => x.ItemName == line.Find("motherboard").Info);
+            CPU = (Item_CPU)items.Find(x => x.ItemIdentifier == line.Find("cpu").Info);
+            GPU = (Item_GPU)items.Find(x => x.ItemIdentifier == line.Find("gpu").Info);
+            MotherBoard = (Item_MotherBoard)items.Find(x => x.ItemIdentifier == line.Find("motherboard").Info);
             //删掉正在使用的零件,等保存的时候再导出
             items.Remove(CPU);
             items.Remove(GPU);
@@ -47,19 +47,19 @@ namespace VUPSimulator.Interface
 
             foreach (string str in line.Find("memory").GetInfos())
             {
-                var mem = (Item_Memory)items.Find(x => x.ItemName == str);
+                var mem = (Item_Memory)items.Find(x => x.ItemIdentifier == str);
                 items.Remove(mem);
                 Memorys.Add(mem);
             }
             foreach (string str in line.Find("camera").GetInfos())
             {
-                var cms = (Item_Camera)items.Find(x => x.ItemName == str);
+                var cms = (Item_Camera)items.Find(x => x.ItemIdentifier == str);
                 items.Remove(cms);
                 Cameras.Add(cms);
             }
             foreach (string str in line.Find("microphone").GetInfos())
             {
-                var mcf = (Item_Microphone)items.Find(x => x.ItemName == str);
+                var mcf = (Item_Microphone)items.Find(x => x.ItemIdentifier == str);
                 items.Remove(mcf);
                 Microphones.Add(mcf);
             }
@@ -373,7 +373,7 @@ namespace VUPSimulator.Interface
         {
             List<ILine> lines = new List<ILine>
             {
-                new Line("computer", Name, "", new Sub("cpu", CPU.ItemName), new Sub("gpu", GPU.ItemName), new Sub("motherboard", MotherBoard.ItemName)),
+                new Line("computer", Name, "", new Sub("cpu", CPU.ItemIdentifier), new Sub("gpu", GPU.ItemIdentifier), new Sub("motherboard", MotherBoard.ItemIdentifier)),
                 CPU,
                 GPU,
                 MotherBoard
@@ -383,7 +383,7 @@ namespace VUPSimulator.Interface
             foreach (Item_Memory mem in Memorys)
             {
                 lines.Add(mem);
-                tmp += mem.ItemName;
+                tmp += mem.ItemIdentifier;
                 tmp += ',';
             }
             lines.First().AddSub(new Sub(tmp.Trim(',')));
@@ -391,7 +391,7 @@ namespace VUPSimulator.Interface
             foreach (Item_Camera cam in Cameras)
             {
                 lines.Add(cam);
-                tmp += cam.ItemName;
+                tmp += cam.ItemIdentifier;
                 tmp += ',';
             }
             lines.First().AddSub(new Sub(tmp.Trim(',')));
@@ -399,7 +399,7 @@ namespace VUPSimulator.Interface
             foreach (Item_Microphone mic in Microphones)
             {
                 lines.Add(mic);
-                tmp += mic.ItemName;
+                tmp += mic.ItemIdentifier;
                 tmp += ',';
             }
             lines.First().AddSub(new Sub(tmp.Trim(',')));

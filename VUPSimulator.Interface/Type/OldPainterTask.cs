@@ -51,8 +51,8 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 画师任务
         /// </summary>
-        public UserOldPainter.Type Category { get => _category; set => Set(ref _category, value); }
-        private UserOldPainter.Type _category;
+        public OldPainterAuthor.SkillType Category { get => _category; set => Set(ref _category, value); }
+        private OldPainterAuthor.SkillType _category;
 
         /// <summary>
         /// 当前进度

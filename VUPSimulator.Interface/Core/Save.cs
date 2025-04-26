@@ -210,7 +210,7 @@ namespace VUPSimulator.Interface
                 f.QualityGuaranteeStartTime = Base.Now;
             if (item.AllowMultiple)
             {
-                var i = Items.FirstOrDefault(x => x.ItemName == item.ItemName);
+                var i = Items.FirstOrDefault(x => x.ItemIdentifier == item.ItemIdentifier);
                 if (i != null)
                 {
                     i.Many += item.Many + many - 1;

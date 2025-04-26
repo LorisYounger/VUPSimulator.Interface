@@ -101,7 +101,7 @@ namespace VUPSimulator.Interface
                 {
                     if (betterBuyItem == null)
                     {
-                        Item_Salability v = mw.Core.Items_Salability.FirstOrDefault(x => x.ItemName == SalabilityItemName);
+                        Item_Salability v = mw.Core.Items_Salability.FirstOrDefault(x => x.ItemIdentifier == SalabilityItemName);
                         if (v != null)
                             betterBuyItem = new Item_Salability.BetterBuyItem(v, mw.Save.UIData.BetterBuy, mw);
                     }
@@ -191,7 +191,7 @@ namespace VUPSimulator.Interface
                 {
                     if (betterBuyItem == null)
                     {
-                        Item_Salability v = mw.Core.Items_Salability.FirstOrDefault(x => x.ItemName == SalabilityItemName);
+                        Item_Salability v = mw.Core.Items_Salability.FirstOrDefault(x => x.ItemIdentifier == SalabilityItemName);
                         if (v != null)
                             _betterBuyItem = new Item_Salability.BetterBuyItem(v, mw.Save.UIData.BetterBuy, mw);
                     }

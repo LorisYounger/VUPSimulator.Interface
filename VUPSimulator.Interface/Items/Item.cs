@@ -55,14 +55,17 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 物品名称
         /// </summary>
-        public string ItemName
+        public string ItemIdentifier
         {
             get => Find("name").Info;
             set => FindorAdd("name").Info = value;
         }
+        /// <summary>
+        /// 物品显示名称
+        /// </summary>
         public string ItemDisplayName
         {
-            get => GetString("displayname", ItemName);
+            get => GetString("displayname", ItemIdentifier);
             set => SetString("displayname", value);
         }
         /// <summary>
@@ -94,7 +97,7 @@ namespace VUPSimulator.Interface
                 var line = Find("image");
                 if (line == null)
                 {
-                    return $"item_{info}_{ItemName}";
+                    return $"item_{info}_{ItemIdentifier}";
                 }
                 return line.Info;
             }
@@ -102,7 +105,11 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 物品图片
         /// </summary>
-        public ImageSource ImageSourse(IMainWindow mw) => mw.Core.ImageSources.FindImage(Image, "item_" + info);
+        public virtual ImageSource ImageSourse(IMainWindow mw) => mw.Core.ImageSources.FindImage(Image, "item_" + info);
+
+        /// <summary>
+        /// 根据物品类型自动生成相应Item (给mod作者准备的)
+        /// </summary>
         public static Dictionary<string, Func<ILine, Item>> NewItemFunction = new Dictionary<string, Func<ILine, Item>>();
         /// <summary>
         /// 根据物品类型自动生成相应Item
@@ -236,7 +243,7 @@ namespace VUPSimulator.Interface
             /// <summary>
             /// 名称
             /// </summary>
-            public string Name => SalaItem.ItemName;
+            public string Name => SalaItem.ItemIdentifier;
             /// <summary>
             /// 显示名称
             /// </summary>
@@ -272,7 +279,7 @@ namespace VUPSimulator.Interface
             /// </summary>
             public void UpdateDiscount()
             {
-                if (data.Discont.TryGetValue(SalaItem.ItemName, out int dis))
+                if (data.Discont.TryGetValue(SalaItem.ItemIdentifier, out int dis))
                 {
                     Discount = dis;
                     return;

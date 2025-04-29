@@ -85,6 +85,7 @@ namespace VUPSimulator.Interface
         /// <returns>返回资源位置,如果未找到,则退回nofind</returns>
         public string FindSource(string name, string nofind = null)
         {
+            if (name == null) return nofind;
             ILine line = FindLine(name.ToLower());
             if (line == null)
                 return nofind;
@@ -98,6 +99,11 @@ namespace VUPSimulator.Interface
         /// <returns>返回资源位置,如果未找到,则退回nofind</returns>
         public Uri FindSourceUri(string name, string nofind = null)
         {
+            if (name == null)
+                if (nofind != null)
+                    return new Uri(nofind);
+                else
+                    return null;
             ILine line = FindLine(name.ToLower());
             if (line == null)
                 if (nofind != null)

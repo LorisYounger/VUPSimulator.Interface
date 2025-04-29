@@ -38,7 +38,7 @@ namespace VUPSimulator.Interface
         /// 加载Save中的作者存档数据
         /// </summary>
         /// <param name="AuthorDataSet">存档数据 AuthorData</param>
-        public void LoadSaveData(List<ILine> AuthorDataSet)
+        public void LoadSaveData(List<ILine> AuthorDataSet, ICore core)
         {
             var line = AuthorDataSet.Find(x => x.info == Identy);
             if (line == null)
@@ -48,7 +48,9 @@ namespace VUPSimulator.Interface
             }
             else
                 AuthorData = line;
+            this.core = core;
         }
+        ICore core;
         /// <summary>
         /// 作者头像图
         /// </summary>
@@ -56,7 +58,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 获得作者头像
         /// </summary>
-        public ImageSource ProfileImageSource(IMainWindow mw) => mw.Core.ImageSources.FindImage("profile_" + ProfileImage);
+        public ImageSource HeadImage => core.ImageSources.FindImage("profile_" + ProfileImage);
 
         /// <summary>
         /// 定位id
@@ -65,11 +67,11 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 作者名字
         /// </summary>
-        public string Name;
+        public string Name { get; set; }
         /// <summary>
         /// 作者介绍
         /// </summary>
-        public string Intor;
+        public string Intor { get; set; }
         /// <summary>
         /// 评分
         /// </summary>
@@ -118,7 +120,7 @@ namespace VUPSimulator.Interface
         /// 基本准时次数
         /// </summary>
         private int baseisontime;
-      
+
         /// <summary>
         /// 准时率
         /// </summary>
@@ -254,6 +256,9 @@ namespace VUPSimulator.Interface
                 Rate = line.GetDouble("rate");
             }
         }
+
+        public ImageSource[] WorkPreviews => Works.Select(x => x.ImageSource(core)).ToArray();
+
         /// <summary>
         /// 展示的画作
         /// </summary>
@@ -274,7 +279,7 @@ namespace VUPSimulator.Interface
             /// <summary>
             /// 获取画作图片
             /// </summary>
-            public ImageSource ImageSource(IMainWindow mw) => mw.Core.ImageSources.FindImage("auth_" + Image);
+            public ImageSource ImageSource(ICore core) => core.ImageSources.FindImage("auth_" + Image);
             /// <summary>
             /// 画作介绍
             /// </summary>

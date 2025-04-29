@@ -91,7 +91,11 @@ namespace VUPSimulator.Interface
             //推荐的画师不会被保存,由系统生成
         }
 
-        public OldPainterTask(IMainWindow mw) { this.mw = mw; }
+        public OldPainterTask(IMainWindow mw)
+        {
+            this.mw = mw;
+            SaveData = new Line();
+        }
 
         /// <summary>
         /// 是否已归档
@@ -218,14 +222,17 @@ namespace VUPSimulator.Interface
                 }
                 WorkPreview = opt.mw.Core.ImageSources.FindImage(WorkPreviewPath, "oldpainter_wait_" + Category);
             }
+
             OldPainterTask opt;
 
             OldPainterAuthor Author;
 
-            public ImageSource HeadImage => Author.ProfileImageSource(opt.mw);
+            public ImageSource HeadImage => Author.HeadImage;
 
 
             public PainterCategory Category => opt.Category;
+
+            public string AuthorId => Author.Identy;
 
             /// <summary>
             /// 作者名字

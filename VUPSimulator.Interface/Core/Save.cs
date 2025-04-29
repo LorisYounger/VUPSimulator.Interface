@@ -238,6 +238,11 @@ namespace VUPSimulator.Interface
         public List<Video> Video = new List<Video>();
 
         /// <summary>
+        /// 所有老画师约稿数据
+        /// </summary>
+        public List<OldPainterTask> OldPainterTasks = new List<OldPainterTask>();
+
+        /// <summary>
         /// 用户电脑
         /// </summary>
         public Computer Computer;

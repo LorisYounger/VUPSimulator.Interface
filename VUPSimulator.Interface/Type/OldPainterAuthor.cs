@@ -18,6 +18,7 @@ namespace VUPSimulator.Interface
         {
             var line = lps.FindLine("author");
             Identy = line.Info;
+            Name = line.GetString("name");
             basescore = line.GetDouble("score");
             basescorenumber = line.GetInt("scorenumber");
             basefinish = line.GetInt("finish");
@@ -61,7 +62,9 @@ namespace VUPSimulator.Interface
         /// 定位id
         /// </summary>
         public string Identy;
-
+        /// <summary>
+        /// 作者名字
+        /// </summary>
         public string Name;
         /// <summary>
         /// 作者介绍
@@ -99,10 +102,23 @@ namespace VUPSimulator.Interface
 
             NotifyOfPropertyChange("Score");
         }
+        /// <summary>
+        /// 基本评分
+        /// </summary>
         private double basescore;
+        /// <summary>
+        /// 基本评分次数
+        /// </summary>
         private int basescorenumber;
+        /// <summary>
+        /// 基本完成率次数
+        /// </summary>
         private int basefinish;
+        /// <summary>
+        /// 基本准时次数
+        /// </summary>
         private int baseisontime;
+      
         /// <summary>
         /// 准时率
         /// </summary>
@@ -132,7 +148,7 @@ namespace VUPSimulator.Interface
             }
         }
         /// <summary>
-        /// 总共任务次数
+        /// 总共任务次数(评论次数)
         /// </summary>
         public int TaskNumber
         {
@@ -172,10 +188,7 @@ namespace VUPSimulator.Interface
             /// </summary>
             Expression,
         }
-        ///// <summary>
-        ///// 技能
-        ///// </summary>
-        //public static readonly string[] TypeToString = new string[] { "Live2D立绘", "Live2D建模", "插图", "头像", "表情包" };
+
         /// <summary>
         /// 当前作者技能
         /// </summary>
@@ -194,22 +207,26 @@ namespace VUPSimulator.Interface
             /// </summary>
             public SkillType Type;
             /// <summary>
-            /// 技能等级(最小值) 0-5/10
+            /// 技能等级(最小值) 0-5/10 (对画作不起效果)
             /// </summary>
             public double LevelMin;
             /// <summary>
-            /// 技能等级(最大值) 0-5/10
+            /// 技能等级(最大值) 0-5/10 (对画作不起效果)
             /// </summary>
             public double LevelMax;
             /// <summary>
-            /// 报价价格区间: 最小价格
+            /// 报价价格区间: 最小价格 (对画作不起效果)
             /// </summary>
             public double PriceMin;
             /// <summary>
-            /// 报价价格区间: 最大价格
+            /// 报价价格区间: 最大价格 (对画作不起效果)
             /// </summary>
             public double PriceMax;
             public double priceplevel = 0;
+            /// <summary>
+            /// 星级
+            /// </summary>
+            public double Rate;
             /// <summary>
             /// 根据价格计算预期等级
             /// </summary>
@@ -234,6 +251,7 @@ namespace VUPSimulator.Interface
                 PriceMin = line.GetDouble("pricemin");
                 PriceMax = line.GetDouble("pricemax");
                 SpendTime = line.GetDouble("spendtime");
+                Rate = line.GetDouble("rate");
             }
         }
         /// <summary>

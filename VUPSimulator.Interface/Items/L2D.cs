@@ -149,15 +149,25 @@ namespace VUPSimulator.Interface
         /// </summary>
         public double Min => Find("min").InfoToDouble;
         /// <summary>
-        /// 随机获得10%星级
+        /// 基础价格
         /// </summary>
-        public double RNDRANK
-        {
-            get
-            {
-                return Function.Rnd.Next((int)(Min * 10), (int)(Max * 10)) * 0.1;
-            }
-        }
+        public double PriceBase => Find("pricebase").InfoToDouble;
+        /// <summary>
+        /// 表情价格
+        /// </summary>
+        public double PriceExp => Find("priceexp")?.InfoToDouble ?? PriceBase / 5;
+        /// <summary>
+        /// 预计花费时长
+        /// </summary>
+        public double Spendtime => Find("spendtime").InfoToDouble;
+        ///// <summary>
+        ///// 随机获得10%星级, 根据多给的钱进行判断
+        ///// 同时消耗多给的钱和等
+        ///// </summary>
+        //public double RNDRANK(double PriceBetter)
+        //{
+        //    return Function.Rnd.Next((int)(Min * 100), (int)(Max * 100)) / 100;
+        //}
         public Item_L2D CreateNew() => new Item_L2D(this);
         public Item_L2D CreateOld(ILine line) => new Item_L2D(this, line[(gdbe)"star"], line[(gdbe)"build"], line["haveexpression"].info)
         { ItemDisplayName = "初始L2D", Modeler = "LorisYounger" };

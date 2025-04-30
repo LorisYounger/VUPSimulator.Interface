@@ -51,6 +51,20 @@ namespace VUPSimulator.Interface
                 return num1;
         }
         /// <summary>
+        /// 返回 num1 到 num2 之间的随机数,如果num2小于num1则返回num1
+        /// </summary>
+        /// <param name="num1">值1</param>
+        /// <param name="num2">值2</param>
+        /// <returns></returns>
+        public static double RndNext(double num1, double num2)
+        {
+            if (num1 < num2)
+                return Rnd.NextDouble() * (num2 - num1) + num1;
+            else
+                return num1;
+        }
+
+        /// <summary>
         /// 数据计算类
         /// </summary>
         public static class Cal
@@ -334,7 +348,7 @@ namespace VUPSimulator.Interface
                     case "rdi":
                         var v = name.Split('_');
                         if (v.Length == 2) return "随机整数(0-{0})".Translate((Convert.ToInt32(v[1]) - 1));
-                        else if (v.Length == 3) return "随机整数({0}-{1})".Translate(v[1],(Convert.ToInt32(v[2]) - 1));
+                        else if (v.Length == 3) return "随机整数({0}-{1})".Translate(v[1], (Convert.ToInt32(v[2]) - 1));
                         else
                             return "随机整数";
                     case "rdd":

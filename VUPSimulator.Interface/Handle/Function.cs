@@ -845,6 +845,25 @@ namespace VUPSimulator.Interface
                 Process.Start(startInfo);
             }
         }
+
+        public static StringBuilder Log = new StringBuilder();
+        public static void LogAdd(string log, object fromthis)
+        {
+            Log.Append('[');
+            Log.Append(DateTime.Now.ToShortTimeString());
+            Log.Append(']');
+            Log.Append('(');
+            Log.Append(fromthis.GetType().ToString());
+            Log.Append(") ");
+            Log.AppendLine(log);
+        }
+
+        public static string LogToString()
+        {
+            string str = Log.ToString();
+            Log.Clear();
+            return str;
+        }
     }
 
 }

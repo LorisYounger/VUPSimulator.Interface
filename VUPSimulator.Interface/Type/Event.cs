@@ -500,14 +500,14 @@ namespace VUPSimulator.Interface
         {
             if (mw == null)
                 return;
-            mw.Dispatcher.Invoke(new Action(() =>
+            mw.Dispatcher.Invoke(() =>
             {
                 //如果是日历,则一开始就进侧边栏
                 if (Visible == VisibleType.Calendar)
                     VisibleMCTag = mw.CreateCALTag(this);
                 else if (Visible == VisibleType.Message && Name == "gevent")//如果是游戏存档,也可以进侧边栏
                     VisibleMCTag = mw.CreateMSGTag(this);
-            }));
+            }, System.Windows.Threading.DispatcherPriority.Normal);
             //mw.TimeHandle += TimeHandle;
             mw.Save?.ALLEvent.Add(this);
         }
@@ -515,14 +515,14 @@ namespace VUPSimulator.Interface
         {
             if (mw == null)
                 return;
-            mw.Dispatcher.Invoke(new Action(() =>
+            mw.Dispatcher.Invoke(() =>
             {
                 //如果是日历,则一开始就进侧边栏
                 if (Visible == VisibleType.Calendar)
                     VisibleMCTag = mw.CreateCALTag(this);
                 else if (Visible == VisibleType.Message && Name == "gevent")//如果是游戏存档,也可以进侧边栏
                     VisibleMCTag = mw.CreateMSGTag(this);
-            }));
+            }, System.Windows.Threading.DispatcherPriority.Normal);
             //mw.TimeHandle += TimeHandle;
             mw.Save?.ALLEvent.Add(this);
         }
@@ -530,14 +530,14 @@ namespace VUPSimulator.Interface
         {
             if (mw == null)
                 return;
-            mw.Dispatcher.Invoke(new Action(() =>
+            mw.Dispatcher.Invoke(() =>
             {
                 //如果是日历,则一开始就进侧边栏
                 if (Visible == VisibleType.Calendar)
                     VisibleMCTag = mw.CreateCALTag(this);
                 else if (Visible == VisibleType.Message && Name == "gevent")//如果是游戏存档,也可以进侧边栏
                     VisibleMCTag = mw.CreateMSGTag(this);
-            }));
+            }, System.Windows.Threading.DispatcherPriority.Normal);
             //mw.TimeHandle += TimeHandle;
             mw.Save?.ALLEvent.Add(this);
         }
@@ -575,14 +575,14 @@ namespace VUPSimulator.Interface
             Enabled = enabled;
             if (mw == null)
                 return;
-            mw.Dispatcher.Invoke(new Action(() =>
+            mw.Dispatcher.Invoke(() =>
             {
                 //如果是日历,则一开始就进侧边栏
                 if (Visible == VisibleType.Calendar)
                     VisibleMCTag = mw.CreateCALTag(this);
                 else if (Visible == VisibleType.Message && Name == "gevent")//如果是游戏存档,也可以进侧边栏
                     VisibleMCTag = mw.CreateMSGTag(this);
-            }));
+            }, System.Windows.Threading.DispatcherPriority.Normal);
             //mw.TimeHandle += TimeHandle;
             mw.Save?.ALLEvent.Add(this);
         }
@@ -650,7 +650,7 @@ namespace VUPSimulator.Interface
 
             if (VisibleMCTag != null)
             {
-                mw.Dispatcher.Invoke(() => mw.RemoveIMCTag(VisibleMCTag));
+                mw.Dispatcher.Invoke(() => mw.RemoveIMCTag(VisibleMCTag), System.Windows.Threading.DispatcherPriority.Background);
                 mw.TimeUIHandle -= VisibleMCTag.MW_TimeUIHandle;
                 VisibleMCTag = null;
             }
@@ -695,14 +695,14 @@ namespace VUPSimulator.Interface
                         if (Visible == VisibleType.Message && VisibleMCTag == null)
                         {//如果是消息并且是第一次激活, 添加到侧边栏,需要弹窗,会有自动的弹窗小助手
                          //记得等一下,免得弹窗炸了
-                            await mw.Dispatcher.InvokeAsync(new Action(() =>
+                            await mw.Dispatcher.InvokeAsync(() =>
                              {
                                  VisibleMCTag = mw.CreateMSGTag(this);
-                             }));
+                             }, System.Windows.Threading.DispatcherPriority.Normal);
                         }
                         if (VisibleMessage)
                         {   //如果是可见消息则弹窗
-                            mw.Dispatcher.Invoke(new Action(() => mw.winMessageBoxShow(EventInfo, Message)));
+                            mw.Dispatcher.Invoke(() => mw.winMessageBoxShow(EventInfo, Message), System.Windows.Threading.DispatcherPriority.Normal);
                             if (VisibleMessageIsSingle)
                                 VisibleMessage = false;
                         }

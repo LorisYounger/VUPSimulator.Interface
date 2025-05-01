@@ -136,7 +136,7 @@ namespace VUPSimulator.Interface
                 }
                 image_Screenshot = list.ToArray();
             }
-            return image_Screenshot.Select(x => core.ImageSources.FindImage(x)).ToArray();
+            return image_Screenshot.Select(core.ImageSources.FindImage).ToArray();
         }
 
 

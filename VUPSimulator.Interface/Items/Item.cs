@@ -231,7 +231,7 @@ namespace VUPSimulator.Interface
                 SalaItem = salaitem;
                 this.data = data;
                 d = dispatcher;
-                d.Invoke(() => { ImageShot = sourse; });
+                d.Invoke(() => { ImageShot = sourse; }, DispatcherPriority.ApplicationIdle);
                 UpdateDiscount();
                 _quantity = quantity;
                 _discount = discount;

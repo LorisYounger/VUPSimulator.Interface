@@ -142,6 +142,9 @@ namespace VUPSimulator.Interface
         /// <returns>图片资源,如果未找到则退回错误提示图片</returns>
         public BitmapImage FindImage(string imagename) => NewSafeBitmapImage(FindImageUri(imagename));
 
+        //public static double totaltime = 0;
+        //public static int times = 0;
+
         public Uri FindImageUri(string imagename)
         {
 #if DEBUG
@@ -150,7 +153,11 @@ namespace VUPSimulator.Interface
                 MessageBox.Show($"image nofound {imagename}");
             return v;
 #else
-            return FindSourceUri(imagename, "pack://application:,,,/Res/Image/system/error.png");
+            //DateTime now = DateTime.Now;
+            //var v = FindSourceUri(imagename, "pack://application:,,,/Res/Image/system/error.png");
+            //totaltime += (DateTime.Now - now).TotalMilliseconds;
+            //times++;
+            return FindSourceUri(imagename, "pack://application:,,,/Res/Image/system/error.png"); ;
 #endif
         }
 

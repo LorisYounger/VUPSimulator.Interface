@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -238,9 +239,13 @@ namespace VUPSimulator.Interface
         public List<Video> Video = new List<Video>();
 
         /// <summary>
-        /// 所有老画师约稿数据
+        /// 老画师约稿数据: 正在进行
         /// </summary>
-        public List<OldPainterTask> OldPainterTasks = new List<OldPainterTask>();
+        public ObservableCollection<OldPainterTask> OldPainterTasks_Curr = new ObservableCollection<OldPainterTask>();
+        /// <summary>
+        /// 老画师约稿数据: 已完成
+        /// </summary>
+        public ObservableCollection<OldPainterTask> OldPainterTasks_Comp = new ObservableCollection<OldPainterTask>();
 
         /// <summary>
         /// 用户电脑

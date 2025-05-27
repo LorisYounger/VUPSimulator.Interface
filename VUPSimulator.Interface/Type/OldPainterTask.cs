@@ -5,9 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using static VUPSimulator.Interface.OldPainterAuthor;
 
 namespace VUPSimulator.Interface
 {
@@ -17,7 +20,7 @@ namespace VUPSimulator.Interface
     public class OldPainterTask : NotifyPropertyChangedBase
     {
         /// <summary>
-        /// 进度。
+        /// 进度
         /// </summary>
         public enum PainterProgress
         {
@@ -61,40 +64,133 @@ namespace VUPSimulator.Interface
             Expression,
         }
         public IMainWindow mw;
-        public Line SaveData;
+        public ILine SaveData;
+        /// <summary>
+        /// 任务ID,用于定位用的,是随机数
+        /// </summary>
+        public int Id { get; set; }
         /// <summary>
         /// 加载任务数据
         /// </summary>
         /// <param name="mw"></param>
-        /// <param name="taskdata">任务数据(用于加载)</param>
-        /// <param name="savedata">任务子数据(用于保存)</param>
-        public OldPainterTask(IMainWindow mw, Line taskdata, Line savedata)
+        /// <param name="savedata">任务数据和子数据(用于保存)</param>
+        public OldPainterTask(IMainWindow mw, ILine savedata)
         {
             this.mw = mw;
             SaveData = savedata;
-            Category = (PainterCategory)taskdata[(gint)"category"];
-            Title = taskdata[(gstr)"title"];
-            ImageShotPath = taskdata[(gstr)"imagepath"];
+            Category = (PainterCategory)savedata[(gint)"category"];
+            Title = savedata[(gstr)"title"];
+            Id = savedata.InfoToInt;
+            ImageShotPath = savedata[(gstr)"imagepath"];
             ImageShot = mw.Core.ImageSources.FindImage(ImageShotPath, "oldpainter_" + Category);
-            CreateTime = taskdata[(gdat)"createtime"];
-            StartTime = taskdata[(gdat)"starttime"];
-            EndTime = taskdata[(gdat)"endtime"];
-            ExpectedAmountFrom = taskdata[(gdbe)"expectedamountfrom"];
-            ExpectedAmountTo = taskdata[(gdbe)"expectedamountto"];
-            _partedPainters = new ObservableCollection<AuthorInTask>();
-            _recruitPainters = new ObservableCollection<AuthorInTask>();
-            _invitePainters = new ObservableCollection<AuthorInTask>();
-            _recommendedPainters = new ObservableCollection<AuthorInTask>();
-            //TODO
+            CreateTime = savedata[(gdat)"createtime"];
+            StartTime = savedata[(gdat)"starttime"];
+            EndTime = savedata[(gdat)"endtime"];
+            ExpectedAmountFrom = savedata[(gdbe)"expectedamountfrom"];
+            ExpectedAmountTo = savedata[(gdbe)"expectedamountto"];
 
-
-            //推荐的画师不会被保存,由系统生成
+            //加载应征和邀请的画师
+            foreach (string AuthID in savedata["ALLAuthorID"].GetInfos())
+            {
+                OldPainterAuthor author = mw.Core.Authors.Find(x => x.Identy == AuthID);
+                if (author != null)
+                {
+                    AuthorInTask ait = new AuthorInTask(this, author);
+                    switch (ait.AuthorType)
+                    {
+                        //case AuthorInTask.AuthorInTaskType.Recommended:
+                        //    RecommendedPainters.Add(ait);//虽然说推荐的画师不会被保存,这里是容错
+                        //    break;
+                        case AuthorInTask.AuthorInTaskType.Recruit:
+                            RecruitPainters.Add(ait);
+                            break;
+                        case AuthorInTask.AuthorInTaskType.Invite:
+                            InvitePainters.Add(ait);
+                            break;
+                        case AuthorInTask.AuthorInTaskType.Parted:
+                            PartedPainters.Add(ait);
+                            break;
+                    }
+                }
+            }
+            //推荐的画师不会被保存,由系统生成,不和应征邀请相同
+            GenRecommend();
+        }
+        /// <summary>
+        /// 生成推荐的画师列表
+        /// </summary>
+        public void GenRecommend()
+        {
+            RecommendedPainters.Clear();
+            SkillType sk;
+            switch (Category)
+            {
+                case PainterCategory.L2DPaint:
+                case PainterCategory.L2DPaintUpdate:
+                    sk = OldPainterAuthor.SkillType.L2DPaint;
+                    break;
+                case PainterCategory.L2DModel:
+                case PainterCategory.L2DModelUpdate:
+                    sk = OldPainterAuthor.SkillType.L2DModel;
+                    break;
+                case PainterCategory.Illustration:
+                    sk = OldPainterAuthor.SkillType.Illustration;
+                    break;
+                case PainterCategory.Profile:
+                    sk = OldPainterAuthor.SkillType.Profile;
+                    break;
+                case PainterCategory.Expression:
+                    sk = OldPainterAuthor.SkillType.Expression;
+                    break;
+                default:
+                    return;
+            }
+            foreach (var author in mw.Core.Authors.OrderBy(x => Function.Rnd.Next()))
+            {
+                var skill = author.Skills.Find(x => x.Type == sk);
+                if (skill == null)
+                    continue;
+                if (skill.PriceMin > ExpectedAmountTo || skill.PriceMax < ExpectedAmountFrom)
+                    continue;
+                if (SaveData.GetInt(author + "_atpye") != 0)
+                    continue;
+                RecommendedPainters.Add(new AuthorInTask(this, author, AuthorInTask.AuthorInTaskType.Recommended));
+            }
         }
 
+        /// <summary>
+        /// 将任务数据转换为用于保存的 SaveData
+        /// </summary>
+        /// <returns></returns>
+        public ILine ToLine()
+        {
+            SaveData[(gint)"category"] = (int)Category;
+            SaveData[(gstr)"title"] = Title;
+            SaveData[(gstr)"imagepath"] = ImageShotPath;
+            SaveData[(gdat)"createtime"] = CreateTime;
+            SaveData[(gdat)"starttime"] = StartTime;
+            SaveData[(gdat)"endtime"] = EndTime;
+            SaveData[(gdbe)"expectedamountfrom"] = ExpectedAmountFrom;
+            SaveData[(gdbe)"expectedamountto"] = ExpectedAmountTo;
+            SaveData.InfoToInt = Id;
+            //保存应征和邀请的画师
+            var ALLAuthorID = new List<string>();
+            ALLAuthorID.AddRange(RecruitPainters.Select(x => x.AuthorId));
+            ALLAuthorID.AddRange(InvitePainters.Select(x => x.AuthorId));
+            ALLAuthorID.AddRange(PartedPainters.Select(x => x.AuthorId));
+            SaveData["ALLAuthorID"].info = string.Join(',', ALLAuthorID);
+            return SaveData;
+        }
+
+        /// <summary>
+        /// 创建一个新的画师任务
+        /// </summary>
+        /// <param name="mw"></param>
         public OldPainterTask(IMainWindow mw)
         {
             this.mw = mw;
-            SaveData = new Line();
+            SaveData = new Line("oldpainttask", Id.ToString());
+            Id = Function.Rnd.Next();
         }
 
         /// <summary>
@@ -145,14 +241,14 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 起始时间
         /// </summary>
-        public DateTime? StartTime { get => _startTime; set => Set(ref _startTime, value); }
-        private DateTime? _startTime;
+        public DateTime StartTime { get => _startTime; set => Set(ref _startTime, value); }
+        private DateTime _startTime;
 
         /// <summary>
         /// 结束时间
         /// </summary>
-        public DateTime? EndTime { get => _endTime; set => Set(ref _endTime, value); }
-        private DateTime? _endTime;
+        public DateTime EndTime { get => _endTime; set => Set(ref _endTime, value); }
+        private DateTime _endTime;
 
         /// <summary>
         /// 预算范围-起始
@@ -168,38 +264,75 @@ namespace VUPSimulator.Interface
 
 
         /// <summary>
-        /// 参与的画师
+        /// 参与的画师 (已给定金,正在干活)
         /// </summary>
         public ObservableCollection<AuthorInTask> PartedPainters { get => _partedPainters; set => Set(ref _partedPainters, value); }
-        private ObservableCollection<AuthorInTask> _partedPainters;
+        private ObservableCollection<AuthorInTask> _partedPainters = new ObservableCollection<AuthorInTask>();
 
         /// <summary>
-        /// 应征的画师
+        /// 应征的画师 (找上门的画师)
         /// </summary>
         public ObservableCollection<AuthorInTask> RecruitPainters { get => _recruitPainters; set => Set(ref _recruitPainters, value); }
-        private ObservableCollection<AuthorInTask> _recruitPainters;
+        private ObservableCollection<AuthorInTask> _recruitPainters = new ObservableCollection<AuthorInTask>();
 
         /// <summary>
-        /// 招募的画师
+        /// 招募的画师 (找别人的画师)
         /// </summary>
         public ObservableCollection<AuthorInTask> InvitePainters { get => _invitePainters; set => Set(ref _invitePainters, value); }
-        private ObservableCollection<AuthorInTask> _invitePainters;
+        private ObservableCollection<AuthorInTask> _invitePainters = new ObservableCollection<AuthorInTask>();
 
         /// <summary>
-        /// 推荐的画师
+        /// 推荐的画师 (随机抽取)
         /// </summary>
         public ObservableCollection<AuthorInTask> RecommendedPainters { get => _recommendedPainters; set => Set(ref _recommendedPainters, value); }
-        private ObservableCollection<AuthorInTask> _recommendedPainters;
+        private ObservableCollection<AuthorInTask> _recommendedPainters = new ObservableCollection<AuthorInTask>();
 
         /// <summary>
         /// 应征作者参数
         /// </summary>
         public class AuthorInTask : NotifyPropertyChangedBase
         {
-            public AuthorInTask(OldPainterTask opt, OldPainterAuthor author)
+            /// <summary>
+            /// 作者在项目中的类型
+            /// </summary>
+            public enum AuthorInTaskType
+            {
+                /// <summary>
+                ///  推荐的画师 (随机抽取)
+                /// </summary>
+                Recommended,
+                /// <summary>
+                /// 应征的画师 (找上门的画师)
+                /// </summary>
+                Recruit,
+                /// <summary>
+                /// 招募的画师 (找别人的画师)
+                /// </summary>
+                Invite,
+                /// <summary>
+                /// 参与的画师 (已给定金,正在干活)
+                /// </summary>
+                Parted,
+            }
+            public AuthorInTaskType AuthorType
+            {
+                get => (AuthorInTaskType)opt.SaveData[(gint)(AuthorId + "_atpye")];
+                set => opt.SaveData[(gint)(AuthorId + "_atpye")] = (int)value;
+            }
+            /// <summary>
+            /// 作者在任务中的信息。
+            /// </summary>
+            /// <param name="opt">任务</param>
+            /// <param name="author">老画师作者</param>
+            /// <param name="authorType">作者在项目中的类型(为空则加载默认设置)</param>
+            public AuthorInTask(OldPainterTask opt, OldPainterAuthor author, AuthorInTaskType? authorType = null)
             {
                 this.opt = opt;
                 Author = author;
+                if (authorType.HasValue)
+                {
+                    AuthorType = authorType.Value;
+                }
                 switch (opt.Category)
                 {
                     case PainterCategory.L2DPaint:
@@ -227,15 +360,22 @@ namespace VUPSimulator.Interface
 
             OldPainterAuthor Author;
 
+            /// <summary>
+            /// 画师头像
+            /// </summary>
             public ImageSource HeadImage => Author.HeadImage;
 
-
+            /// <summary>
+            /// 画师任务
+            /// </summary>
             public PainterCategory Category => opt.Category;
-
+            /// <summary>
+            /// 画师ID
+            /// </summary>
             public string AuthorId => Author.Identy;
 
             /// <summary>
-            /// 作者名字
+            /// 画师名字
             /// </summary>
             public string Name => Author.Name;
 
@@ -259,13 +399,14 @@ namespace VUPSimulator.Interface
                         return PainterProgress.Begin;
                 }
             }
+            /// <summary>
             /// 当前进度值
             /// </summary>
             public double CurrentProgressValue
             {
-                get => opt.SaveData[(gdbe)(Author + "_cpv")]; set
+                get => opt.SaveData[(gdbe)(AuthorId + "_cpv")]; set
                 {
-                    opt.SaveData[(gdbe)(Author + "_cpv")] = value;
+                    opt.SaveData[(gdbe)(AuthorId + "_cpv")] = value;
                     NotifyOfPropertyChange(nameof(CurrentProgressValue));
                 }
             }
@@ -275,9 +416,9 @@ namespace VUPSimulator.Interface
             /// </summary>
             public double Amount
             {
-                get => opt.SaveData[(gdbe)(Author + "_amount")]; set
+                get => opt.SaveData[(gdbe)(AuthorId + "_amount")]; set
                 {
-                    opt.SaveData[(gdbe)(Author + "_amount")] = value;
+                    opt.SaveData[(gdbe)(AuthorId + "_amount")] = value;
                     NotifyOfPropertyChange(nameof(Amount));
                 }
             }
@@ -287,9 +428,9 @@ namespace VUPSimulator.Interface
             /// </summary>
             public int ExpectedDays
             {
-                get => opt.SaveData[(gint)(Author + "_expecteddays")]; set
+                get => opt.SaveData[(gint)(AuthorId + "_expecteddays")]; set
                 {
-                    opt.SaveData[(gint)(Author + "_expecteddays")] = value;
+                    opt.SaveData[(gint)(AuthorId + "_expecteddays")] = value;
                     NotifyOfPropertyChange(nameof(ExpectedDays));
                 }
             }
@@ -299,17 +440,20 @@ namespace VUPSimulator.Interface
             /// </summary>
             public string WorkPreviewTitle
             {
-                get => opt.SaveData[(gstr)(Author + "_title")]; set
+                get => opt.SaveData[(gstr)(AuthorId + "_title")]; set
                 {
-                    opt.SaveData[(gstr)(Author + "_title")] = value;
+                    opt.SaveData[(gstr)(AuthorId + "_title")] = value;
                     NotifyOfPropertyChange(nameof(WorkPreviewTitle));
                 }
             }
+            /// <summary>
+            /// 稿件预览路径。
+            /// </summary>
             public string WorkPreviewPath
             {
-                get => opt.SaveData[(gstr)(Author + "_path")]; set
+                get => opt.SaveData[(gstr)(AuthorId + "_path")]; set
                 {
-                    opt.SaveData[(gstr)(Author + "_path")] = value;
+                    opt.SaveData[(gstr)(AuthorId + "_path")] = value;
                     NotifyOfPropertyChange(nameof(WorkPreviewPath));
                 }
             }

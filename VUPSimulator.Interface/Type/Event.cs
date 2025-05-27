@@ -44,6 +44,7 @@ namespace VUPSimulator.Interface
             //创建事件并添加进事件链
             return Create(mw, line, Type);
         }
+
         /// <summary>
         /// 从line中创建新事件
         /// </summary>

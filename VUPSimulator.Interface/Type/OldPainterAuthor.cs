@@ -217,20 +217,20 @@ namespace VUPSimulator.Interface
             /// </summary>
             public double LevelMax;
             /// <summary>
-            /// 报价价格区间: 最小价格 (对画作不起效果)
+            /// 报价价格区间: 最小价格 (对画作不起效果,但是起到参考作用)
             /// </summary>
             public double PriceMin;
             /// <summary>
-            /// 报价价格区间: 最大价格 (对画作不起效果)
+            /// 报价价格区间: 最大价格 (对画作不起效果,但是起到参考作用)
             /// </summary>
             public double PriceMax;
-            public double priceplevel = 0;
+            double priceplevel = 0;
             /// <summary>
             /// 星级
             /// </summary>
             public double Rate;
             /// <summary>
-            /// 根据价格计算预期等级
+            /// 根据价格计算预期画作星级
             /// </summary>
             public double PricepLevel(double price, double time)
             {

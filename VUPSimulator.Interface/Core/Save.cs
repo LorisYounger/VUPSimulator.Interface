@@ -208,7 +208,11 @@ namespace VUPSimulator.Interface
         public void AddItem(Item item, int many = 1)
         {
             if (item is Food f)
+            {//避免食物和过期食物混一起过期了
                 f.QualityGuaranteeStartTime = Base.Now;
+                Items.Add(item);
+                return;
+            }
             if (item.AllowMultiple)
             {
                 var i = Items.FirstOrDefault(x => x.ItemIdentifier == item.ItemIdentifier);

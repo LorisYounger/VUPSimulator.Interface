@@ -120,7 +120,7 @@ namespace VUPSimulator.Interface
         }
 
         /// <summary>
-        /// 画师 (用于定位) OldPainterAuthor
+        /// 画师 (用于定位) OldPainterAuthor (ID)
         /// </summary>
         public string Painter => this[(gstr)"painter"];
         /// <summary>

@@ -120,7 +120,7 @@ namespace VUPSimulator.Interface
         /// <param name="AllowMax">是否允许最大化</param>
         /// <param name="text">消息文本</param>
         /// <param name="CanHide">是否允许隐藏消息弹窗</param>
-        WindowsPageHandle winImageBoxShow(string title, UIElement image, Function.MSGType type = Function.MSGType.notify, string text = null, Action ENDAction = null, bool CanHide = true, bool AllowMax = true);
+        WindowsPageHandle winImageBoxShow(string title, FrameworkElement image, Function.MSGType type = Function.MSGType.notify, string text = null, Action ENDAction = null, bool CanHide = true, bool AllowMax = true);
         /// <summary>
         /// 显示正在吃东西窗口,请勿直接调用,请使用 Food.Use
         /// </summary>

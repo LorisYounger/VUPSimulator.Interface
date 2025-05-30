@@ -1,4 +1,5 @@
 ﻿using LinePutScript;
+using LinePutScript.Localization.WPF;
 using Panuon.WPF;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace VUPSimulator.Interface
             foreach (var lin in lps.FindAllLine("skill"))
                 Skills.Add(new Skill(lin));
             foreach (var lin in lps.FindAllLine("work"))
-                Works.Add(new Work(lin));
+                Works.Add(new Work(lin, this));
         }
         /// <summary>
         /// 作者存档数据
@@ -63,7 +64,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 定位id
         /// </summary>
-        public string Identy;
+        public string Identy { get; }
         /// <summary>
         /// 作者名字
         /// </summary>
@@ -194,16 +195,35 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 当前作者技能
         /// </summary>
-        public List<Skill> Skills = new List<Skill>();
+        public List<Skill> Skills { get; set; } = new List<Skill>();
         /// <summary>
         /// 当前作者画作
         /// </summary>
-        public List<Work> Works = new List<Work>();
+        public List<Work> Works { get; set; } = new List<Work>();
         /// <summary>
         /// 作者技能
         /// </summary>
         public class Skill
         {
+            /// <summary>
+            /// 技能名称(显示用)(以后会使用多语言)
+            /// </summary>
+            public string SkillName => Type.ToString();
+            /// <summary>
+            /// 显示技能的时候给更加欺骗性和好看的数值
+            /// </summary>
+            public double BetterMax
+            {
+                get
+                {
+                    int le12 = (int)((LevelMax + 1) * 1.2);
+                    if (le12 < 10)
+                        return le12;
+                    if (LevelMax <= 10)
+                        return 10;
+                    return LevelMax;
+                }
+            }
             /// <summary>
             /// 技能类型
             /// </summary>
@@ -211,19 +231,19 @@ namespace VUPSimulator.Interface
             /// <summary>
             /// 技能等级(最小值) 0-5/10 (对画作不起效果)
             /// </summary>
-            public double LevelMin;
+            public double LevelMin { get; set; }
             /// <summary>
             /// 技能等级(最大值) 0-5/10 (对画作不起效果)
             /// </summary>
-            public double LevelMax;
+            public double LevelMax { get; set; }
             /// <summary>
             /// 报价价格区间: 最小价格 (对画作不起效果,但是起到参考作用)
             /// </summary>
-            public double PriceMin;
+            public double PriceMin { get; set; }
             /// <summary>
             /// 报价价格区间: 最大价格 (对画作不起效果,但是起到参考作用)
             /// </summary>
-            public double PriceMax;
+            public double PriceMax { get; set; }
             double priceplevel = 0;
             /// <summary>
             /// 星级
@@ -245,6 +265,7 @@ namespace VUPSimulator.Interface
             /// 平均作品所需时长
             /// </summary>
             public double SpendTime;
+            public string SkillDispersion => "报价: ${0:f0} - ${1:f0}\n预期时间: {2:f1}天".Translate(PriceMin, PriceMax, SpendTime);
             public Skill(ILine line)
             {
                 Type = (SkillType)Enum.Parse(typeof(SkillType), line.info, true);
@@ -257,7 +278,7 @@ namespace VUPSimulator.Interface
             }
         }
 
-        public ImageSource[] WorkPreviews => Works.Select(x => x.ImageSource(core)).ToArray();
+        public ImageSource[] WorkPreviews => Works.Select(x => x.ImageSource).ToArray();
 
         /// <summary>
         /// 展示的画作
@@ -276,20 +297,31 @@ namespace VUPSimulator.Interface
             /// 图片
             /// </summary>
             public string Image;
+            private ImageSource imageSource = null;
             /// <summary>
             /// 获取画作图片
             /// </summary>
-            public ImageSource ImageSource(ICore core) => core.ImageSources.FindImage("auth_" + Image);
+            public ImageSource ImageSource
+            {
+                get
+                {
+                    if (imageSource == null)
+                        imageSource = opa.core.ImageSources.FindImage("auth_" + Image);
+                    return imageSource;
+                }
+            }
+            public OldPainterAuthor opa;
             /// <summary>
             /// 画作介绍
             /// </summary>
             public string Intor;
-            public Work(ILine line)
+            public Work(ILine line, OldPainterAuthor opa)
             {
                 SkillType = (SkillType)Enum.Parse(typeof(SkillType), line.info);
                 Name = line.GetString("name");
                 Image = line.GetString("image");
                 Intor = line.Text;
+                this.opa = opa;
             }
         }
     }

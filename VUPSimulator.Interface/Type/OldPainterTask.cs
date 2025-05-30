@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using static VUPSimulator.Interface.Item;
 using static VUPSimulator.Interface.OldPainterAuthor;
 
 namespace VUPSimulator.Interface
@@ -88,6 +89,7 @@ namespace VUPSimulator.Interface
             EndTime = savedata[(gdat)"endtime"];
             ExpectedAmountFrom = savedata[(gdbe)"expectedamountfrom"];
             ExpectedAmountTo = savedata[(gdbe)"expectedamountto"];
+            Content = savedata[(gstr)"content"];
 
             //加载应征和邀请的画师
             foreach (string AuthID in savedata["ALLAuthorID"].GetInfos())
@@ -113,6 +115,16 @@ namespace VUPSimulator.Interface
                     }
                 }
             }
+            switch (Category)
+            {
+                case PainterCategory.L2DPaintUpdate:
+                case PainterCategory.L2DModel:
+                case PainterCategory.L2DModelUpdate:
+                    //绑定的Content是用户拥有的L2D文件
+                    ContentItem = mw.Save.Items.Find(x => x.Type == ItemType.l2d && x.ItemIdentifier == Content);
+                    break;
+            }
+
             //推荐的画师不会被保存,由系统生成,不和应征邀请相同
             GenRecommend();
         }
@@ -172,6 +184,7 @@ namespace VUPSimulator.Interface
             SaveData[(gdat)"endtime"] = EndTime;
             SaveData[(gdbe)"expectedamountfrom"] = ExpectedAmountFrom;
             SaveData[(gdbe)"expectedamountto"] = ExpectedAmountTo;
+            SaveData[(gstr)"content"] = Content;
             SaveData.InfoToInt = Id;
             //保存应征和邀请的画师
             var ALLAuthorID = new List<string>();
@@ -276,7 +289,7 @@ namespace VUPSimulator.Interface
         private ObservableCollection<AuthorInTask> _recruitPainters = new ObservableCollection<AuthorInTask>();
 
         /// <summary>
-        /// 招募的画师 (找别人的画师)
+        /// (想要)招募的画师 (主动找别人的画师)
         /// </summary>
         public ObservableCollection<AuthorInTask> InvitePainters { get => _invitePainters; set => Set(ref _invitePainters, value); }
         private ObservableCollection<AuthorInTask> _invitePainters = new ObservableCollection<AuthorInTask>();
@@ -286,7 +299,14 @@ namespace VUPSimulator.Interface
         /// </summary>
         public ObservableCollection<AuthorInTask> RecommendedPainters { get => _recommendedPainters; set => Set(ref _recommendedPainters, value); }
         private ObservableCollection<AuthorInTask> _recommendedPainters = new ObservableCollection<AuthorInTask>();
-
+        /// <summary>
+        /// 任务内容 (例如绑定的L2D文件名称等)
+        /// </summary>
+        public string Content { get; set; }
+        /// <summary>
+        /// 任务内容 (实际绑定的内容)
+        /// </summary>
+        public Item ContentItem;
         /// <summary>
         /// 应征作者参数
         /// </summary>
@@ -316,8 +336,8 @@ namespace VUPSimulator.Interface
             }
             public AuthorInTaskType AuthorType
             {
-                get => (AuthorInTaskType)opt.SaveData[(gint)(AuthorId + "_atpye")];
-                set => opt.SaveData[(gint)(AuthorId + "_atpye")] = (int)value;
+                get => (AuthorInTaskType)OPT.SaveData[(gint)(AuthorId + "_atpye")];
+                set => OPT.SaveData[(gint)(AuthorId + "_atpye")] = (int)value;
             }
             /// <summary>
             /// 作者在任务中的信息。
@@ -327,7 +347,7 @@ namespace VUPSimulator.Interface
             /// <param name="authorType">作者在项目中的类型(为空则加载默认设置)</param>
             public AuthorInTask(OldPainterTask opt, OldPainterAuthor author, AuthorInTaskType? authorType = null)
             {
-                this.opt = opt;
+                this.OPT = opt;
                 Author = author;
                 if (authorType.HasValue)
                 {
@@ -336,29 +356,34 @@ namespace VUPSimulator.Interface
                 switch (opt.Category)
                 {
                     case PainterCategory.L2DPaint:
-                    case PainterCategory.L2DPaintUpdate:
-                        Rate = author.Skills.Find(x => x.Type == OldPainterAuthor.SkillType.L2DPaint).Rate;
+                        Skill = author.Skills.Find(x => x.Type == OldPainterAuthor.SkillType.L2DPaint);
+                        if (!string.IsNullOrEmpty(Content))
+                            ContentItem = opt.mw.Save.Items.Find(x => x.Type == ItemType.l2d && x.ItemIdentifier == Content);
+                        break;
+                    case PainterCategory.L2DPaintUpdate://L2D更新啥的以项目Content为准
+                        Skill = author.Skills.Find(x => x.Type == OldPainterAuthor.SkillType.L2DPaint);                       
                         break;
                     case PainterCategory.L2DModel:
                     case PainterCategory.L2DModelUpdate:
-                        Rate = author.Skills.Find(x => x.Type == OldPainterAuthor.SkillType.L2DModel).Rate;
+                        Skill = author.Skills.Find(x => x.Type == OldPainterAuthor.SkillType.L2DModel);                       
                         break;
                     case PainterCategory.Illustration:
-                        Rate = author.Skills.Find(x => x.Type == OldPainterAuthor.SkillType.Illustration).Rate;
+                        Skill = author.Skills.Find(x => x.Type == OldPainterAuthor.SkillType.Illustration);
                         break;
                     case PainterCategory.Profile:
-                        Rate = author.Skills.Find(x => x.Type == OldPainterAuthor.SkillType.Profile).Rate;
+                        Skill = author.Skills.Find(x => x.Type == OldPainterAuthor.SkillType.Profile);
                         break;
                     case PainterCategory.Expression:
-                        Rate = author.Skills.Find(x => x.Type == OldPainterAuthor.SkillType.Expression).Rate;
+                        Skill = author.Skills.Find(x => x.Type == OldPainterAuthor.SkillType.Expression);
                         break;
                 }
                 WorkPreview = opt.mw.Core.ImageSources.FindImage(WorkPreviewPath, "oldpainter_wait_" + Category);
             }
+            public Skill Skill { get; set; }
 
-            OldPainterTask opt;
+            public OldPainterTask OPT;
 
-            OldPainterAuthor Author;
+            public OldPainterAuthor Author;
 
             /// <summary>
             /// 画师头像
@@ -368,7 +393,7 @@ namespace VUPSimulator.Interface
             /// <summary>
             /// 画师任务
             /// </summary>
-            public PainterCategory Category => opt.Category;
+            public PainterCategory Category => OPT.Category;
             /// <summary>
             /// 画师ID
             /// </summary>
@@ -382,8 +407,7 @@ namespace VUPSimulator.Interface
             /// <summary>
             /// 评分
             /// </summary>
-            public double Rate { get => _rate; set => Set(ref _rate, value); }
-            private double _rate;
+            public double Rate => Skill?.Rate ?? 0;
             /// <summary>
             /// 当前进度
             /// </summary>
@@ -404,9 +428,9 @@ namespace VUPSimulator.Interface
             /// </summary>
             public double CurrentProgressValue
             {
-                get => opt.SaveData[(gdbe)(AuthorId + "_cpv")]; set
+                get => OPT.SaveData[(gdbe)(AuthorId + "_cpv")]; set
                 {
-                    opt.SaveData[(gdbe)(AuthorId + "_cpv")] = value;
+                    OPT.SaveData[(gdbe)(AuthorId + "_cpv")] = value;
                     NotifyOfPropertyChange(nameof(CurrentProgressValue));
                 }
             }
@@ -416,9 +440,9 @@ namespace VUPSimulator.Interface
             /// </summary>
             public double Amount
             {
-                get => opt.SaveData[(gdbe)(AuthorId + "_amount")]; set
+                get => OPT.SaveData[(gdbe)(AuthorId + "_amount")]; set
                 {
-                    opt.SaveData[(gdbe)(AuthorId + "_amount")] = value;
+                    OPT.SaveData[(gdbe)(AuthorId + "_amount")] = value;
                     NotifyOfPropertyChange(nameof(Amount));
                 }
             }
@@ -428,9 +452,9 @@ namespace VUPSimulator.Interface
             /// </summary>
             public int ExpectedDays
             {
-                get => opt.SaveData[(gint)(AuthorId + "_expecteddays")]; set
+                get => OPT.SaveData[(gint)(AuthorId + "_expecteddays")]; set
                 {
-                    opt.SaveData[(gint)(AuthorId + "_expecteddays")] = value;
+                    OPT.SaveData[(gint)(AuthorId + "_expecteddays")] = value;
                     NotifyOfPropertyChange(nameof(ExpectedDays));
                 }
             }
@@ -440,29 +464,50 @@ namespace VUPSimulator.Interface
             /// </summary>
             public string WorkPreviewTitle
             {
-                get => opt.SaveData[(gstr)(AuthorId + "_title")]; set
+                get => OPT.SaveData[(gstr)(AuthorId + "_title")]; set
                 {
-                    opt.SaveData[(gstr)(AuthorId + "_title")] = value;
+                    OPT.SaveData[(gstr)(AuthorId + "_title")] = value;
                     NotifyOfPropertyChange(nameof(WorkPreviewTitle));
                 }
             }
+            /// <summary>
+            /// 任务内容 (例如绑定的L2D文件名称等)
+            /// </summary>
+            public string Content
+            {
+                get => OPT.SaveData[(gstr)(AuthorId + "_content")]; set
+                {
+                    OPT.SaveData[(gstr)(AuthorId + "_content")] = value;
+                    NotifyOfPropertyChange(nameof(Content));
+                }
+            }
+            /// <summary>
+            /// 任务内容 (实际绑定的内容)
+            /// </summary>
+            public Item ContentItem;
             /// <summary>
             /// 稿件预览路径。
             /// </summary>
             public string WorkPreviewPath
             {
-                get => opt.SaveData[(gstr)(AuthorId + "_path")]; set
+                get => OPT.SaveData[(gstr)(AuthorId + "_path")]; set
                 {
-                    opt.SaveData[(gstr)(AuthorId + "_path")] = value;
+                    OPT.SaveData[(gstr)(AuthorId + "_path")] = value;
                     NotifyOfPropertyChange(nameof(WorkPreviewPath));
                 }
             }
+
             /// <summary>
             /// 稿件。
             /// </summary>
 
             public ImageSource WorkPreview { get => _workPreview; set => Set(ref _workPreview, value); }
             private ImageSource _workPreview;
+
+            /// <summary>
+            /// 这个是画师作品的预览图,和稿件不一样
+            /// </summary>
+            public ImageSource[] WorkPreviews { get => Author.WorkPreviews; }
 
             /// <summary>
             /// 评论数量
@@ -482,23 +527,53 @@ namespace VUPSimulator.Interface
             /// <summary>
             /// 是否已经加入
             /// </summary>
-            public bool IsJoined { get => _isJoined; set => Set(ref _isJoined, value); }
-            private bool _isJoined;
+            public bool IsJoined { get => AuthorType == AuthorInTaskType.Parted; }
 
             /// <summary>
             /// 是否是带价邀请
             /// </summary>
-            public bool InviteWithPrice { get => _inviteWithPrice; set => Set(ref _inviteWithPrice, value); }
-            private bool _inviteWithPrice;
+            public bool InviteWithPrice { get => OPT.SaveData.GetBool(AuthorId + "_invitewithprice"); set => OPT.SaveData.SetBool(AuthorId + "_invitewithprice", value); }
 
             /// <summary>
-            /// 是否显示。
+            /// 是否可以邀请。
             /// </summary>
-            public bool IsVisible { get => _isVisible; set => Set(ref _isVisible, value); }
-            private bool _isVisible = true;
+            public bool CanInvite { get => !OPT.SaveData.GetBool(AuthorId + "_noinvite"); set => OPT.SaveData.SetBool(AuthorId + "_noinvite", !value); }
+
+            public enum RefusalReasonType
+            {
+                /// <summary>
+                /// 未知原因 (默认,未指定)
+                /// </summary>
+                Unknown,
+                /// <summary>
+                /// 价格过低
+                /// </summary>
+                LowPrice,
+                /// <summary>
+                /// 价格过高
+                /// </summary>
+                HighPrice,
+                /// <summary>
+                /// 江郎才尽 (一般是没有可以抽的作品了)
+                /// </summary>
+                WriterBlock,
+                /// <summary>
+                /// 该项目已经有应聘者了 (对于改进和建模方面的任务,只能有一个画师参与)
+                /// </summary>
+                HaveAuthor,
+            }
+            public RefusalReasonType RefusalReason
+            {
+                get => (RefusalReasonType)OPT.SaveData[(gint)(AuthorId + "_refusalreason")];
+                set => OPT.SaveData[(gint)(AuthorId + "_refusalreason")] = (int)value;
+            }
+
+            ///// <summary>
+            ///// 是否显示。
+            ///// </summary>
+            //public bool IsVisible { get => _isVisible; set => Set(ref _isVisible, value); }
+            //private bool _isVisible = true;
         }
-
-
 
     }
 }

@@ -744,8 +744,21 @@ namespace VUPSimulator.Interface
         /// </summary>
         public enum MSGType
         {
+            /// <summary>
+            /// 无任何警告性质,只是给玩家看看
+            /// </summary>
+            none,
+            /// <summary>
+            /// 提醒玩家
+            /// </summary>
             notify,
+            /// <summary>
+            /// 警告玩家
+            /// </summary>
             warning,
+            /// <summary>
+            /// 产生错误
+            /// </summary>
             error
         }
 

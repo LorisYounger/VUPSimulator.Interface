@@ -92,6 +92,7 @@ namespace VUPSimulator.Interface
             ExpectedAmountFrom = savedata[(gdbe)"expectedamountfrom"];
             ExpectedAmountTo = savedata[(gdbe)"expectedamountto"];
             Content = savedata[(gstr)"content"];
+            IsArchived = savedata[(gbol)"isarch"];
 
             //加载应征和邀请的画师
             foreach (string AuthID in savedata["ALLAuthorID"].GetInfos())
@@ -184,6 +185,7 @@ namespace VUPSimulator.Interface
             SaveData[(gdbe)"expectedamountfrom"] = ExpectedAmountFrom;
             SaveData[(gdbe)"expectedamountto"] = ExpectedAmountTo;
             SaveData[(gstr)"content"] = Content;
+            SaveData[(gbol)"isarch"] = IsArchived;
             SaveData.InfoToInt = Id;
             //保存应征和邀请的画师
             var ALLAuthorID = new List<string>();

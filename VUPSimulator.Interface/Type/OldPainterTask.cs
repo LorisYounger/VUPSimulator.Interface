@@ -1,5 +1,6 @@
 ﻿using LinePutScript;
 using LinePutScript.Converter;
+using LinePutScript.Localization.WPF;
 using Panuon.WPF;
 using System;
 using System.Collections.Generic;
@@ -75,7 +76,8 @@ namespace VUPSimulator.Interface
         /// </summary>
         /// <param name="mw"></param>
         /// <param name="savedata">任务数据和子数据(用于保存)</param>
-        public OldPainterTask(IMainWindow mw, ILine savedata)
+        /// <param name="save">游戏存档,考虑到这个项目需要在初始化的时候调用,那时候MW还没有SAVE</param>
+        public OldPainterTask(IMainWindow mw, ILine savedata, ISave save = null)
         {
             this.mw = mw;
             SaveData = savedata;
@@ -83,7 +85,7 @@ namespace VUPSimulator.Interface
             Title = savedata[(gstr)"title"];
             Id = savedata.InfoToInt;
             ImageShotPath = savedata[(gstr)"imagepath"];
-            ImageShot = mw.Core.ImageSources.FindImage(ImageShotPath, "oldpainter_" + Category);
+            ImageShot = mw.Core.ImageSources.FindImage(ImageShotPath, "oldpainter_wait_" + Category);
             CreateTime = savedata[(gdat)"createtime"];
             StartTime = savedata[(gdat)"starttime"];
             EndTime = savedata[(gdat)"endtime"];
@@ -97,7 +99,7 @@ namespace VUPSimulator.Interface
                 OldPainterAuthor author = mw.Core.Authors.Find(x => x.Identy == AuthID);
                 if (author != null)
                 {
-                    AuthorInTask ait = new AuthorInTask(this, author);
+                    AuthorInTask ait = new AuthorInTask(this, author,save: save);
                     switch (ait.AuthorType)
                     {
                         //case AuthorInTask.AuthorInTaskType.Recommended:
@@ -124,9 +126,6 @@ namespace VUPSimulator.Interface
                     ContentItem = mw.Save.Items.Find(x => x.Type == ItemType.l2d && x.ItemIdentifier == Content);
                     break;
             }
-
-            //推荐的画师不会被保存,由系统生成,不和应征邀请相同
-            GenRecommend();
         }
         /// <summary>
         /// 生成推荐的画师列表
@@ -345,7 +344,8 @@ namespace VUPSimulator.Interface
             /// <param name="opt">任务</param>
             /// <param name="author">老画师作者</param>
             /// <param name="authorType">作者在项目中的类型(为空则加载默认设置)</param>
-            public AuthorInTask(OldPainterTask opt, OldPainterAuthor author, AuthorInTaskType? authorType = null)
+            /// <param name="save">游戏存档,考虑到这个项目需要在初始化的时候调用,那时候MW还没有SAVE</param>
+            public AuthorInTask(OldPainterTask opt, OldPainterAuthor author, AuthorInTaskType? authorType = null, ISave save = null)
             {
                 this.OPT = opt;
                 Author = author;
@@ -353,21 +353,28 @@ namespace VUPSimulator.Interface
                 {
                     AuthorType = authorType.Value;
                 }
+                save ??= opt.mw.Save;
                 switch (opt.Category)
                 {
                     case PainterCategory.L2DPaint:
                         Skill = author.Skills.Find(x => x.Type == OldPainterAuthor.SkillType.L2DPaint);
                         if (!string.IsNullOrEmpty(Content))
-                            ContentItem = opt.mw.Save.Items.Find(x => x.Type == ItemType.l2d && x.ItemIdentifier == Content);
+                            ContentItem = (Item_Paint)save.Items.Find(x => x.Type == ItemType.l2d && x.ItemIdentifier == Content);
+                        str_MiddleTask = "线稿";
+                        str_EndTask = "成稿";
                         break;
                     case PainterCategory.L2DPaintUpdate://L2D更新啥的以项目Content为准
-                        Skill = author.Skills.Find(x => x.Type == OldPainterAuthor.SkillType.L2DPaint);                       
+                        Skill = author.Skills.Find(x => x.Type == OldPainterAuthor.SkillType.L2DPaint);
+                        str_MiddleTask = "完善";
+                        str_EndTask = "改进";
                         break;
                     case PainterCategory.L2DModel:
-                    case PainterCategory.L2DModelUpdate:
-                        Skill = author.Skills.Find(x => x.Type == OldPainterAuthor.SkillType.L2DModel);                       
+                    case PainterCategory.L2DModelUpdate://同理
+                        Skill = author.Skills.Find(x => x.Type == OldPainterAuthor.SkillType.L2DModel);
+                        str_MiddleTask = "拆分";
+                        str_EndTask = "动作";
                         break;
-                    case PainterCategory.Illustration:
+                    case PainterCategory.Illustration://这些及以下还没做,以后整
                         Skill = author.Skills.Find(x => x.Type == OldPainterAuthor.SkillType.Illustration);
                         break;
                     case PainterCategory.Profile:
@@ -377,6 +384,11 @@ namespace VUPSimulator.Interface
                         Skill = author.Skills.Find(x => x.Type == OldPainterAuthor.SkillType.Expression);
                         break;
                 }
+                if (CurrentProgress == PainterProgress.Completed)
+                    str_CanNext = "已完成";//TODO:以后出评价系统,现在先不整
+                else
+                    str_CanNext = "进行下一步";
+
                 WorkPreview = opt.mw.Core.ImageSources.FindImage(WorkPreviewPath, "oldpainter_wait_" + Category);
             }
             public Skill Skill { get; set; }
@@ -446,16 +458,47 @@ namespace VUPSimulator.Interface
                     NotifyOfPropertyChange(nameof(Amount));
                 }
             }
-
+            /// <summary>
+            /// 报价 稿酬(已花费)(用于生成质量)
+            /// </summary>
+            public double AmountUsed
+            {
+                get => OPT.SaveData[(gdbe)(AuthorId + "_amount_used")]; set
+                {
+                    OPT.SaveData[(gdbe)(AuthorId + "_amount_used")] = value;
+                    NotifyOfPropertyChange(nameof(Amount));
+                }
+            }
             /// <summary>
             /// 预计用时
             /// </summary>
-            public int ExpectedDays
+            public double ExpectedDays
             {
-                get => OPT.SaveData[(gint)(AuthorId + "_expecteddays")]; set
+                get => OPT.SaveData[(gdbe)(AuthorId + "_expecteddays")]; set
                 {
-                    OPT.SaveData[(gint)(AuthorId + "_expecteddays")] = value;
+                    OPT.SaveData[(gdbe)(AuthorId + "_expecteddays")] = value;
                     NotifyOfPropertyChange(nameof(ExpectedDays));
+                }
+            }
+            /// <summary>
+            /// 最后更新时间 (给程序用来更新计时用的)
+            /// </summary>
+            public DateTime LastUpdateTime
+            {
+                get => OPT.SaveData[(gdat)(AuthorId + "_lastupdatetime")]; set
+                {
+                    OPT.SaveData[(gdat)(AuthorId + "_lastupdatetime")] = value;
+                }
+            }
+            /// <summary>
+            /// 能否继续下一步 (当进度到达50%和100%时会自动设置为true,否则为false)
+            /// </summary>
+            public bool CanNext
+            {
+                get => OPT.SaveData.GetBool(AuthorId + "_cannext"); set
+                {
+                    OPT.SaveData.SetBool(AuthorId + "_cannext", value);
+                    NotifyOfPropertyChange(nameof(CanNext));
                 }
             }
 
@@ -484,7 +527,13 @@ namespace VUPSimulator.Interface
             /// <summary>
             /// 任务内容 (实际绑定的内容)
             /// </summary>
-            public Item ContentItem;
+            public Item_Paint ContentItem;
+
+            public string ContentInfoDisplay
+            {
+                get => ContentItem?.PaintIntroduce ?? "任务内容: " + Content;
+                set { }
+            }
             /// <summary>
             /// 稿件预览路径。
             /// </summary>
@@ -503,6 +552,8 @@ namespace VUPSimulator.Interface
 
             public ImageSource WorkPreview { get => _workPreview; set => Set(ref _workPreview, value); }
             private ImageSource _workPreview;
+
+            public double WorkPreviewOpacity => Math.Min(1, 0.5 + CurrentProgressValue / 200);
 
             /// <summary>
             /// 这个是画师作品的预览图,和稿件不一样
@@ -561,13 +612,183 @@ namespace VUPSimulator.Interface
                 /// 该项目已经有应聘者了 (对于改进和建模方面的任务,只能有一个画师参与)
                 /// </summary>
                 HaveAuthor,
+                /// <summary>
+                /// 忙碌中 (画师正在忙于其他任务)(其实是有其他原因导致的拒绝,但是懒得和玩家说)
+                /// </summary>
+                Busy,
             }
             public RefusalReasonType RefusalReason
             {
                 get => (RefusalReasonType)OPT.SaveData[(gint)(AuthorId + "_refusalreason")];
                 set => OPT.SaveData[(gint)(AuthorId + "_refusalreason")] = (int)value;
             }
+            /// <summary>
+            /// 该任务的中间进度名称
+            /// </summary>
+            public string str_MiddleTask { get; set; }
+            /// <summary>
+            /// 该任务的结束进度名称
+            /// </summary>
+            public string str_EndTask { get; set; }
+            /// <summary>
+            /// 按钮显示字体
+            /// </summary>
+            public string str_CanNext { get; set; }
 
+            /// <summary>
+            /// 时间流逝时调用,用于更新任务状态等。
+            /// </summary>
+            public void Handle_PassTime(IMainWindow mw)
+            {
+                if (CurrentProgress == PainterProgress.Completed || CurrentProgressValue == 50)
+                {//中间节点和已经完成的任务不需要更新
+                    //如果已经完成,则不需要更新
+                    return;
+                }
+                //经过时间(天)
+                double timepass = (mw.Save.Base.Now - LastUpdateTime).TotalDays;
+                LastUpdateTime = mw.Save.Base.Now;
+                //增加进度指示
+                double ps = timepass / ExpectedDays;
+                ExpectedDays = Math.Max(1, ExpectedDays - timepass);
+                double befprocess = CurrentProgressValue;
+                if (ps > 1)
+                {
+                    ps = 1;
+                }
+                else if (ps < 0)
+                {
+                    return;
+                }
+                ps *= 100;
+                bool isPause50 = false;
+                bool isPause100 = false;
+                //避免卡UI线程,还是先Dispatch一下
+                mw.Dispatcher.Invoke(() =>
+                {
+                    //先看看进度增加了后会不会超过50%或100%
+                    if (CurrentProgressValue < 50)
+                    {
+                        if (ps + CurrentProgressValue > 50)
+                        {//确保PS不会超过50%
+                            ps = 50 - CurrentProgressValue;
+                            CurrentProgressValue = 50;//直接设置为50%
+                            CanNext = true;//可以进行下一步
+                                           //50%时显示线稿
+                            isPause50 = true;
+                        }
+                        else
+                        {
+                            CurrentProgressValue += ps;//增加进度
+                        }
+                    }
+                    else
+                    {
+                        if (ps + CurrentProgressValue > 100)
+                        {//确保PS不会超过100%
+                            ps = 100 - CurrentProgressValue;
+                            CurrentProgressValue = 100;//直接设置为100%
+                            str_CanNext = "已完成";//可以进行下一步
+                                                //CanNext = true;//可以进行下一步TODO:去评价
+                            isPause100 = true;
+                        }
+                        else
+                        {
+                            CurrentProgressValue += ps;//增加进度
+                        }
+                    }
+                    //增加进度(普通)
+                    switch (Category)
+                    {
+                        case PainterCategory.L2DPaint:
+                            var l2d = ContentItem as Item_L2D;
+                            double buffprice = Math.Max(10, Math.Min(175, (Amount - AmountUsed) / l2d.PriceBase * (100 - befprocess)));//根据价格基数计算buff(10-175)
+                            l2d.Process = (int)(CurrentProgressValue / 2);
+                            l2d.ImageRank += Function.RndNext(l2d.Min * buffprice, l2d.Max * buffprice) / 10000 * ps;
+
+                            AmountUsed += ps * l2d.PriceBase / 10000 * buffprice;//增加已花费的金额
+                                                                                 //抽表情
+                            if (buffprice > 110 && Function.Rnd.Next(l2d.ExpressionHave.Count * 2 + 2) == 0)
+                            {
+                                l2d.ExpressionADD(Function.Rnd.Next(l2d.ExpressionList.Count));
+                                AmountUsed += l2d.PriceExp;
+                            }
+
+                            if (isPause50)
+                            {
+                                //更新预览图
+                                WorkPreviewPath = l2d.Image;
+                                WorkPreview = mw.Dispatcher.Invoke(() => mw.Core.ImageSources.FindImage(WorkPreviewPath, "oldpainter_wait_" + Category));
+
+                                //弹消息提示用户去老画师看看
+                                new Event(mw, "none",
+                                new Sub("period", "Single"),
+                                new Sub("intor", "企划 {0} 已达到 {1} 节点\n请前往老画师进行确认".Translate(OPT.Title, str_MiddleTask)),
+                                new Sub("visible", "Message"),
+                                new Sub("info", "老画师: 企划已达到新节点"),
+                                new Sub("startdate", mw.Save.Base.Now.ToString("yyyy/MM/dd HH:mm"))
+                                );
+                            }
+                            else if (isPause100)
+                            {//对齐:避免超过100%
+                                l2d.Process = 50;
+
+                                //弹消息提示用户去老画师看看
+                                new Event(mw, "none",
+                                new Sub("period", "Single"),
+                                new Sub("intor", "企划 {0} 已达到 {1} 节点\n请前往老画师进行签收".Translate(OPT.Title, str_EndTask)),
+                                new Sub("visible", "Message"),
+                                new Sub("info", "老画师: 企划已完成"),
+                                new Sub("startdate", mw.Save.Base.Now.ToString("yyyy/MM/dd HH:mm"))
+                                );
+                            }
+
+                            break;
+                        case PainterCategory.L2DModel:
+                            l2d = ContentItem as Item_L2D;
+                            buffprice = 50 + Math.Max(0, Math.Min(100, (Amount - AmountUsed) / (l2d.PriceBase + l2d.PriceExp + Skill.PriceMax + Skill.PriceMin) * (100 - befprocess)));//根据价格基数计算buff(50-150)
+                            l2d.Process = 50 + (int)(CurrentProgressValue / 2);
+                            l2d.ImageRank += Function.RndNext(l2d.Min * buffprice, l2d.Max * buffprice) / 100 * ps;
+
+                            AmountUsed += ps * Amount / 10000 * buffprice;//增加已花费的金额
+                                                                          //抽表情
+                            if (buffprice > 110 && Function.Rnd.Next(l2d.ExpressionHave.Count * 2 + 2) == 0)
+                            {
+                                l2d.ExpressionADD(Function.Rnd.Next(l2d.ExpressionList.Count));
+                                AmountUsed += l2d.PriceExp;
+                            }
+
+                            if (isPause50)
+                            {
+                                //弹消息提示用户去老画师看看
+                                new Event(mw, "none",
+                                new Sub("period", "Single"),
+                                new Sub("intor", "企划 {0} 已达到 {1} 节点\n请前往老画师进行确认".Translate(OPT.Title, str_MiddleTask)),
+                                new Sub("visible", "Message"),
+                                new Sub("info", "老画师: 企划已达到新节点"),
+                                new Sub("startdate", mw.Save.Base.Now.ToString("yyyy/MM/dd HH:mm"))
+                                );
+                            }
+                            else if (isPause100)
+                            {//对齐:避免超过100%
+                                l2d.Process = 100;
+                                //弹消息提示用户去老画师看看
+                                new Event(mw, "none",
+                                new Sub("period", "Single"),
+                                new Sub("intor", "企划 {0} 已达到 {1} 节点\n请前往老画师进行确认".Translate(OPT.Title, str_MiddleTask)),
+                                new Sub("visible", "Message"),
+                                new Sub("info", "老画师: 企划已达到新节点"),
+                                new Sub("startdate", mw.Save.Base.Now.ToString("yyyy/MM/dd HH:mm"))
+                                );
+                            }
+                            break;
+                        default:
+                            CurrentProgressValue += ps;
+                            break;
+                    }
+
+                });
+            }
             ///// <summary>
             ///// 是否显示。
             ///// </summary>

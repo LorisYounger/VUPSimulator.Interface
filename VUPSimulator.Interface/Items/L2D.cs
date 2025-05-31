@@ -5,22 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using LinePutScript;
+using LinePutScript.Localization.WPF;
 
 namespace VUPSimulator.Interface
 {
     /// <summary>
     /// L2D基础类
     /// </summary>
-    public class Item_L2D_base : Item
+    public class Item_L2D_base : Item_Paint
     {
-        ///// <summary>
-        ///// 图片位置//图片位置使用图片数据库
-        ///// </summary>
-        //public string BasePath
-        //{
-        //    get => FindorAdd("path").Info;
-        //    set => FindorAdd("path").Info = value;
-        //}
         public Item_L2D_base(ILine line) : base(line)
         {
             //ItemIdentifier = line.Identy;
@@ -119,55 +112,13 @@ namespace VUPSimulator.Interface
             O_Other,
         }
 
-        /// <summary>
-        /// 画师 (用于定位) OldPainterAuthor (ID)
-        /// </summary>
-        public string Painter => this[(gstr)"painter"];
-        /// <summary>
-        /// 真画师 (部分作者会被塞到其他集团名下)
-        /// </summary>
-        public string PainterReal
-        {
-            get
-            {
-                if (Find("painterreal") == null)
-                {
-                    return Painter;
-                }
-                else
-                {
-                    return Find("painterreal").Info;
-                }
-            }
-        }
-        /// <summary>
-        /// 最大星级
-        /// </summary>
-        public double Max => Find("max").InfoToDouble;
-        /// <summary>
-        /// 最小星级
-        /// </summary>
-        public double Min => Find("min").InfoToDouble;
-        /// <summary>
-        /// 基础价格
-        /// </summary>
-        public double PriceBase => Find("pricebase").InfoToDouble;
+
+
         /// <summary>
         /// 表情价格
         /// </summary>
         public double PriceExp => Find("priceexp")?.InfoToDouble ?? PriceBase / 5;
-        /// <summary>
-        /// 预计花费时长
-        /// </summary>
-        public double Spendtime => Find("spendtime").InfoToDouble;
-        ///// <summary>
-        ///// 随机获得10%星级, 根据多给的钱进行判断
-        ///// 同时消耗多给的钱和等
-        ///// </summary>
-        //public double RNDRANK(double PriceBetter)
-        //{
-        //    return Function.Rnd.Next((int)(Min * 100), (int)(Max * 100)) / 100;
-        //}
+       
         public Item_L2D CreateNew() => new Item_L2D(this);
         public Item_L2D CreateOld(ILine line) => new Item_L2D(this, line[(gdbe)"star"], line[(gdbe)"build"], line["haveexpression"].info)
         { ItemDisplayName = "初始L2D", Modeler = "LorisYounger" };
@@ -216,7 +167,7 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 实际综合等级
         /// </summary>
-        public double TotalRank
+        public override double TotalRank
         {//根据新鲜度计算,最低不低于50%
             get => (ImageRank + ModelRank) * (Freshness + 100 + Math.Pow(ExpressionHave.Count, 1.5) * 10) / 200;
         }
@@ -319,6 +270,18 @@ namespace VUPSimulator.Interface
             if (str % 2 == 1)
                 s += "☆";
             return s;
+        }
+
+        /// <summary>
+        /// 物品介绍 (包括属性等)
+        /// </summary>
+        public override string PaintIntroduce
+        {
+            get
+            {
+                return base.PaintIntroduce + "\n表情数量: {5}\n立绘等级: {0:f1} {1}\n建模等级: {2:f1} {3}\n综合星级: {4}".Translate(ImageRank, ToRankStar(ImageRank), ModelRank
+                    , ToRankStar(ModelRank), ToRankStar(TotalRank), ExpressionHave.Count);
+            }
         }
     }
 }

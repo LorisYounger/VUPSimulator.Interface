@@ -228,8 +228,18 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 当前进度值
         /// </summary>
-        public double CurrentProgressValue { get => _currentProgressValue; set => Set(ref _currentProgressValue, value); }
-        private double _currentProgressValue = 0.0;
+        public double CurrentProgressValue
+        {
+            get
+            {
+                if (PartedPainters.Count == 0) return 0;
+                return PartedPainters.Average(x => x.CurrentProgressValue);
+            }
+            set
+            {
+
+            }
+        }
 
         /// <summary>
         /// 标题
@@ -374,10 +384,15 @@ namespace VUPSimulator.Interface
                         ContentItem = opt.ContentItem;//绑定的L2D文件
                         break;
                     case PainterCategory.L2DModel:
-                    case PainterCategory.L2DModelUpdate://同理
                         Skill = author.Skills.Find(x => x.Type == OldPainterAuthor.SkillType.L2DModel);
                         str_MiddleTask = "拆分";
                         str_EndTask = "动作";
+                        ContentItem = opt.ContentItem;//绑定的L2D文件
+                        break;
+                    case PainterCategory.L2DModelUpdate://同理
+                        Skill = author.Skills.Find(x => x.Type == OldPainterAuthor.SkillType.L2DModel);
+                        str_MiddleTask = "改绑";
+                        str_EndTask = "调参";
                         ContentItem = opt.ContentItem;//绑定的L2D文件
                         break;
                     case PainterCategory.Illustration://这些及以下还没做,以后整
@@ -751,16 +766,44 @@ namespace VUPSimulator.Interface
                             break;
                         case PainterCategory.L2DModel:
                             l2d = ContentItem as Item_L2D;
-                            buffprice = 50 + Math.Max(0, Math.Min(100, (Amount - AmountUsed) / (l2d.PriceBase + l2d.PriceExp + Skill.PriceMax + Skill.PriceMin) * (100 - befprocess) * 2));//根据价格基数计算buff(50-150)
+                            buffprice = 50 + Math.Max(-20, Math.Min(100, (Amount - AmountUsed) / (l2d.PriceBase + l2d.PriceExp + Skill.PriceMax + Skill.PriceMin) * (100 - befprocess) * 2));//根据价格基数计算buff(50-150)
                             l2d.Process = 50 + (int)(CurrentProgressValue / 2);
                             l2d.ModelRank += Function.RndNext(Skill.LevelMin * buffprice, Skill.LevelMax * buffprice) / 10000 * ps;
                             AmountUsed += ps * Amount / 10000 * buffprice;//增加已花费的金额
                             if (isPause50)
-                            {
-
+                            {//更新预览图
+                                WorkPreviewPath = l2d.Image;
+                                WorkPreview = mw.Dispatcher.Invoke(() => mw.Core.ImageSources.FindImage(WorkPreviewPath, "oldpainter_wait_" + Category));
                             }
                             else if (isPause100)
                             {//对齐:避免超过100%
+                                l2d.Process = 100;
+                            }
+                            break;
+                        case PainterCategory.L2DPaintUpdate:
+                            //升级立绘
+                            l2d = ContentItem as Item_L2D;
+                            buffprice = 25 + Math.Max(-10, Math.Min(100, (Amount - AmountUsed) / (l2d.PriceBase + l2d.PriceExp + Skill.PriceMax + Skill.PriceMin) * (100 - befprocess) / 2));//根据价格基数计算buff(25-150)
+                            l2d.ImageRank += Math.Sqrt(l2d.ImageRank + Function.RndNext(Skill.LevelMin * buffprice, Skill.LevelMax * buffprice) / 10000 * ps) - Math.Sqrt(l2d.ImageRank);//增加立绘等级
+                            AmountUsed += ps * Amount / 10000 * buffprice;//增加已花费的金额
+                                                                          //抽表情
+                            if (buffprice > 70 && Function.Rnd.Next(l2d.ExpressionHave.Count * 2 + 2) == 0)
+                            {
+                                l2d.ExpressionADD(Function.Rnd.Next(l2d.ExpressionList.Count));
+                                AmountUsed += l2d.PriceExp;
+                            }
+                            if (isPause100)
+                            {
+                                l2d.Process = 75;
+                            }
+                            break;
+                        case PainterCategory.L2DModelUpdate:
+                            l2d = ContentItem as Item_L2D;
+                            buffprice = 25 + Math.Max(0, Math.Min(100, (Amount - AmountUsed) / (l2d.PriceBase + l2d.PriceExp + Skill.PriceMax + Skill.PriceMin) * (100 - befprocess) / 2));//根据价格基数计算buff(25-150)
+                            l2d.ModelRank += Math.Sqrt(l2d.ModelRank + Function.RndNext(Skill.LevelMin * buffprice, Skill.LevelMax * buffprice) / 10000 * ps) - Math.Sqrt(l2d.ModelRank);//增加立绘等级
+                            AmountUsed += ps * Amount / 10000 * buffprice;//增加已花费的金额
+                            if (isPause100)
+                            {
                                 l2d.Process = 100;
                             }
                             break;

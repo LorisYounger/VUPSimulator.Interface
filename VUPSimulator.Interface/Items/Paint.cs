@@ -28,11 +28,11 @@ namespace VUPSimulator.Interface
         /// <summary>
         /// 基础价格
         /// </summary>
-        public double PriceBase => Find("pricebase").InfoToDouble;
+        public double PriceBase => GetDouble("pricebase", 1000);
         /// <summary>
         /// 预计花费时长
         /// </summary>
-        public double Spendtime => Find("spendtime").InfoToDouble;
+        public double Spendtime => GetDouble("spendtime",14);
         /// <summary>
         /// 画师 (用于定位) OldPainterAuthor (ID)
         /// </summary>

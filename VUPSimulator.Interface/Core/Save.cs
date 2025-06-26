@@ -210,6 +210,7 @@ namespace VUPSimulator.Interface
             if (item is Food f)
             {//避免食物和过期食物混一起过期了
                 f.QualityGuaranteeStartTime = Base.Now;
+                f.Many = many;
                 Items.Add(item);
                 return;
             }

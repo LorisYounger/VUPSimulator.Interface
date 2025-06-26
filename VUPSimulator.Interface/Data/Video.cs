@@ -1,12 +1,12 @@
-﻿using System;
+﻿using LinePutScript;
+using LinePutScript.Localization.WPF;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
-using System.IO;
-using LinePutScript;
-using LinePutScript.Localization.WPF;
 
 namespace VUPSimulator.Interface
 {
@@ -238,7 +238,13 @@ namespace VUPSimulator.Interface
             }
             set => this[(gstr)"image"] = value;
         }
-        public string ImagePATH(IMainWindow mw) => mw.GameSavePath + '\\' + mw.Save.Base.UserName + "\\video_" + ImageName + ".png";
+        public string ImagePATH(IMainWindow mw)
+        {
+            var Path = mw.GameSavePath + '\\' + mw.Save.Base.UserName + "\\video_" + ImageName + ".png";
+            if (File.Exists(Path))
+                return Path;
+            return mw.Core.ImageSources.FindSource("bg_base", "pack://application:,,,/Res/Image/system/error.png");
+        }
         public BitmapImage Image(IMainWindow mw) => new BitmapImage(new Uri(ImagePATH(mw)));
         /// <summary>
         /// 保存图像

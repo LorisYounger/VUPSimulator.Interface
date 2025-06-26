@@ -37,6 +37,7 @@ namespace VUPSimulator.Interface
             videoraw,//未剪辑的视频,虽然说不是item类,但是反正都可以拿来用
             videoedit,//未剪辑的视频,虽然说不是item类,但是反正都可以拿来用
             videofin,//未剪辑的视频,虽然说不是item类,但是反正都可以拿来用
+            food_all,//所有食物
             food_nohealth,//零食
             food_health,//主食
             food_drink,//饮料

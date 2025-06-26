@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -333,7 +334,11 @@ namespace VUPSimulator.Interface
                 if (img.StartsWith("nilivideo_"))
                     path = mw.Core.ImageSources.FindSource(img, "pack://application:,,,/Res/Image/system/error.png");
                 else
+                {
                     path = mw.GameSavePath + '\\' + mw.Save.Base.UserName + "\\video_" + ImageName + ".png";
+                    if(!File.Exists(path))
+                        path = mw.Core.ImageSources.FindSource("bg_base", "pack://application:,,,/Res/Image/system/error.png");
+                }
                 return new Image()
                 {
                     Source = new BitmapImage(new Uri(path)),

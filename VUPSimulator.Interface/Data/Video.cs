@@ -55,7 +55,8 @@ namespace VUPSimulator.Interface
             r1440x810 = 9,
             r1920x1080 = 10,
             r2560x1440 = 12,
-            r3620x2036 = 14
+            r3620x2036 = 14,
+            r3840x2160 = 16
         }
 
         /// <summary>

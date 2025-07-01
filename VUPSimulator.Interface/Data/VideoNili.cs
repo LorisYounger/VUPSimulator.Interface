@@ -65,7 +65,7 @@ namespace VUPSimulator.Interface
 
             //根据作者生成质量 =POWER(P3+100,0.15)*0.3-0.2
             if (quality <= 0)
-                quality = Math.Pow(video.AuthorNili(mw).TotalFans + 100, 0.15) * 0.3 - 0.2;
+                quality = Math.Pow(video.AuthorNili(mw).TotalFans + 100, 0.25) * 0.3;
 
             //根据用户标签随机视频质量
             var tag = video.AuthorNili(mw).Tags;

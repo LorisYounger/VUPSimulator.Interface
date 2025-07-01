@@ -157,54 +157,7 @@ namespace VUPSimulator.Interface
             get => GetString("user", null);
             set => this[(gstr)"user"] = value;
         }
-        /// <summary>
-        /// 获取游戏评论用户 为null则为随便拉个人
-        /// </summary>
-        /// <returns></returns>
-        public Users GetUser(ICore core, Item_Game_base game)
-        {
-            Users usr;
-            if (User == null)
-            {//开始拉人
-                var tag = Tags_str();
-                //给tag添加游戏元素
-                tag.AddRange(game.Tag);
-                int chs = core.Users.Count / 10;
-                var v = core.Users.FindAll(x =>
-                {
-                    string[] xt = x.GameTag;
-                    if (xt != null)
-                    {
-                        if (xt.Contains("rnd") && Function.Rnd.Next(chs) == 0)
-                            return true;
-                        foreach (var t in tag)
-                        {
-                            if (xt.Contains(t))//包含选定条件,通过
-                            {
-                                return true;
-                            }
-                        }
-                    }
-                    return false;
-                });
-                if (v.Count == 0)
-                    usr = core.Users[core.Users.Count / 10];
-                else
-                    usr = v[Function.Rnd.Next(v.Count)];
 
-                User = usr.UserName;
-                return usr;
-            }
-            //返回用户信息
-            usr = core.Users.Find(x => x.UserName == User);
-            if (usr == null)
-            {
-                //如果是null 则尝试重新拉人
-                Remove("user");
-                return GetUser(core, game);
-            }
-            return usr;
-        }
 
         /// <summary>
         /// 点赞数量
@@ -267,6 +220,36 @@ namespace VUPSimulator.Interface
                     return new Comment(line) { Comments = com };
             }
         }
+
+        /// <summary>
+        /// 获取评论用户
+        /// </summary>
+        /// <returns></returns>
+        public static Users GetUser(ICore core, List<string> Tags)
+        {            
+            int chs = core.Users.Count / 10;
+            var v = core.Users.FindAll(x =>
+            {
+                string[] xt = x.GameTag;
+                if (xt != null)
+                {
+                    if (xt.Contains("rnd") && Function.Rnd.Next(chs) == 0)
+                        return true;
+                    foreach (var t in Tags)
+                    {
+                        if (xt.Contains(t))//包含选定条件,通过
+                        {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            });
+            if (v.Count == 0)
+                return core.Users[core.Users.Count / 10];
+            else
+                return v[Function.Rnd.Next(v.Count)];
+        }
     }
     /// <summary>
     /// 游戏评论表
@@ -284,6 +267,53 @@ namespace VUPSimulator.Interface
             set => this[(gstr)"game"] = value;
         }
 
+        /// <summary>
+        /// 获取游戏评论用户
+        /// </summary>
+        /// <returns></returns>
+        public Users GetUser(ICore core, Item_Game_base game)
+        {
+            Users usr;
+            if (User == null)
+            {//开始拉人
+                var tag = Tags_str();
+                //给tag添加游戏元素
+                tag.AddRange(game.Tag);
+                int chs = core.Users.Count / 10;
+                var v = core.Users.FindAll(x =>
+                {
+                    string[] xt = x.GameTag;
+                    if (xt != null)
+                    {
+                        if (xt.Contains("rnd") && Function.Rnd.Next(chs) == 0)
+                            return true;
+                        foreach (var t in tag)
+                        {
+                            if (xt.Contains(t))//包含选定条件,通过
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                });
+                if (v.Count == 0)
+                    usr = core.Users[core.Users.Count / 10];
+                else
+                    usr = v[Function.Rnd.Next(v.Count)];
 
+                User = usr.UserName;
+                return usr;
+            }
+            //返回用户信息
+            usr = core.Users.Find(x => x.UserName == User);
+            if (usr == null)
+            {
+                //如果是null 则尝试重新拉人
+                Remove("user");
+                return GetUser(core, game);
+            }
+            return usr;
+        }
     }
 }

@@ -72,8 +72,8 @@ namespace VUPSimulator.Interface
                     if (health > 100)
                         health = 100;
                     else if (health <= 0)
-                    {//健康归零,寄了
-
+                    {//TODO:健康归零,寄了
+                        
                     }
                 }
             }

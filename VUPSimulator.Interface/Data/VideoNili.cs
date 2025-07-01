@@ -1,5 +1,10 @@
-﻿using System;
+﻿using LinePutScript;
+using LinePutScript.Converter;
+using LinePutScript.Localization.WPF;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -8,8 +13,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using LinePutScript;
-using LinePutScript.Localization.WPF;
 using static VUPSimulator.Interface.Comment;
 using static VUPSimulator.Interface.Video;
 
@@ -30,6 +33,7 @@ namespace VUPSimulator.Interface
             video.BackgroundImage = bg;
             video.Content = content;
             video.Buff = buff;
+            video.VideoType = type;
             video.FindorAdd("tag").info = string.Join(",", tags);
             if (author == null) //如果没有作者则随机拉一个
             {
@@ -336,7 +340,7 @@ namespace VUPSimulator.Interface
                 else
                 {
                     path = mw.GameSavePath + '\\' + mw.Save.Base.UserName + "\\video_" + ImageName + ".png";
-                    if(!File.Exists(path))
+                    if (!File.Exists(path))
                         path = mw.Core.ImageSources.FindSource("bg_base", "pack://application:,,,/Res/Image/system/error.png");
                 }
                 return new Image()
@@ -674,5 +678,111 @@ namespace VUPSimulator.Interface
         /// =C3*0.01+G3*0.1+I3*0.1
         /// </summary>
         public double IncomeCalDay(int playcal, int likecal, int starcal) => playcal * 0.01 + likecal * 0.1 + starcal * 0.1;
+
+        /// <summary>
+        /// 评论列表: 注意,写入新内容需要重新赋值(并不会改变niliComments指针,只是起到通知的作用) NiliComments = NiliComments 即可
+        /// </summary>
+        public List<NiliCommentItem> NiliComments
+        {
+            get
+            {
+                if (niliComments == null)
+                {
+                    niliComments = new(LPSConvert.DeserializeObject<List<NiliCommentItem>>(new LPS(GetString("comments", string.Empty)), convertNoneLineAttribute: true));
+                }
+                return niliComments;
+            }
+            set
+            {
+                if (value == null || value.Count == 0)
+                {
+                    niliComments.Clear();
+                    this[(gstr)"comments"] = "";
+                }
+                else
+                {
+                    this[(gstr)"comments"] = LPSConvert.SerializeObject(value, convertNoneLineAttribute:true).ToString();
+                }
+            }
+        }
+        List<NiliCommentItem> niliComments;
+
+        /// <summary>
+        /// 因为套娃太多,懒得写序列化了,直接序列化
+        /// </summary>
+        public class NiliCommentItem
+            : INotifyPropertyChanged
+        {
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            public string UserHeadImagePath;
+
+            /// <summary>
+            /// 用户头像
+            /// </summary>
+            [Line(Ignore = true)]
+            public ImageSource UserHeadImage { get => _userHeadImage; set { _userHeadImage = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UserHeadImage))); } }
+            [Line(Ignore = true)]
+            private ImageSource _userHeadImage;
+
+            public void SetHeadImage(IMainWindow mw)
+            {
+                UserHeadImage = string.IsNullOrEmpty(UserHeadImagePath) ? mw.Core.ProfileImage.GetRndImage(UserName) : mw.Core.ImageSources.FindImage("profile_" + UserHeadImagePath, "profile_nomal");
+            }
+
+            /// <summary>
+            /// 用户名称。
+            /// </summary>
+            [Line(Ignore = true)]
+            public string UserName { get => _userName; set { _userName = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UserName))); } }
+            private string _userName;
+
+            /// <summary>
+            /// 评论内容。
+            /// </summary>
+            [Line(Ignore = true)]
+            public string Text { get => _text; set { _text = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Text))); } }
+            private string _text;
+
+            /// <summary>
+            /// 点赞数。
+            /// </summary>
+            [Line(Ignore = true)] public int LikeCount { get => _likeCount; set { _likeCount = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LikeCount))); } }
+            private int _likeCount;
+
+            /// <summary>
+            /// 评论时间。
+            /// </summary>
+            [Line(Ignore = true)] public DateTime CommentTime { get => _commentTime; set { _commentTime = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CommentTime))); } }
+            private DateTime _commentTime;
+
+            /// <summary>
+            /// 是否可以回复。
+            /// </summary>
+            [Line(Ignore = true)] public bool CanReply { get => _canReply; set { _canReply = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanReply))); } }
+            private bool _canReply;
+
+            /// <summary>
+            /// 可用的回复列表。
+            /// </summary>
+            [Line(Ignore = true)] public ObservableCollection<string> AvailableReplies { get => _availableReplies; set { _availableReplies = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AvailableReplies))); } }
+            private ObservableCollection<string> _availableReplies;
+
+            /// <summary>
+            /// 评论回复。
+            /// </summary>
+            [Line(Ignore = true)] public ObservableCollection<NiliCommentItem> ReplyComments { get => _relayComments; set { _relayComments = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ReplyComments))); } }
+            private ObservableCollection<NiliCommentItem> _relayComments;
+
+
+            /// <summary>
+            /// 评分 0-100 对内容的评分
+            /// </summary>
+            public int Score { get; set; }
+            /// <summary>
+            /// 评论质量 0-100 这个评论的权重 
+            /// </summary>
+            public int Quality { get; set; }
+        }
     }
 }

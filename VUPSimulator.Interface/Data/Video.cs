@@ -257,7 +257,7 @@ namespace VUPSimulator.Interface
                 BitmapEncoder encoder = new PngBitmapEncoder();
                 encoder.Frames.Add(BitmapFrame.Create(image));
                 encoder.Save(ms);
-                File.WriteAllBytes(ImagePATH(mw), ms.ToArray());
+                File.WriteAllBytes(mw.GameSavePath + '\\' + mw.Save.Base.UserName + "\\video_" + ImageName + ".png", ms.ToArray());
             }
         }
         /// <summary>

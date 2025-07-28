@@ -78,18 +78,11 @@ namespace VUPSimulator.Interface
                 }
             }
             /// <summary>
-            /// 精力
-            /// </summary>
-            public double Strength
-            {
-                get => Math.Min(strengthsleep, strengthfood);
-            }
-            /// <summary>
-            /// 精力:睡眠程度
+            /// 睡眠
             /// </summary>
             public double StrengthSleep { get => strengthsleep; set => strengthsleep = Math.Min(Health, value); }
             /// <summary>
-            /// 精力:食物
+            /// 食物
             /// </summary>
             public double StrengthFood { get => strengthfood; set => strengthfood = Math.Min(Health, value); }
 

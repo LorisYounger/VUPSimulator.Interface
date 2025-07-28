@@ -294,8 +294,12 @@ namespace VUPSimulator.Interface
                                 return mw.Save.Base.Money;
                             case "health":
                                 return mw.Save.Base.Health;
-                            case "strength":
-                                return mw.Save.Base.Strength;
+                            case "strengthfood":
+                                return mw.Save.Base.StrengthFood;
+                            case "strengthsleep":
+                                return mw.Save.Base.StrengthSleep;
+                            case "strengthmin":
+                                return Math.Min(mw.Save.Base.StrengthFood, mw.Save.Base.StrengthSleep);
                             case "pclip":
                                 return mw.Save.Base.Pclip;
                             case "pdraw":
@@ -371,8 +375,12 @@ namespace VUPSimulator.Interface
                                 return "资金".Translate() + $"({mw.Save.Base.Money:f2})";
                             case "health":
                                 return "健康".Translate() + $"({mw.Save.Base.Health:f2})";
-                            case "strength":
-                                return "饱腹".Translate() + $"({mw.Save.Base.Strength:f2})";
+                            case "strengthfood":
+                                return "饱腹".Translate() + $"({mw.Save.Base.StrengthFood:f2})";
+                            case "strengthsleep":
+                                return "睡眠".Translate() + $"({mw.Save.Base.StrengthSleep:f2})";
+                            case "strengthmin":
+                                return "体力".Translate() + $"({Math.Min(mw.Save.Base.StrengthFood, mw.Save.Base.StrengthSleep):f2})";
                             case "pclip":
                                 return "剪辑".Translate() + $"({mw.Save.Base.Pclip:f2})";
                             case "pdraw":

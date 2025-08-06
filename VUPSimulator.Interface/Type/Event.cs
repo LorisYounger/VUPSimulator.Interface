@@ -645,9 +645,9 @@ namespace VUPSimulator.Interface
         {
             //在销毁前执行ENDASS
             //拉相关事件 如果已经存在就不拉
-            foreach (var evs in EndAssociated)
-                if (mw.Save.ALLEvent.Find(x => x.EventName == evs) == null)
-                    mw.Core.EventBases.Find(x => x.EventName == evs).Create(mw, mw.Save.Base.Now);
+            foreach (string evs in EndAssociated)
+                if (!string.IsNullOrWhiteSpace(evs) && mw.Save.ALLEvent.Find(x => x.EventName == evs) != null)
+                    mw.Core.EventBases.Find(x => x.EventName == evs)?.Create(mw, mw.Save.Base.Now);
 
             if (VisibleMCTag != null)
             {

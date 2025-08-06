@@ -21,9 +21,11 @@ namespace VUPSimulator.Interface
     {
         public PlayerState(ISub sub)
         {
-            State = (StateType)Enum.Parse(typeof(StateType), sub.Name, true);
+            if (!Enum.TryParse<StateType>(sub.Name, out State))
+                State = StateType.Nomal;
+
             var strs = sub.GetInfos();
-            Duration = Convert.ToDouble(strs[0]);
+            double.TryParse(strs[0], out Duration);
             Reason = strs[1];
             Tag = strs.Length > 2 ? (TagType)Enum.Parse(typeof(TagType), strs[2], true) : TagType.Nomal;
         }

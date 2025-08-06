@@ -520,17 +520,20 @@ namespace VUPSimulator.Interface
                     IncomeYesterday = (int)ind;
 
                     //图标
-                    var pf = mw.Save.Base.DayTimePass - pt;
-                    gint pg = (gint)(pf + i).ToString();
-                    PlayGraph[pg] = pcd;
-                    LikeGraph[pg] = lcd;
-                    StartGraph[pg] = scd;
-                    IncomeGraph[(gflt)(pf + i).ToString()] = ind;
-                    mw.Save.UserNili.LikeGraph[pg] += lcd;
-                    mw.Save.UserNili.PlayGraph[pg] += pcd;
-                    mw.Save.UserNili.FansGraph[pg] += fcd;
-                    mw.Save.UserNili.StartGraph[pg] += scd;
-                    mw.Save.UserNili.IncomeGraph[(gflt)(pf + i).ToString()] += ind;
+                    lock (mw.Save.UserNili)
+                    {
+                        var pf = mw.Save.Base.DayTimePass - pt;
+                        gint pg = (gint)(pf + i).ToString();
+                        PlayGraph[pg] = pcd;
+                        LikeGraph[pg] = lcd;
+                        StartGraph[pg] = scd;
+                        IncomeGraph[(gflt)(pf + i).ToString()] = ind;
+                        mw.Save.UserNili.LikeGraph[pg] += lcd;
+                        mw.Save.UserNili.PlayGraph[pg] += pcd;
+                        mw.Save.UserNili.FansGraph[pg] += fcd;
+                        mw.Save.UserNili.StartGraph[pg] += scd;
+                        mw.Save.UserNili.IncomeGraph[(gflt)(pf + i).ToString()] += ind;
+                    }
                 }
             }
             SettleDate = mw.Save.Base.DayTimePass;

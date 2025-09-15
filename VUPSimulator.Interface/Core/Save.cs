@@ -73,7 +73,7 @@ namespace VUPSimulator.Interface
                         health = 100;
                     else if (health <= 0)
                     {//TODO:健康归零,寄了
-                        
+
                     }
                 }
             }
@@ -122,6 +122,166 @@ namespace VUPSimulator.Interface
             /// 属性: 声乐
             /// </summary>
             [Line] public double Psong;
+        }
+        /// <summary>
+        /// 用于查询 BaseValue 相关属性的枚举
+        /// </summary>
+        public enum ValueBaseType
+        {
+            /// <summary>
+            /// 资金
+            /// </summary>
+            Money,
+            /// <summary>
+            /// 健康
+            /// </summary>
+            Health,
+            /// <summary>
+            /// 饱腹（食物精力）
+            /// </summary>
+            StrengthFood,
+            /// <summary>
+            /// 睡眠精力
+            /// </summary>
+            StrengthSleep,
+            /// <summary>
+            /// 最小精力（用于判断精力下限）
+            /// </summary>
+            StrengthMin,
+            /// <summary>
+            /// 剪辑能力
+            /// </summary>
+            Pclip,
+            /// <summary>
+            /// 绘画能力
+            /// </summary>
+            Pdraw,
+            /// <summary>
+            /// 游戏能力
+            /// </summary>
+            Pgame,
+            /// <summary>
+            /// 思维能力
+            /// </summary>
+            Pidear,
+            /// <summary>
+            /// 修图能力
+            /// </summary>
+            Pimage,
+            /// <summary>
+            /// 运营能力
+            /// </summary>
+            Poperate,
+            /// <summary>
+            /// 程序能力
+            /// </summary>
+            Pprogram,
+            /// <summary>
+            /// 口才能力
+            /// </summary>
+            Pspeak,
+            /// <summary>
+            /// 声乐能力
+            /// </summary>
+            Psong
+        }
+        /// <summary>
+        /// 获取BaseValue相关属性
+        /// </summary>
+        public double ValueBaseGet(ValueBaseType type)
+        {
+            switch (type)
+            {
+                case ValueBaseType.Money:
+                    return Base.Money;
+                case ValueBaseType.Health:
+                    return Base.Health;
+                case ValueBaseType.StrengthFood:
+                    return Base.StrengthFood;
+                case ValueBaseType.StrengthSleep:
+                    return Base.StrengthSleep;
+                case ValueBaseType.StrengthMin:
+                    return Math.Min(Base.StrengthFood, Base.StrengthSleep);
+                case ValueBaseType.Pclip:
+                    return Base.Pclip;
+                case ValueBaseType.Pdraw:
+                    return Base.Pdraw;
+                case ValueBaseType.Pgame:
+                    return Base.Pgame;
+                case ValueBaseType.Pidear:
+                    return Base.Pidear;
+                case ValueBaseType.Pimage:
+                    return Base.Pimage;
+                case ValueBaseType.Poperate:
+                    return Base.Poperate;
+                case ValueBaseType.Pprogram:
+                    return Base.Pprogram;
+                case ValueBaseType.Pspeak:
+                    return Base.Pspeak;
+                case ValueBaseType.Psong:
+                    return Base.Psong;
+                default:
+                    return 0;
+            }
+        }
+        /// <summary>
+        /// 设置BaseValue相关属性
+        /// </summary>
+        /// <param name="type">类型</param>
+        /// <param name="value">设置值</param>
+        public void ValueBaseSet(ValueBaseType type, double value)
+        {
+            switch (type)
+            {
+                case ValueBaseType.Money:
+                    Base.Money = value;
+                    break;
+                case ValueBaseType.Health:
+                    Base.Health = value;
+                    break;
+                case ValueBaseType.StrengthFood:
+                    Base.StrengthFood = value;
+                    break;
+                case ValueBaseType.StrengthSleep:
+                    Base.StrengthSleep = value;
+                    break;
+                case ValueBaseType.Pclip:
+                    Base.Pclip = value;
+                    break;
+                case ValueBaseType.Pdraw:
+                    Base.Pdraw = value;
+                    break;
+                case ValueBaseType.Pgame:
+                    Base.Pgame = value;
+                    break;
+                case ValueBaseType.Pidear:
+                    Base.Pidear = value;
+                    break;
+                case ValueBaseType.Pimage:
+                    Base.Pimage = value;
+                    break;
+                case ValueBaseType.Poperate:
+                    Base.Poperate = value;
+                    break;
+                case ValueBaseType.Pprogram:
+                    Base.Pprogram = value;
+                    break;
+                case ValueBaseType.Pspeak:
+                    Base.Pspeak = value;
+                    break;
+                case ValueBaseType.Psong:
+                    Base.Psong = value;
+                    break;
+            }
+        }
+        /// <summary>
+        /// 修改BaseValue相关属性
+        /// </summary>
+        /// <param name="type">类型</param>
+        /// <param name="func">方法</param>
+        public void ValueBaseChange(ValueBaseType type, Func<double, double> func)
+        {
+            ValueBaseSet(type, func(ValueBaseGet(type)));
         }
 
         /// <summary>
@@ -259,6 +419,7 @@ namespace VUPSimulator.Interface
         /// <param name="reason">原因</param>
 
         public abstract void StrengthRemove(double strength, double duration, string reason);
+
         /// <summary>
         /// 玩家状态系统
         /// </summary>
